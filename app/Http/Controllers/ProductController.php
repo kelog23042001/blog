@@ -45,7 +45,7 @@ class ProductController extends Controller
             $get_name_image = $get_image->getClientOriginalName(); //tenhinhanh.jpg
             $name_image = current(explode('.',$get_name_image)); //[0] => tenhinhanh . [1] => jpg , lay mang dau tien
             $new_image = $name_image.rand(0,9999).'.'. $get_image->getClientOriginalExtension(); // random tranh trung hinh anh, getClientOriginalExtension lay duoi mo rong
-            $get_image->move('/uploads/product', $new_image);
+            $get_image->move('public/uploads/product', $new_image);
             $data['product_image'] = $new_image;
             DB::table('tbl_product')->insert($data);
             Session::put('message', 'Thêm sản phẩm thành công');
@@ -102,7 +102,7 @@ class ProductController extends Controller
             $get_name_image = $get_image->getClientOriginalName(); //tenhinhanh.jpg
             $name_image = current(explode('.',$get_name_image)); //[0] => tenhinhanh . [1] => jpg , lay mang dau tien
             $new_image = $name_image.rand(0,9999).'.'. $get_image->getClientOriginalExtension(); // random tranh trung hinh anh, getClientOriginalExtension lay duoi mo rong
-            $get_image->move('/uploads/product', $new_image);
+            $get_image->move('public/uploads/product', $new_image);
             $data['product_image'] = $new_image;
             DB::table('tbl_product')->where('product_id', $product_id)->update($data);
             Session::put('message', 'Cập nhập sản phẩm thành công');

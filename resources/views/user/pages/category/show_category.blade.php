@@ -9,7 +9,7 @@
             <div class="product-image-wrapper">
                 <div class="single-products">
                         <div class="productinfo text-center">
-                            <img src="{{URL::to('uploads/product/'.$product->product_image)}}" alt="" />
+                            <img src="{{URL::to('public/uploads/product/'.$product->product_image)}}" alt="" />
                             <h2>{{ $product->product_price}}</h2>
                             <p>{{ $product->product_name}}</p>
                             <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm Vào Giỏ Hàng</a>
@@ -22,7 +22,7 @@
                 </div>
             </div>
         </div>
-    @endforeach		
+    @endforeach
 </div><!--features_items-->
 
 @endsection

@@ -51,11 +51,11 @@
                <?php
                     if($cate_pro->brand_status == 0){
                 ?>
-                       <a href="{{URL::to('/unactive-brand-product/'.$cate_pro->brand_id)}}"><span class = "fa-thumb-styling fa fa-thumbs-up"> </span></a>
+                       <a href="{{URL::to('/unactive-brand-product/'.$cate_pro->brand_id)}}"><span class = "fa-thumb-styling fa fa-thumbs-down"> </span></a>
                 <?php
                     }else{
                 ?>
-                     <a href="{{URL::to('/active-brand-product/'.$cate_pro->brand_id)}}"><span class = "fa-thumb-styling fa fa-thumbs-down"> </span></a>
+                     <a href="{{URL::to('/active-brand-product/'.$cate_pro->brand_id)}}"><span class = "fa-thumb-styling fa fa-thumbs-up"> </span></a>
                 <?php
                     }
                 ?>

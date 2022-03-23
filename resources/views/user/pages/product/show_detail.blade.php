@@ -5,7 +5,7 @@
 <div class="product-details"><!--product-details-->
     <div class="col-sm-5">
         <div class="view-product">
-            <img src="{{URL::to('uploads/product/'.$value->product_image)}}" alt="{{URL::to('uploads/product/'.$value->product_image)}}" />
+            <img src="{{URL::to('public/uploads/product/'.$value->product_image)}}" alt="{{URL::to('public/uploads/product/'.$value->product_image)}}" />
         </div>
         <div id="similar-product" class="carousel slide" data-ride="carousel">
                 <!-- Wrapper for slides -->
@@ -15,7 +15,7 @@
                         <a href=""><img src="{{URL::to('frontend/images/product-details/similar2.jpg')}}" alt=""></a>
                         <a href=""><img src="{{URL::to('frontend/images/product-details/similar3.jpg')}}" alt=""></a>
                     </div>
-                    
+
                 </div>
 
                 <!-- Controls -->
@@ -69,7 +69,7 @@
         <div class="tab-pane fade active in" id="details" >
             <p>{!!$value->product_content!!}</p>
         </div>
-                
+
         <div class="tab-pane fade " id="reviews" >
             <div class="col-sm-12">
                 <ul>
@@ -79,7 +79,7 @@
                 </ul>
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
                 <p><b>Write Your Review</b></p>
-                
+
                 <form action="#">
                     <span>
                         <input type="text" placeholder="Your Name"/>
@@ -93,7 +93,7 @@
                 </form>
             </div>
         </div>
-        
+
     </div>
 </div><!--/category-tab-->
 @endforeach
@@ -102,12 +102,12 @@
     <div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
             @foreach($related_product as $key => $related_product)
-            <div class="item active">	
+            <div class="item active">
                 <div class="col-sm-4">
                     <div class="product-image-wrapper">
                         <div class="single-products">
                             <div class="productinfo text-center">
-                                <img src="{{URL::to('uploads/product/'.$related_product->product_image)}}" alt="" />
+                                <img src="{{URL::to('public/uploads/product/'.$related_product->product_image)}}" alt="" />
                                 <h2>{{$related_product->product_price}}</h2>
                                 <p>{{$related_product->product_name}}</p>
                                 <button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
@@ -123,7 +123,7 @@
             </a>
             <a class="right recommended-item-control" href="#recommended-item-carousel" data-slide="next">
             <i class="fa fa-angle-right"></i>
-            </a>			
+            </a>
     </div>
 </div><!--/recommended_items-->
 @endsection

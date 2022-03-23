@@ -51,11 +51,11 @@
                <?php
                     if($cate_pro->size_status == 0){
                 ?>
-                       <a href="{{URL::to('/unactive-size-product/'.$cate_pro->size_id)}}"><span class = "fa-thumb-styling fa fa-thumbs-up"> </span></a>
+                       <a href="{{URL::to('/unactive-size-product/'.$cate_pro->size_id)}}"><span class = "fa-thumb-styling fa fa-thumbs-down"> </span></a>
                 <?php
                     }else{
                 ?>
-                     <a href="{{URL::to('/active-size-product/'.$cate_pro->size_id)}}"><span class = "fa-thumb-styling fa fa-thumbs-down"> </span></a>
+                     <a href="{{URL::to('/active-size-product/'.$cate_pro->size_id)}}"><span class = "fa-thumb-styling fa fa-thumbs-up"> </span></a>
                 <?php
                     }
                 ?>

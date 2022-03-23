@@ -64,7 +64,7 @@
             <td>{{ $pro->product_name }}</td>
             <td>{{ $pro->product_price }}</td>
 
-            <td ><img width="100px" src="{{asset('uploads/product/'.$pro->product_image) }}"></td>
+            <td ><img width="100px" src="{{asset('public/uploads/product/'.$pro->product_image) }}"></td>
             <td>{{ $pro->category_name }}</td>
             <td>{{ $pro->brand_name }}</td>
             <td>{{ $pro->color_name }}</td>
@@ -73,11 +73,11 @@
             <?php
                         if($pro->product_status == 0){
                     ?>
-                        <a href="{{URL::to('/unactive-product/'.$pro->product_id)}} "><span class = "fa-thumb-styling fa fa-thumbs-up"> </span></a>
+                        <a href="{{URL::to('/unactive-product/'.$pro->product_id)}} "><span class = "fa-thumb-styling fa fa-thumbs-down"> </span></a>
                     <?php
                         }else{
                     ?>
-                        <a href="{{URL::to('/active-product/'.$pro->product_id)}}"><span class = "fa-thumb-styling fa fa-thumbs-down"> </span></a>
+                        <a href="{{URL::to('/active-product/'.$pro->product_id)}}"><span class = "fa-thumb-styling fa fa-thumbs-up"> </span></a>
                     <?php
                         }
                     ?>

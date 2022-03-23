@@ -51,11 +51,11 @@
                <?php
                     if($cate_pro->color_status == 0){
                 ?>
-                       <a href="{{URL::to('/unactive-color-product/'.$cate_pro->color_id)}}"><span class = "fa-thumb-styling fa fa-thumbs-up"> </span></a>
+                       <a href="{{URL::to('/unactive-color-product/'.$cate_pro->color_id)}}"><span class = "fa-thumb-styling fa fa-thumbs-down"> </span></a>
                 <?php
                     }else{
                 ?>
-                     <a href="{{URL::to('/active-color-product/'.$cate_pro->color_id)}}"><span class = "fa-thumb-styling fa fa-thumbs-down"> </span></a>
+                     <a href="{{URL::to('/active-color-product/'.$cate_pro->color_id)}}"><span class = "fa-thumb-styling fa fa-thumbs-up"> </span></a>
                 <?php
                     }
                 ?>
