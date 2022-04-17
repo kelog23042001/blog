@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Home | E-Shopper </title>
+    <title>LK-Shopping</title>
     <link href="{{asset('frontend/css/bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{asset('frontend/css/font-awesome.min.css')}}" rel="stylesheet">
     <link href="{{asset('frontend/css/prettyPhoto.css')}}" rel="stylesheet">
@@ -50,7 +50,7 @@
 		</div><!--/header_top-->
 		
 		<div class="header-middle"><!--header-middle-->
-			<div class="container">
+			<!-- <div class="container">
 				<div class="row">
 					<div class="col-sm-4">
 						<div class="logo pull-left">
@@ -60,14 +60,14 @@
 					<div class="col-sm-8">
 						<div class="shop-menu pull-right">
 							<ul class="nav navbar-nav">
-								<li><a href="#"><i class="fa fa-user"></i> Account</a></li>
-								<li><a href="cart.html"><i class="fa fa-shopping-cart"></i> Cart</a></li>
-								<li><a href="login.html"><i class="fa fa-lock"></i> Login</a></li>
+								<li><a href="#"><i class="fa fa-user"></i> </a></li>
+								<li><a href="cart.html"><i class="fa fa-shopping-cart"></i> Giỏ Hàng</a></li>
+								<li><a href="login.html"><i class="fa fa-lock"></i> Đăng Nhập</a></li>
 							</ul>
 						</div>
 					</div>
 				</div>
-			</div>
+			</div> -->
 		</div><!--/header-middle-->
 	
 		<div class="header-bottom"><!--header-bottom-->
@@ -87,20 +87,21 @@
 								<li><a href="{{ URL::to('/trang-chu') }}" class="active">Trang Chủ</a></li>
 								<li class="dropdown"><a href="#">Sản Phẩm<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
-                                        <li><a href="shop.html">Sản Phẩm</a></li>
+                                        <li><a href="">Sản Phẩm</a></li>
                                     </ul>
                                 </li> 
 								<li class="dropdown"><a href="#">Tin Tức<i class="fa fa-angle-down"></i></a>
                                     
                                 </li> 
-								<li><a href="404.html">Giỏ Hàng</a></li>
-								<li><a href="contact-us.html">Liên Hệ</a></li>
+								<li><a href="">Giỏ Hàng</a></li>
+								<li><a href="">Liên Hệ</a></li>
+								<li><a href="">Đăng Nhập</a></li>
 							</ul>
 						</div>
 					</div>
 					<div class="col-sm-3">
 						<div class="search_box pull-right">
-							<input type="text" placeholder="Search"/>
+							<input type="text" placeholder="Tìm Kiếm"/>
 						</div>
 					</div>
 				</div>
@@ -121,40 +122,40 @@
 						
 						<div class="carousel-inner">
 							<div class="item active">
-								<div class="col-sm-6">
+								<!-- <div class="col-sm-6">
 									<h1><span>E</span>-SHOPPER</h1>
 									<h2>Free E-Commerce Template</h2>
 									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
 									<button type="button" class="btn btn-default get">Get it now</button>
-								</div>
+								</div> -->
 								<div class="col-sm-6">
-									<img src="images/home/girl1.jpg" class="girl img-responsive" alt="" />
-									<img src="images/home/pricing.png"  class="pricing" alt="" />
+									<img src="{{asset('frontend/images/home/girl1.jpg')}}" class="girl img-responsive" alt="" />
+									<img src="{{asset('frontend/images/home/pricing.png')}}"  class="pricing" alt="" />
 								</div>
 							</div>
 							<div class="item">
-								<div class="col-sm-6">
+								<!-- <div class="col-sm-6">
 									<h1><span>E</span>-SHOPPER</h1>
 									<h2>100% Responsive Design</h2>
 									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
 									<button type="button" class="btn btn-default get">Get it now</button>
-								</div>
+								</div> -->
 								<div class="col-sm-6">
-									<img src="images/home/girl2.jpg" class="girl img-responsive" alt="" />
-									<img src="images/home/pricing.png"  class="pricing" alt="" />
+									<img src="{{asset('frontend/images/home/girl2.jpg')}}" class="girl img-responsive" alt="" />
+									<img src="{{asset('frontend/images/home/pricing.png')}}"  class="pricing" alt="" />
 								</div>
 							</div>
 							
 							<div class="item">
-								<div class="col-sm-6">
+								<!-- <div class="col-sm-6">
 									<h1><span>E</span>-SHOPPER</h1>
 									<h2>Free Ecommerce Template</h2>
 									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
 									<button type="button" class="btn btn-default get">Get it now</button>
-								</div>
+								</div> -->
 								<div class="col-sm-6">
-									<img src="images/home/girl3.jpg" class="girl img-responsive" alt="" />
-									<img src="images/home/pricing.png" class="pricing" alt="" />
+									<img src="{{asset('frontend/images/home/girl3.jpg')}}" class="girl img-responsive" alt="" />
+									<img src="{{asset('frontend/images/home/pricing.png')}}" class="pricing" alt="" />
 								</div>
 							</div>
 							
@@ -228,11 +229,11 @@
 				<div class="row">
 					<div class="col-sm-2">
 						<div class="companyinfo">
-							<h2><span>e</span>-shopper</h2>
+							<h2><span>LK</span>-shopping</h2>
 							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,sed do eiusmod tempor</p>
 						</div>
 					</div>
-					<div class="col-sm-7">
+					<!-- <div class="col-sm-7">
 						<div class="col-sm-3">
 							<div class="video-gallery text-center">
 								<a href="#">
@@ -298,12 +299,12 @@
 							<img src="images/home/map.png" alt="" />
 							<p>505 S Atlantic Ave Virginia Beach, VA(Virginia)</p>
 						</div>
-					</div>
+					</div> -->
 				</div>
 			</div>
 		</div>
 		
-		<div class="footer-widget">
+		<!-- <div class="footer-widget">
 			<div class="container">
 				<div class="row">
 					<div class="col-sm-2">
@@ -364,7 +365,6 @@
 							</form>
 						</div>
 					</div>
-					
 				</div>
 			</div>
 		</div>
@@ -376,7 +376,7 @@
 					<p class="pull-right">Designed by <span><a target="_blank" href="http://www.themeum.com">Themeum</a></span></p>
 				</div>
 			</div>
-		</div>
+		</div> -->
 		
 	</footer><!--/Footer-->
     <script src="{{asset('frontend/js/jquery.js')}}"></script>

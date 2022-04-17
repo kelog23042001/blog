@@ -102,3 +102,7 @@ Route::get('/trang-chu', [HomeController::class, 'index']);
 //cart
 Route::post('/save-cart',[CartController::class, 'save_cart']);
 Route::get('/show_cart',[CartController::class, 'show_cart']);
+//cart delete
+Route::get('/detele-to-cart/{rowId}',[CartController::class, 'detele_to_cart']);
+//cart update quantity
+Route::post('/update-cart-qty',[CartController::class, 'update_cart_qty']);

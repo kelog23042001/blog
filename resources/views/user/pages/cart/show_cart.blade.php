@@ -27,25 +27,30 @@
                     @foreach ($content as $v_content)
                     <tr>
                         <td class="cart_product">
-                            <a href=""><img src="images/cart/one.png" alt=""></a>
+                            <a href=""><img src="{{URL::to('public/uploads/product/'.$v_content->options->image)}}" width = "80px" alt=""></a>
                         </td>
                         <td class="cart_description">
-                            <h4><a href="">Colorblock Scuba</a></h4>
-                            <p>Web ID: 1089772</p>
+                            <h4><a href="">{{$v_content->name}}</a></h4>
+                            <p>Web ID: {{$v_content->id}}</p>
                         </td>
                         <td class="cart_price">
-                            <p>$59</p>
+                            <p>{{number_format($v_content->price).' '.'VND'}}</p>
                         </td>
                         <td class="cart_quantity">
                             <div class="cart_quantity_button">
-                                <input class="cart_quantity_input" type="number" name="quantity" value="1" min = "1" autocomplete="off" size="2">
+                                <form action="{{URL::to('/update-cart-qty')}}" method="POST">
+                                    {{csrf_field()}}
+                                    <input class="cart_quantity_input" type="number" name="quantity_cart" value="{{$v_content->qty}}">
+                                    <input class="" type="submit" name="update_qty" value="Cập Nhật">
+                                    <input class="" type="hidden" name="rowId_cart" value="{{$v_content->rowId}}">
+                                </form>
                             </div>
                         </td>
                         <td class="cart_total">
-                            <p class="cart_total_price">$59</p>
+                            <p class="cart_total_price">{{(Cart::subtotal(0)).' '.'VND'}}</p>
                         </td>
                         <td class="cart_delete">
-                            <a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
+                            <a class="cart_quantity_delete" href="{{URL::to('/detele-to-cart/'.$v_content->rowId)}}"><i class="fa fa-times"></i></a>
                         </td>
                     </tr>
                     @endforeach
@@ -54,4 +59,23 @@
         </div>
     </div>
 </section> <!--/#cart_items-->
+
+<section id="do_action">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="total_area">
+						<ul>
+							<li>Tổng <span>{{(Cart::total(0)).' '.'VND'}}</span></li>
+							<li>Thuế <span>{{(Cart::tax(0)).' '.'VND'}}</span></li>
+							<li>Phi Vận Chuyển <span>Free</span></li>
+							<li>Thành Tiền <span>{{(Cart::total(0)).' '.'VND'}}</span></li>
+						</ul>
+							<!-- <a class="btn btn-default update" href="">Update</a> -->
+							<a class="btn btn-default check_out" href="">Gửi</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section><!--/#do_action-->
 @endsection
