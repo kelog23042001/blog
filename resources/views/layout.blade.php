@@ -13,7 +13,7 @@
     <link href="{{asset('frontend/css/animate.css')}}" rel="stylesheet">
 	<link href="{{asset('frontend/css/main.css')}}" rel="stylesheet">
 	<link href="{{asset('frontend/css/responsive.css')}}" rel="stylesheet">
-        
+
     <link rel="shortcut icon" href="images/ico/favicon.ico">
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
@@ -22,6 +22,8 @@
 </head><!--/head-->
 
 <body>
+
+
 	<header id="header"><!--header-->
 		<div class="header_top"><!--header_top-->
 			<div class="container">
@@ -48,9 +50,9 @@
 				</div>
 			</div>
 		</div><!--/header_top-->
-		
+
 		<div class="header-middle"><!--header-middle-->
-			<!-- <div class="container">
+			<div class="container">
 				<div class="row">
 					<div class="col-sm-4">
 						<div class="logo pull-left">
@@ -60,20 +62,56 @@
 					<div class="col-sm-8">
 						<div class="shop-menu pull-right">
 							<ul class="nav navbar-nav">
-								<li><a href="#"><i class="fa fa-user"></i> </a></li>
-								<li><a href="cart.html"><i class="fa fa-shopping-cart"></i> Giỏ Hàng</a></li>
-								<li><a href="login.html"><i class="fa fa-lock"></i> Đăng Nhập</a></li>
+
+                                <li><a href="#"> <i  class="fa fa-star"></i>Yêu thích</a></li>
+                                <?php
+
+
+
+                                    $customer_id = Session::get('customer_id');
+                                    if($customer_id != NULL){
+
+                                    ?>
+                                        <li><a href="{{URL::to('/checkout')}}">  <i  class="fa fa-crosshairs"></i>Thanh toán</a></li>
+
+                                    <?php
+                                    }else{
+                                    ?>
+                                        <li><a href="{{URL::to('/login-checkout')}}">  <i  class="fa fa-crosshairs"></i>Thanh toán</a></li>
+                                    <?php
+                                    }
+                                ?>
+
+								<li><a href="{{URL::to('/show_cart')}}"><i  class="fa fa-shopping-cart"></i>Giỏ hàng</a></li>
+                                <?php
+
+
+
+                                    $customer_id = Session::get('customer_id');
+                                    if($customer_id != NULL){
+
+                                ?>
+                                        <li><a href="{{URL::to('/logout-checkout')}}"><i  class="fa fa-lock"></i>Đăng xuất</a></li>
+
+                                <?php
+                                    }else{
+                                ?>
+                                        <li><a href="{{URL::to('/login-checkout')}}"><i  class="fa fa-lock"></i>Đăng nhập</a></li>
+                                <?php
+                                    }
+                                ?>
+
 							</ul>
 						</div>
 					</div>
 				</div>
-			</div> -->
+			</div>
 		</div><!--/header-middle-->
-	
+
 		<div class="header-bottom"><!--header-bottom-->
 			<div class="container">
 				<div class="row">
-					<div class="col-sm-9">
+					<div class="col-sm-8">
 						<div class="navbar-header">
 							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 								<span class="sr-only">Toggle navigation</span>
@@ -84,31 +122,41 @@
 						</div>
 						<div class="mainmenu pull-left">
 							<ul class="nav navbar-nav collapse navbar-collapse">
+
+
 								<li><a href="{{ URL::to('/trang-chu') }}" class="active">Trang Chủ</a></li>
 								<li class="dropdown"><a href="#">Sản Phẩm<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
                                         <li><a href="">Sản Phẩm</a></li>
                                     </ul>
-                                </li> 
+                                </li>
 								<li class="dropdown"><a href="#">Tin Tức<i class="fa fa-angle-down"></i></a>
-                                    
-                                </li> 
-								<li><a href="">Giỏ Hàng</a></li>
-								<li><a href="">Liên Hệ</a></li>
-								<li><a href="">Đăng Nhập</a></li>
+                                <li><a href="">Liên Hệ</a></li>
+                                </li>
+
+                                <!-- <li><a href="{{URL::to('/login-checkout')}}"><i  class="fa fa-user"></i>Tài khoản</a></li>
+                                <li><a href="#"> <i  class="fa fa-start"></i>Yêu thích</a></li>
+                                <li><a href="{{URL::to('/checkout')}}">  <i  class="fa fa-crosshairs"></i>Thanh toán</a></li>
+								<li><a href="{{URL::to('/show_cart')}}">Giỏ Hàng</a></li>
+								<li><a href="{{URL::to('/login-checkout')}}"><i  class="fa fa-lock"></i>Đăng Nhập</a></li> -->
 							</ul>
 						</div>
 					</div>
-					<div class="col-sm-3">
-						<div class="search_box pull-right">
-							<input type="text" placeholder="Tìm Kiếm"/>
-						</div>
+					<div class="col-sm-4">
+                        <form action="{{URL::to('/tim-kiem')}}" method="POST">
+                        {{ csrf_field() }}
+
+                                <input type="text" name ="keywords_submit" placeholder="Tìm kiếm sản phẩm"/>
+
+                                <input type="submit" name="search_items" class="btn btn-warning btn-sm" value="Tìm kiếm">
+                        </form>
+
 					</div>
 				</div>
 			</div>
 		</div><!--/header-bottom-->
 	</header><!--/header-->
-	
+
 	<section id="slider"><!--slider-->
 		<div class="container">
 			<div class="row">
@@ -119,7 +167,7 @@
 							<li data-target="#slider-carousel" data-slide-to="1"></li>
 							<li data-target="#slider-carousel" data-slide-to="2"></li>
 						</ol>
-						
+
 						<div class="carousel-inner">
 							<div class="item active">
 								<!-- <div class="col-sm-6">
@@ -145,7 +193,7 @@
 									<img src="{{asset('frontend/images/home/pricing.png')}}"  class="pricing" alt="" />
 								</div>
 							</div>
-							
+
 							<div class="item">
 								<!-- <div class="col-sm-6">
 									<h1><span>E</span>-SHOPPER</h1>
@@ -158,9 +206,9 @@
 									<img src="{{asset('frontend/images/home/pricing.png')}}" class="pricing" alt="" />
 								</div>
 							</div>
-							
+
 						</div>
-						
+
 						<a href="#slider-carousel" class="left control-carousel hidden-xs" data-slide="prev">
 							<i class="fa fa-angle-left"></i>
 						</a>
@@ -168,12 +216,12 @@
 							<i class="fa fa-angle-right"></i>
 						</a>
 					</div>
-					
+
 				</div>
 			</div>
 		</div>
 	</section><!--/slider-->
-	
+
 	<section>
 		<div class="container">
 			<div class="row">
@@ -203,7 +251,7 @@
 							</div>
 							@endforeach
 						</div><!--/brands_products-->
-						
+
 						<div class="price-range"><!--price-range-->
 							<h2>Price Range</h2>
 							<div class="well text-center">
@@ -211,18 +259,18 @@
 								 <b class="pull-left">$ 0</b> <b class="pull-right">$ 600</b>
 							</div>
 						</div><!--/price-range-->
-						
-					
+
+
 					</div>
 				</div>
-				
+
 				<div class="col-sm-9 padding-right">
 					@yield('content')
 				</div>
 			</div>
 		</div>
 	</section>
-	
+
 	<footer id="footer"><!--Footer-->
 		<div class="footer-top">
 			<div class="container">
@@ -248,7 +296,7 @@
 								<h2>24 DEC 2014</h2>
 							</div>
 						</div>
-						
+
 						<div class="col-sm-3">
 							<div class="video-gallery text-center">
 								<a href="#">
@@ -263,7 +311,7 @@
 								<h2>24 DEC 2014</h2>
 							</div>
 						</div>
-						
+
 						<div class="col-sm-3">
 							<div class="video-gallery text-center">
 								<a href="#">
@@ -278,7 +326,7 @@
 								<h2>24 DEC 2014</h2>
 							</div>
 						</div>
-						
+
 						<div class="col-sm-3">
 							<div class="video-gallery text-center">
 								<a href="#">
@@ -303,7 +351,7 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<!-- <div class="footer-widget">
 			<div class="container">
 				<div class="row">
@@ -368,7 +416,7 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<div class="footer-bottom">
 			<div class="container">
 				<div class="row">
@@ -377,7 +425,7 @@
 				</div>
 			</div>
 		</div> -->
-		
+
 	</footer><!--/Footer-->
     <script src="{{asset('frontend/js/jquery.js')}}"></script>
 	<script src="{{asset('frontend/js/bootstrap.min.js')}}"></script>

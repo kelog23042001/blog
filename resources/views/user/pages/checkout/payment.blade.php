@@ -1,14 +1,18 @@
 @extends('layout')
 @section('content')
 <section id="cart_items">
-    <div class="container">
+		<div class="container">
         <div class="breadcrumbs">
             <ol class="breadcrumb">
                 <li><a href="{{URL::to('/')}}">Home</a></li>
-                <li class="active">Shopping Cart</li>
+                <li class="active">Thanh toán giỏ hàng</li>
             </ol>
         </div>
-        <div class="table-responsive cart_info">
+
+			<div class="review-payment">
+				<h2>Xem lại giỏ hàng</h2>
+			</div>
+            <div class="table-responsive cart_info">
             <?php
                 $content = Cart::content();
             ?>
@@ -57,44 +61,24 @@
                 </tbody>
             </table>
         </div>
-    </div>
-</section> <!--/#cart_items-->
+        <h4 style="margin: 40px 0; font-size: 20px;">Chọn hình thức thanh toán</h4>
+        <form action="{{URL::to('/order-place')}}" method="POST">
+                {{ csrf_field() }}
+			<div class="payment-options">
+					<span>
+						<label><input name="payment_option" value="1" type="checkbox">Trả bằng thẻ ATM</label>
+					</span>
+					<span>
+						<label><input name="payment_option" value="2" type="checkbox">Nhận tiền mặt</label>
+					</span>
+                    <span>
+						<label><input name="payment_option" value="3" type="checkbox">Thanh toán thẻ ghi nợ</label>
+					</span>
 
-<section id="do_action">
-		<div class="container">
-			<div class="row">
-				<div class="col-sm-6">
-					<div class="total_area">
-						<ul>
-							<li>Tổng <span>{{(Cart::total(0)).' '.'VND'}}</span></li>
-							<li>Thuế <span>{{(Cart::tax(0)).' '.'VND'}}</span></li>
-							<li>Phi Vận Chuyển <span>Free</span></li>
-							<li>Thành Tiền <span>{{(Cart::total(0)).' '.'VND'}}</span></li>
-						</ul>
-							<!-- <a class="btn btn-default update" href="">Update</a> -->
-                            <?php
-
-                                use Illuminate\Support\Facades\Session;
-
-                                $customer_id = Session::get('customer_id');
-                                if($customer_id != NULL){
-
-                                ?>
-
-                                    <a class="btn btn-default check_out" href="{{URL::to('/checkout')}}">Thanh toán</a>
-                                <?php
-                                }else{
-                                ?>
-
-                                    <a class="btn btn-default check_out" href="{{URL::to('/login-checkout')}}">Thanh toán</a>
-                                <?php
-                                }
-                            ?>
-
-
-					</div>
+                    <input type="submit" value="Đặt hàng" name="send_order_place" class="btn btn-primary btn-sm">
 				</div>
-			</div>
+            </form>
 		</div>
-	</section><!--/#do_action-->
+	</section> <!--/#cart_items-->
 @endsection
+
