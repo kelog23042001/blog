@@ -65,6 +65,8 @@ class CheckoutController extends Controller
     }
 
     public function order_place(Request $request){
+        $cate_product = DB::table('tbl_category_product')->where('category_status', '0')->orderBy('category_id','desc')->get();
+        $brand_product = DB::table('tbl_brand_product')->where('brand_status', '0')->orderBy('brand_id','desc')->get();
         //insert payment method
         $data = array();
         $data['payment_method'] = $request->payment_option;
@@ -93,12 +95,13 @@ class CheckoutController extends Controller
        if($data['payment_method'] == 1){
            echo 'Thanh toán ATM';
        }else if($data['payment_method'] == 2){
-            echo 'Tiền mặt';
+            Cart::destroy();
+            return view('user.pages.checkout.handcash')->with('category', $cate_product)->with('brand', $brand_product);
        }else{
            echo 'Thẻ ghi nợ';
        }
 
-        return Redirect('/payment');
+        //return Redirect('/payment');
     }
 
     public function logout_checkout(){
