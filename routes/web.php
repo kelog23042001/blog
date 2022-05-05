@@ -94,7 +94,7 @@ Route::post('/save-product',[ProductController::class, 'save_product']);
 
 //Order
 Route::get('/manage-order',[CheckoutController::class, 'manage_order']);
-
+Route::get('/view-order/{orderId}',[CheckoutController::class, 'view_order']);
 // Route::get('/admin', 'AdminController@index');
 
 Route::get('/trang-chu', [HomeController::class, 'index']);

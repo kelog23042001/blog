@@ -3,7 +3,83 @@
 <div class="table-agile-info">
   <div class="panel panel-default">
     <div class="panel-heading">
-      Liệt kê đơn hàng
+     Thông tin khách hàng
+    </div>
+
+    <div class="table-responsive">
+                        <?php
+                            use Illuminate\Support\Facades\Session;
+
+                            $message = Session::get('message');
+                            if($message){
+                                echo $message;
+                                Session::put('message',null);
+                            }
+                        ?>
+      <table class="table table-striped b-t b-light">
+        <thead>
+          <tr>
+            <th>Tên khách hàng</th>
+            <th>Số điện thoại</th>
+            <th style="width:30px;"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{$order_by_id->customer_name}}</td>
+            <td>{{$order_by_id->customer_phone}}</td>
+
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<br>
+
+<div class="table-agile-info">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+     Thông tin vận chuyển
+    </div>
+
+    <div class="table-responsive">
+                        <?php
+
+
+                            $message = Session::get('message');
+                            if($message){
+                                echo $message;
+                                Session::put('message',null);
+                            }
+                        ?>
+      <table class="table table-striped b-t b-light">
+        <thead>
+          <tr>
+            <th>Tên người vận chuyển</th>
+            <th>Địa chỉ</th>
+            <th>Số điện thoại</th>
+            <th style="width:30px;"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{$order_by_id->shipping_name}}</td>
+            <td>{{$order_by_id->shipping_address}}</td>
+            <td>{{$order_by_id->shipping_phone}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<br><br>
+<div class="table-agile-info">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      Liệt kê chi tiết đơn hàng
     </div>
 
     <div class="row w3-res-tb">
@@ -29,7 +105,6 @@
     </div>
     <div class="table-responsive">
                         <?php
-                            use Illuminate\Support\Facades\Session;
 
                             $message = Session::get('message');
                             if($message){
@@ -45,27 +120,26 @@
                 <input type="checkbox"><i></i>
               </label>
             </th>
-            <th>Tên người đặt</th>
-            <th>Tổng giá tiền</th>
-            <th>Tình trạng</th>
-            <th>Hển thị</th>
+            <th>Tên sản phẩm</th>
+            <th>Số lượng</th>
+            <th>Giá</th>
+            <th>Tổng tiền</th>
 
             <th style="width:30px;"></th>
           </tr>
         </thead>
         <tbody>
-            @foreach($all_order as $key => $order)
+
           <tr>
+
             <td><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label></td>
-            <td>{{ $order->customer_name }}</td>
-            <td>{{ $order->order_total }}</td>
-            <td>{{ $order->order_status }} </td>
-            <td>
-              <a href="{{URL::to('/view-order/'.$order->order_id)}}" style="font-size: 20px;" class="active styling-edit" ui-toggle-class=""><i class="fa fa-pencil-square-o text-success text-active"></i></a>
-              <a  onclick="return confirm('Bạn có chắc chắn muốn xoá?')" href="{{URL::to('/delete-order/'.$order->order_id)}}"  style="font-size: 20px;" class="active styling-edit" ui-toggle-class=""><i class="fa fa-times text-danger text"></i></a>
-            </td>
+            <td>{{$order_by_id->product_name}}</td>
+            <td>{{$order_by_id->product_sale_quantity}}</td>
+            <td>{{$order_by_id->product_price}}</td>
+            <td>{{$order_by_id->product_price * $order_by_id->product_sale_quantity}}</td>
+
           </tr>
-          @endforeach
+
         </tbody>
       </table>
     </div>
