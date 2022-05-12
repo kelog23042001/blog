@@ -22,7 +22,9 @@ class CategoryProductController extends Controller
     public function save_category_product(Request $request){
         $data = array();
         $data['category_name'] = $request->category_product_name;
+        $data['meta_keywords'] = $request->category_product_keywords;
         $data['category_desc'] = $request->category_product_desc;
+        $data['slug_category_product'] = $request->category_product_slug;
         $data['category_status'] = $request->category_product_status;
 
         DB::table('tbl_category_product')->insert($data);
@@ -57,8 +59,10 @@ class CategoryProductController extends Controller
     public function update_category_product(Request $request,$categoryproduct_id){
         $data = array();
         $data['category_name'] = $request->category_product_name;
-        $data['category_desc'] = $request->category_product_desc;
+        $data['meta_keywords'] = $request->category_product_keywords;
 
+        $data['category_desc'] = $request->category_product_desc;
+        $data['slug_category_product'] = $request->category_product_slug;
         DB::table('tbl_category_product')->where('category_id',$categoryproduct_id)->update($data);
         Session::put('message', 'Cập nhập thành công');
         return Redirect::to('/all-category-product');
@@ -66,7 +70,8 @@ class CategoryProductController extends Controller
 
      //End function Admin Page
 
-    public function show_category_home($category_id){
+    public function show_category_home($category_id, Request $request){
+
         $category  = DB::table('tbl_category_product')->where('category_status', '0')->orderBy('category_id','desc')->get();
         $brand = DB::table('tbl_brand_product')->where('brand_status', '0')->orderBy('brand_id','desc')->get();
 
@@ -76,7 +81,14 @@ class CategoryProductController extends Controller
         ->join('tbl_category_product', 'tbl_product.category_id', '=', 'tbl_category_product.category_id')
         ->where('tbl_category_product.category_id', $category_id)
         ->get();
-        return view('user.pages.category.show_category', compact('category', 'brand', 'category_by_id', 'category_name'));
+        foreach($category_by_id as $key => $value){
+            $meta_decs = $value->category_desc;
+            $meta_title = $value->category_name;
+            $meta_keyword = $value->meta_keywords;
+            $url_canonical = $request->url();
+        }
+        return view('user.pages.category.show_category', compact('category', 'brand', 'category_by_id', 'category_name'))
+        ->with('meta_decs',$meta_decs)->with('meta_title',$meta_title)->with('meta_keyword',$meta_keyword)->with('url_canonical', $url_canonical);
     }
 }
 

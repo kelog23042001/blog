@@ -3,9 +3,13 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
+    <meta name="description" content="{{$meta_decs}}">
     <meta name="author" content="">
-    <title>LK-Shopping</title>
+    <meta name="keywords" content="{{$meta_keyword}} "/>
+    <meta name="robots" content="INDEX,FOLLOW"/>
+    <link  rel="canonical" href="{{$url_canonical}}" />
+    <link  rel="icon" type="image/x-icon" href="" />
+    <title>{{$meta_title}}</title>
     <link href="{{asset('frontend/css/bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{asset('frontend/css/font-awesome.min.css')}}" rel="stylesheet">
     <link href="{{asset('frontend/css/prettyPhoto.css')}}" rel="stylesheet">
@@ -13,6 +17,7 @@
     <link href="{{asset('frontend/css/animate.css')}}" rel="stylesheet">
 	<link href="{{asset('frontend/css/main.css')}}" rel="stylesheet">
 	<link href="{{asset('frontend/css/responsive.css')}}" rel="stylesheet">
+    <link href="{{asset('frontend/css/sweetalert.css')}}" rel="stylesheet">
 
     <link rel="shortcut icon" href="images/ico/favicon.ico">
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
@@ -82,7 +87,7 @@
                                     }
                                 ?>
 
-								<li><a href="{{URL::to('/show_cart')}}"><i  class="fa fa-shopping-cart"></i>Giỏ hàng</a></li>
+								<li><a href="{{URL::to('/gio-hang')}}"><i  class="fa fa-shopping-cart"></i>Giỏ hàng</a></li>
                                 <?php
 
 
@@ -433,5 +438,43 @@
 	<script src="{{asset('frontend/js/price-range.js')}}"></script>
     <script src="{{asset('frontend/js/jquery.prettyPhoto.js')}}"></script>
     <script src="{{asset('frontend/js/main.js')}}"></script>
+
+    <script src="{{asset('frontend/js/sweetalert.min.js')}}"></script>
+    <script>
+               $(document).ready(function(){
+            $('.add-to-cart').click(function(){
+                var id = $(this).data('id_product');
+                var cart_product_id = $('.cart_product_id_' + id).val();
+                var cart_product_name = $('.cart_product_name_' + id).val();
+                var cart_product_image = $('.cart_product_image_' + id).val();
+                var cart_product_price = $('.cart_product_price_' + id).val();
+                var cart_product_qty = $('.cart_product_qty_' + id).val();
+                var _token = $('input[name="_token"]').val();
+                $.ajax({
+                    url: '{{url('/add-cart-ajax')}}',
+                    method: 'POST',
+                    data:{cart_product_id:cart_product_id,cart_product_name:cart_product_name,cart_product_image:cart_product_image,
+                        cart_product_price:cart_product_price,cart_product_qty:cart_product_qty,_token:_token},
+                    success:function(){
+                      
+                        swal({
+                                title: "Đã thêm sản phẩm vào giỏ hàng",
+                                text: "Bạn có thể mua hàng tiếp hoặc tới giỏ hàng để tiến hành thanh toán",
+                                showCancelButton: true,
+                                cancelButtonText: "Xem tiếp",
+                                confirmButtonClass: "btn-success",
+                                confirmButtonText: "Đi đến giỏ hàng",
+                                closeOnConfirm: false
+                            },
+                            function() {
+                                window.location.href = "{{url('/gio-hang')}}";
+                            });
+
+                    }
+
+                });
+            });
+        });
+    </script>
 </body>
 </html>

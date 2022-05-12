@@ -101,11 +101,17 @@ Route::get('/trang-chu', [HomeController::class, 'index']);
 
 //cart
 Route::post('/save-cart',[CartController::class, 'save_cart']);
-Route::get('/show_cart',[CartController::class, 'show_cart']);
+Route::post('/add-cart-ajax',[CartController::class, 'add_cart_ajax']);
+Route::post('/update-cart-qty',[CartController::class, 'update_cart_qty']);
+Route::post('/update-cart',[CartController::class, 'update_cart']);
+
+Route::get('/delete-all-product',[CartController::class, 'delete_all_product']);
+Route::get('/gio-hang',[CartController::class, 'gio_hang']);
+Route::get('/show-cart',[CartController::class, 'show_cart']);
+Route::get('/del-product/{session_id}',[CartController::class, 'delete_product']);
 //cart delete
 Route::get('/detele-to-cart/{rowId}',[CartController::class, 'detele_to_cart']);
-//cart update quantity
-Route::post('/update-cart-qty',[CartController::class, 'update_cart_qty']);
+
 
 //Checkout
 Route::get('/login-checkout',[CheckoutController::class, 'login_checkout']);
@@ -118,3 +124,5 @@ Route::post('/add-customer',[CheckoutController::class, 'add_customer']);
 Route::post('/login-customer',[CheckoutController::class, 'login_customer']);
 Route::post('/save-checkout-customer',[CheckoutController::class, 'save_checkout_customer']);
 
+//send mail
+Route::get('/send-mail',[HomeController::class, 'send_mail']);

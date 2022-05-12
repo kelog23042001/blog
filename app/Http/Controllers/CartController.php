@@ -28,11 +28,55 @@ class CartController extends Controller
         // Cart::destroy();
         return Redirect::to('/show_cart');
     }
+    public function delete_product($session_id){
+        $cart = Session::get('cart');
+        if($cart == true){
+            foreach($cart as $key => $value){
+                if($value['session_id'] == $session_id)
+                    unset($cart[$key]);
+            }
+            Session::put('cart', $cart);
+            return Redirect()->back()->with('message','Xoá sản phẩm thành công');
+        }else{
+            return Redirect()->back()->with('message','Xoá sản phẩm thất bại');
+        }
+    }
 
-    public function show_cart(){
+    public function update_cart(Request $request){
+        $data = $request->all();
+        $cart = Session::get('cart');
+        if ($cart == true){
+            foreach($data['cart_qty'] as $key => $qty){
+                foreach($cart as $session => $val){
+                    if($val['session_id']  == $key){
+                        $cart[$session]['product_qty']= $qty;
+                    }
+                }
+            }
+            Session::put('cart', $cart);
+            return Redirect()->back()->with('message','Cập nhập số lượng thành công');
+        }
+        else{
+            return Redirect()->back()->with('message','Cập nhập số lượng thất bại');
+        }
+    }
+    public function delete_all_product(){
+        $cart = Session::get('cart');
+        if($cart == true){
+            Session::forget('cart');
+            return Redirect()->back()->with('message','Xoá tất cả sản phẩm thành công');
+
+        }
+    }
+    public function show_cart(Request $request){
+        $meta_decs = "Giỏ hàng";
+        $meta_title = "Giỏ hàng";
+        $meta_keyword = "Giỏ hàng";
+        $url_canonical = $request->url();
         $category = DB::table('tbl_category_product')->where('category_status', '0')->orderBy('category_id','desc')->get();
         $brand = DB::table('tbl_brand_product')->where('brand_status', '0')->orderBy('brand_id','desc')->get();
-        return view('user.pages.cart.show_cart', compact('category', 'brand'));
+        return view('user.pages.cart.show_cart', compact('category', 'brand'))
+        ->with('meta_decs',$meta_decs)->with('meta_title',$meta_title)->with('meta_keyword',$meta_keyword)->with('url_canonical', $url_canonical);
     }
 
     public function detele_to_cart($rowId){
@@ -47,4 +91,56 @@ class CartController extends Controller
         Car::update($rowId, $quantity);
         return Redirect::to('/show_cart');
     }
+
+    public function add_cart_ajax(Request $request){
+        $data = $request->all();
+        $session_id = substr(md5(microtime()),rand(0,26),5);
+        $cart = Session::get('cart');
+        if($cart==true){
+            $is_avaiable = 0;
+            foreach($cart as $key => $val){
+                if($val['product_id']==$data['cart_product_id']){
+                    $is_avaiable++;
+                }
+            }
+            if($is_avaiable == 0){
+                $cart[] = array(
+                'session_id' => $session_id,
+                'product_name' => $data['cart_product_name'],
+                'product_id' => $data['cart_product_id'],
+                'product_image' => $data['cart_product_image'],
+                'product_qty' => $data['cart_product_qty'],
+                'product_price' => $data['cart_product_price'],
+                );
+                Session::put('cart',$cart);
+            }
+        }else{
+            $cart[] = array(
+                'session_id' => $session_id,
+                'product_name' => $data['cart_product_name'],
+                'product_id' => $data['cart_product_id'],
+                'product_image' => $data['cart_product_image'],
+                'product_qty' => $data['cart_product_qty'],
+                'product_price' => $data['cart_product_price'],
+
+            );
+            Session::put('cart',$cart);
+        }
+
+        Session::save();
+
+    }
+
+    public function gio_hang(Request $request){
+        $meta_decs = "Giỏ hàng";
+        $meta_title = "Giỏ hàng Ajax";
+        $meta_keyword = "Giỏ hàng Ajax";
+        $url_canonical = $request->url();
+        $category = DB::table('tbl_category_product')->where('category_status', '0')->orderBy('category_id','desc')->get();
+        $brand = DB::table('tbl_brand_product')->where('brand_status', '0')->orderBy('brand_id','desc')->get();
+        return view('user.pages.cart.cart_ajax', compact('category', 'brand'))
+        ->with('meta_decs',$meta_decs)->with('meta_title',$meta_title)->with('meta_keyword',$meta_keyword)->with('url_canonical', $url_canonical);
+    }
+
+
 }

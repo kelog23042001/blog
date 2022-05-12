@@ -25,6 +25,10 @@
                                             <input type="text" name="brand_product_name" value="{{ $cate_value->brand_name }}" class="form-control" id="exampleInputEmail1" placeholder="Nhập tên danh mục">
                                         </div>
                                         <div class="form-group">
+                                            <label for="exampleInputEmail1">Slug</label>
+                                            <input type="text" name="brand_product_slug" value="{{ $cate_value->brand_slug }}" class="form-control" id="exampleInputEmail1">
+                                        </div>
+                                        <div class="form-group">
                                             <label for="exampleInputPassword1">Mô tả thương hiệu</label>
                                             <textarea style="resize:none" name="brand_product_desc" rows="5" class="form-control" id="exampleInputPassword1" placeholder="Mô tả danh mục">{{ $cate_value->brand_desc }} </textarea>
                                         </div>

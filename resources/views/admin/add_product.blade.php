@@ -1,5 +1,7 @@
 @extends('admin_layout')
+
 @section('admin_contend')
+
 <div class="row">
             <div class="col-lg-12">
                     <section class="panel">
@@ -21,7 +23,13 @@
                                     {{ csrf_field()}}
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Tên sản phẩm</label>
-                                    <input type="text" name="product_name" class="form-control" id="exampleInputEmail1" placeholder="Nhập tên sản phẩm">
+                                    <input type="text" name="product_name" date-validation="length" data-validation-length="min3"
+                                    data-validation-error-msg="Làm ơn điền ít nhất 3 kí tự" class="form-control" id="exampleInputEmail1" placeholder="Nhập tên sản phẩm">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Slug</label>
+                                    <input type="text" name="product_slug" date-validation="length" data-validation-length="min3"
+                                    data-validation-error-msg="Làm ơn điền ít nhất 3 kí tự" class="form-control" id="exampleInputEmail1" >
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Hình ảnh sản phẩm</label>
@@ -33,7 +41,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputPassword1">Mô tả sản phẩm</label>
-                                    <textarea style="resize:none" name="product_desc" rows="5"  class="form-control" id="exampleInputPassword1" placeholder="Mô tả sản phẩm">
+                                    <textarea style="resize:none" name="product_desc" rows="5"  class="form-control" id="exampleInputPassword1" placeholder="Mô tả sản phẩm" id="ckeditor1">
                                     </textarea>
                                 </div>
                                 <div class="form-group">

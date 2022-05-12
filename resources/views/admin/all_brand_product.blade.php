@@ -37,6 +37,7 @@
               </label>
             </th>
             <th>Tên danh mục</th>
+            <th>Slug</th>
             <th>Hển thị</th>
 
             <th style="width:30px;"></th>
@@ -47,6 +48,7 @@
           <tr>
             <td><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label></td>
             <td>{{ $cate_pro->brand_name }}</td>
+            <td>{{ $cate_pro->brand_slug }}</td>
             <td><span class="text-ellipsis">
                <?php
                     if($cate_pro->brand_status == 0){

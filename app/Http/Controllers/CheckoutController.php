@@ -12,11 +12,16 @@ use Illuminate\Support\Facades\Session;
 
 class CheckoutController extends Controller
 {
-    public function login_checkout(){
+    public function login_checkout(Request $request){
+        $meta_decs = "Đăng nhập thanh toán";
+        $meta_title = "Đăng nhập thanh toán";
+        $meta_keyword = "Đăng nhập thanh toán";
+        $url_canonical = $request->url();
         $cate_product = DB::table('tbl_category_product')->where('category_status', '0')->orderBy('category_id','desc')->get();
         $brand_product = DB::table('tbl_brand_product')->where('brand_status', '0')->orderBy('brand_id','desc')->get();
 
-        return view('user.pages.checkout.login_checkout')->with('category', $cate_product)->with('brand', $brand_product);
+        return view('user.pages.checkout.login_checkout')->with('category', $cate_product)->with('brand', $brand_product)
+        ->with('meta_decs',$meta_decs)->with('meta_title',$meta_title)->with('meta_keyword',$meta_keyword)->with('url_canonical', $url_canonical);
     }
 
     public function add_customer(Request $request){
@@ -35,11 +40,16 @@ class CheckoutController extends Controller
         return Redirect('/checkout');
 
     }
-    public function checkout(){
+    public function checkout(Request $request){
+        $meta_decs = "Chuyên bán quần áo nữ";
+        $meta_title = "LK - Shopping";
+        $meta_keyword = "quan ao nu, quần áo nữ";
+        $url_canonical = $request->url();
         $cate_product = DB::table('tbl_category_product')->where('category_status', '0')->orderBy('category_id','desc')->get();
         $brand_product = DB::table('tbl_brand_product')->where('brand_status', '0')->orderBy('brand_id','desc')->get();
 
-        return view('user.pages.checkout.show_checkout')->with('category', $cate_product)->with('brand', $brand_product);
+        return view('user.pages.checkout.show_checkout')->with('category', $cate_product)->with('brand', $brand_product)
+        ->with('meta_decs',$meta_decs)->with('meta_title',$meta_title)->with('meta_keyword',$meta_keyword)->with('url_canonical', $url_canonical);
     }
 
     public function save_checkout_customer(Request $request){
@@ -58,13 +68,22 @@ class CheckoutController extends Controller
         return Redirect('/payment');
     }
 
-    public function payment(){
+    public function payment(Request $request){
+        $meta_decs = "Chuyên bán quần áo nữ";
+        $meta_title = "LK - Shopping";
+        $meta_keyword = "quan ao nu, quần áo nữ";
+        $url_canonical = $request->url();
         $cate_product = DB::table('tbl_category_product')->where('category_status', '0')->orderBy('category_id','desc')->get();
         $brand_product = DB::table('tbl_brand_product')->where('brand_status', '0')->orderBy('brand_id','desc')->get();
-        return view('user.pages.checkout.payment')->with('category', $cate_product)->with('brand', $brand_product);
+        return view('user.pages.checkout.payment')->with('category', $cate_product)->with('brand', $brand_product)
+        ->with('meta_decs',$meta_decs)->with('meta_title',$meta_title)->with('meta_keyword',$meta_keyword)->with('url_canonical', $url_canonical);
     }
 
     public function order_place(Request $request){
+        $meta_decs = "Chuyên bán quần áo nữ";
+        $meta_title = "LK - Shopping";
+        $meta_keyword = "quan ao nu, quần áo nữ";
+        $url_canonical = $request->url();
         $cate_product = DB::table('tbl_category_product')->where('category_status', '0')->orderBy('category_id','desc')->get();
         $brand_product = DB::table('tbl_brand_product')->where('brand_status', '0')->orderBy('brand_id','desc')->get();
         //insert payment method
@@ -96,7 +115,8 @@ class CheckoutController extends Controller
            echo 'Thanh toán ATM';
        }else if($data['payment_method'] == 2){
             Cart::destroy();
-            return view('user.pages.checkout.handcash')->with('category', $cate_product)->with('brand', $brand_product);
+            return view('user.pages.checkout.handcash')->with('category', $cate_product)->with('brand', $brand_product)
+            ->with('meta_decs',$meta_decs)->with('meta_title',$meta_title)->with('meta_keyword',$meta_keyword)->with('url_canonical', $url_canonical);
        }else{
            echo 'Thẻ ghi nợ';
        }
@@ -104,8 +124,11 @@ class CheckoutController extends Controller
         //return Redirect('/payment');
     }
 
-    public function view_order($orderId){
-
+    public function view_order($orderId, Request $request){
+        $meta_decs = "Chuyên bán quần áo nữ";
+        $meta_title = "LK - Shopping";
+        $meta_keyword = "quan ao nu, quần áo nữ";
+        $url_canonical = $request->url();
         $order_by_id = DB::table('tbl_order')
         ->join('tbl_customers','tbl_order.customer_id','=','tbl_customers.customer_id')
         ->join('tbl_shipping','tbl_order.shipping_id','=','tbl_shipping.shipping_id')
@@ -114,25 +137,34 @@ class CheckoutController extends Controller
         ->first();
 
         $manage_order_by_id = view('admin.view_order')->with('order_by_id',$order_by_id);
-        return view('admin_layout')->with('admin.view_order', $manage_order_by_id);
+        return view('admin_layout')->with('admin.view_order', $manage_order_by_id)
+        ->with('meta_decs',$meta_decs)->with('meta_title',$meta_title)->with('meta_keyword',$meta_keyword)->with('url_canonical', $url_canonical);
 
     }
 
-    public function logout_checkout(){
+    public function logout_checkout(Request $request){
+        $meta_decs = "Chuyên bán quần áo nữ";
+        $meta_title = "LK - Shopping";
+        $meta_keyword = "quan ao nu, quần áo nữ";
+        $url_canonical = $request->url();
         Session::flush();
-        return Redirect('/login-checkout');
+        return Redirect('/login-checkout')->with('meta_decs',$meta_decs)->with('meta_title',$meta_title)->with('meta_keyword',$meta_keyword)->with('url_canonical', $url_canonical);
     }
 
     public function login_customer(Request $request){
+        $meta_decs = "Chuyên bán quần áo nữ";
+        $meta_title = "LK - Shopping";
+        $meta_keyword = "quan ao nu, quần áo nữ";
+        $url_canonical = $request->url();
         $email = $request->email_account;
         $password = $request->password_account;
         $result =  DB::table('tbl_customers')->where('customer_email', $email)->where('customer_password', $password)->first();
 
         if($result){
             Session::put('customer_id', $result->customer_id);
-            return Redirect('/checkout');
+            return Redirect('/checkout')->with('meta_decs',$meta_decs)->with('meta_title',$meta_title)->with('meta_keyword',$meta_keyword)->with('url_canonical', $url_canonical);
         }else{
-            return Redirect('/login-checkout');
+            return Redirect('/login-checkout')->with('meta_decs',$meta_decs)->with('meta_title',$meta_title)->with('meta_keyword',$meta_keyword)->with('url_canonical', $url_canonical);
         }
 
     }

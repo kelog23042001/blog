@@ -31,6 +31,7 @@ class ProductController extends Controller
     public function save_product(Request $request){
         $data = array();
         $data['product_name']    = $request->product_name;
+        $data['product_slug']    = $request->product_slug;
         $data['product_desc']    = $request->product_desc;
         $data['product_content'] = $request->product_content;
         $data['product_price']   = $request->product_price;
@@ -88,6 +89,7 @@ class ProductController extends Controller
     public function update_product(Request $request,$product_id){
         $data = array();
         $data['product_name']    = $request->product_name;
+        $data['product_slug']    = $request->product_slug;
         $data['product_desc']    = $request->product_desc;
         $data['product_content'] = $request->product_content;
         $data['product_price']   = $request->product_price;
@@ -115,7 +117,8 @@ class ProductController extends Controller
     }
     //end admin page
 
-    public function details_product($product_id){
+    public function details_product($product_id, Request $request){
+
         $category = DB::table('tbl_category_product')->where('category_status', '0')->orderBy('category_id','desc')->get();
         $brand = DB::table('tbl_brand_product')->where('brand_status', '0')->orderBy('brand_id','desc')->get();
 
@@ -127,14 +130,19 @@ class ProductController extends Controller
 
         foreach($detail_product as $key=> $value){
             $category_id = $value->category_id;
+            $meta_decs = $value->product_desc;
+            $meta_title =  $value->product_name;
+            $meta_keyword =  $value->product_slug;
+            $url_canonical = $request->url();
         }
 
         $related_product = DB::table('tbl_product')
         ->join('tbl_category_product','tbl_category_product.category_id','=','tbl_product.category_id')
         ->join('tbl_brand_product','tbl_brand_product.brand_id','=','tbl_product.brand_id')
         ->where('tbl_category_product.category_id', $category_id)->whereNotIn('tbl_product.product_id', [$product_id])->limit(3)
-        ->get(); 
+        ->get();
 
-        return view('user.pages.product.show_detail', compact('category', 'brand', 'detail_product', 'related_product'));
+        return view('user.pages.product.show_detail', compact('category', 'brand', 'detail_product', 'related_product'))
+        ->with('meta_decs',$meta_decs)->with('meta_title',$meta_title)->with('meta_keyword',$meta_keyword)->with('url_canonical', $url_canonical);
     }
 }

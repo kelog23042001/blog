@@ -26,6 +26,11 @@
 
                                     </div>
                                     <div class="form-group">
+                                        <label for="exampleInputEmail1">Slug</label>
+                                        <input type="text" name="product_slug" class="form-control" id="exampleInputEmail1" value="{{ $pro->product_slug }}">
+
+                                    </div>
+                                    <div class="form-group">
                                         <label for="exampleInputEmail1">Hình ảnh sản phẩm</label>
                                         <input  type="file" name="product_image" class="form-control" id="exampleInputEmail1">
                                         @if(isset($pro))

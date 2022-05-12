@@ -46,6 +46,7 @@
               </label>
             </th>
             <th>Tên sản phẩm</th>
+            <th>Slug</th>
             <th>Giá</th>
             <th>Hình ảnh</th>
             <th>Danh mục</th>
@@ -62,6 +63,7 @@
           <tr>
             <td><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label></td>
             <td>{{ $pro->product_name }}</td>
+            <td>{{ $pro->product_slug }}</td>
             <td>{{ $pro->product_price }}</td>
 
             <td ><img width="100px" src="{{asset('public/uploads/product/'.$pro->product_image) }}"></td>
