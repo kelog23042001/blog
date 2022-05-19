@@ -8,6 +8,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryProductController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ColorController;
+use App\Http\Controllers\CouponController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SizeController;
@@ -98,6 +99,14 @@ Route::get('/view-order/{orderId}',[CheckoutController::class, 'view_order']);
 // Route::get('/admin', 'AdminController@index');
 
 Route::get('/trang-chu', [HomeController::class, 'index']);
+
+//Coupon
+Route::post('/check-coupon',[CouponController::class, 'check_coupon']);
+Route::post('/insert-coupon-code',[CouponController::class, 'insert_coupon_code']);
+Route::get('/insert-coupon',[CouponController::class, 'insert_coupon']);
+Route::get('/list-coupon',[CouponController::class, 'list_coupon']);
+Route::get('/delete-coupon/{coupon_id}',[CouponController::class, 'delete_coupon']);
+Route::get('/unset-coupon',[CouponController::class, 'unset_coupon']);
 
 //cart
 Route::post('/save-cart',[CartController::class, 'save_cart']);

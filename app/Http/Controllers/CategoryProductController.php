@@ -10,13 +10,13 @@ use Illuminate\Support\Facades\Session;
 class CategoryProductController extends Controller
 {
     public function add_category_product(){
-        return view('admin.add_category_product');
+        return view('admin.category.add_category_product');
     }
 
     public function all_category_product(){
 
         $all_category_product = DB::table('tbl_category_product')->get();
-        return view('admin.all_category_product', compact('all_category_product'));
+        return view('admin.category.all_category_product', compact('all_category_product'));
     }
 
     public function save_category_product(Request $request){
@@ -47,7 +47,7 @@ class CategoryProductController extends Controller
 
     public function edit_category_product($categoryproduct_id){
         $edit_category_product = DB::table('tbl_category_product')->where('category_id', $categoryproduct_id)->get();
-        return view('admin.edit_category_product', compact('edit_category_product'));
+        return view('admin.category.edit_category_product', compact('edit_category_product'));
     }
 
     public function delete_category_product($categoryproduct_id){

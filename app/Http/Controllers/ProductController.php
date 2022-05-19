@@ -14,7 +14,7 @@ class ProductController extends Controller
         $brand_product = DB::table('tbl_brand_product')->orderBy('brand_id','desc')->get();
         $color_product = DB::table('tbl_color_product')->orderBy('color_id','desc')->get();
         $size_product = DB::table('tbl_size_product')->orderBy('size_id','desc')->get();
-        return view('admin.add_product', compact('cate_product', 'brand_product','color_product','size_product'));
+        return view('admin.product.add_product', compact('cate_product', 'brand_product','color_product','size_product'));
 
     }
 
@@ -25,7 +25,7 @@ class ProductController extends Controller
         ->join('tbl_color_product','tbl_color_product.color_id','=','tbl_product.color_id')
         ->join('tbl_size_product','tbl_size_product.size_id','=','tbl_product.size_id')
         ->get();
-        return view('admin.all_product', compact('all_product'));
+        return view('admin.product.all_product', compact('all_product'));
     }
 
     public function save_product(Request $request){
@@ -77,7 +77,7 @@ class ProductController extends Controller
         $size_product = DB::table('tbl_size_product')->orderBy('size_id','desc')->get();
 
         $edit_product = DB::table('tbl_product')->where('product_id', $product_id)->get();
-        return view('admin.edit_product', compact('edit_product', 'cate_product', 'brand_product', 'color_product', 'size_product'));
+        return view('admin.product.edit_product', compact('edit_product', 'cate_product', 'brand_product', 'color_product', 'size_product'));
     }
 
     public function delete_product($product_id){

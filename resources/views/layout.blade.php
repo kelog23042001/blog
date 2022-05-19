@@ -456,7 +456,7 @@
                     data:{cart_product_id:cart_product_id,cart_product_name:cart_product_name,cart_product_image:cart_product_image,
                         cart_product_price:cart_product_price,cart_product_qty:cart_product_qty,_token:_token},
                     success:function(){
-                      
+
                         swal({
                                 title: "Đã thêm sản phẩm vào giỏ hàng",
                                 text: "Bạn có thể mua hàng tiếp hoặc tới giỏ hàng để tiến hành thanh toán",

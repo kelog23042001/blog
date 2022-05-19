@@ -11,13 +11,13 @@ use Illuminate\Support\Facades\Session;
 class ColorController extends Controller
 {
     public function add_color_product(){
-        return view('admin.add_color_product');
+        return view('admin.color.add_color_product');
     }
     public function all_color_product(){
 
         $all_color_product =DB::table('tbl_color_product')->get();
-        $manager_color = view('admin.all_color_product')->with('all_color', $all_color_product);
-        return view('admin.all_color_product', compact('all_color_product'));
+        $manager_color = view('admin.color.all_color_product')->with('all_color', $all_color_product);
+        return view('admin.color.all_color_product', compact('all_color_product'));
     }
     public function save_color_product(Request $request){
         $data = array();
@@ -44,7 +44,7 @@ class ColorController extends Controller
 
     public function edit_color_product($colorproduct_id){
         $edit_color_product = DB::table('tbl_color_product')->where('color_id', $colorproduct_id)->get();
-        return view('admin.edit_color_product', compact('edit_color_product'));
+        return view('admin.color.edit_color_product', compact('edit_color_product'));
     }
 
     public function delete_color_product($colorproduct_id){

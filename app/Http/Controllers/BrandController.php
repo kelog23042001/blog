@@ -12,14 +12,14 @@ use Illuminate\Support\Facades\Session;
 class BrandController extends Controller
 {
     public function add_brand_product(){
-        return view('admin.add_brand_product');
+        return view('admin.brand.add_brand_product');
     }
     public function all_brand_product(){
 
        // $all_brand_product = DB::table('tbl_brand_product')->get();
         $all_brand_product= Brand::orderBy('brand_id','DESC')->get();
-        $manager_brand = view('admin.all_brand_product')->with('all_brand', $all_brand_product);
-        return view('admin.all_brand_product', compact('all_brand_product'));
+        $manager_brand = view('admin.brand.all_brand_product')->with('all_brand', $all_brand_product);
+        return view('admin.brand.all_brand_product', compact('all_brand_product'));
     }
     public function save_brand_product(Request $request){
         $data = $request->all();
@@ -54,7 +54,7 @@ class BrandController extends Controller
     public function edit_brand_product($brandproduct_id){
         //$edit_brand_product = DB::table('tbl_brand_product')->where('brand_id', $brandproduct_id)->get();
         $edit_brand_product = Brand::where('brand_id', $brandproduct_id)->get();
-        return view('admin.edit_brand_product', compact('edit_brand_product'));
+        return view('admin.brand.edit_brand_product', compact('edit_brand_product'));
     }
 
     public function delete_brand_product($brandproduct_id){

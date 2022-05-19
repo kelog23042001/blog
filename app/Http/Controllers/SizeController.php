@@ -10,13 +10,13 @@ use Illuminate\Support\Facades\Session;
 class SizeController extends Controller
 {
     public function add_size_product(){
-        return view('admin.add_size_product');
+        return view('admin.size.add_size_product');
     }
     public function all_size_product(){
 
         $all_size_product =DB::table('tbl_size_product')->get();
-        $manager_size = view('admin.all_size_product')->with('all_size', $all_size_product);
-        return view('admin.all_size_product', compact('all_size_product'));
+        $manager_size = view('admin.size.all_size_product')->with('all_size', $all_size_product);
+        return view('admin.size.all_size_product', compact('all_size_product'));
     }
     public function save_size_product(Request $request){
         $data = array();
@@ -43,7 +43,7 @@ class SizeController extends Controller
 
     public function edit_size_product($sizeproduct_id){
         $edit_size_product = DB::table('tbl_size_product')->where('size_id', $sizeproduct_id)->get();
-        return view('admin.edit_size_product', compact('edit_size_product'));
+        return view('admin.size.edit_size_product', compact('edit_size_product'));
     }
 
     public function delete_size_product($sizeproduct_id){

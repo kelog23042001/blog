@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Coupon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
@@ -60,10 +61,12 @@ class CartController extends Controller
             return Redirect()->back()->with('message','Cập nhập số lượng thất bại');
         }
     }
+
     public function delete_all_product(){
         $cart = Session::get('cart');
         if($cart == true){
             Session::forget('cart');
+            Session::forget('coupon');
             return Redirect()->back()->with('message','Xoá tất cả sản phẩm thành công');
 
         }
@@ -141,6 +144,9 @@ class CartController extends Controller
         return view('user.pages.cart.cart_ajax', compact('category', 'brand'))
         ->with('meta_decs',$meta_decs)->with('meta_title',$meta_title)->with('meta_keyword',$meta_keyword)->with('url_canonical', $url_canonical);
     }
+
+
+    //Coupon
 
 
 }
