@@ -129,6 +129,7 @@ Route::get('/login-checkout',[CheckoutController::class, 'login_checkout']);
 Route::get('/logout-checkout',[CheckoutController::class, 'logout_checkout']);
 Route::get('/checkout',[CheckoutController::class, 'checkout']);
 Route::get('/payment',[CheckoutController::class, 'payment']);
+Route::get('/del-fee',[CheckoutController::class, 'del_fee']);
 
 Route::post('/calculate-fee',[CheckoutController::class, 'calculate_fee']);
 Route::post('/order-place',[CheckoutController::class, 'order_place']);

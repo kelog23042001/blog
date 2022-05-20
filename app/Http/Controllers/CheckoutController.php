@@ -16,6 +16,11 @@ use Illuminate\Support\Facades\Session;
 
 class CheckoutController extends Controller
 {
+
+    public function del_fee(){
+        Session::forget('fee');
+        return redirect()->back();
+    }
     public function select_delivery_home(Request $request){
         $data = $request->all();
         if($data['action']){

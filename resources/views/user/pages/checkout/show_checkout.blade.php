@@ -11,7 +11,9 @@
 
 
 
-
+        <?php
+            use Illuminate\Support\Facades\Session;
+        ?>
 			<div class="register-req">
 				<p>làm ơn đăng ký hoặc đăng nhập để thanh toán giỏ hàng và xem lại lịch sử giỏ hàng</p>
 			</div><!--/register-req-->
@@ -64,10 +66,9 @@
                                 <input value="Tính phí vận chuyển"  type="button" name="calculate_order" class="btn btn-primary btn-sm calculate_delivery">
 
                             </form>
-                            <?php
-                                Session::get('fee')
 
-                            ?>
+
+
 
 							</div>
 
@@ -100,7 +101,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @if(Session::get('cart')==true)
+
+                                @if(Session::get('cart')==true)
                                     @php
                                             $total = 0;
                                     @endphp
@@ -158,51 +160,88 @@
                                         <td>
                                             <li>Tổng: <span>{{number_format($total,0,',','.')}}đ</span></li>
                                             @if(Session::get('coupon'))
-                                            <li>
+                                                <li>
 
 
-                                                    @foreach(Session::get('coupon') as $key => $cou)
-                                                        @if($cou['coupon_condition'] == 1)
-                                                            Mã giảm :{{$cou['coupon_number']}} %
-                                                        <p>
-                                                            @php
-                                                                $total_coupon = ($total*$cou['coupon_number']) / 100;
-                                                                echo '<p><li>Tổng giảm: '.number_format($total_coupon,0,',','.').'đ</li></p>';
-                                                            @endphp
-                                                        </p>
-                                                        <p><li>Tổng đã giảm: {{number_format($total - $total_coupon,0,',','.')}}</li></p>
-                                                        @else
-                                                        Mã giảm :{{number_format($cou['coupon_number'],0,',','.')}}đ
-                                                        <p>
-                                                            @php
-                                                            $total_coupon = $total - $cou['coupon_number'];
+                                                        @foreach(Session::get('coupon') as $key => $cou)
+                                                            @if($cou['coupon_condition'] == 1)
+                                                                    Mã giảm :{{$cou['coupon_number']}} %
+                                                                <p>
+                                                                    @php
+                                                                        $total_coupon = ($total*$cou['coupon_number']) / 100;
 
-                                                            @endphp
-                                                        </p>
-                                                        <p><li>Tổng đã giảm: {{number_format($total_coupon,0,',','.')}}đ</li></p>
-                                                        @endif
-                                                    @endforeach
-
-
-                                            </li>
+                                                                    @endphp
+                                                                </p>
+                                                                <p>@php
+                                                                        $total_after_coupon = $total - $total_coupon;
+                                                                    @endphp</p>
+                                                            @else
+                                                                Mã giảm :{{number_format($cou['coupon_number'],0,',','.')}}đ
+                                                                <p>
+                                                                    @php
+                                                                        $total_coupon = $total - $cou['coupon_number'];
+                                                                    @endphp
+                                                                </p>
+                                                                    @php
+                                                                        $total_after_coupon = $total_coupon;
+                                                                    @endphp
+                                                            @endif
+                                                        @endforeach
+                                                </li>
                                             @endif
-                                            <!-- <li>Thuế: <span></span></li>
-                                            <li>Phi Vận Chuyển: <span>Free</span></li> -->
-                                            <!-- <li>Thành Tiền: <span></span></li> -->
+
+                                            <!-- <li>Thuế: <span></span></li> -->
+                                            @if(Session::get('fee'))
+
+                                                <li>
+                                                <a class="cart_quantity_delete" href="{{url('/del-fee')}}"><i class="fa fa-times"></i></a>
+
+                                                 Phí Vận Chuyển: <span>{{number_format(Session::get('fee'),0,',','.')}}</span></li>
+
+                                                 <?php
+
+                                                        $total_after_fee = $total - Session::get('fee');
+                                                    ?>
+                                            @endif
+
+                                            <li>
+                                                    Tổng số tiền:
+                                                    @php
+
+                                                  if(Session::get('fee') && !Session::get('coupon')){
+                                                        $total_after = $total_after_fee;
+                                                        echo number_format($total_after,0,',','.').' VND';
+                                                  }else if(!Session::get('fee') && Session::get('coupon')){
+                                                        $total_after = $total_after_coupon + Session::get('fee');
+                                                        echo number_format($total_after,0,',','.').' VND';
+
+                                                  }else if(Session::get('fee') && Session::get('coupon')){
+                                                        $total_after = $total_after_coupon;
+                                                        $total_after = $total_after + Session::get('fee');
+                                                        echo number_format($total_after,0,',','.').' VND';
+
+                                                  }else if(!Session::get('fee') && !Session::get('coupon')){
+                                                        $total_after = $total;
+                                                        echo number_format($total_after,0,',','.').' VND';
+
+                                                  }
+                                           @endphp
+                                            </li>
+
                                         </td>
                                     </tr>
                                     @else
-                                    <tr>
-                                        <td colspan="5">
-                                        <center>
-                                        @php
-                                            echo "Chưa có sản phẩm trong giỏ hàng";
-                                        @endphp
-                                        </center>
+                                        <tr>
+                                            <td colspan="5">
+                                            <center>
+                                            @php
+                                                echo "Chưa có sản phẩm trong giỏ hàng";
+                                            @endphp
+                                            </center>
 
-                                        </td>
-                                    </tr>
-                                    @endif
+                                            </td>
+                                        </tr>
+                                @endif
                                 </tbody>
 
                             </form>
