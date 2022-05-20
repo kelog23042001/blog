@@ -476,5 +476,53 @@
             });
         });
     </script>
+    <script>
+        $(document).ready(function(){
+            $('.choose').on('change',function(){
+            var action = $(this).attr('id');
+            var ma_id = $(this).val();
+            var _token = $('input[name="_token"]').val();
+            var result = '';
+
+            if(action == 'city'){
+                result = 'province';
+            }else{
+                result = 'wards';
+            }
+            $.ajax({
+                url: '{{url('/select-delivery-home')}}',
+                method: 'POST',
+                data:{action:action, ma_id:ma_id, _token:_token},
+                success:function(data){
+                    $('#'+result).html(data);
+                }
+            });
+        });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function(){
+            $('.calculate_delivery').click(function(){
+                var matp = $('.city').val();
+                var maqh = $('.province').val();
+                var xaid = $('.wards').val();
+                var _token = $('input[name="_token"]').val();
+                if(matp == '' && maqh == '' && xaid == '')
+                    alert('Làm ơn chọn địa điểm');
+                else{
+                    $.ajax({
+                    url: '{{url('/calculate-fee')}}',
+                    method: 'POST',
+                    data:{matp:matp, maqh:maqh,xaid:xaid, _token:_token},
+                    success:function(data){
+                        $('#'+result).html(data);
+                    }
+                    });
+                }
+
+            });
+        });
+    </script>
 </body>
 </html>

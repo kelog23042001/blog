@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\City;
+use App\Models\Feeship;
+use App\Models\Province;
+use App\Models\Wards;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -12,6 +16,36 @@ use Illuminate\Support\Facades\Session;
 
 class CheckoutController extends Controller
 {
+    public function select_delivery_home(Request $request){
+        $data = $request->all();
+        if($data['action']){
+            $output = '';
+            if($data['action'] == 'city'){
+                $select_province = Province::where('matp', $data['ma_id'])->orderby('maqh', 'ASC')->get();
+                $output.='<option>---Chọn quận huyện---</option>';
+                foreach($select_province as $key => $province){
+                    $output.='<option value = "'.$province->maqh.'">'.$province->name_quanhuyen.'</option>';
+                }
+            }else{
+                $select_wards = Wards::where('maqh', $data['ma_id'])->orderby('xaid', 'ASC')->get();
+                $output.='<option>---Chọn xã phường---</option>';
+                foreach($select_wards as $key => $province){
+                    $output.='<option value = "'.$province->xaid.'">'.$province->name_xaphuong.'</option>';
+                }
+            }
+        }
+        echo $output;
+    }
+    public function calculate_fee(Request $request){
+        $data = $request->all();
+        if($data['matp']){
+            $feeship = Feeship::where('fee_matp', $data['matp'])->where('fee_maqh', $data['maqh'])->where('fee_xaid', $data['xaid'])->get();
+            foreach($feeship as $key => $fee){
+                Session::put('fee', $fee->fee_feeship);
+                Session::save();
+            }
+        }
+    }
     public function login_checkout(Request $request){
         $meta_decs = "Đăng nhập thanh toán";
         $meta_title = "Đăng nhập thanh toán";
@@ -47,9 +81,13 @@ class CheckoutController extends Controller
         $url_canonical = $request->url();
         $cate_product = DB::table('tbl_category_product')->where('category_status', '0')->orderBy('category_id','desc')->get();
         $brand_product = DB::table('tbl_brand_product')->where('brand_status', '0')->orderBy('brand_id','desc')->get();
+        $city = City::orderby('matp', 'ASC')->get();
+        $province = Province::orderby('maqh', 'ASC')->get();
+        $wards = Wards::orderby('xaid', 'ASC')->get();
 
         return view('user.pages.checkout.show_checkout')->with('category', $cate_product)->with('brand', $brand_product)
-        ->with('meta_decs',$meta_decs)->with('meta_title',$meta_title)->with('meta_keyword',$meta_keyword)->with('url_canonical', $url_canonical);
+        ->with('meta_decs',$meta_decs)->with('meta_title',$meta_title)->with('meta_keyword',$meta_keyword)->with('url_canonical', $url_canonical)
+        ->with(compact('city'));
     }
 
     public function save_checkout_customer(Request $request){

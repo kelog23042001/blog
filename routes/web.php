@@ -9,6 +9,7 @@ use App\Http\Controllers\CategoryProductController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\CouponController;
+use App\Http\Controllers\DeliveryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SizeController;
@@ -123,15 +124,25 @@ Route::get('/detele-to-cart/{rowId}',[CartController::class, 'detele_to_cart']);
 
 
 //Checkout
+
 Route::get('/login-checkout',[CheckoutController::class, 'login_checkout']);
 Route::get('/logout-checkout',[CheckoutController::class, 'logout_checkout']);
 Route::get('/checkout',[CheckoutController::class, 'checkout']);
 Route::get('/payment',[CheckoutController::class, 'payment']);
 
+Route::post('/calculate-fee',[CheckoutController::class, 'calculate_fee']);
 Route::post('/order-place',[CheckoutController::class, 'order_place']);
 Route::post('/add-customer',[CheckoutController::class, 'add_customer']);
 Route::post('/login-customer',[CheckoutController::class, 'login_customer']);
 Route::post('/save-checkout-customer',[CheckoutController::class, 'save_checkout_customer']);
+Route::post('/select-delivery-home',[CheckoutController::class, 'select_delivery_home']);
 
 //send mail
 Route::get('/send-mail',[HomeController::class, 'send_mail']);
+
+//Delivery
+Route::get('/delivery',[DeliveryController::class, 'delivery']);
+Route::post('/select-delivery',[DeliveryController::class, 'select_delivery']);
+Route::post('/insert-delivery',[DeliveryController::class, 'insert_delivery']);
+Route::post('/select-feeship',[DeliveryController::class, 'select_feeship']);
+Route::post('/update-delivery',[DeliveryController::class, 'update_delivery']);
