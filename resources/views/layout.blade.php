@@ -441,7 +441,7 @@
 
     <script src="{{asset('frontend/js/sweetalert.min.js')}}"></script>
     <script>
-               $(document).ready(function(){
+			$(document).ready(function(){
             $('.add-to-cart').click(function(){
                 var id = $(this).data('id_product');
                 var cart_product_id = $('.cart_product_id_' + id).val();
@@ -524,5 +524,56 @@
             });
         });
     </script>
+
+	<script type = "text/javascript">
+		$(document).ready(function(){
+            $('.send_order').click(function(){
+				swal({
+						title: "Xác nhận đặt hàng?",
+						text: "Bạn có muốn đặt hàng không?",
+						type: "warning",
+						showCancelButton: true,
+						confirmButtonClass: "btn-danger",
+						confirmButtonText: "Có",
+						cancelButtonText: "Không",
+						closeOnConfirm: false,
+						closeOnCancel: false
+					},
+					function(isConfirm) {
+					if (isConfirm) {
+						// swal("Đặt hàng!", "Đơn đặt hàng của bạn đã đặt thành công", "success");
+
+						var shipping_email = $('.shipping_email').val();
+						var shipping_name = $('.shipping_name').val();
+						var shipping_address = $('.shipping_address').val();
+						var shipping_phone = $('.shipping_phone').val();
+						var shipping_notes = $('.shipping_notes').val();
+						var shipping_method = $('.payment_select').val();
+						var order_fee = $('.order_fee').val();
+						var order_coupon = $('.order_coupon').val();
+						var _token = $('input[name="_token"]').val();
+						$.ajax({
+							url: '{{url('/confirm-order')}}',
+							method: 'POST',
+							data:{shipping_email:shipping_email,
+								shipping_name:shipping_name,
+								shipping_address:shipping_address,
+								shipping_phone:shipping_phone,
+								shipping_method:shipping_method,
+								order_fee:order_fee,
+								order_coupon:order_coupon,
+								_token:_token},
+							success:function(){
+								swal("Đặt hàng!", "Đơn đặt hàng của bạn đã đặt thành công", "success");
+							}
+						});
+						window.setTimeout(function(){
+							location.reload();
+						},3000);
+					}
+				});
+            });
+        });
+	</script>
 </body>
 </html>

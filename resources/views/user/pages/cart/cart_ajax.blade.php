@@ -83,12 +83,18 @@
                                 <a class="btn btn-default check_out" href="{{url('/delete-all-product')}}">Xoá tất cả</a>
 
                             </td>
+                            <td>
                             @if(Session::get('coupon'))
-                                <td>
-                                <a class="btn btn-default check_out" href="{{url('/unset-coupon')}}">Xoá mã giảm giá</a>
-
-                                </td>
+                                <a class="btn btn-default check_out" href="{{url('/')}}">Xoá mã giảm giá</a>
                             @endif
+                            </td>
+                            <td>
+                            @if(Session::get('customer'))
+                                <a class="btn btn-default check_out" href="{{url('/checkout')}}">Đặt hàng</a>
+                                @else
+                                <a class="btn btn-default check_out" href="{{url('/login-checkout')}}">Đặt hàng</a>
+                            @endif
+                            </td>
                             <td>
                                 <li>Tổng: <span>{{number_format($total,0,',','.')}}đ</span></li>
                                 @if(Session::get('coupon'))

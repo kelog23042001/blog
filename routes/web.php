@@ -13,7 +13,8 @@ use App\Http\Controllers\DeliveryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SizeController;
-
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\BannerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -95,8 +96,10 @@ Route::post('/update-product/{product_id}',[ProductController::class, 'update_pr
 Route::post('/save-product',[ProductController::class, 'save_product']);
 
 //Order
-Route::get('/manage-order',[CheckoutController::class, 'manage_order']);
-Route::get('/view-order/{orderId}',[CheckoutController::class, 'view_order']);
+Route::get('/print-order/{order_code}',[OrderController::class, 'print_order']);
+Route::get('/manage-order',[OrderController::class, 'manage_order']);
+Route::get('/view-order/{order_code}',[OrderController::class, 'view_order']);
+// Route::get('/manage-order',[CheckoutController::class, 'manage_order']);
 // Route::get('/admin', 'AdminController@index');
 
 Route::get('/trang-chu', [HomeController::class, 'index']);
@@ -137,6 +140,8 @@ Route::post('/add-customer',[CheckoutController::class, 'add_customer']);
 Route::post('/login-customer',[CheckoutController::class, 'login_customer']);
 Route::post('/save-checkout-customer',[CheckoutController::class, 'save_checkout_customer']);
 Route::post('/select-delivery-home',[CheckoutController::class, 'select_delivery_home']);
+Route::post('/confirm-order',[CheckoutController::class, 'confirm_order']);
+
 
 //send mail
 Route::get('/send-mail',[HomeController::class, 'send_mail']);
@@ -147,3 +152,9 @@ Route::post('/select-delivery',[DeliveryController::class, 'select_delivery']);
 Route::post('/insert-delivery',[DeliveryController::class, 'insert_delivery']);
 Route::post('/select-feeship',[DeliveryController::class, 'select_feeship']);
 Route::post('/update-delivery',[DeliveryController::class, 'update_delivery']);
+
+//Banner
+Route::get('/manage-banner',[BannerController::class, 'manage_banner']);
+Route::get('/add-banner',[BannerController::class, 'add_banner']);
+Route::post('/insert-slider',[BannerController::class, 'insert_slider']);
+

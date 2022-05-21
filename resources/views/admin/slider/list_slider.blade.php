@@ -3,7 +3,7 @@
 <div class="table-agile-info">
   <div class="panel panel-default">
     <div class="panel-heading">
-      Liệt kê thương hiệu sản phẩm
+      Liệt kê danh mục sản phẩm
     </div>
 
     <div class="row w3-res-tb">
@@ -27,6 +27,15 @@
         </div>
       </div>
     </div>
+    <?php
+                            use Illuminate\Support\Facades\Session;
+
+                            $message = Session::get('message');
+                            if($message){
+                                echo $message;
+                                Session::put('message',null);
+                            }
+                        ?>
     <div class="table-responsive">
       <table class="table table-striped b-t b-light">
         <thead>
@@ -36,39 +45,51 @@
                 <input type="checkbox"><i></i>
               </label>
             </th>
-            <th>Tên danh mục</th>
+            <th>Tên sản phẩm</th>
             <th>Slug</th>
-            <th>Hển thị</th>
+            <th>Giá</th>
+            <th>Hình ảnh</th>
+            <th>Danh mục</th>
+            <th>Thương hiệu</th>
+            <th>Màu sắc</th>
+            <th>Size</th>
+            <th>Ẩn hiện</th>
 
             <th style="width:30px;"></th>
           </tr>
         </thead>
         <tbody>
-            <?php foreach($all_brand_product as $key => $cate_pro){ ?>
-              <tr>
+            @foreach($all_product as $key => $pro)
+          <tr>
             <td><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label></td>
-            <td>{{ $cate_pro->brand_name }}</td>
-            <td>{{ $cate_pro->brand_slug }}</td>
+            <td>{{ $pro->product_name }}</td>
+            <td>{{ $pro->product_slug }}</td>
+            <td>{{ $pro->product_price }}</td>
+
+            <td ><img width="100px" src="{{asset('public/uploads/product/'.$pro->product_image) }}"></td>
+            <td>{{ $pro->category_name }}</td>
+            <td>{{ $pro->brand_name }}</td>
+            <td>{{ $pro->color_name }}</td>
+            <td>{{ $pro->size_name }}</td>
             <td><span class="text-ellipsis">
-               <?php
-                    if($cate_pro->brand_status == 0){
-                ?>
-                       <a href="{{URL::to('/unactive-brand-product/'.$cate_pro->brand_id)}}"><span class = "fa-thumb-styling fa fa-thumbs-down"> </span></a>
-                <?php
-                    }else{
-                ?>
-                     <a href="{{URL::to('/active-brand-product/'.$cate_pro->brand_id)}}"><span class = "fa-thumb-styling fa fa-thumbs-up"> </span></a>
-                <?php
-                    }
-                ?>
+            <?php
+                        if($pro->product_status == 0){
+                    ?>
+                        <a href="{{URL::to('/unactive-product/'.$pro->product_id)}} "><span class = "fa-thumb-styling fa fa-thumbs-down"> </span></a>
+                    <?php
+                        }else{
+                    ?>
+                        <a href="{{URL::to('/active-product/'.$pro->product_id)}}"><span class = "fa-thumb-styling fa fa-thumbs-up"> </span></a>
+                    <?php
+                        }
+                    ?>
             </span></td>
             <td>
-                <a style="font-size: 20px;" href="{{URL::to('/edit-brand-product/'.$cate_pro->brand_id)}}" class="active" ui-toggle-class=""><i class="fa fa-pencil-square-o text-success text-active"></i></a>
-                <a  onclick="return confirm('Bạn có chắc chắn muốn xoá?')"  style="font-size: 20px;" href="{{URL::to('/delete-brand-product/'.$cate_pro->brand_id)}}"><i class="fa fa-times text-danger text"></i></a>
+            <a href="{{URL::to('/edit-product/'.$pro->product_id)}}" style="font-size: 20px;" class="active styling-edit" ui-toggle-class=""><i class="fa fa-pencil-square-o text-success text-active"></i></a>
+            <a  onclick="return confirm('Bạn có chắc chắn muốn xoá?')" href="{{URL::to('/delete-product/'.$pro->product_id)}}"  style="font-size: 20px;" class="active styling-edit" ui-toggle-class=""><i class="fa fa-times text-danger text"></i></a>
             </td>
           </tr>
-              <?php }?>
-          
+          @endforeach
         </tbody>
       </table>
     </div>
