@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryProductController;
@@ -159,3 +160,11 @@ Route::get('/add-banner',[BannerController::class, 'add_banner']);
 Route::post('/insert-slider',[BannerController::class, 'insert_slider']);
 Route::get('/unactive-slide/{slider_id}',[BannerController::class, 'unactive_slide']);
 Route::get('/active-slide/{slider_id}',[BannerController::class, 'active_slide']);
+
+//Authentication roles
+
+Route::get('/login-auth',[AuthController::class, 'login_auth']);
+
+Route::get('/register-auth',[AuthController::class, 'register_auth']);
+Route::post('/register',[AuthController::class, 'register']);
+Route::post('/login',[AuthController::class, 'login']);

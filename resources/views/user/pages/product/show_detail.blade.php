@@ -38,7 +38,7 @@
                 {{csrf_field()}}
                 <span>
                     <span>{{number_format($value->product_price).' '.'VND'}}</span>
-                    
+
                     <label>Số lượng :</label>
                     <input name = "qty" type="number" value="1" min = "1"/>
 
@@ -63,6 +63,7 @@
         <ul class="nav nav-tabs">
             <li class="active"><a href="#details" data-toggle="tab">Mô Tả</a></li>
             <li><a href="#reviews" data-toggle="tab">Đánh Giá</a></li>
+            <li><a href="#comment" data-toggle="tab">Bình Luận</a></li>
         </ul>
     </div>
     <div class="tab-content">
@@ -93,7 +94,11 @@
                 </form>
             </div>
         </div>
-
+        <div class="tab-pane fade " id="comment" >
+            <div class="col-sm-12">
+            <div class="fb-comments" data-href="{{$url_canonical}}" data-width="" data-numposts="5"></div>
+            </div>
+        </div>
     </div>
 </div><!--/category-tab-->
 @endforeach

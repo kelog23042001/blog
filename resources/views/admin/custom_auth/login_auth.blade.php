@@ -6,7 +6,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 -->
 <!DOCTYPE html>
 <head>
-<title>Trang quan li admin web</title>
+<title>Đăng kí Auth</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="keywords" content="Visitors Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
@@ -29,7 +29,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <body>
 <div class="log-w3">
 <div class="w3layouts-main">
-	<h2>Đăng nhâp</h2>
+	<h2>Đăng nhập Auth</h2>
     <?php
 
         use Illuminate\Support\Facades\Session;
@@ -40,17 +40,20 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     Session::put('message',null);
                 }
     ?>
-		<form action="{{URL::to('/admin-dashboard')}}" method="post">
+		<form action="{{URL::to('/login')}}" method="post">
             {{ csrf_field() }}
-			<input type="email" class="ggg" name="admin_email" placeholder="Điền email" required="">
-			<input type="password" class="ggg" name="admin_password" placeholder="Điền password" required="">
+
+			<input type="email" class="ggg" name="admin_email" value="{{old('admin_email')}}" placeholder="Điền Email" required="">
+
+			<input type="password" class="ggg" name="admin_password" value="{{old('admin_password')}}" placeholder="Điền password" required="">
 			<span><input type="checkbox" />Remember Me</span>
 			<h6><a href="#">Forgot Password?</a></h6>
 				<div class="clearfix"></div>
-				<input type="submit" value="Đăng nhâp" name="login">
+				<input type="submit" value="Đăng nhập" name="login">
 		</form>
         <a href="{{url('/register-auth')}}">Đăng ký Authentication</a> |
-        <a href="{{url('/login-auth')}}">Đăng nhập Authentication</a>
+        <a href="{{url('/login-auth')}}">Đăng nhập Authentication</a> |
+        <a href="{{url('/admin')}}">Đăng nhập admin</a>
 		<!-- <p>Don't Have an Account ?<a href="registration.html">Create an account</a></p> -->
 </div>
 </div>
