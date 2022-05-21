@@ -16,6 +16,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\BannerController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -96,6 +97,12 @@ Route::get('/delete-product/{product_id}',[ProductController::class, 'delete_pro
 Route::post('/update-product/{product_id}',[ProductController::class, 'update_product']);
 Route::post('/save-product',[ProductController::class, 'save_product']);
 
+
+//Product
+ Route::group(['middleware' => 'auth.roles'], function () {
+	Route::get('/add-product',[ProductController::class, 'add_product']);
+	Route::get('/edit-product/{product_id}',[ProductController::class, 'edit_product']);
+ });
 //Order
 Route::get('/print-order/{order_code}',[OrderController::class, 'print_order']);
 Route::get('/manage-order',[OrderController::class, 'manage_order']);
@@ -113,6 +120,8 @@ Route::get('/list-coupon',[CouponController::class, 'list_coupon']);
 Route::get('/delete-coupon/{coupon_id}',[CouponController::class, 'delete_coupon']);
 Route::get('/unset-coupon',[CouponController::class, 'unset_coupon']);
 
+
+
 //cart
 Route::post('/save-cart',[CartController::class, 'save_cart']);
 Route::post('/add-cart-ajax',[CartController::class, 'add_cart_ajax']);
@@ -128,7 +137,6 @@ Route::get('/detele-to-cart/{rowId}',[CartController::class, 'detele_to_cart']);
 
 
 //Checkout
-
 Route::get('/login-checkout',[CheckoutController::class, 'login_checkout']);
 Route::get('/logout-checkout',[CheckoutController::class, 'logout_checkout']);
 Route::get('/checkout',[CheckoutController::class, 'checkout']);
@@ -168,3 +176,12 @@ Route::get('/login-auth',[AuthController::class, 'login_auth']);
 Route::get('/register-auth',[AuthController::class, 'register_auth']);
 Route::post('/register',[AuthController::class, 'register']);
 Route::post('/login',[AuthController::class, 'login']);
+
+//User
+Route::get('/users',[UserController::class, 'index'])->middleware('auth.roles');
+Route::get('/add-users',[UserController::class, 'add_users'])->middleware('auth.roles') ;
+Route::get('/delete-user-roles/{admin_id}',[UserController::class, 'delete_user_roles'])->middleware('auth.roles') ;
+
+Route::post('/store-users',[UserController::class, 'store_users']);
+Route::post('/assign-roles',[UserController::class, 'assign_roles'])->middleware('auth.roles');
+

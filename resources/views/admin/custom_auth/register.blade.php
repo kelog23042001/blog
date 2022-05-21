@@ -53,7 +53,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		</form>
         <a href="{{url('/register-auth')}}">Đăng ký Authentication</a> |
         <a href="{{url('/login-auth')}}">Đăng nhập Authentication</a>  |
-        <a href="{{url('/admin')}}">Đăng nhập admin</a>
+
 
 		<!-- <p>Don't Have an Account ?<a href="registration.html">Create an account</a></p> -->
 </div>
