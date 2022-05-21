@@ -63,7 +63,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 }
             });
         });
-        
+
         $('.add_delivery').click(function(){
             var city = $('.city').val();
             var province = $('.province').val();
@@ -135,9 +135,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <span class="username">
                 <?php
 
+                    use Illuminate\Support\Facades\Auth;
                     use Illuminate\Support\Facades\Session;
 
-                            $name = Session::get('admin_name');
+                            $name = Auth::user()->admin_name;
                             if($name){
                                 echo $name;
                             }
