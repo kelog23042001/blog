@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
+use App\Models\Banner;
+
 class HomeController extends Controller
 {
     // public function send_mail(){
@@ -21,6 +23,9 @@ class HomeController extends Controller
     //    })
     // }
     public function index(Request $request){
+        //slider
+        $slider = Banner::orderBy('slider_id','DESC')->where('slider_status', '1')->take(4)->get();
+
         $meta_decs = "Chuyên bán quần áo nữ";
         $meta_title = "LK - Shopping";
         $meta_keyword = "quan ao nu, quần áo nữ";
@@ -32,7 +37,8 @@ class HomeController extends Controller
         ->get();
 
         return view('user.pages.home')->with('category', $cate_product)->with('brand', $brand_product)->with('product', $all_product)
-        ->with('meta_decs',$meta_decs)->with('meta_title',$meta_title)->with('meta_keyword',$meta_keyword)->with('url_canonical', $url_canonical);
+        ->with('meta_decs',$meta_decs)->with('meta_title',$meta_title)->with('meta_keyword',$meta_keyword)->with('url_canonical', $url_canonical)
+        ->with('slider', $slider);
         //return view('user.pages.home')->with(compact('cate_product', 'brand_product', 'all_product' ));
 
     }

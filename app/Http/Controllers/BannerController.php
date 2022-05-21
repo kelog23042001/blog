@@ -5,17 +5,25 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use App\Models\Banner;
+use Illuminate\Support\Facades\DB;
+
 class BannerController extends Controller
 {
+
+    public function unactive_slide($slide_id){
+        DB::table('tbl_slider')->where('slider_id',$slide_id)->update(['slider_status'=>1]);
+        Session::put('message','Ẩn slider thành công');
+        return Redirect :: to('manage-banner');
+    }
+    public function active_slide($slide_id){
+        DB :: table('tbl_slider')->where('slider_id',$slide_id)->update(['slider_status'=>0]);
+        Session::put('message','Hiển thị slider thành công');
+        return Redirect :: to('manage-banner');
+    }
+
     public function manage_banner(){
-        // $all_slide = Banner::orderby('slider_id', 'DESC');
-        $all_product = DB::table('tbl_product')
-        ->join('tbl_category_product','tbl_category_product.category_id','=','tbl_product.category_id')
-        ->join('tbl_brand_product','tbl_brand_product.brand_id','=','tbl_product.brand_id')
-        ->join('tbl_color_product','tbl_color_product.color_id','=','tbl_product.color_id')
-        ->join('tbl_size_product','tbl_size_product.size_id','=','tbl_product.size_id')
-        ->get();
-        return view('ardmin.slider.all_product', compact('all_poduct'));
+        $all_slide = Banner::orderby('slider_id', 'DESC')->get();
+        return view('admin.slider.list_slider', compact('all_slide'));
     }
 
     public function add_banner(){
@@ -33,7 +41,7 @@ class BannerController extends Controller
 
             $slider = new Banner();
             $slider->slider_name = $data['slider_name'];
-            $slider->slider_image = $name_image;                        
+            $slider->slider_image = $new_image;                        
             $slider->slider_status =$data['slider_status'];
             $slider->slider_desc = $data['slider_desc'];
             $slider->save();

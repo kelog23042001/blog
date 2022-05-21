@@ -17,7 +17,6 @@
                     </div>
 
                 </div>
-
                 <!-- Controls -->
                 <a class="left item-control" href="#similar-product" data-slide="prev">
                 <i class="fa fa-angle-left"></i>

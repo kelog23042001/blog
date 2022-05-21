@@ -157,4 +157,5 @@ Route::post('/update-delivery',[DeliveryController::class, 'update_delivery']);
 Route::get('/manage-banner',[BannerController::class, 'manage_banner']);
 Route::get('/add-banner',[BannerController::class, 'add_banner']);
 Route::post('/insert-slider',[BannerController::class, 'insert_slider']);
-
+Route::get('/unactive-slide/{slider_id}',[BannerController::class, 'unactive_slide']);
+Route::get('/active-slide/{slider_id}',[BannerController::class, 'active_slide']);

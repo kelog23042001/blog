@@ -27,6 +27,10 @@
                                     data-validation-error-msg="Làm ơn điền ít nhất 3 kí tự" class="form-control" id="exampleInputEmail1" placeholder="Nhập tên sản phẩm">
                                 </div>
                                 <div class="form-group">
+                                    <label for="exampleInputEmail1">Số lượng sản phẩm</label>
+                                    <input type="text" name="product_quantity" date-validation="length" data-validation-length="min3"
+                                    data-validation-error-msg="Điền số lượng" class="form-control" id="exampleInputEmail1" placeholder="Nhập số lượng sản phẩm">
+                                <div class="form-group">
                                     <label for="exampleInputEmail1">Slug</label>
                                     <input type="text" name="product_slug" date-validation="length" data-validation-length="min3"
                                     data-validation-error-msg="Làm ơn điền ít nhất 3 kí tự" class="form-control" id="exampleInputEmail1" >

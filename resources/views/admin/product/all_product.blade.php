@@ -28,14 +28,14 @@
       </div>
     </div>
     <?php
-                            use Illuminate\Support\Facades\Session;
+      use Illuminate\Support\Facades\Session;
 
-                            $message = Session::get('message');
-                            if($message){
-                                echo $message;
-                                Session::put('message',null);
-                            }
-                        ?>
+      $message = Session::get('message');
+      if($message){
+          echo $message;
+          Session::put('message',null);
+      }
+    ?>
     <div class="table-responsive">
       <table class="table table-striped b-t b-light">
         <thead>
@@ -46,9 +46,10 @@
               </label>
             </th>
             <th>Tên sản phẩm</th>
+            <th>Hình ảnh</th>
+            <th>Số lượng còn</th>
             <th>Slug</th>
             <th>Giá</th>
-            <th>Hình ảnh</th>
             <th>Danh mục</th>
             <th>Thương hiệu</th>
             <th>Màu sắc</th>
@@ -63,10 +64,11 @@
           <tr>
             <td><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label></td>
             <td>{{ $pro->product_name }}</td>
+            <td ><img width="100px" src="{{asset('public/uploads/product/'.$pro->product_image) }}"></td>
+            <td>{{ $pro->product_quantity }}</td>
             <td>{{ $pro->product_slug }}</td>
             <td>{{ $pro->product_price }}</td>
 
-            <td ><img width="100px" src="{{asset('public/uploads/product/'.$pro->product_image) }}"></td>
             <td>{{ $pro->category_name }}</td>
             <td>{{ $pro->brand_name }}</td>
             <td>{{ $pro->color_name }}</td>
