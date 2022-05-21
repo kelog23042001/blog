@@ -12,18 +12,13 @@ class ProductController extends Controller
     public function add_product(){
         $cate_product = DB::table('tbl_category_product')->orderBy('category_id','desc')->get();
         $brand_product = DB::table('tbl_brand_product')->orderBy('brand_id','desc')->get();
-        $color_product = DB::table('tbl_color_product')->orderBy('color_id','desc')->get();
-        $size_product = DB::table('tbl_size_product')->orderBy('size_id','desc')->get();
-        return view('admin.product.add_product', compact('cate_product', 'brand_product','color_product','size_product'));
-
+        return view('admin.product.add_product', compact('cate_product', 'brand_product'));
     }
 
     public function all_product(){
         $all_product = DB::table('tbl_product')
         ->join('tbl_category_product','tbl_category_product.category_id','=','tbl_product.category_id')
         ->join('tbl_brand_product','tbl_brand_product.brand_id','=','tbl_product.brand_id')
-        ->join('tbl_color_product','tbl_color_product.color_id','=','tbl_product.color_id')
-        ->join('tbl_size_product','tbl_size_product.size_id','=','tbl_product.size_id')
         ->get();
         return view('admin.product.all_product', compact('all_product'));
     }
@@ -31,15 +26,12 @@ class ProductController extends Controller
     public function save_product(Request $request){
         $data = array();
         $data['product_name']    = $request->product_name;
-        $data['product_quantity']    = $request->product_quantity;
+        $data['product_quantity']= $request->product_quantity;
         $data['product_slug']    = $request->product_slug;
         $data['product_desc']    = $request->product_desc;
-        $data['product_content'] = $request->product_content;
         $data['product_price']   = $request->product_price;
         $data['category_id']     = $request->product_cate;
         $data['brand_id']        = $request->product_brand;
-        $data['color_id']        = $request->product_color;
-        $data['size_id']        = $request->product_size;
         $data['product_status']  = $request->product_status;
 
         $get_image = $request->file('product_image');
@@ -74,11 +66,9 @@ class ProductController extends Controller
     public function edit_product($product_id){
         $cate_product = DB::table('tbl_category_product')->orderBy('category_id','desc')->get();
         $brand_product = DB::table('tbl_brand_product')->orderBy('brand_id','desc')->get();
-        $color_product = DB::table('tbl_color_product')->orderBy('color_id','desc')->get();
-        $size_product = DB::table('tbl_size_product')->orderBy('size_id','desc')->get();
 
         $edit_product = DB::table('tbl_product')->where('product_id', $product_id)->get();
-        return view('admin.product.edit_product', compact('edit_product', 'cate_product', 'brand_product', 'color_product', 'size_product'));
+        return view('admin.product.edit_product', compact('edit_product', 'cate_product', 'brand_product'));
     }
 
     public function delete_product($product_id){
@@ -93,12 +83,9 @@ class ProductController extends Controller
         $data['product_quantity']    = $request->product_quantity;
         $data['product_slug']    = $request->product_slug;
         $data['product_desc']    = $request->product_desc;
-        $data['product_content'] = $request->product_content;
         $data['product_price']   = $request->product_price;
         $data['category_id']     = $request->product_cate;
         $data['brand_id']        = $request->product_brand;
-        $data['color_id']        = $request->product_color;
-        $data['size_id']         = $request->product_size;
         $data['product_status']  = $request->product_status;
 
         $get_image = $request->file('product_image');

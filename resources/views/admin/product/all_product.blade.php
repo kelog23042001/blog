@@ -52,8 +52,6 @@
             <th>Giá</th>
             <th>Danh mục</th>
             <th>Thương hiệu</th>
-            <th>Màu sắc</th>
-            <th>Size</th>
             <th>Ẩn hiện</th>
 
             <th style="width:30px;"></th>
@@ -71,8 +69,6 @@
 
             <td>{{ $pro->category_name }}</td>
             <td>{{ $pro->brand_name }}</td>
-            <td>{{ $pro->color_name }}</td>
-            <td>{{ $pro->size_name }}</td>
             <td><span class="text-ellipsis">
             <?php
                         if($pro->product_status == 0){
@@ -95,24 +91,6 @@
         </tbody>
       </table>
     </div>
-    <footer class="panel-footer">
-      <div class="row">
-
-        <div class="col-sm-5 text-center">
-          <small class="text-muted inline m-t-sm m-b-sm">showing 20-30 of 50 items</small>
-        </div>
-        <div class="col-sm-7 text-right text-center-xs">
-          <ul class="pagination pagination-sm m-t-none m-b-none">
-            <li><a href=""><i class="fa fa-chevron-left"></i></a></li>
-            <li><a href="">1</a></li>
-            <li><a href="">2</a></li>
-            <li><a href="">3</a></li>
-            <li><a href="">4</a></li>
-            <li><a href=""><i class="fa fa-chevron-right"></i></a></li>
-          </ul>
-        </div>
-      </div>
-    </footer>
   </div>
 </div>
 @endsection

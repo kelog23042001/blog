@@ -43,18 +43,12 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Giá sản phẩm</label>
-                                        <input  value="{{ $pro->product_name }}" type="text" name="product_price" class="form-control" id="exampleInputEmail1" >
+                                        <input  value="{{ $pro->product_price }}" type="text" name="product_price" class="form-control" id="exampleInputEmail1" >
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputPassword1">Mô tả sản phẩm</label>
-                                        <textarea style="resize:none" name="product_desc" rows="5"  class="form-control" id="exampleInputPassword1" >
+                                        <textarea style="resize:none" name="product_desc"  class="form-control" id="exampleInputPassword1" >
                                             {{ $pro->product_desc }}
-                                        </textarea>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="exampleInputPassword1">Nội dung sản phẩm</label>
-                                        <textarea style="resize:none" name="product_content" rows="5"  class="form-control" id="exampleInputPassword1" >
-                                          {{ $pro->product_content }}
                                         </textarea>
                                     </div>
 
@@ -87,30 +81,6 @@
                                                     <option value="{{$brand->brand_id}}">{{$brand->brand_name}}</option>
                                                 @endif
 
-                                        @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="exampleInputPassword1">Màu sắc</label>
-                                        <select name="product_color" class="form-control input-sm m-bot15">
-                                        @foreach($color_product as $key => $color)
-                                                @if($color->color_id == $pro->color_id)
-                                                    <option seslected value="{{$color->color_id}}">{{$color->color_name}}</option>
-                                                @else
-                                                    <option value="{{$color->color_id}}">{{$color->color_name}}</option>
-                                                @endif
-                                        @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="exampleInputPassword1">Size</label>
-                                        <select name="product_size" class="form-control input-sm m-bot15">
-                                        @foreach($size_product as $key => $size)
-                                                @if($size->size_id == $pro->size_id)
-                                                    <option seslected value="{{$size->size_id}}">{{$size->size_name}}</option>
-                                                @else
-                                                    <option value="{{$size->size_id}}">{{$size->size_name}}</option>
-                                                @endif
                                         @endforeach
                                         </select>
                                     </div>
