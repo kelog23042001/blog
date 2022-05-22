@@ -19,6 +19,18 @@ class UserController extends Controller
 
         //return view('admin.users.all_users');
     }
+    public function impersonate($admin_id){
+        $user = Admin::where('admin_id', $admin_id)->first();
+        if($user){
+            session()->put('impersonate', $user->admin_id);
+        }
+        return redirect('/users');
+    }
+
+    public function impersonate_destroy(){
+        session()->forget('impersonate');
+        return redirect('/users');
+    }
     public function add_users(){
         return view('admin.users.add_users');
     }

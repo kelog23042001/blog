@@ -79,9 +79,11 @@ use Illuminate\Support\Facades\Session;
               <td>
 
 
-                <input type="submit" value="Phân quyền" class="btn btn-sm btn-default">
-                <a style="margin:5px 0; width: 85px" class="btn btn-sm btn-danger" href="{{url('/delete-user-roles/'.$user->admin_id)}}">Xoá User</a>
-              </td>
+                <input style=" width: 90px" type="submit" value="Phân quyền" class="btn btn-sm btn-default">
+                <a style="margin:5px 0; width: 90px" class="btn btn-sm btn-danger" href="{{url('/delete-user-roles/'.$user->admin_id)}}">Xoá User</a>
+                <a style="margin:5px 0; width: 90px" class="btn btn-sm btn-success" href="{{url('/impersonate/'.$user->admin_id)}}">Chuyển quyền</a>
+
+            </td>
 
               </tr>
             </form>

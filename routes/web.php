@@ -179,6 +179,8 @@ Route::post('/login',[AuthController::class, 'login']);
 
 //User
 Route::get('/users',[UserController::class, 'index'])->middleware('auth.roles');
+Route::get('/impersonate/{admin_id}',[UserController::class, 'impersonate']);
+Route::get('/impersonate-destroy',[UserController::class, 'impersonate_destroy']);
 Route::get('/add-users',[UserController::class, 'add_users'])->middleware('auth.roles') ;
 Route::get('/delete-user-roles/{admin_id}',[UserController::class, 'delete_user_roles'])->middleware('auth.roles') ;
 

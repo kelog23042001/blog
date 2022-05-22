@@ -220,6 +220,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<li><a href="{{URL::to('/all-product')}}">Liệt kê sản phẩm</a></li>
                     </ul>
                 </li>
+
+
+
                 <li class="sub-menu">
                     <a href="javascript:;">
                         <i class="fa fa-book"></i>
@@ -251,7 +254,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
                     </ul>
                 </li>
-                <li class="sub-menu">
+                <!-- <li class="sub-menu">
                     <a href="javascript:;">
                         <i class="fa fa-book"></i>
                         <span>Vận chuyển</span>
@@ -259,7 +262,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <ul class="sub">
 						<li><a href="{{URL::to('/manage-order')}}">Quản lý đơn hàng</a></li>
                     </ul>
-                </li>
+                </li> -->
                 @hasrole('admin')
                     <li class="sub-menu">
                         <a href="javascript:;">
@@ -272,6 +275,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         </ul>
                     </li>
                 @endhasrole
+                @impersonate
+                <li>
+
+
+                        <span > <a href="{{url('/impersonate-destroy')}}">Dừng chuyển quyền</a></span>
+
+
+                </li>
+                @endimpersonate
             </ul>
          </div>
         <!-- sidebar menu end-->
