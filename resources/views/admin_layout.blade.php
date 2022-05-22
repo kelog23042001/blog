@@ -411,5 +411,83 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		});
 	</script>
 	<!-- //calendar -->
+
+
+
+ <!-- cập nhật số lượng đặt hàng -->
+ <script type = "text/javascript">
+  $('.update_quantity_order').click(function(){
+    var order_product_id = $(this).data('product_id'); 
+    var order_qty = $('.order_qty_'+order_product_id).val();
+    var order_code = $('.order_code').val();
+    var _token = $('input[name="_token"]').val();
+
+
+    $.ajax({
+          url:'{{url('/update-qty')}}',
+          method:'POST',
+          data:{_token:_token,
+            order_product_id:order_product_id,
+            order_qty:order_qty,
+            order_code:order_code},
+
+          success:function(data){
+            alert('Cập nhật số lượng đặt hàng thành công');
+            location.reload();
+          }
+      });
+
+    // alert(order_product_id);
+    // alert(order_qty);
+    // alert(order_code);
+  });
+</script>
+
+<script type = "text/javascript">
+   $('.order_details').on('change',function(){
+      var order_status = $(this).val();
+      var order_id = $(this).children(":selected").attr("id")
+      var _token = $('input[name="_token"]').val();
+      quantity=[];
+      $("input[name='product_sales_quantity']").each(function(){
+        quantity.push($(this).val());
+      });
+      // lay ra product id
+      order_product_id=[];
+      $("input[name='order_product_id']").each(function(){
+        order_product_id.push($(this).val());
+      });
+
+      j = 0;
+      for(i = 0; i < order_product_id.length; i++){
+        var order_qty  = $('.order_qty_' + order_product_id[i]).val();
+        var order_qty_storage = $('.order_qty_storage_' + order_product_id[i]).val();
+        
+        if(parseInt(order_qty) > parseInt(order_qty_storage)){
+            j++;
+            if(j == 1){
+              alert('Số lượng trong kho không đủ');
+            }
+            $('.color_qty_'+order_product_id[i]).css('background','#000');
+        }
+      }
+      
+      if(j == 0){
+        alert('Cập nhật trạng thái đơn hàng thành công');
+        location.reload();
+        $.ajax({
+          url:'{{url('/update-order-quantity')}}',
+          method:'POST',
+          data:{
+            _token:_token,
+            order_status:order_status,
+            order_id:order_id,
+            quantity:quantity,
+            order_product_id:order_product_id
+          },
+        });
+      }
+    });
+</script>
 </body>
 </html>
