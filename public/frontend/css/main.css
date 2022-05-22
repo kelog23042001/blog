@@ -581,7 +581,8 @@ ul.sub-menu {
 }
 
 .item {
-  padding-left: 100px;
+  padding-left: 1%;
+  padding-right: 1%;
 }
 
 
@@ -1561,7 +1562,8 @@ h2.title {
 
 #cart_items .cart_info {
   border: 1px solid #E6E4DF;
-  margin-bottom: 50px
+  margin-bottom: 50px;
+  text-align: center
 }
 
 
@@ -1596,6 +1598,10 @@ h2.title {
   padding-left: 30px;
 }
 
+#cart_items .cart_info .function {
+  padding-right: 30px;
+}
+
 
 #cart_items .cart_info .cart_description h4 {
   margin-bottom: 0
@@ -1627,7 +1633,6 @@ h2.title {
 
 .cart_product {
   display: block;
-  margin: 15px -70px 10px 25px;
 }
 
 .cart_quantity_button a {
@@ -1639,7 +1644,6 @@ h2.title {
   overflow: hidden;
   text-align: center;
   width: 35px;
-  float: left;
 }
 
 
@@ -1655,7 +1659,6 @@ h2.title {
 
 .cart_delete  {
   display: block;
-  margin-right: -12px;
   overflow: hidden;
 }
 

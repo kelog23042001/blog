@@ -32,23 +32,21 @@
             <h2>{{$value->product_name}}</h2>
             <p>Mã Sản Phẩm: {{$value->product_id}}</p>
             <img src="images/product-details/rating.png" alt="" />
-
             <form>
-                {{csrf_field()}}
+                @csrf
                 <span>
                     <span>{{number_format($value->product_price).' '.'VND'}}</span>
                     <label>Số lượng :</label>
                     <input name = "qty" type="number" value="1" min = "1" max = {{$value->product_quantity}}/>
-
                     <input type="hidden" value="{{$value->product_id}}" class="cart_product_id_{{$value->product_id}}">
                     <input type="hidden" value="{{$value->product_name}}" class="cart_product_name_{{$value->product_id}}">
                     <input type="hidden" value="{{$value->product_image}}" class="cart_product_image_{{$value->product_id}}">
                     <input type="hidden" value="{{$value->product_price}}" class="cart_product_price_{{$value->product_id}}">
                     <input type="hidden" value="1" class="cart_product_qty_{{$value->product_id}}">
                     </br>
-                    <button type="submit" class="btn btn-fefault add-to-cart"
+                    <button type="button" class="btn btn-default add-to-cart"
                     data-id_product="{{$value->product_id}}" name="add-to-cart">
-                        <i class="fa fa-shopping-cart"></i>Thêm Giỏ Hàng</button>
+                    <i class="fa fa-shopping-cart"></i>Thêm giỏ hàng</button>
                 </span>
             </form>
             @if( $value->product_quantity > 0)

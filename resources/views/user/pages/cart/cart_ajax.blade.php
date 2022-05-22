@@ -9,7 +9,6 @@
             </ol>
         </div>
         @if(session()->has('message'))
-
                 <div class="alert alert-success">
                     {{ session()->get('message') }}
                 </div>
@@ -30,7 +29,7 @@
 							<td class="price">Giá sản phẩm</td>
 							<td class="quantity">Số lượng</td>
 							<td class="total">Thành tiền</td>
-							<td></td>
+							<td class="function"></td>
 						</tr>
 					</thead>
 					<tbody>
@@ -43,7 +42,6 @@
 								$subtotal = $cart['product_price']*$cart['product_qty'];
 								$total+=$subtotal;
 							@endphp
-
 						<tr>
 							<td class="cart_product">
 								<img src="{{asset('public/uploads/product/'.$cart['product_image'])}}" width="90" alt="{{$cart['product_name']}}" />
@@ -53,27 +51,22 @@
 								<p>{{$cart['product_name']}}</p>
 							</td>
 							<td class="cart_price">
-								<p>{{number_format($cart['product_price'],0,',','.')}}đ</p>
+								<p>{{number_format($cart['product_price'],0,',','.')}} VNĐ</p>
 							</td>
 							<td class="cart_quantity">
 								<div class="cart_quantity_button">
-
-
 									<input class="cart_quantity_" type="number" min="1" name="cart_qty[{{$cart['session_id']}}]" value="{{$cart['product_qty']}}"  >
-
 								</div>
 							</td>
 							<td class="cart_total">
 								<p class="cart_total_price">
 									{{number_format($subtotal,0,',','.')}}đ
-
 								</p>
 							</td>
 							<td class="cart_delete">
 								<a class="cart_quantity_delete" href="{{url('/del-product/'.$cart['session_id'])}}"><i class="fa fa-times"></i></a>
 							</td>
 						</tr>
-
 						@endforeach
                         <tr>
                             <td>
@@ -146,41 +139,38 @@
 					</tbody>
 
                 </form>
-                @if(Session::get('cart'))
-                <tr>
-                    <td>
-                        <form method="POST" action="{{URL::to('/check-coupon')}}">
-                        {{ csrf_field() }}
-                            <input type="text" class="form-control" name="coupon" placeholder="Nhập mã giảm giá"><br>
-                            <input type="submit" class="btn btn-default check_coupon" name="check_coupon" value="Tính mã giảm giá" href="">
-                        </form>
-                    </td>
-                </tr>
-                @endif
                 </table>
-
 			</div>
 
     </div>
 </section> <!--/#cart_items-->
 
-<!-- <section id="do_action">
-		<div class="container">
-			<div class="row">
-				<div class="col-sm-6">
-					<div class="total_area">
-						<ul>
-
-						</ul>
-							<a class="btn btn-default update" href="">Update</a>
-
-
-
-
-
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>/#do_action -->
+<section id="do_action">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="chose_area">
+                    <ul class="user_info">
+                        <li class="single_field zip-field">
+                            <label>Mã giảm giá:</label>
+                            <form method="POST" action="{{URL::to('/check-coupon')}}">
+                            @csrf
+                            <input type="text" class="form-control" name="coupon" placeholder="Nhập mã giảm giá"><br>
+                            <input type="submit" class="btn btn-default check_coupon" name="check_coupon" value="Áp dụng mã giảm giá" href="">
+                        </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="total_area">
+                    <ul>
+                        <li>Tổng tiền giỏ hàng<span>{{number_format($total,0,',','.')}} VND</span></li>
+                    </ul>
+                    <a class="btn btn-default check_out" href="">Check Out</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 @endsection
