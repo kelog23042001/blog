@@ -15,7 +15,6 @@
                         <a href=""><img src="{{URL::to('frontend/images/product-details/similar2.jpg')}}" alt=""></a>
                         <a href=""><img src="{{URL::to('frontend/images/product-details/similar3.jpg')}}" alt=""></a>
                     </div>
-
                 </div>
                 <!-- Controls -->
                 <a class="left item-control" href="#similar-product" data-slide="prev">
@@ -34,23 +33,29 @@
             <p>Mã Sản Phẩm: {{$value->product_id}}</p>
             <img src="images/product-details/rating.png" alt="" />
 
-            <form action="{{URL::to('/save-cart')}}" method="POST">
+            <form>
                 {{csrf_field()}}
                 <span>
                     <span>{{number_format($value->product_price).' '.'VND'}}</span>
-
                     <label>Số lượng :</label>
-                    <input name = "qty" type="number" value="1" min = "1"/>
+                    <input name = "qty" type="number" value="1" min = "1" max = {{$value->product_quantity}}/>
 
-                    <input name = "productid_hidden" type="hidden" value ="{{$value->product_id}}"/>
-
-                    <button type="submit" class="btn btn-fefault cart">
-                        <i class="fa fa-shopping-cart"></i>
-                        Thêm Giỏ Hàng
-                    </button>
+                    <input type="hidden" value="{{$value->product_id}}" class="cart_product_id_{{$value->product_id}}">
+                    <input type="hidden" value="{{$value->product_name}}" class="cart_product_name_{{$value->product_id}}">
+                    <input type="hidden" value="{{$value->product_image}}" class="cart_product_image_{{$value->product_id}}">
+                    <input type="hidden" value="{{$value->product_price}}" class="cart_product_price_{{$value->product_id}}">
+                    <input type="hidden" value="1" class="cart_product_qty_{{$value->product_id}}">
+                    </br>
+                    <button type="submit" class="btn btn-fefault add-to-cart"
+                    data-id_product="{{$value->product_id}}" name="add-to-cart">
+                        <i class="fa fa-shopping-cart"></i>Thêm Giỏ Hàng</button>
                 </span>
             </form>
-            <p><b>Tình Trạng:</b> Còn Hàng</p>
+            @if( $value->product_quantity > 0)
+                <p><b>Tình Trạng:</b> Còn Hàng</p>
+            @else
+                <p><b>Tình Trạng:</b> Hết Hàng</p>
+            @endif
             <p><b>Thương Hiệu :</b> {{$value->brand_name}}</p>
             <p><b>Danh Mục :</b> {{$value->category_name}}</p>
             <a href=""><img src="images/product-details/share.png" class="share img-responsive"  alt="" /></a>
