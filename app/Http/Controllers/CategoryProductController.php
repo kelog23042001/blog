@@ -18,7 +18,7 @@ class CategoryProductController extends Controller
 
     public function all_category_product(){
         $category_product = CategoryProductModel::where('category_parent', 0)->orderby('category_id', 'DESC')->get();
-        $all_category_product = DB::table('tbl_category_product')->get();
+        $all_category_product = DB::table('tbl_category_product')->orderby('category_parent', 'ASC')->get();
         return view('admin.category.all_category_product', compact('all_category_product', 'category_product'));
     }
 
@@ -50,10 +50,11 @@ class CategoryProductController extends Controller
     }
 
     public function edit_category_product($categoryproduct_id){
-        $category = CategoryProductModel::where('category_parent', 0)->orderby('category_id', 'DESC')->get();
+        $category = CategoryProductModel::orderby('category_id', 'DESC')->get();
+        $category_product = CategoryProductModel::where('category_parent', 0)->orderby('category_id', 'DESC')->get();
 
         $edit_category_product = DB::table('tbl_category_product')->where('category_id', $categoryproduct_id)->get();
-        return view('admin.category.edit_category_product', compact('edit_category_product', 'category'));
+        return view('admin.category.edit_category_product', compact('edit_category_product', 'category', 'category_product'));
     }
 
     public function delete_category_product($categoryproduct_id){
