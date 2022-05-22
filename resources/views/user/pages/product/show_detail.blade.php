@@ -68,7 +68,7 @@
     </div>
     <div class="tab-content">
         <div class="tab-pane fade active in" id="details" >
-            <p>{!!$value->product_content!!}</p>
+            <p>{!!$value->product_desc!!}</p>
         </div>
 
         <div class="tab-pane fade " id="reviews" >
