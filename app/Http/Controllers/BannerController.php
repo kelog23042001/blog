@@ -41,7 +41,7 @@ class BannerController extends Controller
 
             $slider = new Banner();
             $slider->slider_name = $data['slider_name'];
-            $slider->slider_image = $new_image;                        
+            $slider->slider_image = $new_image;
             $slider->slider_status =$data['slider_status'];
             $slider->slider_desc = $data['slider_desc'];
             $slider->save();

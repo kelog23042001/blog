@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CategoryProductModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
@@ -10,13 +11,15 @@ use Illuminate\Support\Facades\Session;
 class CategoryProductController extends Controller
 {
     public function add_category_product(){
-        return view('admin.category.add_category_product');
+        $category = CategoryProductModel::where('category_parent', 0)->orderby('category_id', 'DESC')->get();
+
+        return view('admin.category.add_category_product', compact('category'));
     }
 
     public function all_category_product(){
-
+        $category_product = CategoryProductModel::where('category_parent', 0)->orderby('category_id', 'DESC')->get();
         $all_category_product = DB::table('tbl_category_product')->get();
-        return view('admin.category.all_category_product', compact('all_category_product'));
+        return view('admin.category.all_category_product', compact('all_category_product', 'category_product'));
     }
 
     public function save_category_product(Request $request){
@@ -26,6 +29,7 @@ class CategoryProductController extends Controller
         $data['category_desc'] = $request->category_product_desc;
         $data['slug_category_product'] = $request->category_product_slug;
         $data['category_status'] = $request->category_product_status;
+        $data['category_parent'] = $request->category_parent;
 
         DB::table('tbl_category_product')->insert($data);
         Session::put('message', 'Thêm danh mục sản phẩm thành công');
@@ -46,8 +50,10 @@ class CategoryProductController extends Controller
     }
 
     public function edit_category_product($categoryproduct_id){
+        $category = CategoryProductModel::where('category_parent', 0)->orderby('category_id', 'DESC')->get();
+
         $edit_category_product = DB::table('tbl_category_product')->where('category_id', $categoryproduct_id)->get();
-        return view('admin.category.edit_category_product', compact('edit_category_product'));
+        return view('admin.category.edit_category_product', compact('edit_category_product', 'category'));
     }
 
     public function delete_category_product($categoryproduct_id){
@@ -60,6 +66,7 @@ class CategoryProductController extends Controller
         $data = array();
         $data['category_name'] = $request->category_product_name;
         $data['meta_keywords'] = $request->category_product_keywords;
+        $data['category_parent'] = $request->category_parent;
 
         $data['category_desc'] = $request->category_product_desc;
         $data['slug_category_product'] = $request->category_product_slug;
@@ -71,7 +78,10 @@ class CategoryProductController extends Controller
      //End function Admin Page
 
     public function show_category_home($category_id, Request $request){
-
+        $meta_decs = "Danh mục mô hình";
+        $meta_title = "LK - Shopping";
+        $meta_keyword = "danh mục mô hình";
+        $url_canonical = $request->url();
         $category  = DB::table('tbl_category_product')->where('category_status', '0')->orderBy('category_id','desc')->get();
         $brand = DB::table('tbl_brand_product')->where('brand_status', '0')->orderBy('brand_id','desc')->get();
 
@@ -81,12 +91,15 @@ class CategoryProductController extends Controller
         ->join('tbl_category_product', 'tbl_product.category_id', '=', 'tbl_category_product.category_id')
         ->where('tbl_category_product.category_id', $category_id)
         ->get();
-        foreach($category_by_id as $key => $value){
-            $meta_decs = $value->category_desc;
-            $meta_title = $value->category_name;
-            $meta_keyword = $value->meta_keywords;
-            $url_canonical = $request->url();
-        }
+
+            foreach($category_by_id as $key => $value){
+                $meta_decs = $value->category_desc;
+                $meta_title = $value->category_name;
+                $meta_keyword = $value->meta_keywords;
+                $url_canonical = $request->url();
+            }
+
+
         return view('user.pages.category.show_category', compact('category', 'brand', 'category_by_id', 'category_name'))
         ->with('meta_decs',$meta_decs)->with('meta_title',$meta_title)->with('meta_keyword',$meta_keyword)->with('url_canonical', $url_canonical);
     }

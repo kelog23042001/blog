@@ -38,6 +38,15 @@
                                     </textarea>
                                 </div>
                                 <div class="form-group">
+                                    <label for="exampleInputPassword1">Thuộc danh mục</label>
+                                    <select name="category_parent" class="form-control input-sm m-bot15">
+                                        <option value="0">Danh mục cha</option>
+                                        @foreach($category as $key => $cate)
+                                                <option value="{{$cate->category_id}}">{{$cate->category_name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group">
                                     <label for="exampleInputPassword1">Hiển thị</label>
                                     <select name="category_product_status" class="form-control input-sm m-bot15">
                                             <option value="0">Ẩn</option>
