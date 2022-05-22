@@ -18,7 +18,8 @@ class OrderDetails extends Model
         'product_coupon',
         'product_feeship'
     ];
-    protected $primaryKey = 'order_details_id';
+
+    protected $primaryKey = 'order_detail_id';
     protected $table =  'tbl_order_details';
     
     public function product(){

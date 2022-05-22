@@ -107,6 +107,9 @@ Route::post('/save-product',[ProductController::class, 'save_product']);
 Route::get('/print-order/{order_code}',[OrderController::class, 'print_order']);
 Route::get('/manage-order',[OrderController::class, 'manage_order']);
 Route::get('/view-order/{order_code}',[OrderController::class, 'view_order']);
+Route::post('/update-order-quantity',[OrderController::class, 'update_order_quantity']);
+Route::post('/update-qty',[OrderController::class, 'update_qty']);
+
 // Route::get('/manage-order',[CheckoutController::class, 'manage_order']);
 // Route::get('/admin', 'AdminController@index');
 
