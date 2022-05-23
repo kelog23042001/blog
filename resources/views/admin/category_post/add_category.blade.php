@@ -4,7 +4,7 @@
             <div class="col-lg-12">
                     <section class="panel">
                         <header class="panel-heading">
-                           Thêm thương hiệu sản phẩm
+                           Thêm danh mục bài viết
                         </header>
                         <div class="panel-body">
                         <?php
@@ -17,21 +17,18 @@
                             }
                         ?>
                             <div class="position-center">
-                                <form role="form" action="{{URL::to('/save-brand-product')}}" method="post">
+                                <form role="form" action="{{URL::to('/save-category-post')}}" method="post">
                                     {{ csrf_field()}}
                                 <div class="form-group">
-                                    <label for="exampleInputEmail1">Tên thương hiệu</label>
-                                    <input type="text" name="brand_name" class="form-control" onkeyup="ChangeToSlug()" id="slug" placeholder="Nhập tên danh mục"  required autocomplete ="brand_name">
+                                    <label for="exampleInputEmail1">Tên danh mục</label>
+                                    <input type="text" name="brand_product_name" class="form-control" id="exampleInputEmail1" placeholder="Nhập tên danh mục">
                                 </div>
-                                @error('brand_name')
-                                    <div class="alert alert-danger">{{ $message }}</div>
-                                @enderror
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Slug</label>
-                                    <input type="text" name="brand_product_slug" class="form-control" id="convert_slug" placeholder="Nhập tên danh mục">
+                                    <input type="text" name="brand_product_slug" class="form-control" id="exampleInputEmail1" placeholder="Nhập tên danh mục">
                                 </div>
                                 <div class="form-group">
-                                    <label for="exampleInputPassword1">Mô tả thương hiệu</label>
+                                    <label for="exampleInputPassword1">Mô tả danh mục</label>
                                     <textarea style="resize:none" name="brand_product_desc" rows="5"  class="form-control" id="exampleInputPassword1" placeholder="Mô tả danh mục">
                                     </textarea>
                                 </div>

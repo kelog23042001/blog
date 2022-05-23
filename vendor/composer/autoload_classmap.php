@@ -39,6 +39,7 @@ return array(
     'App\\Models\\Admin' => $baseDir . '/app/Models/Admin.php',
     'App\\Models\\Banner' => $baseDir . '/app/Models/Banner.php',
     'App\\Models\\Brand' => $baseDir . '/app/Models/Brand.php',
+    'App\\Models\\CategoryProductModel' => $baseDir . '/app/Models/CategoryProductModel.php',
     'App\\Models\\City' => $baseDir . '/app/Models/City.php',
     'App\\Models\\Coupon' => $baseDir . '/app/Models/Coupon.php',
     'App\\Models\\Customer' => $baseDir . '/app/Models/Customer.php',

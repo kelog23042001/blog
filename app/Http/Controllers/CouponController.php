@@ -45,6 +45,9 @@ class CouponController extends Controller
         }
     }
     public function insert_coupon_code(Request $request){
+        $this->validate($request,[
+            'coupon_code' => ['required','max:255', 'unique:tbl_coupon'],
+        ]);
         $data = $request->all();
        $coupon = new Coupon();
 

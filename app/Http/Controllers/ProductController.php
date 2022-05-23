@@ -24,6 +24,9 @@ class ProductController extends Controller
     }
 
     public function save_product(Request $request){
+        $this->validate($request,[
+            'product_name' => ['required','max:255', 'unique:tbl_product'],
+        ]);
         $data = array();
         $data['product_name']    = $request->product_name;
         $data['product_quantity']= $request->product_quantity;

@@ -21,20 +21,23 @@
                                     {{ csrf_field()}}
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Tên danh mục</label>
-                                    <input type="text" name="category_product_name" class="form-control" id="exampleInputEmail1" placeholder="Nhập tên danh mục">
+                                    <input type="text" name="category_name" class="form-control"  onkeyup="ChangeToSlug()" id="slug"  placeholder="Nhập tên danh mục"  required autocomplete ="category_name">
                                 </div>
+                                @error('category_name')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Slug</label>
-                                    <input type="text" name="category_product_slug" class="form-control" id="exampleInputEmail1" >
+                                    <input type="text" name="category_product_slug" class="form-control"  id="convert_slug" >
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputPassword1">Mô tả danh mục</label>
-                                    <textarea style="resize:none" name="category_product_desc" rows="5"  class="form-control" id="exampleInputPassword1" placeholder="Mô tả danh mục">
+                                    <textarea style="resize:none" name="category_product_desc" rows="5"  class="form-control" id="exampleInputPassword1" placeholder="Mô tả danh mục" required autocomplete ="category_product_desc">
                                     </textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputPassword1">Từ khoá danh mục</label>
-                                    <textarea style="resize:none" name="category_product_keywords" rows="5"  class="form-control" id="exampleInputPassword1" placeholder="Từ khoá danh mục">
+                                    <textarea style="resize:none" name="category_product_keywords" rows="5"  class="form-control" id="exampleInputPassword1" placeholder="Từ khoá danh mục"  required autocomplete ="category_product_keywords">
                                     </textarea>
                                 </div>
                                 <div class="form-group">

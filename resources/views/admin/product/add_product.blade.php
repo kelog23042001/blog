@@ -24,8 +24,11 @@
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Tên sản phẩm</label>
                                     <input type="text" name="product_name" date-validation="length" data-validation-length="min3"
-                                    data-validation-error-msg="Làm ơn điền ít nhất 3 kí tự" class="form-control" id="exampleInputEmail1" placeholder="Nhập tên sản phẩm">
+                                    data-validation-error-msg="Làm ơn điền ít nhất 3 kí tự" class="form-control"  onkeyup="ChangeToSlug()"  required autocomplete ="product_name" id="slug" placeholder="Nhập tên sản phẩm">
                                 </div>
+                                @error('product_name')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Số lượng sản phẩm</label>
                                     <input type="text" name="product_quantity" date-validation="length" data-validation-length="min3"
@@ -33,7 +36,7 @@
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Slug</label>
                                     <input type="text" name="product_slug" date-validation="length" data-validation-length="min3"
-                                    data-validation-error-msg="Làm ơn điền ít nhất 3 kí tự" class="form-control" id="exampleInputEmail1" >
+                                    data-validation-error-msg="Làm ơn điền ít nhất 3 kí tự" class="form-control" id="convert_slug" >
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Hình ảnh sản phẩm</label>

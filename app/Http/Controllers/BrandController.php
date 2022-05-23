@@ -11,20 +11,29 @@ use Illuminate\Support\Facades\Session;
 
 class BrandController extends Controller
 {
+    public function validation($request){
+        return $this->validate($request,[
+            'brand_name' => 'required','max:255',
+            'brand_product_desc' => 'required|max:255',
+
+        ]);
+    }
     public function add_brand_product(){
         return view('admin.brand.add_brand_product');
     }
     public function all_brand_product(){
-
        // $all_brand_product = DB::table('tbl_brand_product')->get();
         $all_brand_product= Brand::orderBy('brand_id','DESC')->get();
         $manager_brand = view('admin.brand.all_brand_product')->with('all_brand', $all_brand_product);
         return view('admin.brand.all_brand_product', compact('all_brand_product'));
     }
     public function save_brand_product(Request $request){
+        $this->validate($request,[
+            'brand_name' => ['required','max:255', 'unique:tbl_brand_product'],
+        ]);
         $data = $request->all();
         $brand = new Brand();
-        $brand->brand_name = $data['brand_product_name'];
+        $brand->brand_name = $data['brand_name'];
         $brand->brand_desc = $data['brand_product_desc'];
         $brand->brand_slug = $data['brand_product_slug'];
         $brand->brand_status = $data['brand_product_status'];
@@ -67,7 +76,7 @@ class BrandController extends Controller
         $data = $request->all();
 
         $brand = Brand::find($brandproduct_id);
-        $brand->brand_name = $data['brand_product_name'];
+        $brand->brand_name = $data['brand_name'];
         $brand->brand_desc = $data['brand_product_desc'];
         $brand->brand_slug = $data['brand_product_slug'];
         $brand->save();

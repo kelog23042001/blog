@@ -22,11 +22,11 @@
                                         {{ csrf_field()}}
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Tên danh mục</label>
-                                            <input type="text" name="category_product_name" value="{{ $cate_value->category_name }}" class="form-control" id="exampleInputEmail1" placeholder="Nhập tên danh mục">
+                                            <input type="text" name="category_product_name" value="{{ $cate_value->category_name }}" class="form-control" onkeyup="ChangeToSlug()" id="slug"  placeholder="Nhập tên danh mục">
                                         </div>
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Từ khoá danh mục</label>
-                                            <input type="text" name="category_product_keywords" value="{{ $cate_value->meta_keywords }}" class="form-control" id="exampleInputEmail1" placeholder="Nhập từ khoá danh mục">
+                                            <input type="text" name="category_product_keywords" value="{{ $cate_value->meta_keywords }}" class="form-control"  id="convert_slug" placeholder="Nhập từ khoá danh mục">
                                         </div>
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Slug</label>

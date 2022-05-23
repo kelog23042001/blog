@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Session;
 class CategoryProductController extends Controller
 {
     public function add_category_product(){
+
         $category = CategoryProductModel::where('category_parent', 0)->orderby('category_id', 'DESC')->get();
 
         return view('admin.category.add_category_product', compact('category'));
@@ -21,10 +22,22 @@ class CategoryProductController extends Controller
         $all_category_product = DB::table('tbl_category_product')->orderby('category_parent', 'ASC')->get();
         return view('admin.category.all_category_product', compact('all_category_product', 'category_product'));
     }
-
+    public function validation($request){
+        return $this->validate($request,[
+            'category_name' => 'required','max:255',
+            'category_product_desc' => 'required|max:255',
+            'category_product_keywords' => 'required|email|max:255',
+        ]);
+    }
     public function save_category_product(Request $request){
+
+        $this->validate($request,[
+            'category_product_desc' =>  ['required','max:255'],
+            'category_name' => ['required','max:255', 'unique:tbl_category_product'],
+            'category_product_keywords' =>  ['required','max:255'],
+        ]);
         $data = array();
-        $data['category_name'] = $request->category_product_name;
+        $data['category_name'] = $request->category_name;
         $data['meta_keywords'] = $request->category_product_keywords;
         $data['category_desc'] = $request->category_product_desc;
         $data['slug_category_product'] = $request->category_product_slug;
@@ -64,8 +77,11 @@ class CategoryProductController extends Controller
     }
 
     public function update_category_product(Request $request,$categoryproduct_id){
+        $this->validate($request,[
+            'category_name' => ['required','max:255', 'unique:tbl_category_product'],
+        ]);
         $data = array();
-        $data['category_name'] = $request->category_product_name;
+        $data['category_name'] = $request->category_name;
         $data['meta_keywords'] = $request->category_product_keywords;
         $data['category_parent'] = $request->category_parent;
 

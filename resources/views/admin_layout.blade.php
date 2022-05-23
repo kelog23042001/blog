@@ -223,7 +223,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 
 
-                <li class="sub-menu">
+                <!-- <li class="sub-menu">
                     <a href="javascript:;">
                         <i class="fa fa-book"></i>
                         <span>Đơn hàng</span>
@@ -231,7 +231,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <ul class="sub">
 						<li><a href="{{URL::to('/manage-order')}}">Quản lý đơn hàng</a></li>
                     </ul>
-                </li>
+                </li> -->
                 <li class="sub-menu">
                     <a href="javascript:;">
                         <i class="fa fa-book"></i>
@@ -417,7 +417,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
  <!-- cập nhật số lượng đặt hàng -->
  <script type = "text/javascript">
   $('.update_quantity_order').click(function(){
-    var order_product_id = $(this).data('product_id'); 
+    var order_product_id = $(this).data('product_id');
     var order_qty = $('.order_qty_'+order_product_id).val();
     var order_code = $('.order_code').val();
     var _token = $('input[name="_token"]').val();
@@ -462,7 +462,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
       for(i = 0; i < order_product_id.length; i++){
         var order_qty  = $('.order_qty_' + order_product_id[i]).val();
         var order_qty_storage = $('.order_qty_storage_' + order_product_id[i]).val();
-        
+
         if(parseInt(order_qty) > parseInt(order_qty_storage)){
             j++;
             if(j == 1){
@@ -471,7 +471,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             $('.color_qty_'+order_product_id[i]).css('background','#000');
         }
       }
-      
+
       if(j == 0){
         alert('Cập nhật trạng thái đơn hàng thành công');
         location.reload();
@@ -489,5 +489,44 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
       }
     });
 </script>
+<script>
+                $(document).ready(function() {
+                    $('#myTable').DataTable();
+                } );
+             </script>
+        <script type="text/javascript">
+
+            function ChangeToSlug()
+                {
+                    var slug;
+                    //Lấy text từ thẻ input title
+                    slug = document.getElementById("slug").value;
+                    slug = slug.toLowerCase();
+                    //Đổi ký tự có dấu thành không dấu
+                        slug = slug.replace(/á|à|ả|ạ|ã|ă|ắ|ằ|ẳ|ẵ|ặ|â|ấ|ầ|ẩ|ẫ|ậ/gi, 'a');
+                        slug = slug.replace(/é|è|ẻ|ẽ|ẹ|ê|ế|ề|ể|ễ|ệ/gi, 'e');
+                        slug = slug.replace(/i|í|ì|ỉ|ĩ|ị/gi, 'i');
+                        slug = slug.replace(/ó|ò|ỏ|õ|ọ|ô|ố|ồ|ổ|ỗ|ộ|ơ|ớ|ờ|ở|ỡ|ợ/gi, 'o');
+                        slug = slug.replace(/ú|ù|ủ|ũ|ụ|ư|ứ|ừ|ử|ữ|ự/gi, 'u');
+                        slug = slug.replace(/ý|ỳ|ỷ|ỹ|ỵ/gi, 'y');
+                        slug = slug.replace(/đ/gi, 'd');
+                        //Xóa các ký tự đặt biệt
+                        slug = slug.replace(/\`|\~|\!|\@|\#|\||\$|\%|\^|\&|\*|\(|\)|\+|\=|\,|\.|\/|\?|\>|\<|\'|\"|\:|\;|_/gi, '');
+                        //Đổi khoảng trắng thành ký tự gạch ngang
+                        slug = slug.replace(/ /gi, "-");
+                        //Đổi nhiều ký tự gạch ngang liên tiếp thành 1 ký tự gạch ngang
+                        //Phòng trường hợp người nhập vào quá nhiều ký tự trắng
+                        slug = slug.replace(/\-\-\-\-\-/gi, '-');
+                        slug = slug.replace(/\-\-\-\-/gi, '-');
+                        slug = slug.replace(/\-\-\-/gi, '-');
+                        slug = slug.replace(/\-\-/gi, '-');
+                        //Xóa các ký tự gạch ngang ở đầu và cuối
+                        slug = '@' + slug + '@';
+                        slug = slug.replace(/\@\-|\-\@|\@/gi, '');
+                        //In slug ra textbox có id “slug”
+                    document.getElementById('convert_slug').value = slug;
+                }
+
+            </script>
 </body>
 </html>
