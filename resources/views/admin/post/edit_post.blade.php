@@ -17,16 +17,16 @@
                             }
                         ?>
                             <div class="position-center">
-                                @foreach($all_post as $key => $post)
+
                                     <form role="form" action="{{URL::to('/update-post/'.$post->post_id)}}" method="post" enctype="multipart/form-data">
                                         {{ csrf_field()}}
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Tên bài viết</label>
-                                        <input type="text" name="post_title" class="form-control" id="exampleInputEmail1" value="{{ $post->post_title }}">
+                                        <input type="text" name="post_title"  onkeyup="ChangeToSlug()" id="slug" class="form-control" id="exampleInputEmail1" value="{{ $post->post_title }}">
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Slug</label>
-                                        <input type="text" name="post_slug" class="form-control" id="exampleInputEmail1" value="{{ $post->post_slug }}">
+                                        <input type="text" name="post_slug" id="convert_slug" class="form-control" id="exampleInputEmail1" value="{{ $post->post_slug }}">
 
                                     </div>
                                     <div class="form-group">
@@ -66,7 +66,7 @@
                                     <div class="form-group">
                                         <label for="exampleInputPassword1">Hiển thị</label>
                                         <select name="post_status" class="form-control input-sm m-bot15">
-                                                @if($post->post_status == 1)
+                                                @if($post->post_status == 0)
                                                     <option selected value="0">Ẩn</option>
                                                     <option value="1">Hiển thị</option>
                                                 @else
@@ -90,7 +90,7 @@
 
                                     <button type="submit" name="add_post" class="btn btn-info">Cập nhập bài viết</button>
                                 </form>
-                            @endforeach
+
                             </div>
 
                         </div>

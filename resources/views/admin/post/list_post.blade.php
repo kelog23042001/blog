@@ -69,13 +69,13 @@
             <td>{{ $cate_post->cate_post_name }}</td>
             <td><span class="text-ellipsis">
             <?php
-                        if($cate_post->product_status == 0){
+                        if($cate_post->post_status == 0){
                     ?>
                         Ẩn
                     <?php
                         }else{
                     ?>
-                        Hiện
+                        Hiển thị
                     <?php
                         }
                     ?>

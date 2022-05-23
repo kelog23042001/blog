@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Banner;
 use App\Models\CategoryPost;
 use App\Models\Post;
 use Illuminate\Http\Request;
@@ -74,10 +75,10 @@ class PostController extends Controller
 
     public function edit_post($post_id){
 
-        $all_post = Post::orderby('post_id', 'DESC')->get();
+        $post = Post::find($post_id);
         $cate_post = CategoryPost::orderby('cate_post_id', 'DESC')->get();
 
-        return view('admin.post.edit_post', compact('all_post', 'cate_post'));
+        return view('admin.post.edit_post', compact('post', 'cate_post'));
     }
     public function update_post(Request $request,$post_id){
             $post = Post::find($post_id);
@@ -107,19 +108,49 @@ class PostController extends Controller
             Session::put('message', 'Cập nhập bài viết thành công');
             return redirect('/all-post');
         }
-        //end admin page
-    // public function unactive_post($post_id){
-    //     DB::table('tbl_post')->where('post_id',$post_id)->update(['post_status' => 1]);
-    //     return Redirect::to('/all-post');
-    // }
 
-    // public function active_post($post_id){
-    //     DB::table('tbl_post')->where('post_id',$post_id)->update(['post_status' => 0]);
-    //     return Redirect::to('/all-post');
-    // }
+    public function danh_muc_bai_viet($post_slug, Request $request){
+            $category_post = CategoryPost::orderby('cate_post_id', 'DESC')->paginate(5);
+            $cate_post = CategoryPost::where('cate_post_slug', $post_slug)->take(1)->get();
+            foreach($cate_post as $key => $cate){
+                $meta_decs = $cate->cate_post_desc;
+                $meta_title = $cate->cate_post_name;
+                $meta_keyword = $cate->cate_post_slug;
+                $cate_id = $cate->cate_post_id;
+                $url_canonical = $request->url();
+            }
+            $slider = Banner::orderBy('slider_id','DESC')->where('slider_status', '1')->take(4)->get();
+
+            $post = Post::with('cate_post')->where('post_status', 1)->where('cate_post_id', $cate_id)->paginate(5);
+            $category = DB::table('tbl_category_product')->where('category_status', '1')->orderBy('category_id','desc')->get();
+            $brand = DB::table('tbl_brand_product')->where('brand_status', '1')->orderBy('brand_id','desc')->get();
+
+            return view('user.pages.post.danhmucbaiviet', compact('slider', 'meta_decs', 'meta_title', 'meta_keyword', 'url_canonical',
+                'category', 'category_post', 'brand','post'));
+        }
 
 
+        public function bai_viet($post_slug, Request $request){
+            $category_post = CategoryPost::orderby('cate_post_id', 'DESC')->paginate(5);
+            $post = Post::with('cate_post')->where('post_status', 1)->where('post_slug', $post_slug)->take(1)->get();
 
-    //
+            foreach($post as $key => $cate){
+                $meta_decs = $cate->post_desc;
+                $meta_title = $cate->post_title;
+                $meta_keyword = $cate->meta_post_keywords;
+                $cate_id = $cate->cate_post_id;
+                $cate_post_id = $cate->cate_post_id;
+
+                $url_canonical = $request->url();
+            }
+            $slider = Banner::orderBy('slider_id','DESC')->where('slider_status', '1')->take(4)->get();
+            $related = Post::with('cate_post')->where('post_status', 1)->where('cate_post_id', $cate_post_id)->whereNotIn('post_slug',
+            [$post_slug])->take(5)->get();
+            $category = DB::table('tbl_category_product')->where('category_status', '1')->orderBy('category_id','desc')->get();
+            $brand = DB::table('tbl_brand_product')->where('brand_status', '1')->orderBy('brand_id','desc')->get();
+
+            return view('user.pages.post.baiviet', compact('slider', 'meta_decs', 'meta_title', 'meta_keyword', 'url_canonical',
+                'category', 'category_post', 'brand','post', 'related'));
+        }
 
 }

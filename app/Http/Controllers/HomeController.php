@@ -39,10 +39,10 @@ class HomeController extends Controller
         $meta_title = "LK - Shopping";
         $meta_keyword = "quan ao nu, quần áo nữ";
         $url_canonical = $request->url();
-        $cate_product = DB::table('tbl_category_product')->where('category_status', '0')->orderBy('category_id','desc')->get();
-        $brand_product = DB::table('tbl_brand_product')->where('brand_status', '0')->orderBy('brand_id','desc')->get();
+        $cate_product = DB::table('tbl_category_product')->where('category_status', '1')->orderBy('category_id','desc')->get();
+        $brand_product = DB::table('tbl_brand_product')->where('brand_status', '1')->orderBy('brand_id','desc')->get();
 
-        $all_product = DB::table('tbl_product')->where('product_status', '0')->orderBy('product_id','desc')->limit(9)
+        $all_product = DB::table('tbl_product')->where('product_status', '1')->orderBy('product_id','desc')->limit(9)
         ->get();
 
         return view('user.pages.home')->with('category', $cate_product)->with('brand', $brand_product)->with('product', $all_product)

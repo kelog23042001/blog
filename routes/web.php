@@ -33,6 +33,9 @@ use App\Http\Controllers\UserController;
 Route::get('/', [HomeController::class, 'index']);
 Route::post('/tim-kiem', [HomeController::class, 'search']);
 
+//BaiViet
+Route::get('/danh-muc-bai-viet/{post_slug}',[PostController::class, 'danh_muc_bai_viet']);
+
 // //Danh muc san pham trang chu
 Route::get('/danh-muc-san-pham/{category_id}',[CategoryProductController::class, 'show_category_home']);
 Route::get('/thuong-hieu-san-pham/{brand_id}',[BrandController::class, 'show_brand_home']);
@@ -59,7 +62,7 @@ Route::post('/save-category-product',[CategoryProductController::class, 'save_ca
 Route::get('/add-category-post',[CategoryPostController::class, 'add_category_post']);
 Route::get('/all-category-post',[CategoryPostController::class, 'all_category_post']);
 Route::get('/edit-category-post/{cate_post_id}',[CategoryPostController::class, 'edit_category_post']);
-Route::get('/danh-muc-bai-viet/{cate_post_slug}',[CategoryPostController::class, 'danh_muc_bai_viet']);
+
 Route::get('/delete-category-post/{cate_post_id}',[CategoryPostController::class, 'delete_category_post']);
 
 Route::post('/save-category-post',[CategoryPostController::class, 'save_category_post']);
@@ -71,6 +74,7 @@ Route::get('/add-post',[PostController::class, 'add_post']);
 Route::get('/all-post',[PostController::class, 'all_post']);
 Route::get('/edit-post/{post_id}',[PostController::class, 'edit_post']);
 Route::get('/delete-post/{post_id}',[PostController::class, 'delete_post']);
+Route::get('/bai-viet/{post_slug}',[PostController::class, 'bai_viet']);
 
 Route::post('/save-post',[PostController::class, 'save_post']);
 Route::post('/update-post/{cate_post_id}',[PostController::class, 'update_post']);
