@@ -17,18 +17,17 @@
                             }
                         ?>
                             <div class="position-center">
-                                <form role="form" action="{{URL::to('/save-post')}}" method="post">
+                                <form role="form" action="{{URL::to('/save-post')}}" method="post" enctype="multipart/form-data">
                                     {{ csrf_field()}}
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Tên bài viết</label>
-                                    <input type="text" name="post_title" class="form-control" onkeyup="ChangeToSlug()" id="slug" placeholder="Nhập tên danh mục"  required autocomplete ="brand_name">
+                                    <input type="text" name="post_title" data-validation="length" data-validation-length="min3"
+                                    data-validation-error-msg="Làm ơn điền ít nhất 10 ký tự" class="form-control" value="{{old('post_title')}}" onkeyup="ChangeToSlug()" id="slug" placeholder="Nhập tên danh mục" >
                                 </div>
-                                @error('brand_name')
-                                    <div class="alert alert-danger">{{ $message }}</div>
-                                @enderror
+
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Slug</label>
-                                    <input type="text" name="post_slug" class="form-control" id="convert_slug" placeholder="Nhập tên danh mục">
+                                    <input type="text"  name="post_slug" class="form-control" id="convert_slug" placeholder="Nhập tên danh mục">
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Hình ảnh bài viết</label>
@@ -37,17 +36,13 @@
 
                                 <div class="form-group">
                                     <label for="exampleInputPassword1">Mô tả bài viết</label>
-                                    <textarea style="resize:none" name="post_desc" rows="5"  class="form-control" id="exampleInputPassword1" placeholder="Mô tả danh mục">
+                                    <textarea style="resize:none"  name="post_desc" data-validation="length" data-validation-length="min10"
+                                    data-validation-error-msg="Làm ơn điền ít nhất 10 ký tự" rows="5"  class="form-control" id="exampleInputPassword1" placeholder="Mô tả danh mục">
                                     </textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputPassword1">Nội dung bài viết</label>
                                     <textarea style="resize:none" name="post_content" rows="5"  class="form-control" id="exampleInputPassword1" placeholder="Mô tả danh mục">
-                                    </textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleInputPassword1">Nội dung bài viết</label>
-                                    <textarea style="resize:none" name="post_desc" rows="5"  class="form-control" id="exampleInputPassword1" placeholder="Mô tả danh mục">
                                     </textarea>
                                 </div>
                                 <div class="form-group">
@@ -77,7 +72,7 @@
                                     </select>
                                 </div>
 
-                                <button type="submit" name="add_post" class="btn btn-info">Thêm danh mục </button>
+                                <button type="submit" name="add_post" class="btn btn-info">Thêm bài viết </button>
                             </form>
                             </div>
 

@@ -68,12 +68,12 @@ Route::post('/update-category-post/{cate_post_id}',[CategoryPostController::clas
 
 //Danh muc bai viet
 Route::get('/add-post',[PostController::class, 'add_post']);
-Route::get('/all-post',[CategoryPostController::class, 'all_post']);
-Route::get('/edit-post/{cate_post_id}',[CategoryPostController::class, 'edit_category_post']);
-Route::get('/delete-post/{cate_post_id}',[CategoryPostController::class, 'delete_category_post']);
+Route::get('/all-post',[PostController::class, 'all_post']);
+Route::get('/edit-post/{post_id}',[PostController::class, 'edit_post']);
+Route::get('/delete-post/{post_id}',[PostController::class, 'delete_post']);
 
-Route::post('/save-category-post',[CategoryPostController::class, 'save_category_post']);
-Route::post('/update-category-post/{cate_post_id}',[CategoryPostController::class, 'update_category_post']);
+Route::post('/save-post',[PostController::class, 'save_post']);
+Route::post('/update-post/{cate_post_id}',[PostController::class, 'update_post']);
 
 //BrandController
 Route::get('/add-brand-product',[BrandController::class, 'add_brand_product']);

@@ -21,7 +21,8 @@
                                     {{ csrf_field()}}
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Tên danh mục</label>
-                                    <input type="text" name="category_name" class="form-control"  onkeyup="ChangeToSlug()" id="slug"  placeholder="Nhập tên danh mục"  required autocomplete ="category_name">
+                                    <input type="text" name="category_name" data-validation="length" data-validation-length="min3"
+                                    data-validation-error-msg="Làm ơn điền ít nhất 3 ký tự" class="form-control"  onkeyup="ChangeToSlug()" id="slug"  placeholder="Nhập tên danh mục"  required autocomplete ="category_name">
                                 </div>
                                 @error('category_name')
                                     <div class="alert alert-danger">{{ $message }}</div>

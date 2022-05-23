@@ -31,8 +31,7 @@
                                 @enderror
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Số lượng sản phẩm</label>
-                                    <input type="text" name="product_quantity" date-validation="length" data-validation-length="min3"
-                                    data-validation-error-msg="Điền số lượng" class="form-control" id="exampleInputEmail1" placeholder="Nhập số lượng sản phẩm">
+                                    <input type="text" name="product_quantity" data-validation="number" data-validation-error-msg="Làm ơn điền số lượng" class="form-control" id="exampleInputEmail1" placeholder="Nhập số lượng sản phẩm">
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Slug</label>
                                     <input type="text" name="product_slug" date-validation="length" data-validation-length="min3"

@@ -76,7 +76,16 @@ class ProductController extends Controller
     }
 
     public function delete_product($product_id){
-        DB::table('tbl_product')->where('product_id',$product_id)->delete();
+        // $product = DB::table('tbl_product')->where('product_id',$product_id)->get();
+        // $data = array();
+        // $product_image = $data['product_image'];
+        // if($product_image){
+        //     $path = 'public/uploads/product/'.$product_image;
+        //     unlink($path);
+        // }else{
+        //     $product->delete();
+        // }
+     DB::table('tbl_product')->where('product_id',$product_id)->delete();
         Session::put('message', 'Xoá danh mục sản phẩm thành công');
         return Redirect::to('/all-product');
     }
