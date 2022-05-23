@@ -60,7 +60,6 @@
             <td>{{ $cate_pro->cate_post_name }}</td>
 
             <td>{{ $cate_pro->cate_post_desc }}</td>
-            <td>{{ $cate_pro->cate_post_desc }}</td>
             <td>{{ $cate_pro->cate_post_slug }}</td>
             <td>
                 @if($cate_pro->cate_post_status == 0)

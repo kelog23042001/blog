@@ -17,6 +17,7 @@ use App\Http\Controllers\SizeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CategoryPostController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 
 /*
@@ -66,7 +67,7 @@ Route::post('/update-category-post/{cate_post_id}',[CategoryPostController::clas
 
 
 //Danh muc bai viet
-Route::get('/add-post',[CategoryPostController::class, 'add_post']);
+Route::get('/add-post',[PostController::class, 'add_post']);
 Route::get('/all-post',[CategoryPostController::class, 'all_post']);
 Route::get('/edit-post/{cate_post_id}',[CategoryPostController::class, 'edit_category_post']);
 Route::get('/delete-post/{cate_post_id}',[CategoryPostController::class, 'delete_category_post']);
