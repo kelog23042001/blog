@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CategoryPost;
 use App\Models\CategoryProductModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -19,7 +20,7 @@ class CategoryProductController extends Controller
 
     public function all_category_product(){
         $category_product = CategoryProductModel::where('category_parent', 0)->orderby('category_id', 'DESC')->get();
-        $all_category_product = DB::table('tbl_category_product')->orderby('category_parent', 'ASC')->get();
+        $all_category_product = DB::table('tbl_category_product')->orderby('category_parent', 'ASC')->paginate(5);
         return view('admin.category.all_category_product', compact('all_category_product', 'category_product'));
     }
     public function validation($request){
@@ -95,6 +96,8 @@ class CategoryProductController extends Controller
      //End function Admin Page
 
     public function show_category_home($category_id, Request $request){
+        $category_post = CategoryPost::orderby('cate_post_id', 'DESC')->paginate(5);
+
         $meta_decs = "Danh mục mô hình";
         $meta_title = "LK - Shopping";
         $meta_keyword = "danh mục mô hình";
@@ -117,7 +120,7 @@ class CategoryProductController extends Controller
             }
 
 
-        return view('user.pages.category.show_category', compact('category', 'brand', 'category_by_id', 'category_name'))
+        return view('user.pages.category.show_category', compact('category', 'brand', 'category_by_id', 'category_name', 'category_post'))
         ->with('meta_decs',$meta_decs)->with('meta_title',$meta_title)->with('meta_keyword',$meta_keyword)->with('url_canonical', $url_canonical);
     }
 }

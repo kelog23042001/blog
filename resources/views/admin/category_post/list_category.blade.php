@@ -3,7 +3,7 @@
 <div class="table-agile-info">
   <div class="panel panel-default">
     <div class="panel-heading">
-      Liệt kê thương hiệu sản phẩm
+      Liệt kê danh mục sản phẩm
     </div>
 
     <div class="row w3-res-tb">
@@ -28,6 +28,15 @@
       </div>
     </div>
     <div class="table-responsive">
+                        <?php
+                            use Illuminate\Support\Facades\Session;
+
+                            $message = Session::get('message');
+                            if($message){
+                                echo $message;
+                                Session::put('message',null);
+                            }
+                        ?>
       <table class="table table-striped b-t b-light">
         <thead>
           <tr>
@@ -36,7 +45,8 @@
                 <input type="checkbox"><i></i>
               </label>
             </th>
-            <th>Tên danh mục</th>
+            <th>Tên danh mục bài viết</th>
+            <th>Mô tả danh mục bài viết</th>
             <th>Slug</th>
             <th>Hển thị</th>
 
@@ -44,31 +54,28 @@
           </tr>
         </thead>
         <tbody>
-            <?php foreach($all_brand_product as $key => $cate_pro){ ?>
-              <tr>
+            @foreach($all_category_post as $key => $cate_pro)
+          <tr>
             <td><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label></td>
-            <td>{{ $cate_pro->brand_name }}</td>
-            <td>{{ $cate_pro->brand_slug }}</td>
-            <td><span class="text-ellipsis">
-               <?php
-                    if($cate_pro->brand_status == 0){
-                ?>
-                       <a href="{{URL::to('/unactive-brand-product/'.$cate_pro->brand_id)}}"><span class = "fa-thumb-styling fa fa-thumbs-down"> </span></a>
-                <?php
-                    }else{
-                ?>
-                     <a href="{{URL::to('/active-brand-product/'.$cate_pro->brand_id)}}"><span class = "fa-thumb-styling fa fa-thumbs-up"> </span></a>
-                <?php
-                    }
-                ?>
-            </span></td>
+            <td>{{ $cate_pro->cate_post_name }}</td>
+
+            <td>{{ $cate_pro->cate_post_desc }}</td>
+            <td>{{ $cate_pro->cate_post_desc }}</td>
+            <td>{{ $cate_pro->cate_post_slug }}</td>
             <td>
-                <a style="font-size: 20px;" href="{{URL::to('/edit-brand-product/'.$cate_pro->brand_id)}}" class="active" ui-toggle-class=""><i class="fa fa-pencil-square-o text-success text-active"></i></a>
-                <a  onclick="return confirm('Bạn có chắc chắn muốn xoá?')"  style="font-size: 20px;" href="{{URL::to('/delete-brand-product/'.$cate_pro->brand_id)}}"><i class="fa fa-times text-danger text"></i></a>
+                @if($cate_pro->cate_post_status == 0)
+                    Hiển thị
+                @else
+                    Ẩnh
+                @endif
+
+            </td>
+            <td>
+              <a href="{{URL::to('/edit-category-post/'.$cate_pro->cate_post_id)}}" style="font-size: 20px;" class="active styling-edit" ui-toggle-class=""><i class="fa fa-pencil-square-o text-success text-active"></i></a></br>
+              <a  onclick="return confirm('Bạn có chắc chắn muốn xoá?')" href="{{URL::to('/delete-category-post/'.$cate_pro->cate_post_id)}}"  style="font-size: 20px;" class="active styling-edit" ui-toggle-class=""><i class="fa fa-times text-danger text"></i></a>
             </td>
           </tr>
-              <?php }?>
-
+          @endforeach
         </tbody>
       </table>
     </div>
@@ -76,11 +83,11 @@
       <div class="row">
 
         <div class="col-sm-5 text-center">
-          
+
         </div>
         <div class="col-sm-7 text-right text-center-xs">
           <ul class="pagination pagination-sm m-t-none m-b-none">
-            {!! $all_brand_product->links("pagination::bootstrap-4") !!}
+          {!! $all_category_post->links("pagination::bootstrap-4") !!}
           </ul>
         </div>
       </div>

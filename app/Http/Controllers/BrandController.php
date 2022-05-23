@@ -23,7 +23,7 @@ class BrandController extends Controller
     }
     public function all_brand_product(){
        // $all_brand_product = DB::table('tbl_brand_product')->get();
-        $all_brand_product= Brand::orderBy('brand_id','DESC')->get();
+        $all_brand_product= Brand::orderBy('brand_id','DESC')->paginate(5);
         $manager_brand = view('admin.brand.all_brand_product')->with('all_brand', $all_brand_product);
         return view('admin.brand.all_brand_product', compact('all_brand_product'));
     }

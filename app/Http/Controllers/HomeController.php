@@ -8,9 +8,13 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use App\Models\Banner;
+use App\Models\CategoryPost;
+use App\Models\CategoryProductModel;
 
 class HomeController extends Controller
 {
+
+
     // public function send_mail(){
 
     //    $to_name="Thiatv.com";
@@ -23,6 +27,11 @@ class HomeController extends Controller
     //    })
     // }
     public function index(Request $request){
+        //Post category
+
+
+        $category_post = CategoryPost::orderby('cate_post_id', 'DESC')->paginate(5);
+
         //slider
         $slider = Banner::orderBy('slider_id','DESC')->where('slider_status', '1')->take(4)->get();
 
@@ -38,7 +47,7 @@ class HomeController extends Controller
 
         return view('user.pages.home')->with('category', $cate_product)->with('brand', $brand_product)->with('product', $all_product)
         ->with('meta_decs',$meta_decs)->with('meta_title',$meta_title)->with('meta_keyword',$meta_keyword)->with('url_canonical', $url_canonical)
-        ->with('slider', $slider);
+        ->with('slider', $slider)->with('category_post', $category_post);
         //return view('user.pages.home')->with(compact('cate_product', 'brand_product', 'all_product' ));
 
     }

@@ -37,9 +37,11 @@
                     <ul class="nav navbar-nav">
 
                         <li><a href="#"> <i  class="fa fa-star"></i>Yêu thích</a></li>
+
+
                         <?php
 
-
+                            use Illuminate\Support\Facades\Session;
 
                             $customer_id = Session::get('customer_id');
                             if($customer_id != NULL){
@@ -99,10 +101,17 @@
                         <li><a href="{{ URL::to('/trang-chu') }}" class="active">Trang Chủ</a></li>
                         <li class="dropdown"><a href="#">Sản Phẩm<i class="fa fa-angle-down"></i></a>
                             <ul role="menu" class="sub-menu">
-                                <li><a href="">Sản Phẩm</a></li>
+                                @foreach($category as $key =>$danhmuc)
+                                    <li><a href="{{URL::to('/danh-muc-san-pham/'.$danhmuc->category_id)}}">{{$danhmuc->category_name}}</a></li>
+                                @endforeach
                             </ul>
                         </li>
                         <li class="dropdown"><a href="#">Tin Tức<i class="fa fa-angle-down"></i></a>
+                        <ul role="menu" class="sub-menu">
+                                @foreach($category_post as $key =>$cate_post)
+                                    <li><a href="{{URL::to('/danh-muc-bai-viet/'.$cate_post->cate_post_slug)}}">{{$cate_post->cate_post_name}}</a></li>
+                                @endforeach
+                            </ul>
                         <li><a href="">Liên Hệ</a></li>
                         </li>
 

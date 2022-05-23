@@ -19,7 +19,7 @@ class ProductController extends Controller
         $all_product = DB::table('tbl_product')
         ->join('tbl_category_product','tbl_category_product.category_id','=','tbl_product.category_id')
         ->join('tbl_brand_product','tbl_brand_product.brand_id','=','tbl_product.brand_id')
-        ->get();
+        ->paginate(5);
         return view('admin.product.all_product', compact('all_product'));
     }
 

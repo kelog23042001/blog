@@ -16,6 +16,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\BannerController;
+use App\Http\Controllers\CategoryPostController;
 use App\Http\Controllers\UserController;
 
 /*
@@ -52,6 +53,15 @@ Route::get('/delete-category-product/{categoryproduct_id}',[CategoryProductContr
 
 Route::post('/update-category-product/{categoryproduct_id}',[CategoryProductController::class, 'update_category_product']);
 Route::post('/save-category-product',[CategoryProductController::class, 'save_category_product']);
+
+//Category Post
+Route::get('/add-category-post',[CategoryPostController::class, 'add_category_post']);
+Route::get('/all-category-post',[CategoryPostController::class, 'all_category_post']);
+Route::get('/edit-category-post/{cate_post_id}',[CategoryPostController::class, 'edit_category_post']);
+Route::get('/danh-muc-bai-viet/{cate_post_slug}',[CategoryPostController::class, 'danh_muc_bai_viet']);
+
+Route::post('/save-category-post',[CategoryPostController::class, 'save_category_post']);
+
 
 //BrandController
 Route::get('/add-brand-product',[BrandController::class, 'add_brand_product']);

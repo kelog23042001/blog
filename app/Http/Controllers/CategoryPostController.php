@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\CategoryPost;
 use App\Models\CategoryProductModel;
 use Illuminate\Http\Request;
 
@@ -12,33 +13,33 @@ use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Session;
 class CategoryPostController extends Controller
 {
-    public function add_category_product(){
-        $category = CategoryProductModel::where('category_parent', 0)->orderby('category_id', 'DESC')->get();
+    public function add_category_post(){
 
-        return view('admin.category.add_category_product', compact('category'));
+        return view('admin.category_post.add_category');
     }
 
-    // public function all_category_product(){
-    //     $category_product = CategoryProductModel::where('category_parent', 0)->orderby('category_id', 'DESC')->get();
-    //     $all_category_product = DB::table('tbl_category_product')->orderby('category_parent', 'ASC')->get();
-    //     return view('admin.category.all_category_product', compact('all_category_product', 'category_product'));
-    // }
+    public function all_category_post(){
 
-    // public function save_category_product(Request $request){
-    //     $data = array();
-    //     $data['category_name'] = $request->category_product_name;
-    //     $data['meta_keywords'] = $request->category_product_keywords;
-    //     $data['category_desc'] = $request->category_product_desc;
-    //     $data['slug_category_product'] = $request->category_product_slug;
-    //     $data['category_status'] = $request->category_product_status;
-    //     $data['category_parent'] = $request->category_parent;
+        $all_category_post = CategoryPost::orderby('cate_post_id', 'DESC')->paginate(5);
+        return view('admin.category_post.list_category', compact('all_category_post'));
+    }
 
-    //     DB::table('tbl_category_product')->insert($data);
-    //     Session::put('message', 'Thêm danh mục sản phẩm thành công');
+    public function save_category_post(Request $request){
+        $data = array();
+        $data= $request->all();
+        $category_post = new CategoryPost();
+        $category_post->cate_post_name = $data['cate_post_name'];
+        $category_post->cate_post_slug =$data['cate_post_slug'];
+        $category_post->cate_post_desc =$data['cate_post_desc'];
+        $category_post->cate_post_status =$data['cate_post_status'] ;
 
-    //     return Redirect::to('/add-category-product');
-    // }
+        $category_post->save();
 
+        return redirect()->back()->with('message', 'Thêm danh mục bài viết thành công');
+    }
+    public function danh_muc_bai_viet($cate_post_slug){
+
+    }
     // public function unactive_category_product($categoryproduct_id){
     //     DB::table('tbl_category_product')->where('category_id',$categoryproduct_id)->update(['category_status' => 1]);
     //     Session::put('message', 'Kích hoạt danh mục sản phẩm thành công');
