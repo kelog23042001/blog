@@ -59,8 +59,10 @@ Route::get('/add-category-post',[CategoryPostController::class, 'add_category_po
 Route::get('/all-category-post',[CategoryPostController::class, 'all_category_post']);
 Route::get('/edit-category-post/{cate_post_id}',[CategoryPostController::class, 'edit_category_post']);
 Route::get('/danh-muc-bai-viet/{cate_post_slug}',[CategoryPostController::class, 'danh_muc_bai_viet']);
+Route::get('/delete-category-post/{cate_post_id}',[CategoryPostController::class, 'delete_category_post']);
 
 Route::post('/save-category-post',[CategoryPostController::class, 'save_category_post']);
+Route::post('/update-category-post/{cate_post_id}',[CategoryPostController::class, 'update_category_post']);
 
 
 //BrandController

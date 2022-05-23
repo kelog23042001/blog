@@ -64,11 +64,10 @@
             <td>{{ $cate_pro->cate_post_slug }}</td>
             <td>
                 @if($cate_pro->cate_post_status == 0)
-                    Hiển thị
+                    Ẩn
                 @else
-                    Ẩnh
+                    Hiển thị
                 @endif
-
             </td>
             <td>
               <a href="{{URL::to('/edit-category-post/'.$cate_pro->cate_post_id)}}" style="font-size: 20px;" class="active styling-edit" ui-toggle-class=""><i class="fa fa-pencil-square-o text-success text-active"></i></a></br>
