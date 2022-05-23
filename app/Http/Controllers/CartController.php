@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CategoryPost;
 use App\Models\Coupon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -72,13 +73,15 @@ class CartController extends Controller
         }
     }
     public function show_cart(Request $request){
+        $category_post = CategoryPost::orderby('cate_post_id', 'DESC')->paginate(5);
+
         $meta_decs = "Giỏ hàng";
         $meta_title = "Giỏ hàng";
         $meta_keyword = "Giỏ hàng";
         $url_canonical = $request->url();
         $category = DB::table('tbl_category_product')->where('category_status', '0')->orderBy('category_id','desc')->get();
         $brand = DB::table('tbl_brand_product')->where('brand_status', '0')->orderBy('brand_id','desc')->get();
-        return view('user.pages.cart.show_cart', compact('category', 'brand'))
+        return view('user.pages.cart.show_cart', compact('category', 'brand', 'category_post'))
         ->with('meta_decs',$meta_decs)->with('meta_title',$meta_title)->with('meta_keyword',$meta_keyword)->with('url_canonical', $url_canonical);
     }
 
@@ -135,13 +138,15 @@ class CartController extends Controller
     }
 
     public function gio_hang(Request $request){
+        $category_post = CategoryPost::orderby('cate_post_id', 'DESC')->paginate(5);
+
         $meta_decs = "Giỏ hàng";
         $meta_title = "Giỏ hàng Ajax";
         $meta_keyword = "Giỏ hàng Ajax";
         $url_canonical = $request->url();
         $category = DB::table('tbl_category_product')->where('category_status', '0')->orderBy('category_id','desc')->get();
         $brand = DB::table('tbl_brand_product')->where('brand_status', '0')->orderBy('brand_id','desc')->get();
-        return view('user.pages.cart.cart_ajax', compact('category', 'brand'))
+        return view('user.pages.cart.cart_ajax', compact('category', 'brand', 'category_post' ))
         ->with('meta_decs',$meta_decs)->with('meta_title',$meta_title)->with('meta_keyword',$meta_keyword)->with('url_canonical', $url_canonical);
     }
 

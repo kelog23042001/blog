@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CategoryPost;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
@@ -110,6 +111,7 @@ class ProductController extends Controller
     //end admin page
 
     public function details_product($product_id, Request $request){
+        $category_post = CategoryPost::orderby('cate_post_id', 'DESC')->paginate(5);
 
         $category = DB::table('tbl_category_product')->where('category_status', '0')->orderBy('category_id','desc')->get();
         $brand = DB::table('tbl_brand_product')->where('brand_status', '0')->orderBy('brand_id','desc')->get();
@@ -134,7 +136,7 @@ class ProductController extends Controller
         ->where('tbl_category_product.category_id', $category_id)->whereNotIn('tbl_product.product_id', [$product_id])->limit(3)
         ->get();
 
-        return view('user.pages.product.show_detail', compact('category', 'brand', 'detail_product', 'related_product'))
+        return view('user.pages.product.show_detail', compact('category', 'brand', 'detail_product', 'related_product', 'category_post'))
         ->with('meta_decs',$meta_decs)->with('meta_title',$meta_title)->with('meta_keyword',$meta_keyword)->with('url_canonical', $url_canonical);
     }
 }

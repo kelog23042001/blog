@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Brand;
+use App\Models\CategoryPost;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\DB;
@@ -93,6 +94,8 @@ class BrandController extends Controller
     //End funcion admin pages
 
     public function show_brand_home($brand_id, Request $request){
+        $category_post = CategoryPost::orderby('cate_post_id', 'DESC')->paginate(5);
+
         $meta_decs = "Chuyên bán quần áo nữ";
         $meta_title = "LK - Shopping";
         $meta_keyword = "quan ao nu, quần áo nữ";
@@ -106,7 +109,7 @@ class BrandController extends Controller
         ->join('tbl_brand_product', 'tbl_product.brand_id', '=', 'tbl_brand_product.brand_id')
         ->where('tbl_brand_product.brand_id', $brand_id)
         ->get();
-        return view('user.pages.brand.show_brand', compact('category', 'brand', 'brand_by_id', 'brand_name'))
+        return view('user.pages.brand.show_brand', compact('category', 'brand', 'brand_by_id', 'brand_name', 'category_post'))
         ->with('meta_decs',$meta_decs)->with('meta_title',$meta_title)->with('meta_keyword',$meta_keyword)->with('url_canonical', $url_canonical);
     }
 }

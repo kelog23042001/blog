@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CategoryPost;
 use App\Models\City;
 use App\Models\Feeship;
 use App\Models\Province;
@@ -105,11 +106,13 @@ class CheckoutController extends Controller
                     Session::save();
                 }
             }
-            
+
         }
 
     }
     public function login_checkout(Request $request){
+        $category_post = CategoryPost::orderby('cate_post_id', 'DESC')->paginate(5);
+
         $meta_decs = "Đăng nhập thanh toán";
         $meta_title = "Đăng nhập thanh toán";
         $meta_keyword = "Đăng nhập thanh toán";
@@ -117,7 +120,7 @@ class CheckoutController extends Controller
         $cate_product = DB::table('tbl_category_product')->where('category_status', '0')->orderBy('category_id','desc')->get();
         $brand_product = DB::table('tbl_brand_product')->where('brand_status', '0')->orderBy('brand_id','desc')->get();
 
-        return view('user.pages.checkout.login_checkout')->with('category', $cate_product)->with('brand', $brand_product)
+        return view('user.pages.checkout.login_checkout', compact('category_post'))->with('category', $cate_product)->with('brand', $brand_product)
         ->with('meta_decs',$meta_decs)->with('meta_title',$meta_title)->with('meta_keyword',$meta_keyword)->with('url_canonical', $url_canonical);
     }
 
@@ -138,6 +141,8 @@ class CheckoutController extends Controller
 
     }
     public function checkout(Request $request){
+        $category_post = CategoryPost::orderby('cate_post_id', 'DESC')->paginate(5);
+
         $meta_decs = "Chuyên bán quần áo nữ";
         $meta_title = "LK - Shopping";
         $meta_keyword = "quan ao nu, quần áo nữ";
@@ -148,7 +153,7 @@ class CheckoutController extends Controller
         $province = Province::orderby('maqh', 'ASC')->get();
         $wards = Wards::orderby('xaid', 'ASC')->get();
 
-        return view('user.pages.checkout.show_checkout')->with('category', $cate_product)->with('brand', $brand_product)
+        return view('user.pages.checkout.show_checkout', compact('category_post'))->with('category', $cate_product)->with('brand', $brand_product)
         ->with('meta_decs',$meta_decs)->with('meta_title',$meta_title)->with('meta_keyword',$meta_keyword)->with('url_canonical', $url_canonical)
         ->with(compact('city'));
     }
@@ -226,6 +231,8 @@ class CheckoutController extends Controller
     }
 
     public function view_order($orderId, Request $request){
+        $category_post = CategoryPost::orderby('cate_post_id', 'DESC')->paginate(5);
+
         $meta_decs = "Chuyên bán quần áo nữ";
         $meta_title = "LK - Shopping";
         $meta_keyword = "quan ao nu, quần áo nữ";
@@ -238,7 +245,7 @@ class CheckoutController extends Controller
         ->first();
 
         $manage_order_by_id = view('admin.view_order')->with('order_by_id',$order_by_id);
-        return view('admin_layout')->with('admin.view_order', $manage_order_by_id)
+        return view('admin_layout', compact('category_post'))->with('admin.view_order', $manage_order_by_id)
         ->with('meta_decs',$meta_decs)->with('meta_title',$meta_title)->with('meta_keyword',$meta_keyword)->with('url_canonical', $url_canonical);
 
     }
@@ -271,6 +278,8 @@ class CheckoutController extends Controller
     }
 
     public function manage_order(){
+        $category_post = CategoryPost::orderby('cate_post_id', 'DESC')->paginate(5);
+
         $all_order = DB::table('tbl_order')
         ->join('tbl_customers','tbl_order.customer_id','=','tbl_customers.customer_id')
         ->select('tbl_order.*','tbl_customers.customer_name')
@@ -278,7 +287,7 @@ class CheckoutController extends Controller
         ->get();
 
         $manage_order = view('admin.manage_order')->with('all_order',$all_order);
-        return view('admin_layout')->with('admin.manage_order', $manage_order);
+        return view('admin_layout', compact('category_post'))->with('admin.manage_order', $manage_order);
     }
 
 

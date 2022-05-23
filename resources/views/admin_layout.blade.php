@@ -258,11 +258,22 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <li class="sub-menu">
                     <a href="javascript:;">
                         <i class="fa fa-book"></i>
-                        <span>Bài viết</span>
+                        <span>Danh mục bài viết</span>
                     </a>
                     <ul class="sub">
 						<li><a href="{{URL::to('/add-category-post')}}">Thêm danh mục bài viết</a></li>
 						<li><a href="{{URL::to('/all-category-post')}}">Liệt kê mục bài viết</a></li>
+
+                    </ul>
+                </li>
+                <li class="sub-menu">
+                    <a href="javascript:;">
+                        <i class="fa fa-book"></i>
+                        <span>Bài viết</span>
+                    </a>
+                    <ul class="sub">
+						<li><a href="{{URL::to('/add-post')}}">Thêm bài viết</a></li>
+						<li><a href="{{URL::to('/all-post')}}">Liệt kê bài viết</a></li>
 
                     </ul>
                 </li>
