@@ -110,7 +110,7 @@ class PostController extends Controller
         }
 
     public function danh_muc_bai_viet($post_slug, Request $request){
-            $category_post = CategoryPost::orderby('cate_post_id', 'DESC')->paginate(5);
+            $category_post = CategoryPost::orderby('cate_post_id', 'DESC')->where('cate_post_status', '1')->paginate(5);
             $cate_post = CategoryPost::where('cate_post_slug', $post_slug)->take(1)->get();
             foreach($cate_post as $key => $cate){
                 $meta_decs = $cate->cate_post_desc;

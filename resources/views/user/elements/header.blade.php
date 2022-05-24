@@ -1,4 +1,5 @@
-<div class="header_top"><!--header_top-->
+<div class="header_top">
+    <!--header_top-->
     <div class="container">
         <div class="row">
             <div class="col-sm-6">
@@ -22,9 +23,11 @@
             </div>
         </div>
     </div>
-</div><!--/header_top-->
+</div>
+<!--/header_top-->
 
-<div class="header-middle"><!--header-middle-->
+<div class="header-middle">
+    <!--header-middle-->
     <div class="container">
         <div class="row">
             <div class="col-sm-4">
@@ -36,44 +39,44 @@
                 <div class="shop-menu pull-right">
                     <ul class="nav navbar-nav">
 
-                        <li><a href="#"> <i  class="fa fa-star"></i>Yêu thích</a></li>
+                        <li><a href="#"> <i class="fa fa-star"></i>Yêu thích</a></li>
 
 
                         <?php
 
-                            use Illuminate\Support\Facades\Session;
+                        use Illuminate\Support\Facades\Session;
 
-                            $customer_id = Session::get('customer_id');
-                            if($customer_id != NULL){
-
-                            ?>
-                                <li><a href="{{URL::to('/checkout')}}">  <i  class="fa fa-crosshairs"></i>Thanh toán</a></li>
-
-                            <?php
-                            }else{
-                            ?>
-                                <li><a href="{{URL::to('/login-checkout')}}">  <i  class="fa fa-crosshairs"></i>Thanh toán</a></li>
-                            <?php
-                            }
-                        ?>
-
-                        <li><a href="{{URL::to('/gio-hang')}}"><i  class="fa fa-shopping-cart"></i>Giỏ hàng</a></li>
-                        <?php
-
-
-
-                            $customer_id = Session::get('customer_id');
-                            if($customer_id != NULL){
+                        $customer_id = Session::get('customer_id');
+                        if ($customer_id != NULL) {
 
                         ?>
-                                <li><a href="{{URL::to('/logout-checkout')}}"><i  class="fa fa-lock"></i>Đăng xuất</a></li>
+                            <li><a href="{{URL::to('/checkout')}}"> <i class="fa fa-crosshairs"></i>Thanh toán</a></li>
 
                         <?php
-                            }else{
+                        } else {
                         ?>
-                                <li><a href="{{URL::to('/login-checkout')}}"><i  class="fa fa-lock"></i>Đăng nhập</a></li>
+                            <li><a href="{{URL::to('/login-checkout')}}"> <i class="fa fa-crosshairs"></i>Thanh toán</a></li>
                         <?php
-                            }
+                        }
+                        ?>
+
+                        <li><a href="{{URL::to('/gio-hang')}}"><i class="fa fa-shopping-cart"></i>Giỏ hàng</a></li>
+                        <?php
+
+
+
+                        $customer_id = Session::get('customer_id');
+                        if ($customer_id != NULL) {
+
+                        ?>
+                            <li><a href="{{URL::to('/logout-checkout')}}"><i class="fa fa-lock"></i>Đăng xuất</a></li>
+
+                        <?php
+                        } else {
+                        ?>
+                            <li><a href="{{URL::to('/login-checkout')}}"><i class="fa fa-lock"></i>Đăng nhập</a></li>
+                        <?php
+                        }
                         ?>
 
                     </ul>
@@ -81,8 +84,10 @@
             </div>
         </div>
     </div>
-</div><!--/header-middle-->
-<div class="header-bottom"><!--header-bottom-->
+</div>
+<!--/header-middle-->
+<div class="header-bottom">
+    <!--header-bottom-->
     <div class="container">
         <div class="row">
             <div class="col-sm-8">
@@ -102,14 +107,14 @@
                         <li class="dropdown"><a href="#">Sản Phẩm<i class="fa fa-angle-down"></i></a>
                             <ul role="menu" class="sub-menu">
                                 @foreach($category as $key =>$danhmuc)
-                                    <li><a href="{{URL::to('/danh-muc-san-pham/'.$danhmuc->category_id)}}">{{$danhmuc->category_name}}</a></li>
+                                <li><a href="{{URL::to('/danh-muc-san-pham/'.$danhmuc->category_id)}}">{{$danhmuc->category_name}}</a></li>
                                 @endforeach
                             </ul>
                         </li>
-                        <li class="dropdown"><a href="#">Tin Tức<i class="fa fa-angle-down"></i></a>
-                        <ul role="menu" class="sub-menu">
+                        <li class="dropdown"><a href="#">BLog<i class="fa fa-angle-down"></i></a>
+                            <ul role="menu" class="sub-menu">
                                 @foreach($category_post as $key =>$cate_post)
-                                    <li><a href="{{URL::to('/danh-muc-bai-viet/'.$cate_post->cate_post_slug)}}">{{$cate_post->cate_post_name}}</a></li>
+                                <li><a href="{{URL::to('/danh-muc-bai-viet/'.$cate_post->cate_post_slug)}}">{{$cate_post->cate_post_name}}</a></li>
                                 @endforeach
                             </ul>
                         <li><a href="">Liên Hệ</a></li>
@@ -125,14 +130,15 @@
             </div>
             <div class="col-sm-4">
                 <form action="{{URL::to('/tim-kiem')}}" method="POST">
-                {{ csrf_field() }}
+                    {{ csrf_field() }}
 
-                        <input type="text" name ="keywords_submit" placeholder="Tìm kiếm sản phẩm"/>
+                    <input type="text" name="keywords_submit" placeholder="Tìm kiếm sản phẩm" />
 
-                        <input type="submit" name="search_items" class="btn btn-warning btn-sm" value="Tìm kiếm">
+                    <input type="submit" name="search_items" class="btn btn-warning btn-sm" value="Tìm kiếm">
                 </form>
 
             </div>
         </div>
     </div>
-</div><!--/header-bottom-->
+</div>
+<!--/header-bottom-->

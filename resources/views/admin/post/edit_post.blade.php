@@ -22,7 +22,7 @@
                                         {{ csrf_field()}}
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Tên bài viết</label>
-                                        <input type="text" name="post_title"  onkeyup="ChangeToSlug()" id="slug" class="form-control" id="exampleInputEmail1" value="{{ $post->post_title }}">
+                                        <input type="text" name="post_title"  onkeyup="ChangeToSlug()" id="slug" class="form-control" value="{{ $post->post_title }}">
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Slug</label>
@@ -47,7 +47,7 @@
 
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Nôi dung bài viết</label>
-                                        <textarea style="resize:none" name="post_content"  class="form-control" id="exampleInputPassword1" >
+                                        <textarea style="resize:none" name="post_content"  class="form-control" id="ckeditor1" >
                                             {{ $post->post_content }}
                                         </textarea>
                                     </div>

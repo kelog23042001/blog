@@ -42,7 +42,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputPassword1">Nội dung bài viết</label>
-                                    <textarea style="resize:none" name="post_content" rows="5"  class="form-control" id="exampleInputPassword1" placeholder="Mô tả danh mục">
+                                    <textarea style="resize:none" name="post_content" rows="5"  class="form-control" id="ckeditor1" placeholder="Mô tả danh mục">
                                     </textarea>
                                 </div>
                                 <div class="form-group">
@@ -60,7 +60,6 @@
                                     <select name="cate_post_id" class="form-control input-sm m-bot15">
                                             @foreach($cate_post as $key => $cate)
                                             <option value="{{$cate->cate_post_id}}">{{$cate->cate_post_name}}</option>
-
                                             @endforeach
                                     </select>
                                 </div>

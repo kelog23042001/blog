@@ -34,8 +34,9 @@ use App\Http\Controllers\UserController;
 Route::get('/', [HomeController::class, 'index']);
 Route::post('/tim-kiem', [HomeController::class, 'search']);
 
-//BaiViet
+//blog
 Route::get('/danh-muc-bai-viet/{post_slug}',[PostController::class, 'danh_muc_bai_viet']);
+Route::get('/blog',[PostController::class, 'danh_muc_bai_viet']);
 
 // //Danh muc san pham trang chu
 Route::get('/danh-muc-san-pham/{category_id}',[CategoryProductController::class, 'show_category_home']);
