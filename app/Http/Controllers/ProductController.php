@@ -145,6 +145,9 @@ class ProductController extends Controller
         foreach($detail_product as $key=> $value){
             $product_id = $value->product_id;
             $category_id = $value->category_id;
+            $brand_id = $value->brand_id;
+            $product_cate = $value->category_name;
+            $product_brand = $value->brand_name;
             $meta_decs = $value->product_desc;
             $meta_title =  $value->product_name;
             $meta_keyword =  $value->product_slug;
@@ -157,7 +160,7 @@ class ProductController extends Controller
         ->where('tbl_category_product.category_id', $category_id)->whereNotIn('tbl_product.product_id', [$product_id])->limit(3)
         ->get();
 
-        return view('user.pages.product.show_detail', compact('category', 'brand','gallery' ,'detail_product', 'related_product', 'category_post'))
+        return view('user.pages.product.show_detail', compact('brand_id','product_brand','product_cate','category','category_id', 'brand','gallery' ,'detail_product', 'related_product', 'category_post'))
         ->with('meta_decs',$meta_decs)->with('meta_title',$meta_title)->with('meta_keyword',$meta_keyword)->with('url_canonical', $url_canonical);
     }
 }

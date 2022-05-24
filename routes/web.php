@@ -33,6 +33,7 @@ use App\Http\Controllers\UserController;
 */
 Route::get('/', [HomeController::class, 'index']);
 Route::post('/tim-kiem', [HomeController::class, 'search']);
+Route::post('/autocomplete-ajax', [HomeController::class, 'autocomplete_ajax']);
 
 //blog
 Route::get('/danh-muc-bai-viet/{post_slug}',[PostController::class, 'danh_muc_bai_viet']);

@@ -15,6 +15,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!-- bootstrap-css -->
 <link rel="stylesheet" href="{{asset('/backend/css/bootstrap.min.css')}}" >
 <meta name="csrf-token" content="{{csrf_token()}}" >
+<link rel="stylesheet"  href="//cdn.datatables.net/1.12.0/css/jquery.dataTables.min.css">
+
 <!-- //bootstrap-css -->
 <!-- Custom CSS -->
 <link href="{{asset('/backend/css/style.css')}}" rel='stylesheet' type='text/css' />
@@ -339,6 +341,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script src="{{asset('/backend/js/jquery.scrollTo.js')}}"></script>
 <script src="{{asset('/backend/ckeditor/ckeditor.js')}}"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
+<script src="//cdn.datatables.net/1.12.0/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript">
     $.validate({
 
@@ -638,8 +641,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
       }
     });
 </script>
-<script>
-                $(document).ready(function() {
+                <script>
+                            $(document).ready( function () {
                     $('#myTable').DataTable();
                 } );
              </script>

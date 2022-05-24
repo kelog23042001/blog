@@ -28,25 +28,22 @@
       </div>
     </div>
     <div class="table-responsive">
-      <table class="table table-striped b-t b-light">
+
+      <table id="mytable" class="table table-striped b-t b-light">
         <thead>
           <tr>
-            <th style="width:20px;">
-              <label class="i-checks m-b-none">
-                <input type="checkbox"><i></i>
-              </label>
-            </th>
-            <th>Tên danh mục</th>
-            <th>Slug</th>
-            <th>Hển thị</th>
 
-            <th style="width:30px;"></th>
+            <td>Tên danh mục</td>
+            <!-- <td>Slug</td>
+            <td>Hển thị</td>
+
+            <td style="width:30px;"></td> -->
           </tr>
         </thead>
         <tbody>
-            <?php foreach($all_brand_product as $key => $cate_pro){ ?>
+            @foreach($all_brand_product as $key => $cate_pro)
               <tr>
-            <td><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label></td>
+
             <td>{{ $cate_pro->brand_name }}</td>
             <td>{{ $cate_pro->brand_slug }}</td>
             <td><span class="text-ellipsis">
@@ -67,7 +64,7 @@
                 <a  onclick="return confirm('Bạn có chắc chắn muốn xoá?')"  style="font-size: 20px;" href="{{URL::to('/delete-brand-product/'.$cate_pro->brand_id)}}"><i class="fa fa-times text-danger text"></i></a>
             </td>
           </tr>
-              <?php }?>
+            @endforeach
 
         </tbody>
       </table>
@@ -76,7 +73,7 @@
       <div class="row">
 
         <div class="col-sm-5 text-center">
-          
+
         </div>
         <div class="col-sm-7 text-right text-center-xs">
           <ul class="pagination pagination-sm m-t-none m-b-none">

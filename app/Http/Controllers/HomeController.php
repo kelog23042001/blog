@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Session;
 use App\Models\Banner;
 use App\Models\CategoryPost;
 use App\Models\CategoryProductModel;
+use App\Models\Product;
 
 class HomeController extends Controller
 {
@@ -65,8 +66,25 @@ class HomeController extends Controller
 
          $search_product = DB::table('tbl_product')->where('product_name', 'like', '%'.$keywords.'%')->get();
 
-        return view('user.pages.product.search', compact('category_post '))->with('category', $cate_product)->with('brand', $brand_product)
+        return view('user.pages.product.search', compact('category_post'))->with('category', $cate_product)->with('brand', $brand_product)
         ->with('search_product', $search_product)
         ->with('meta_decs',$meta_decs)->with('meta_title',$meta_title)->with('meta_keyword',$meta_keyword)->with('url_canonical', $url_canonical);
+    }
+
+
+    public function autocomplete_ajax(Request $request){
+        $category_post = CategoryPost::orderby('cate_post_id', 'DESC')->paginate(5);
+
+        $data = $request->all();
+        if ($data['query']){
+            $product = Product::where('product_status',1)->where('product_name','LIKE','%'.$data['query'].'%')->get();
+            $output = '<ul class= "dropdown-menu" style="display:block; position:relative">';
+            foreach($product as $key =>$val){
+                $output.='
+                <li class="li_search_ajax"><a  href="#">'.$val->product_name.'</a></li>';
+            }
+        $output.='</ul>';
+        echo $output;
+        }
     }
 }

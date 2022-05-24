@@ -129,12 +129,13 @@
                 </div>
             </div>
             <div class="col-sm-4">
-                <form action="{{URL::to('/tim-kiem')}}" method="POST">
+                <form action="{{URL::to('/tim-kiem')}}" autocomplete="off" method="POST">
                     {{ csrf_field() }}
-
-                    <input type="text" name="keywords_submit" placeholder="Tìm kiếm sản phẩm" />
-
-                    <input type="submit" name="search_items" class="btn btn-warning btn-sm" value="Tìm kiếm">
+                    <div class="">
+                        <input type="text" style="width: 50%; " name="keywords_submit" id="keywords" placeholder="Tìm kiếm sản phẩm" />
+                            <div id="search_ajax"></div>
+                        <input type="submit" name="search_items" class="btn btn-warning btn-sm" value="Tìm kiếm">
+                    </div>
                 </form>
 
             </div>

@@ -11,6 +11,15 @@
                 max-width: 100%;
             }
         </style>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb" style="background:none ;">
+                <li class="breadcrumb-item"><a href="{{url('/trang-chu')}}">Trang chủ</a></li>
+                <li class="breadcrumb-item"><a href="{{url('danh-muc-san-pham/'.$category_id)}}">{{$product_cate}}</a></li>
+                <li class="breadcrumb-item"><a href="{{url('thuong-hieu-san-pham/'.$brand_id)}}">{{$product_brand}}</a></li>
+
+                <li class="breadcrumb-item active" aria-current="page">{{$meta_title}}</li>
+            </ol>
+        </nav>
         <ul id="imageGallery">
 
             @foreach($gallery as $key => $gal)
