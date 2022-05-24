@@ -53,6 +53,8 @@ class HomeController extends Controller
     }
 
     public function search(Request $request){
+        $category_post = CategoryPost::orderby('cate_post_id', 'DESC')->paginate(5);
+
         $meta_decs = "Chuyên bán quần áo nữ";
         $meta_title = "LK - Shopping";
         $meta_keyword = "quan ao nu, quần áo nữ";
@@ -63,7 +65,7 @@ class HomeController extends Controller
 
          $search_product = DB::table('tbl_product')->where('product_name', 'like', '%'.$keywords.'%')->get();
 
-        return view('user.pages.product.search')->with('category', $cate_product)->with('brand', $brand_product)
+        return view('user.pages.product.search', compact('category_post '))->with('category', $cate_product)->with('brand', $brand_product)
         ->with('search_product', $search_product)
         ->with('meta_decs',$meta_decs)->with('meta_title',$meta_title)->with('meta_keyword',$meta_keyword)->with('url_canonical', $url_canonical);
     }

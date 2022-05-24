@@ -7,11 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Gallery extends Model
 {
-    use HasFactory;
-    public$timestamps=false;// set time to false
+    public $timestamps = false;
     protected $fillable = [
-    'gallery_image','gallery_name','product_id'
+        'gallery_name', 'gallery_image', 'product_id'
     ];
-    protected $primarykey = 'gallery_id';
+    protected $primaryKey = 'gallery_id ';
     protected $table = 'tbl_gallery';
 }

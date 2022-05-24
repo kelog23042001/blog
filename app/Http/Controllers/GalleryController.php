@@ -37,10 +37,16 @@ class GalleryController extends Controller
                 $output.='
                 <tr>
                 <td>'.$i.'</td>
-                <td>'.$gal->gallery_name.'</td>
-                <td style =  "width: 400px;"><img width = "20%" height = "120px" src = "'.url('public/uploads/gallery/'.$gal->gallery_image).'" class = "img-thumbnail"></td>
+                <td contenteditable data-gal_id>'.$gal->gallery_name.'</td>
+                <td style =  "width: 500px;">
+                    <img width = "20%" height = "120px" src = "'.url('public/uploads/gallery/'.$gal->gallery_image).'" class = "img-thumbnail"><br>
+                    <input type ="file" class = "file_image" style ="width: 40%" data-gal_id = "'.$gal->gallery_id.'" id = "file-'.$gal->gallery_id.'" name="file" accpect="image/*"/>
+                </td>
+
+
                 <td>
-                    <button data-gal id="'.$gal->gallery_id.'" class ="btn btn-xs btn-danger" delete-gallery>Xoá</button>
+                <button type ="button" data-gal_id="'.$gal->gallery_id.'" class ="btn btn-xs btn-danger delete-gallery"  >Xoá</button>
+
                 </td>
             </tr>
                 ';
@@ -57,7 +63,44 @@ class GalleryController extends Controller
 
 
     }
+    public function update_gallery_name(Request $request){
+        $gal_id = $request->gal_id;
+        $gal_text = $request->gal_text;
 
+        $gallery = Gallery::find($gal_id);
+        $gallery->gallery_name = $gal_text;
+
+        // $gallery->save();
+        echo $gallery;
+    }
+
+    public function update_gallery(Request $request){
+        $get_image = $request->file('file');
+        $gal_id = $request->gal_id;
+        if($get_image){
+
+                if($get_image){
+                    $get_name_image = $get_image->getClientOriginalName(); //tenhinhanh.jpg
+                    $name_image = current(explode('.',$get_name_image)); //[0] => tenhinhanh . [1] => jpg , lay mang dau tien
+                    $new_image = $name_image.rand(0,9999).'.'. $get_image->getClientOriginalExtension(); // random tranh trung hinh anh, getClientOriginalExtension lay duoi mo rong
+                    $get_image->move('public/uploads/gallery', $new_image);
+
+                    $gallery = Gallery::find($gal_id);
+                    unlink('public/uploads/gallery/'.$gallery->gallery_image);
+
+                    $gallery->gallery_image = $new_image;
+                    $gallery->save();
+
+                }
+
+        }
+    }
+    public function delete_gallery(Request $request){
+        $gal_id = $request->gal_id;
+        $gallery = Gallery::find($gal_id);
+        unlink('public/uploads/gallery/'.$gallery->gallery_image);
+        $gallery->delete();
+    }
     public function insert_gallery(Request $request,$product_id){
         $get_image = $request->file('file');
         if($get_image){

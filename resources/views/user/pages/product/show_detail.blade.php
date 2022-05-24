@@ -12,15 +12,12 @@
             }
         </style>
         <ul id="imageGallery">
-            <li data-thumb="{{asset('frontend/images/product-details/luffy2.jpg')}}" data-src="{{asset('frontend/images/product-details/luffy2.jpg')}}">
-                <img width="100%" src="{{asset('frontend/images/product-details/luffy2.jpg')}}" />
-            </li>
-            <li data-thumb="{{asset('frontend/images/product-details/luffy3.jpg')}}" data-src="{{asset('frontend/images/product-details/luffy3.jpg')}}">
-                <img width="100%"  src="{{asset('frontend/images/product-details/luffy3.jpg')}}" />
-            </li>
-            <li data-thumb="{{asset('frontend/images/product-details/luffy4.jpg')}}" data-src="{{asset('frontend/images/product-details/luffy4.jpg')}}">
-                <img width="100%" src="{{asset('frontend/images/product-details/luffy4.jpg')}}" />
-            </li>
+
+            @foreach($gallery as $key => $gal)
+                <li data-thumb="{{asset('public/uploads/gallery/'.$gal->gallery_image)}}" data-src="{{asset('public/uploads/gallery/ '.$gal->gallery_image)}}">
+                    <img width="100%" src="{{asset('public/uploads/gallery/'.$gal->gallery_image)}}" />
+                </li>
+            @endforeach
 
         </ul>
         <!-- <div class="view-product">

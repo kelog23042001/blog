@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\CategoryPost;
+use App\Models\Gallery;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 session_start();
@@ -38,22 +40,29 @@ class ProductController extends Controller
         $data['brand_id']        = $request->product_brand;
         $data['product_status']  = $request->product_status;
 
+        $path_product = 'public/uploads/product/';
+        $path_gallery = 'public/uploads/gallery/';
+
         $get_image = $request->file('product_image');
         if($get_image){
             $get_name_image = $get_image->getClientOriginalName(); //tenhinhanh.jpg
             $name_image = current(explode('.',$get_name_image)); //[0] => tenhinhanh . [1] => jpg , lay mang dau tien
             $new_image = $name_image.rand(0,9999).'.'. $get_image->getClientOriginalExtension(); // random tranh trung hinh anh, getClientOriginalExtension lay duoi mo rong
-            $get_image->move('public/uploads/product', $new_image);
+            $get_image->move($path_product, $new_image);
+            File::copy($path_product.$new_image, $path_gallery.$new_image);
             $data['product_image'] = $new_image;
-            DB::table('tbl_product')->insert($data);
-            Session::put('message', 'Thêm sản phẩm thành công');
-
-            return Redirect::to('/add-product');
+            // DB::table('tbl_product')->insert($data);
+            // Session::put('message', 'Thêm sản phẩm thành công');
+            // return Redirect::to('/add-product');
         }
-        $data['product_image'] = '';
-        DB::table('tbl_product')->insert($data);
+        // $data['product_image'] = '';
+        $gallery = new Gallery();
+        $pro_id = DB::table('tbl_product')->insertGetId($data);
         Session::put('message', 'Thêm sản phẩm thành công');
-
+        $gallery->gallery_image = $new_image;
+        $gallery->gallery_name = $new_image;
+        $gallery->product_id = $pro_id;
+        $gallery->save();
         return Redirect::to('/all-product');
     }
 
@@ -101,6 +110,8 @@ class ProductController extends Controller
         $data['brand_id']        = $request->product_brand;
         $data['product_status']  = $request->product_status;
 
+
+
         $get_image = $request->file('product_image');
         if($get_image){
             $get_name_image = $get_image->getClientOriginalName(); //tenhinhanh.jpg
@@ -132,20 +143,21 @@ class ProductController extends Controller
         ->get();
 
         foreach($detail_product as $key=> $value){
+            $product_id = $value->product_id;
             $category_id = $value->category_id;
             $meta_decs = $value->product_desc;
             $meta_title =  $value->product_name;
             $meta_keyword =  $value->product_slug;
             $url_canonical = $request->url();
         }
-
+        $gallery = Gallery::where('product_id', $product_id)->get();
         $related_product = DB::table('tbl_product')
         ->join('tbl_category_product','tbl_category_product.category_id','=','tbl_product.category_id')
         ->join('tbl_brand_product','tbl_brand_product.brand_id','=','tbl_product.brand_id')
         ->where('tbl_category_product.category_id', $category_id)->whereNotIn('tbl_product.product_id', [$product_id])->limit(3)
         ->get();
 
-        return view('user.pages.product.show_detail', compact('category', 'brand', 'detail_product', 'related_product', 'category_post'))
+        return view('user.pages.product.show_detail', compact('category', 'brand','gallery' ,'detail_product', 'related_product', 'category_post'))
         ->with('meta_decs',$meta_decs)->with('meta_title',$meta_title)->with('meta_keyword',$meta_keyword)->with('url_canonical', $url_canonical);
     }
 }

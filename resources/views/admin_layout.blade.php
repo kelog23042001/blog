@@ -14,6 +14,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
 <!-- bootstrap-css -->
 <link rel="stylesheet" href="{{asset('/backend/css/bootstrap.min.css')}}" >
+<meta name="csrf-token" content="{{csrf_token()}}" >
 <!-- //bootstrap-css -->
 <!-- Custom CSS -->
 <link href="{{asset('/backend/css/style.css')}}" rel='stylesheet' type='text/css' />
@@ -390,7 +391,86 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 $('#error_gallery').html('<span class="text-danger">'+error+'</span>');
                 return false;
             }
-        })
+        });
+
+        $(document).on('blur','.edit_gal_name', function(){
+            var gal_id = $(this).data('gal_id');
+            var gal_text = $(this).text();
+            var _token = $('input[name="_token"]').val();
+
+            // alert(gal_id);
+            // alert(gal_text);
+            // alert(_token);
+            $.ajax({
+                url:"{{url('/update-gallery-name')}}",
+                method:"POST",
+                data:{
+                    gal_id:gal_id,
+                    gal_text:gal_text,
+                    _token:_token},
+                success:function(data){
+                    $('#gallery_load').html(data);
+
+                    load_gallery();
+                    $('#error_gallery').html('<span class="text-danger">Cập nhập tên hình ảnh thành công</span>');
+                    //alert("Cập nhập tên hình ảnh thành công");
+                }
+            });
+        });
+        $(document).on('click','.delete-gallery', function(){
+            var gal_id = $(this).data('gal_id');
+            var _token = $('input[name="_token"]').val();
+            if(confirm('bạn muốn xoá hình ảnh này không???')){
+                $.ajax({
+                url:"{{url('/delete-gallery')}}",
+                method:"POST",
+                data:{
+                    gal_id:gal_id,
+                    _token:_token},
+                success:function(data){
+                    $('#gallery_load').html(data);
+
+                    load_gallery();
+                    $('#error_gallery').html('<span class="text-danger">Xoa tên hình ảnh thành công</span>');
+                    //alert("Cập nhập tên hình ảnh thành công");
+                }
+            });
+            }
+
+
+        });
+        $(document).on('change','.update-gallery', function(){
+            var gal_id = $(this).data('gal_id');
+            var image = document.getElementById('file-'.$gal_id).files[0];
+            var _token = $('input[name="_token"]').val();
+
+            var form_data = new FormData();
+
+            form_data.append("file", document.getElementById('file-'.$gal_id).files[0]);
+            form_data.append("gal_id", $gal_id);
+
+                $.ajax({
+                url:"{{url('/delete-gallery')}}",
+                method:"POST",
+                headers:{
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data:form_data,
+                    contentType:false,
+                     cache:false,
+                     processData:false,
+                    success:function(data){
+                        $('#gallery_load').html(data);
+
+                        load_gallery();
+                        $('#error_gallery').html('<span class="text-danger">Cập nhập tên hình ảnh thành công</span>');
+                        //alert("Cập nhập tên hình ảnh thành công");
+                }
+            });
+
+
+
+        });
     });
 </script>
 <script>
