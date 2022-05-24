@@ -347,7 +347,52 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     CKEDITOR.replace('ckeditor');
     CKEDITOR.replace('ckeditor1');
 </script>
+
 <!-- morris JavaScript -->
+<script>
+    $(document).ready(function(){
+        load_gallery();
+        function load_gallery(){
+            var pro_id = $('.pro_id').val();
+            var _token = $('input[name="_token"]').val();
+
+            //alert(pro_id);
+            $.ajax({
+                url:'{{url('/select-gallery')}}',
+                method:"POST",
+                data:{
+                    pro_id:pro_id,_token:_token,
+                    },
+
+                success:function(data){
+                    $('#gallery_load').html(data);
+                }
+            });
+        }
+
+        $('#file').change(function(){
+            var error = '';
+            var files = $('#file')[0].files;
+
+            if(files.length > 7){
+                error+='<p>Chỉ được chọn tối đa 7 ảnh</p>'
+            }else if(files.length == ''){
+                error+='<p>Không được bỏ trống ảnh</p>'
+
+            }else if(files.size > 2000000){
+                error+='<p>File ảnh không được lớn hơn 2MB</p>'
+
+            }
+            if(error == ''){
+
+            }else{
+                $('#file').val('');
+                $('#error_gallery').html('<span class="text-danger">'+error+'</span>');
+                return false;
+            }
+        })
+    });
+</script>
 <script>
 	$(document).ready(function() {
 		//BOX BUTTON SHOW AND CLOSE

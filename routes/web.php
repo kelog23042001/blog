@@ -17,6 +17,7 @@ use App\Http\Controllers\SizeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CategoryPostController;
+use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 
@@ -100,6 +101,13 @@ Route::get('/delete-color-product/{color_id}',[ColorController::class, 'delete_c
 
 Route::post('/update-color-product/{color_id}',[ColorController::class, 'update_color_product']);
 Route::post('/save-color-product',[ColorController::class, 'save_color_product']);
+
+//Gallery
+
+Route::get('/add-gallery/{product_id}',[GalleryController::class, 'add_gallery']);
+Route::post('/select-gallery',[GalleryController::class, 'select_gallery']);
+Route::post('/insert-gallery/{product_id}',[GalleryController::class, 'insert_gallery']);
+
 
 //SizeController
 Route::get('/add-size-product',[SizeController::class, 'add_size_product']);

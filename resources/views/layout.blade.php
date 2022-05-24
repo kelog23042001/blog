@@ -18,6 +18,9 @@
 	<link href="{{asset('frontend/css/main.css')}}" rel="stylesheet">
 	<link href="{{asset('frontend/css/responsive.css')}}" rel="stylesheet">
     <link href="{{asset('frontend/css/sweetalert.css')}}" rel="stylesheet">
+    <link href="{{asset('frontend/css/lightgallery.min.css')}}" rel="stylesheet">
+    <link href="{{asset('frontend/css/lightslider.css')}}" rel="stylesheet">
+    <link href="{{asset('frontend/css/prettify.css')}}" rel="stylesheet">
 
     <link rel="shortcut icon" href="images/ico/favicon.ico">
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
@@ -48,6 +51,9 @@
 	<script src="{{asset('frontend/js/price-range.js')}}"></script>
     <script src="{{asset('frontend/js/jquery.prettyPhoto.js')}}"></script>
     <script src="{{asset('frontend/js/main.js')}}"></script>
+    <script src="{{asset('frontend/js/lightgallery-all.min.js')}}"></script>
+    <script src="{{asset('frontend/js/prettify.js')}}"></script>
+    <script src="{{asset('frontend/js/lightslider.js')}}"></script>
 
     <script src="{{asset('frontend/js/sweetalert.min.js')}}"></script>
     <script>
@@ -84,6 +90,24 @@
                 });
             });
         });
+    </script>
+    <script>
+          $(document).ready(function() {
+    $('#imageGallery').lightSlider({
+        gallery:true,
+        item:1,
+        loop:true,
+        thumbItem:9,
+        slideMargin:0,
+        enableDrag: false,
+        currentPagerPosition:'left',
+        onSliderLoad: function(el) {
+            el.lightGallery({
+                selector: '#imageGallery .lslide'
+            });
+        }
+    });
+  });
     </script>
     <script>
         $(document).ready(function(){

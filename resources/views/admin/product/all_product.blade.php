@@ -47,6 +47,7 @@
             </th>
             <th>Tên sản phẩm</th>
             <th>Hình ảnh</th>
+            <th>Thư viện ảnh</th>
             <th>Số lượng còn</th>
             <th>Slug</th>
             <th>Giá</th>
@@ -63,6 +64,7 @@
             <td><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label></td>
             <td>{{ $pro->product_name }}</td>
             <td ><img width="100px" src="{{asset('public/uploads/product/'.$pro->product_image) }}"></td>
+            <td><a href="{{url('/add-gallery/'.$pro->product_id)}}">Thêm thư viện ảnh</a></td>
             <td>{{ $pro->product_quantity }}</td>
             <td>{{ $pro->product_slug }}</td>
             <td>{{ $pro->product_price }}</td>
@@ -95,7 +97,7 @@
       <div class="row">
 
         <div class="col-sm-5 text-center">
-          
+
         </div>
         <div class="col-sm-7 text-right text-center-xs">
           <ul class="pagination pagination-sm m-t-none m-b-none">
