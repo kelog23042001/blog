@@ -30,27 +30,6 @@
             @endforeach
 
         </ul>
-        <!-- <div class="view-product">
-            <img src="{{URL::to('public/uploads/product/'.$value->product_image)}}" alt="{{URL::to('public/uploads/product/'.$value->product_image)}}" />
-        </div>
-        <div id="similar-product" class="carousel slide" data-ride="carousel"> -->
-        <!-- Wrapper for slides -->
-        <!-- <div class="carousel-inner">
-                    <div class="item active">
-                        <a href=""><img src="{{URL::to('frontend/images/product-details/similar1.jpg')}}" alt=""></a>
-                        <a href=""><img src="{{URL::to('frontend/images/product-details/similar2.jpg')}}" alt=""></a>
-                        <a href=""><img src="{{URL::to('frontend/images/product-details/similar3.jpg')}}" alt=""></a>
-                    </div>
-                </div> -->
-        <!-- Controls -->
-        <!-- <a class="left item-control" href="#similar-product" data-slide="prev">
-                <i class="fa fa-angle-left"></i>
-                </a>
-                <a class="right item-control" href="#similar-product" data-slide="next">
-                <i class="fa fa-angle-right"></i>
-                </a>
-        </div> -->
-
     </div>
 
     <div class="col-sm-7">
@@ -107,34 +86,48 @@
     <!--category-tab-->
     <div class="col-sm-12">
         <ul class="nav nav-tabs">
-            <li class="active"><a href="#details" data-toggle="tab">Mô Tả</a></li>
-            <li><a href="#reviews" data-toggle="tab">Đánh Giá</a></li>
+            <li><a href="#details" data-toggle="tab">Mô Tả</a></li>
+            <li class="active"><a href="#reviews" data-toggle="tab">Đánh Giá</a></li>
             <li><a href="#comment" data-toggle="tab">Bình Luận</a></li>
         </ul>
     </div>
     <div class="tab-content">
-        <div class="tab-pane fade active in" id="details">
+        <div class="tab-pane fade " id="details">
             <p>{!!$value->product_desc!!}</p>
         </div>
 
-        <div class="tab-pane fade " id="reviews">
+        <div class="tab-pane fade active in" id="reviews">
             <div class="col-sm-12">
                 <!-- <ul>
                     <li><a href=""><i class="fa fa-user"></i>EUGEN</a></li>
                     <li><a href=""><i class="fa fa-clock-o"></i>12:41 PM</a></li>
                     <li><a href=""><i class="fa fa-calendar-o"></i>31 DEC 2014</a></li>
                 </ul> -->
-                <!-- <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p> -->
+                <style type="text/css">
+                    .style_comment {
+                        border: 1px solid #ddd;
+                        border-radius: 10px;
+                        background: #F0F0E9;
+                    }
+                </style>
+                <form>
+                    @csrf
+                    <input type="hidden" name="comment_product_id" class="comment_product_id" value="{{$value->product_id}}">
+                    <div id="comment_show"></div>
+                </form>
+
+                <div id="notify_comment">
+                </div>
+
                 <p><b>Viết Đánh Giá Của Bạn</b></p>
 
                 <form action="#">
                     <span>
-                        <input type="text" placeholder="Tên" />
-                        <input type="email" placeholder="Gmail" />
+                        <input class="comment_name" type="text" style="width:100%; margin-left: 0px" placeholder="Tên"/>
                     </span>
-                    <textarea name=""></textarea>
+                    <textarea class="comment_content" name="comment" placeholder="Nội dung"></textarea>
                     <b>Đánh Giá: </b> <img src="images/product-details/rating.png" alt="" />
-                    <button type="button" class="btn btn-default pull-right">
+                    <button type="button" class="btn btn-default pull-right send-comment">
                         Gửi
                     </button>
                 </form>

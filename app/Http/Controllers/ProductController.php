@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CategoryPost;
+use App\Models\Comment;
 use App\Models\Gallery;
 use App\Models\Product;
 use App\Models\CategoryProductModel;
@@ -15,6 +16,41 @@ use Illuminate\Support\Facades\Session;
 session_start();
 class ProductController extends Controller
 {
+    public function send_comment(Request$request){
+        $product_id = $request->product_id;
+        $comment_name = $request->comment_name;
+        $comment_content = $request->comment_content;
+        $comment=new Comment();
+        $comment->comment = $comment_content;
+        $comment->comment_name = $comment_name;
+        $comment->comment_product_id = $product_id;
+        $comment->comment_status = 1;
+        $comment->save();
+    }
+    public function load_comment(Request $request){
+        $product_id = $request->product_id;
+        $comment = Comment::where('comment_product_id', $product_id)
+        ->where('comment_status',0)
+        ->orderBy('comment_id', 'desc')->get();
+        $output = '';
+        foreach($comment as $key => $comm){
+            $output .= '<div class="row style_comment">
+            <div class="col-md-2">
+                <img width="50%"src="'.url('frontend/images/product-details/similar3.jpg').'" class="img img-responsive img-thumbnail">
+            </div>
+            <div class="col-md-10">
+    
+            <p style="color: black;">'.$comm->comment_date.'</p>
+            <p style="color: green;"> @'.$comm->comment_name.'</p>
+
+                <p>
+                '.$comm->comment.'
+                </p>
+            </div>
+        </div><p></p>';
+        }
+        echo $output;
+    }
     public function add_product()
     {
         $cate_product = DB::table('tbl_category_product')->orderBy('category_id', 'desc')->get();

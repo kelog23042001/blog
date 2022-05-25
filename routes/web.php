@@ -229,3 +229,6 @@ Route::get('/delete-user-roles/{admin_id}',[UserController::class, 'delete_user_
 Route::post('/store-users',[UserController::class, 'store_users']);
 Route::post('/assign-roles',[UserController::class, 'assign_roles'])->middleware('auth.roles');
 
+//load comment
+Route::post('/load-comment',[ProductController::class, 'load_comment']);
+Route::post('/send-comment',[ProductController::class, 'send_comment']);

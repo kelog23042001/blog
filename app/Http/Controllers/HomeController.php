@@ -31,7 +31,7 @@ class HomeController extends Controller
         //Post category
 
 
-        $category_post = CategoryPost::orderby('cate_post_id', 'DESC')->paginate(5);
+        $category_post = CategoryPost::orderby('cate_post_id', 'DESC')->where('cate_post_status', "1")->get();
 
         //slider
         $slider = Banner::orderBy('slider_id','DESC')->where('slider_status', '1')->take(4)->get();
