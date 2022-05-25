@@ -46,6 +46,12 @@
             @endforeach
         </div>
         <!--/brands_products-->
+        <div class="brands_products"><!--like-range-->
+            <h2>Sản phẩm yêu thích</h2>
+            <div class="brands-name">
+                    <div id="row_wishlist" class="row"></div>
+            </div>
+        </div><!--/like-range-->
     </div>
 </div>
 
@@ -61,18 +67,20 @@
                         <form>
                             @csrf
                             <input type="hidden" value="{{$product->product_id}}" class="cart_product_id_{{$product->product_id}}">
-                            <input type="hidden" value="{{$product->product_name}}" class="cart_product_name_{{$product->product_id}}">
-                            <input type="hidden" value="{{$product->product_image}}" class="cart_product_image_{{$product->product_id}}">
-                            <input type="hidden" value="{{$product->product_price}}" class="cart_product_price_{{$product->product_id}}">
-                            <input type="hidden" value="1" class="cart_product_qty_{{$product->product_id}}">
+                                <input type="hidden" id="wishlist_productname{{$product->product_id}}" value="{{$product->product_name}}" class="cart_product_name_{{$product->product_id}}">
+                                <input type="hidden" value="{{$product->product_image}}" class="cart_product_image_{{$product->product_id}}">
+                                <input type="hidden" id="wishlist_productprice{{$product->product_id}}" value="{{$product->product_price}}" class="cart_product_price_{{$product->product_id}}">
+                                <input type="hidden" value="1" class="cart_product_qty_{{$product->product_id}}">
 
-                            <a href="{{URL::to('chi-tiet-san-pham/'.$product->product_id)}}">
+                                <a id="wishlist_producturl{{$product->product_id}}" href="{{URL::to('chi-tiet-san-pham/'.$product->product_id)}}">
 
-                                <img src="{{URL::to('public/uploads/product/'.$product->product_image)}}" alt="" />
-                                <h2>{{ number_format($product->product_price).' '.'VND'}}</h2>
-                                <p>{{ $product->product_name}}</p>
-                            </a>
-                            <button type="button" class="btn btn-default add-to-cart" data-id_product="{{$product->product_id}}" name="add-to-cart">Thêm giỏ hàng</button>
+                                    <img id="wishlist_productimage{{$product->product_id}}" width="200px" height="250px" src="{{URL::to('public/uploads/product/'.$product->product_image)}}" alt="" />
+                                    <h2>{{ number_format($product->product_price).' '.'VND'}}</h2>
+                                    <p>{{ $product->product_name}}</p>
+                                </a>
+                                <button type="button" class="btn btn-default add-to-cart"
+                                    data-id_product="{{$product->product_id}}" name="add-to-cart">Thêm giỏ hàng</button>
+                                </form>
                         </form>
                     </div>
                     </a>

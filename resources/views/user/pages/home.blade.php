@@ -47,13 +47,22 @@
             @endforeach
         </div><!--/brands_products-->
 
-        <div class="price-range"><!--price-range-->
+       <!--price-range-->
+        <!-- <div class="price-range">
             <h2>Price Range</h2>
             <div class="well text-center">
                     <input type="text" class="span2" value="" data-    -min="0" data-slider-max="600" data-slider-step="5" data-slider-value="[250,450]" id="sl2" ><br />
                     <b class="pull-left">$ 0</b> <b class="pull-right">$ 600</b>
             </div>
-        </div><!--/price-range-->
+        </div>
+        /price-range -->
+
+        <div class="brands_products"><!--like-range-->
+            <h2>Sản phẩm yêu thích</h2>
+            <div class="brands-name">
+                    <div id="row_wishlist" class="row"></div>
+            </div>
+        </div><!--/like-range-->
     </div>
 </div>
 
@@ -68,14 +77,14 @@
                             <form>
                                 @csrf
                                 <input type="hidden" value="{{$product->product_id}}" class="cart_product_id_{{$product->product_id}}">
-                                <input type="hidden" value="{{$product->product_name}}" class="cart_product_name_{{$product->product_id}}">
+                                <input type="hidden" id="wishlist_productname{{$product->product_id}}" value="{{$product->product_name}}" class="cart_product_name_{{$product->product_id}}">
                                 <input type="hidden" value="{{$product->product_image}}" class="cart_product_image_{{$product->product_id}}">
-                                <input type="hidden" value="{{$product->product_price}}" class="cart_product_price_{{$product->product_id}}">
+                                <input type="hidden" id="wishlist_productprice{{$product->product_id}}" value="{{$product->product_price}}" class="cart_product_price_{{$product->product_id}}">
                                 <input type="hidden" value="1" class="cart_product_qty_{{$product->product_id}}">
 
-                                <a href="{{URL::to('chi-tiet-san-pham/'.$product->product_id)}}">
+                                <a id="wishlist_producturl{{$product->product_id}}" href="{{URL::to('chi-tiet-san-pham/'.$product->product_id)}}">
 
-                                    <img src="{{URL::to('public/uploads/product/'.$product->product_image)}}" alt="" />
+                                    <img id="wishlist_productimage{{$product->product_id}}" width="200px" height="250px" src="{{URL::to('public/uploads/product/'.$product->product_image)}}" alt="" />
                                     <h2>{{ number_format($product->product_price).' '.'VND'}}</h2>
                                     <p>{{ $product->product_name}}</p>
                                 </a>
@@ -86,7 +95,31 @@
                     </a>
                 </div>
                 <div class="choose">
+
                     <ul class="nav nav-pills nav-justified">
+                    <style type="text/css">
+                            ul.nav.nav-pills.nav-justified li{
+                                text-align:center;
+                                font-size:13px;
+                            }
+                            .button_wishlist{
+                                border:none;
+                                background:#ffff;
+                                color:#83AFA8;
+                            }
+                            ul.nav.nav-pills.nav-justified i{
+                                color:#83AFA8;
+                            }
+                            .button_wishlist span:hover{
+                                color:#FE980F;
+                            }
+                            .button_wishlist:focus{
+                                border:none;
+                                outline:none;
+                            }
+                        </style>
+                        <li><i class="fa fa-star"></i><button  class="button_wishlist" id="{{$product->
+                            product_id}}" onclick="add_wistlist(this.id);"><span>Yêu thích</span></button></li>
                         <li><a href="#"><i class="fa fa-plus-square"></i>Xem Sau</a></li>
                     </ul>
                 </div>
