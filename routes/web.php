@@ -37,12 +37,12 @@ Route::post('/autocomplete-ajax', [HomeController::class, 'autocomplete_ajax']);
 
 //blog
 Route::get('/danh-muc-bai-viet/{post_slug}',[PostController::class, 'danh_muc_bai_viet']);
-Route::get('/blog',[PostController::class, 'danh_muc_bai_viet']);
 
 // //Danh muc san pham trang chu
 Route::get('/danh-muc-san-pham/{category_id}',[CategoryProductController::class, 'show_category_home']);
 Route::get('/thuong-hieu-san-pham/{brand_id}',[BrandController::class, 'show_brand_home']);
 Route::get('/chi-tiet-san-pham/{product_id}',[ProductController::class, 'details_product']);
+Route::get('/tag/{product_tag}',[ProductController::class, 'tag']);
 
 Route::get('/admin',[AdminController::class, 'index']);
 Route::get('/dashboard',[AdminController::class, 'show_dashboard']);

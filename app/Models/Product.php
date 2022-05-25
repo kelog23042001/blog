@@ -10,6 +10,7 @@ class Product extends Model
     public $timestamps = false;// set time to false
     protected$fillable = [
         'product_name',
+        'product_tags',
         'product_quantiry',
         'product_slug',
         'category_id',

@@ -1,9 +1,5 @@
 @extends('layout')
 @section('content')
-<section id="slider">
-    <!--slider-->
-    @include('elements.slider')
-</section>
 <div class="col-sm-3">
     <div class="left-sidebar">
         <h2 class="title text-center">Danh mục sản phẩm</h2>

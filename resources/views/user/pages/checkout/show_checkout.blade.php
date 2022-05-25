@@ -171,6 +171,15 @@ use Illuminate\Support\Facades\Session;
                                         }
                                         @endphp
                                     </li>
+
+                                    <div class="col-md-12">
+                                        @php
+                                        $vnd_to_usd = $total_after/23220
+                                        @endphp
+                                        <div id="paypal-button">
+                                            <input type="hidden" id="vnd_to_usd" value="{{round($vnd_to_usd, 2)}}">
+                                        </div>
+                                    </div>
                                 </td>
                             </tr>
                             @else

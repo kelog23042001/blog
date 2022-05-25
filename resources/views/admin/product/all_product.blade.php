@@ -28,13 +28,14 @@
       </div>
     </div>
     <?php
-      use Illuminate\Support\Facades\Session;
 
-      $message = Session::get('message');
-      if($message){
-          echo $message;
-          Session::put('message',null);
-      }
+    use Illuminate\Support\Facades\Session;
+
+    $message = Session::get('message');
+    if ($message) {
+      echo $message;
+      Session::put('message', null);
+    }
     ?>
     <div class="table-responsive">
       <table class="table table-striped b-t b-light">
@@ -59,11 +60,11 @@
           </tr>
         </thead>
         <tbody>
-            @foreach($all_product as $key => $pro)
+          @foreach($all_product as $key => $pro)
           <tr>
             <td><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label></td>
             <td>{{ $pro->product_name }}</td>
-            <td ><img width="100px" src="{{asset('public/uploads/product/'.$pro->product_image) }}"></td>
+            <td><img width="100px" src="{{asset('public/uploads/product/'.$pro->product_image) }}"></td>
             <td><a href="{{url('/add-gallery/'.$pro->product_id)}}">Thêm thư viện ảnh</a></td>
             <td>{{ $pro->product_quantity }}</td>
             <td>{{ $pro->product_slug }}</td>
@@ -72,21 +73,21 @@
             <td>{{ $pro->category_name }}</td>
             <td>{{ $pro->brand_name }}</td>
             <td><span class="text-ellipsis">
-            <?php
-                        if($pro->product_status == 0){
-                    ?>
-                        <a href="{{URL::to('/unactive-product/'.$pro->product_id)}} "><span class = "fa-thumb-styling fa fa-thumbs-down"> </span></a>
-                    <?php
-                        }else{
-                    ?>
-                        <a href="{{URL::to('/active-product/'.$pro->product_id)}}"><span class = "fa-thumb-styling fa fa-thumbs-up"> </span></a>
-                    <?php
-                        }
-                    ?>
-            </span></td>
+                <?php
+                if ($pro->product_status == 0) {
+                ?>
+                  <a href="{{URL::to('/unactive-product/'.$pro->product_id)}} "><span class="fa-thumb-styling fa fa-thumbs-down"> </span></a>
+                <?php
+                } else {
+                ?>
+                  <a href="{{URL::to('/active-product/'.$pro->product_id)}}"><span class="fa-thumb-styling fa fa-thumbs-up"> </span></a>
+                <?php
+                }
+                ?>
+              </span></td>
             <td>
-            <a href="{{URL::to('/edit-product/'.$pro->product_id)}}" style="font-size: 20px;" class="active styling-edit" ui-toggle-class=""><i class="fa fa-pencil-square-o text-success text-active"></i></a>
-            <a  onclick="return confirm('Bạn có chắc chắn muốn xoá?')" href="{{URL::to('/delete-product/'.$pro->product_id)}}"  style="font-size: 20px;" class="active styling-edit" ui-toggle-class=""><i class="fa fa-times text-danger text"></i></a>
+              <a href="{{URL::to('/edit-product/'.$pro->product_id)}}" style="font-size: 20px;" class="active styling-edit" ui-toggle-class=""><i class="fa fa-pencil-square-o text-success text-active"></i></a>
+              <a onclick="return confirm('Bạn có chắc chắn muốn xoá?')" href="{{URL::to('/delete-product/'.$pro->product_id)}}" style="font-size: 20px;" class="active styling-edit" ui-toggle-class=""><i class="fa fa-times text-danger text"></i></a>
             </td>
           </tr>
           @endforeach
