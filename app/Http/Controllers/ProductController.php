@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CategoryPost;
 use App\Models\Comment;
+use App\Models\Rate;
 use App\Models\Gallery;
 use App\Models\Product;
 use App\Models\CategoryProductModel;
@@ -16,6 +17,33 @@ use Illuminate\Support\Facades\Session;
 session_start();
 class ProductController extends Controller
 {
+    public function reply_comment(Request $request)
+    {
+        $data = $request->all();
+        $comment = new Comment();
+        $comment->comment = $data['comment'];
+        $comment->comment_name = 'Admin';
+        $comment->comment_product_id = $data['comment_product_id'];
+        $comment->comment_status = 0;
+        $comment->comment_parent_comment = $data['comment_id'];
+        $comment->save();
+    }
+    public function allow_comment(Request $request)
+    {
+        $data = $request->all();
+        $comment = Comment::find($data['comment_id']);
+        $comment->comment_status = $data['comment_status'];
+        $comment->save();
+    }
+    public function list_comment()
+    {
+        $comment = Comment::with('product')->where('comment_parent_comment', '=', 0)
+            ->orderBy('comment_status', 'desc')->orderBy('comment_date', 'desc')->get();
+        $comment_rep = Comment::with('product')->where('comment_parent_comment', '>', 0)->get();
+
+        return view('admin.comment.list_comment', compact('comment', 'comment_rep'));
+    }
+
     public function send_comment(Request$request){
         $product_id = $request->product_id;
         $comment_name = $request->comment_name;
@@ -27,27 +55,47 @@ class ProductController extends Controller
         $comment->comment_status = 1;
         $comment->save();
     }
-    public function load_comment(Request $request){
+    
+    public function load_comment(Request $request)
+    {
         $product_id = $request->product_id;
         $comment = Comment::where('comment_product_id', $product_id)
-        ->where('comment_status',0)
-        ->orderBy('comment_id', 'desc')->get();
-        $output = '';
-        foreach($comment as $key => $comm){
-            $output .= '<div class="row style_comment">
-            <div class="col-md-2">
-                <img width="50%"src="'.url('frontend/images/product-details/similar3.jpg').'" class="img img-responsive img-thumbnail">
-            </div>
-            <div class="col-md-10">
-    
-            <p style="color: black;">'.$comm->comment_date.'</p>
-            <p style="color: green;"> @'.$comm->comment_name.'</p>
+            ->where('comment_status', '=', 0)
+            ->where('comment_parent_comment', 0)
+            ->orderBy('comment_id', 'desc')
+            ->get();
+        $comment_rep = Comment::with('product')->where('comment_parent_comment', '>', 0)->get();
 
-                <p>
-                '.$comm->comment.'
-                </p>
-            </div>
-        </div><p></p>';
+        $output = '';
+        foreach ($comment as $key => $comm) {
+
+            $output .= '
+            <div class="row style_comment">
+                <div class="col-md-2">
+                    <img width="50%"src="' . url('frontend/images/product-details/similar3.jpg') . '" class="img img-responsive img-thumbnail">
+                </div>
+                <div class="col-md-10">
+                    <p style="color: black;">' . $comm->comment_date . '</p>
+                    <p style="color: green;"> @' . $comm->comment_name . '</p>
+                    <p>' . $comm->comment . '</p>
+                </div>
+            </div><p></p>
+            ';
+            foreach ($comment_rep as $key => $rep_comment) {
+                if ($rep_comment->comment_parent_comment == $comm->comment_id) {
+                    $output .= '
+                <div class="row style_comment" style="margin:5px 40px">
+                    <div class="col-md-2">
+                    </div>
+                    <div class="col-md-10">
+                        <p style="color: black;">' .  '</p>
+                        <p style="color: green;"> @LKShop</p>
+                        <p>' . $rep_comment->comment . '</p>
+                    </div>
+                </div>
+                <p></p>';
+                }
+            }
         }
         echo $output;
     }
@@ -190,6 +238,8 @@ class ProductController extends Controller
             ->where('tbl_product.product_id', $product_id)
             ->get();
 
+            $rating = Rate::where('product_id', $product_id)->avg('rating');
+            $rating = round($rating);
         foreach ($detail_product as $key => $value) {
             $product_id = $value->product_id;
             $category_id = $value->category_id;
@@ -208,7 +258,7 @@ class ProductController extends Controller
             ->where('tbl_category_product.category_id', $category_id)->whereNotIn('tbl_product.product_id', [$product_id])->limit(3)
             ->get();
 
-        return view('user.pages.product.show_detail', compact('brand_id', 'product_brand', 'product_cate', 'category', 'category_id', 'brand', 'gallery', 'detail_product', 'related_product', 'category_post'))
+        return view('user.pages.product.show_detail', compact('brand_id', 'product_brand', 'product_cate', 'category', 'rating', 'category_id', 'brand', 'gallery', 'detail_product', 'related_product', 'category_post'))
             ->with('meta_decs', $meta_decs)->with('meta_title', $meta_title)->with('meta_keyword', $meta_keyword)->with('url_canonical', $url_canonical);
     }
     public function tag(Request $request, $product_tag)
@@ -236,5 +286,15 @@ class ProductController extends Controller
             ->with('url_canonical', $url_canonical)
             ->with('product_tag', $product_tag)
             ->with('pro_tag', $pro_tag);
+    }
+    
+    public function insert_rating(Request $request)
+    {
+        $data = $request->all();
+        $rating = new Rate();
+        $rating->product_id = $data['product_id'];
+        $rating->rating = $data['index'];
+        $rating->save();
+        echo 'done';
     }
 }

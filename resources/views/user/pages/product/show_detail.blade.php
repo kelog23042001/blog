@@ -121,9 +121,17 @@
 
                 <p><b>Viết Đánh Giá Của Bạn</b></p>
 
+
+                <ul class="list-inline rating" title="Average Rating">
+                    @for($count = 1; $count<=5; $count++) @php if($count <=$rating) { $color='color:#ffcc00;' ; } else{ $color='color:#ccc;' ; } @endphp <li title="Đánh giá theo sao" id="{{$value->product_id}}-{{$count}}" data-index="{{$count}}" data-product_id="{{$value->product_id}}" data-rating="{{$rating}}" class="rating" style="cursor: pointer;{{$color}} font-size:30px;">&#9733;
+                        </li>
+                        @endfor
+                        <li>({{$rating}}/5)</li>
+                </ul>
+
                 <form action="#">
                     <span>
-                        <input class="comment_name" type="text" style="width:100%; margin-left: 0px" placeholder="Tên"/>
+                        <input class="comment_name" type="text" style="width:100%; margin-left: 0px" placeholder="Tên" />
                     </span>
                     <textarea class="comment_content" name="comment" placeholder="Nội dung"></textarea>
                     <b>Đánh Giá: </b> <img src="images/product-details/rating.png" alt="" />

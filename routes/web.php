@@ -232,3 +232,9 @@ Route::post('/assign-roles',[UserController::class, 'assign_roles'])->middleware
 //load comment
 Route::post('/load-comment',[ProductController::class, 'load_comment']);
 Route::post('/send-comment',[ProductController::class, 'send_comment']);
+// admin comment
+Route::get('/comment',[ProductController::class, 'list_comment']);
+Route::post('/allow-comment',[ProductController::class, 'allow_comment']);
+Route::post('/reply-comment',[ProductController::class, 'reply_comment']);
+//rating
+Route::post('/insert-rating',[ProductController::class, 'insert_rating']);

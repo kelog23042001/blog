@@ -102,6 +102,58 @@
     <script src="{{asset('frontend/js/lightslider.js')}}"></script>
     <script src="{{asset('frontend/js/sweetalert.min.js')}}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    
+<script type="text/javascript">
+        function remove_backgound(product_id){
+            for(var count = 1; count <=5; count++){
+                $('#'+product_id+'-'+count).css('color', '#ccc');
+            }
+        }
+        //hover rating start
+        $(document).on('mouseenter', '.rating', function(){
+            var index = $(this).data("index");
+            var product_id = $(this).data("product_id");
+            remove_backgound(product_id);
+
+            for(var count = 1; count <= index; count++){
+                $('#'+product_id+'-'+count).css('color', '#ffcc00');
+            }
+        });
+
+        //remove hover rating start
+        $(document).on('mouseleave', '.rating', function(){
+            var index = $(this).data("index");
+            var product_id = $(this).data("product_id");
+            var rating = $(this).data("rating");
+            remove_backgound(product_id);
+            for(var count = 1; count <= rating; count++){
+                $('#' + product_id +'-' +count).css('color', '#ffcc00');
+            }
+        });
+
+        // click rating start
+        $(document).on('click', '.rating', function(){
+            var index = $(this).data("index");
+            var product_id = $(this).data("product_id");
+            var _token = $('input[name = "_token"]').val();
+            // alert(index);
+            $.ajax({
+                url:"{{url('insert-rating')}}",
+                method:"POST",
+                data:{index:index, product_id:product_id, _token:_token},
+                success: function(){
+                    if(data = 'done'){
+                        alert("Bạn đã đánh giá " + index +" sao");
+                    }else{
+                        alert("Đánh giá lỗi");
+                    }
+                    location.reload();
+                }
+            });
+        });
+    </script>
+    
+    
     <script>
         $(document).ready(function(){
             $('#sort').on('change', function(){
