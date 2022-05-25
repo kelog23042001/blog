@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\CategoryPost;
+use App\Models\Gallery;
 use App\Models\Product;
 use App\Models\CategoryProductModel;
-use App\Models\Gallery;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -27,8 +27,7 @@ class ProductController extends Controller
         $all_product = DB::table('tbl_product')
             ->join('tbl_category_product', 'tbl_category_product.category_id', '=', 'tbl_product.category_id')
             ->join('tbl_brand_product', 'tbl_brand_product.brand_id', '=', 'tbl_product.brand_id')
-            ->orderBy('tbl_product.product_id', 'desc')
-            ->get();
+            ->paginate(5);
         return view('admin.product.all_product', compact('all_product'));
     }
 
@@ -123,8 +122,6 @@ class ProductController extends Controller
         $data['category_id']     = $request->product_cate;
         $data['brand_id']        = $request->product_brand;
         $data['product_status']  = $request->product_status;
-
-
 
         $get_image = $request->file('product_image');
         if ($get_image) {
