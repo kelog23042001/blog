@@ -101,7 +101,18 @@
     <script src="{{asset('frontend/js/prettify.js')}}"></script>
     <script src="{{asset('frontend/js/lightslider.js')}}"></script>
     <script src="{{asset('frontend/js/sweetalert.min.js')}}"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('#sort').on('change', function(){
+                var url = $(this).val();
+                if(url){
+                    window.location = url;
+                }
+                return false;
+            });
+        })
+    </script>
     <script>
        function view(){
             if(localStorage.getItem('data') != null){
@@ -205,6 +216,7 @@
             });
         });
     </script>
+
     <script>
         $(document).ready(function() {
             $('.add-to-cart').click(function() {
@@ -216,7 +228,7 @@
                 var cart_product_qty = $('.cart_product_qty_' + id).val();
                 var _token = $('input[name="_token"]').val();
                 $.ajax({
-                    url: '{{url(' / add - cart - ajax ')}}',
+                    url: '{{url('/add-cart-ajax')}}',
                     method: 'POST',
                     data: {
                         cart_product_id: cart_product_id,
@@ -278,7 +290,7 @@
                     result = 'wards';
                 }
                 $.ajax({
-                    url: '{{url(' / select - delivery - home ')}}',
+                    url: '{{url('/select-delivery-home')}}',
                     method: 'POST',
                     data: {
                         action: action,
@@ -304,7 +316,7 @@
                     alert('Làm ơn chọn địa điểm');
                 else {
                     $.ajax({
-                        url: '{{url(' / calculate - fee ')}}',
+                        url: '{{url('/calculate-fee')}}',
                         method: 'POST',
                         data: {
                             matp: matp,

@@ -23,4 +23,7 @@ class Product extends Model
     ];
     protected $primaryKey = 'product_id';
     protected $table = 'tbl_product';
+    public function category(){
+        return$this->belongsTo('App\Models\CategoryProductModel', 'category_id');
+    }
 }

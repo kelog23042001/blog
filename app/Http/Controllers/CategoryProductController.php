@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CategoryPost;
 use App\Models\CategoryProductModel;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
@@ -106,13 +107,34 @@ class CategoryProductController extends Controller
         $brand = DB::table('tbl_brand_product')->where('brand_status', '0')->orderBy('brand_id','desc')->get();
 
         $category_name = DB::table('tbl_category_product')->where('tbl_category_product.category_id', $category_id)->limit(1)->get();
-
-        $category_by_id = DB::table('tbl_product')
-        ->join('tbl_category_product', 'tbl_product.category_id', '=', 'tbl_category_product.category_id')
-        ->where('tbl_category_product.category_id', $category_id)
-        ->get();
-
-            foreach($category_by_id as $key => $value){
+        $category_id_cate = CategoryProductModel::where('category_id', $category_id)->get();
+        // $category_by_id = DB::table('tbl_product')
+        // ->join('tbl_category_product', 'tbl_product.category_id', '=', 'tbl_category_product.category_id')
+        // ->where('tbl_category_product.category_id', $category_id)
+        // ->paginate(6);
+        foreach($category_id_cate as $key => $cate){
+            $category_id = $cate->category_id;
+        }
+        if(isset($_GET['sort_by'])){
+            $sort_by = $_GET['sort_by'];
+            if($sort_by == 'giam_dan'){
+                $category_by_id = Product::with('category')->where('category_id',$category_id)->orderby('product_price',
+                'DESC')->paginate(6)->appends(request()->query());
+            }else if($sort_by == 'tang_dan'){
+                $category_by_id = Product::with('category')->where('category_id',$category_id)->orderby('product_price',
+                'ASC')->paginate(6)->appends(request()->query());
+            }else if($sort_by == 'kytu_za'){
+                $category_by_id = Product::with('category')->where('category_id',$category_id)->orderby('product_name',
+                'DESC')->paginate(6)->appends(request()->query());
+            }else if($sort_by == 'kytu_az'){
+                $category_by_id = Product::with('category')->where('category_id',$category_id)->orderby('product_name',
+                'ASC')->paginate(6)->appends(request()->query());
+            }
+        }else{
+            $category_by_id = Product::with('category')->where('category_id',$category_id)->orderby('product_id',
+            'DESC')->paginate(6);
+        }
+            foreach($category_name as $key => $value){
                 $meta_decs = $value->category_desc;
                 $meta_title = $value->category_name;
                 $meta_keyword = $value->meta_keywords;

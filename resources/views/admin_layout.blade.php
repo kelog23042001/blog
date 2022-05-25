@@ -59,7 +59,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             function fetch_delivery() {
                 var _token = $('input[name="_token"]').val();
                 $.ajax({
-                    url: '{{url(' / select - feeship ')}}',
+                    url: '{{url('/select-feeship')}}',
                     method: 'POST',
                     data: {
                         _token: _token
@@ -78,7 +78,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 // alert(fee_value);
                 // alert(feeship_id);
                 $.ajax({
-                    url: '{{url(' / update - delivery ')}}',
+                    url: '{{url('/update-delivery')}}',
                     method: 'POST',
                     data: {
                         feeship_id: feeship_id,
@@ -103,7 +103,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 // alert(wards);
                 // alert(fee_ship);
                 $.ajax({
-                    url: '{{url(' / insert - delivery ')}}',
+                    url: '{{url('/insert-delivery')}}',
                     method: 'POST',
                     data: {
                         city: city,
@@ -131,7 +131,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     result = 'wards';
                 }
                 $.ajax({
-                    url: '{{url(' / select - delivery ')}}',
+                    url: '{{url('/select-delivery')}}',
                     method: 'POST',
                     data: {
                         action: action,
@@ -398,7 +398,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
                 //alert(pro_id);
                 $.ajax({
-                    url: '{{url(' / select - gallery ')}}',
+                    url: '{{url('/select-gallery')}}',
                     method: "POST",
                     data: {
                         pro_id: pro_id,
@@ -659,7 +659,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 
             $.ajax({
-                url: '{{url(' / update - qty ')}}',
+                url: '{{url('/update-qty')}}',
                 method: 'POST',
                 data: {
                     _token: _token,
@@ -713,7 +713,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 alert('Cập nhật trạng thái đơn hàng thành công');
                 location.reload();
                 $.ajax({
-                    url: '{{url(' / update - order - quantity ')}}',
+                    url: '{{url('/update-order-quantity')}}',
                     method: 'POST',
                     data: {
                         _token: _token,
