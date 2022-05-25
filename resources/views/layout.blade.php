@@ -10,6 +10,7 @@
     <meta name="robots" content="INDEX,FOLLOW" />
     <link rel="canonical" href="{{$url_canonical}}" />
     <link rel="icon" type="image/x-icon" href="" />
+    <link rel="shortcut icon" type="image/ico" href="{{asset('frontend/images/shop/lk2.jpg')}}">
     <title>{{$meta_title}}</title>
     <link href="{{asset('frontend/css/bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{asset('frontend/css/font-awesome.min.css')}}" rel="stylesheet">
@@ -22,7 +23,7 @@
     <link href="{{asset('frontend/css/lightgallery.min.css')}}" rel="stylesheet">
     <link href="{{asset('frontend/css/lightslider.css')}}" rel="stylesheet">
     <link href="{{asset('frontend/css/prettify.css')}}" rel="stylesheet">
-
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
     <link rel="shortcut icon" href="images/ico/favicon.ico">
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
@@ -102,8 +103,35 @@
     <script src="{{asset('frontend/js/lightslider.js')}}"></script>
     <script src="{{asset('frontend/js/sweetalert.min.js')}}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="{{asset('frontend/js/simple.money.format.js')}}"></script>
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+
+    <script>
+        $(document).ready(function(){
+
+            $( "#slider-range" ).slider({
+            orientation: "horizontal",
+            range: true,
+            values: [ {{$min_price}}, {{$max_price}} ],
+            step: 10000,
+            min:{{$min_price_range}},
+            max:{{$max_price_range}},
+            slide: function( event, ui ) {
+                $( "#amount_start" ).val(  ui.values[ 0 ] + 'Vnd' ).simpleMoneyFormat() ;
+                $( "#amount_end" ).val( ui.values[ 1 ]  + 'Vnd').simpleMoneyFormat();
+                $( "#start_price" ).val(ui.values[ 0 ]);
+                $( "#end_price" ).val(ui.values[ 1 ] );
+
+            }
+            });
+            $( "#amount_start" ).val( $( "#slider-range" ).slider( "values", 0 ) + 'Vnd'  ).simpleMoneyFormat();
+            $( "#amount_end" ).val(  $( "#slider-range" ).slider( "values", 1 ) +  'Vnd').simpleMoneyFormat();
+
+
+        })
+    </script>
     
-<script type="text/javascript">
+    <script type="text/javascript">
         function remove_backgound(product_id){
             for(var count = 1; count <=5; count++){
                 $('#'+product_id+'-'+count).css('color', '#ccc');
@@ -152,8 +180,8 @@
             });
         });
     </script>
-    
-    
+
+
     <script>
         $(document).ready(function(){
             $('#sort').on('change', function(){

@@ -112,6 +112,10 @@ class CategoryProductController extends Controller
         // ->join('tbl_category_product', 'tbl_product.category_id', '=', 'tbl_category_product.category_id')
         // ->where('tbl_category_product.category_id', $category_id)
         // ->paginate(6);
+        $min_price = Product::min('product_price');
+        $max_price = Product::max('product_price') ;
+        $min_price_range = $min_price - 100000;
+        $max_price_range = $max_price + 100000;
         foreach($category_id_cate as $key => $cate){
             $category_id = $cate->category_id;
         }
@@ -130,6 +134,11 @@ class CategoryProductController extends Controller
                 $category_by_id = Product::with('category')->where('category_id',$category_id)->orderby('product_name',
                 'ASC')->paginate(6)->appends(request()->query());
             }
+        }else if(isset( $_GET['start_price']) && $_GET['end_price'] ){
+            $max_price = $_GET['end_price'];
+            $min_price = $_GET['start_price'];
+            $category_by_id = Product::with('category')->whereBetween('product_price',[$min_price, $max_price])->orderby('product_price',
+            'ASC')->paginate(6)->appends(request()->query());
         }else{
             $category_by_id = Product::with('category')->where('category_id',$category_id)->orderby('product_id',
             'DESC')->paginate(6);
@@ -142,7 +151,7 @@ class CategoryProductController extends Controller
             }
 
 
-        return view('user.pages.category.show_category', compact('category', 'brand', 'category_by_id', 'category_name', 'category_post'))
+        return view('user.pages.category.show_category', compact('min_price','min_price_range','max_price_range','max_price','category', 'brand', 'category_by_id', 'category_name', 'category_post'))
         ->with('meta_decs',$meta_decs)->with('meta_title',$meta_title)->with('meta_keyword',$meta_keyword)->with('url_canonical', $url_canonical);
     }
 }
