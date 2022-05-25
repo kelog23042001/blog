@@ -18,6 +18,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CategoryPostController;
 use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 
@@ -162,6 +163,9 @@ Route::get('/list-coupon',[CouponController::class, 'list_coupon']);
 Route::get('/delete-coupon/{coupon_id}',[CouponController::class, 'delete_coupon']);
 Route::get('/unset-coupon',[CouponController::class, 'unset_coupon']);
 
+//Login google
+Route::get('/login-customer-google',[AdminController::class, 'login_customer_google']);
+Route::get('/customer/google/callback',[AdminController::class, 'callback_customer_google']);
 
 
 //cart
@@ -192,6 +196,11 @@ Route::post('/login-customer',[CheckoutController::class, 'login_customer']);
 Route::post('/save-checkout-customer',[CheckoutController::class, 'save_checkout_customer']);
 Route::post('/select-delivery-home',[CheckoutController::class, 'select_delivery_home']);
 Route::post('/confirm-order',[CheckoutController::class, 'confirm_order']);
+
+
+//Login customer by GOOGLE
+Route::get('/login-customer-google',[AdminController::class, 'login_customer_google']);
+Route::get('/customer/google/callback',[AdminController::class, 'callback_customer_google']);
 
 
 //send mail

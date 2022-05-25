@@ -70,6 +70,8 @@
 
                         ?>
                             <li><a href="{{URL::to('/logout-checkout')}}"><i class="fa fa-lock"></i>Đăng xuất</a></li>
+                            <br>
+                            <img width="15%" src="{{Session::get('customer_picture')}}"> <p style="float:right ;">{{Session::get('customer_name') }}</p>
 
                         <?php
                         } else {
