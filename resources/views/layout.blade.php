@@ -107,6 +107,79 @@
     <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
 
     <script>
+        function delete_compare(id){
+            if(localStorage.getItem('compare') != null){
+                var data = JSON.parse(localStorage.getItem('compare'));
+                var index = data.findIndex(item => item.id === id);
+                data.splice(index, 1);
+                localStorage.setItem('compare', JSON.stringify(data));
+                document.getElementById('row_compare'+id).remove();
+
+            }
+        }
+        function viewed_compare(){
+            if(localStorage.getItem('compare') != null){
+                var data = JSON.parse(localStorage.getItem('compare'));
+                for(i=0; i< data.length; i++){
+                    var name = data[i].name;
+                    var price =  data[i].price;
+                    var image  =  data[i].image;
+                    var url = data[i].url;
+                    var desc = data[i].desc;
+                    var id = data[i].id;
+                    $('#row_compare').find('tbody').append('<tr id= "row_compare'+
+                    id+'"><td>'+name+'</td><td>'+price+'</td><td><img width = "100%" src = "'+
+                    image+'"</td> <td></td> <td></td> <td></td> <td><a href = "'+
+                    url+'">Xem sản phẩm</a><br></td><td onclick = "delete_compare('+
+                    id+')"><a style = "cursor: pointer"> Xoá so sánh</a></td>/tr>');
+                }
+            }
+        }
+        viewed_compare();
+
+        function add_compare(product_id){
+            document.getElementById('title-compare').innerText = 'Chỉ cho phép so sánh tối đa 3 sản phẩm';
+            var id = product_id;
+            var name = document.getElementById('wishlist_productname'+id).value;
+            var desc = document.getElementById('wishlist_productdesc'+id).value;
+            var price =   document.getElementById('wishlist_productprice'+id).value;
+            var image =  document.getElementById('wishlist_productimage'+id).src;
+            var url=  document.getElementById('wishlist_producturl'+id).href;
+
+            var newItem={
+                'url':url,
+                'id':id,
+                'desc' : desc,
+                'name':name,
+                'price':price,
+                'image':image
+            }
+            if( localStorage.getItem('compare') == null){
+                localStorage.setItem('compare','[]');
+            }
+            var old_data = JSON.parse(localStorage.getItem('compare'));
+
+            var matches = $.grep(old_data,function(obj){
+                return obj.id == id;
+            })
+            if(matches.length){
+                //alert('Sản phẩm bạn đã yêu thích,nên không thể thêm');
+            }else{
+               if(old_data.length <=3){
+                   old_data.push(newItem);
+                   $('#row_compare').find('tbody').append('<tr id= "row_compare'+
+                    id+'"><td>'+newItem.name+'</td><td>'+newItem.price+'</td><td><img width = "100%" src = "'+
+                    image+'"></td> <td></td> <td></td> <td></td> <td><a href = "'+
+                    newItem.url+'">Xem sản phẩm</a><br></td><td onclick = "delete_compare('+
+                    id+')"><a style = "cursor: pointer"> Xoá so sánh</a></td>/tr>');
+               }
+
+            }
+            localStorage.setItem('compare',JSON.stringify(old_data));
+            $('#sosanh').modal();
+        }
+    </script>
+    <script>
         $(document).ready(function(){
 
             $( "#slider-range" ).slider({

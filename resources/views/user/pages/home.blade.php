@@ -86,6 +86,7 @@
                                 <input type="hidden" value="{{$product->product_image}}" class="cart_product_image_{{$product->product_id}}">
                                 <input type="hidden" id="wishlist_productprice{{$product->product_id}}" value="{{$product->product_price}}" class="cart_product_price_{{$product->product_id}}">
                                 <input type="hidden" value="1" class="cart_product_qty_{{$product->product_id}}">
+                                <input type="hidden" id="wishlist_productdesc{{$product->product_id}}" value="{{$product->product_desc}}" class="cart_product_desc_{{$product->product_id}}">
 
                                 <a id="wishlist_producturl{{$product->product_id}}" href="{{URL::to('chi-tiet-san-pham/'.$product->product_id)}}">
 
@@ -125,7 +126,86 @@
                         </style>
                         <li><i class="fa fa-star"></i><button  class="button_wishlist" id="{{$product->
                             product_id}}" onclick="add_wistlist(this.id);"><span>Yêu thích</span></button></li>
-                        <li><a href="#"><i class="fa fa-plus-square"></i>So sánh</a></li>
+                        <li><a style="cursor: pointer;" onclick="add_compare({{$product->product_id}});" ><i class="fa fa-plus-square"></i>So sánh</a></li>
+
+
+                        <div class="container" >
+                            <div class="modal fade" id="sosanh" role="dialog" >
+                                <div class="modal-dialog modal-lg">
+                                <div class="modal-content"  >
+
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <div id="notify"></div>
+                                            <h4 class="modal-title"><div id="title-compare"></div></h4>
+                                        </div>
+                                    <!-- <div id="row_compare"></div> -->
+                                    <div class="modal-body" >
+                                        <table class="table table-hover" id="row_compare">
+                                            <thead>
+                                                <tr>
+                                                    <th>Tên</th>
+                                                    <th>Giá</th>
+                                                    <th>Hình ảnh</th>
+                                                    <th>Thuộc tính</th>
+                                                    <th>Thông tin kỹ thuật</th>
+                                                    <th>Mô tả</th>
+                                                    <th>Quản lý</th>
+                                                    <th>Xoá</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+
+                                </div>
+                            </div>
+
+                            </div>
+
+                        <!-- <div class="container-fluid">
+                            <div id="compare" class="model fade" role="dialog">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <div id="notify"></div>
+                                            <h4 class="modal-title"><div id="title-compare"></div></h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <table class="table table-hover" id="row_compare">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Tên</th>
+                                                        <th>Giá</th>
+                                                        <th>Hình ảnh</th>
+                                                        <th>Thuộc tính</th>
+                                                        <th>Thông tin kỹ thuật</th>
+                                                        <th>Mô tả</th>
+                                                        <th>Quản lý</th>
+                                                        <th>Xoá</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
                     </ul>
                 </div>
             </div>
