@@ -193,6 +193,72 @@
             });
         })
     </script>
+
+    <!-- Sản phẩm đã xem -->
+    <script>
+        function viewed(){
+            if(localStorage.getItem('viewed') != null){
+                var data = JSON.parse(localStorage.getItem('viewed'));
+                data.reverse();
+                document.getElementById('row_viewed').style.overflow = 'scroll';
+                document.getElementById('row_viewed').style.height  =    '300px';
+
+
+                for(i=0; i<data.length; i++){
+                    var name = data[i].name;
+                    var price =  data[i].price;
+                    var image  =  data[i].image;
+                    var url = data[i].url;
+
+                        $("#row_viewed").append('<div class = "row" style = "margin:10px 0"><div class ="col-md-4"><img src = "'+
+                        image+'" width = "100%"></div><div class ="col-md-8" info_wishlist ><p style = "  margin: 0;">'+name+'</p><p style = "  margin: 0;color:#FE980F">'+
+                         price+'</p><a href = "'+url+'">Đặt hàng</a></div></div>');
+
+                    }
+            }
+        }
+
+        product_viewed();
+         viewed();
+        function product_viewed(){
+            var id_product = $('#product_viewed_id').val();
+
+            if(id_product!=undefined){
+                var id = id_product;
+                var name = document.getElementById('viewed_productname'+id).value;
+                var price =   document.getElementById('viewed_productprice'+id).value;
+                var image =  document.getElementById('viewed_productimage'+id).value;
+                var url=  document.getElementById('viewed_producturl'+id).value;
+
+                var newItem={
+                    'url':url,
+                    'id':id_product,
+                    'name':name,
+                    'price':price,
+                    'image':image
+                }
+                if( localStorage.getItem('viewed') == null){
+                    localStorage.setItem('viewed','[]');
+                }
+                var old_data = JSON.parse(localStorage.getItem('viewed'));
+
+                var matches = $.grep(old_data,function(obj){
+                    return obj.id == id;
+                })
+                if(matches.length){
+
+                }else{
+                    old_data.push(newItem);
+                    $("#row_viewed").append('<div class = "row" style = "margin:10px 0"><div class ="col-md-4"><img src = "'+
+                            newItem.image+'" width = "100%"></div><div class ="col-md-8" info_wishlist ><p style = "  margin: 0;">'+newItem.name+'</p><p style = "  margin: 0;color:#FE980F">'+
+                            newItem.price+'</p><a href = "'+newItem.url+'">Đặt hàng</a></div></div>');
+                }
+                localStorage.setItem('viewed',JSON.stringify(old_data));
+            }
+
+        }
+    </script>
+    <!-- Sản phẩm yêu thích -->
     <script>
        function view(){
             if(localStorage.getItem('data') != null){

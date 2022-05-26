@@ -2,6 +2,12 @@
 @section('content')
 
 @foreach($detail_product as $key=> $value)
+
+            <input type="hidden" id="product_viewed_id" value="{{$value->product_id}}">
+            <input type="hidden" id="viewed_productname{{$value->product_id}}" value="{{$value->product_name}}">
+            <input type="hidden" id="viewed_productprice{{$value->product_id}}" value="{{$value->product_price}}" >
+            <input type="hidden" id="viewed_producturl{{$value->product_id}}" value="{{url('chi-tiet-san-pham/'.$value->product_id)}}">
+            <input type="hidden" id="viewed_productimage{{$value->product_id}}" value="{{asset('public/uploads/product/'.$value->product_image)}}" >
 <div class="product-details">
     <!--product-details-->
     <div class="col-sm-5">

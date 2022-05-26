@@ -24,7 +24,7 @@
         </div>
     </div>
 </div>
-<!--/header_top-->
+<!--/header_top-->  
 
 <div class="header-middle">
     <!--header-middle-->

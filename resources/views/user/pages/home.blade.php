@@ -56,7 +56,12 @@
             </div>
         </div>
         /price-range -->
-
+        <div class="brands_products"><!--like-range-->
+            <h2>Sản phẩm đã xem</h2>
+            <div class="brands-name">
+                    <div id="row_viewed" class="row"></div>
+            </div>
+        </div><!--/like-range-->
         <div class="brands_products"><!--like-range-->
             <h2>Sản phẩm yêu thích</h2>
             <div class="brands-name">
@@ -120,7 +125,7 @@
                         </style>
                         <li><i class="fa fa-star"></i><button  class="button_wishlist" id="{{$product->
                             product_id}}" onclick="add_wistlist(this.id);"><span>Yêu thích</span></button></li>
-                        <li><a href="#"><i class="fa fa-plus-square"></i>Xem Sau</a></li>
+                        <li><a href="#"><i class="fa fa-plus-square"></i>So sánh</a></li>
                     </ul>
                 </div>
             </div>
