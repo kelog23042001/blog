@@ -130,7 +130,7 @@
 
         })
     </script>
-    
+
     <script type="text/javascript">
         function remove_backgound(product_id){
             for(var count = 1; count <=5; count++){
@@ -460,6 +460,9 @@
                             window.setTimeout(function() {
                                 location.reload();
                             }, 3000);
+                        }else{
+                            swal("Đóng", "Đơn hàng chưa được gửi, làm ơn hoàn tất đơn hàng", "error");
+
                         }
                     });
             });

@@ -1,4 +1,4 @@
- @extends('layout')
+@extends('layout')
 @section('content')
 
 <div class="features_items"><!--features_items-->

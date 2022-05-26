@@ -61,8 +61,8 @@ class HomeController extends Controller
         $meta_keyword = "quan ao nu, quần áo nữ";
         $url_canonical = $request->url();
         $keywords = $request->keywords_submit;
-        $cate_product = DB::table('tbl_category_product')->where('category_status', '0')->orderBy('category_id','desc')->get();
-            $brand_product = DB::table('tbl_brand_product')->where('brand_status', '0')->orderBy('brand_id','desc')->get();
+        $cate_product = DB::table('tbl_category_product')->where('category_status', '1')->orderBy('category_id','desc')->get();
+            $brand_product = DB::table('tbl_brand_product')->where('brand_status', '1')->orderBy('brand_id','desc')->get();
 
          $search_product = DB::table('tbl_product')->where('product_name', 'like', '%'.$keywords.'%')->get();
 

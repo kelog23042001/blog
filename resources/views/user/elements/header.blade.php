@@ -108,9 +108,18 @@
                         <li><a href="{{ URL::to('/trang-chu') }}" class="active">Trang Chủ</a></li>
                         <li class="dropdown"><a href="#">Sản Phẩm<i class="fa fa-angle-down"></i></a>
                             <ul role="menu" class="sub-menu">
-                                @foreach($category as $key =>$danhmuc)
-                                <li><a href="{{URL::to('/danh-muc-san-pham/'.$danhmuc->category_id)}}">{{$danhmuc->category_name}}</a></li>
-                                @endforeach
+                            @foreach($category as $key => $cate)
+                                        @if($cate->category_parent == 0)
+                                        <li><a href="{{URL::to('/danh-muc-san-pham/'.$cate->category_id)}}">{{$cate->category_name}}</a></li>
+                                        @foreach($category as $key => $cate_sub)
+                                            @if($cate_sub->category_parent == $cate->category_id )
+                                                <ul>
+                                                    <li><a href="{{URL::to('/danh-muc-san-pham/'.$cate_sub->category_id)}}">{{$cate_sub->category_name}}</a></li>
+                                                </ul>
+                                            @endif
+                                        @endforeach
+                                        @endif
+                                    @endforeach
                             </ul>
                         </li>
                         <li class="dropdown"><a href="#">BLog<i class="fa fa-angle-down"></i></a>
