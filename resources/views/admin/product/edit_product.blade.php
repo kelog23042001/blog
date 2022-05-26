@@ -43,7 +43,10 @@
                             <!-- <img width="100px" src="{{URL::to('public/uploads/product/'.$pro->product_image) }}"> -->
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Giá sản phẩm</label>
+                            <label for="exampleInputEmail1">Giá nhập</label>
+                            <input type="text" value="{{$pro->price_cost}}" name="price_cost" class="form-control" id="exampleInputEmail1">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Giá bán</label>
                             <input value="{{ $pro->product_price }}" type="text" name="product_price" class="form-control" id="exampleInputEmail1">
                         </div>
                         <div class="form-group">

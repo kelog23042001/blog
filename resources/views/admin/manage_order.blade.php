@@ -38,9 +38,9 @@
             <td>{{ $ord->order_code }}</td>
 
             <td>@if($ord->order_status == 1)
-                Chờ duyệt
+                Chờ xử lý
               @else
-                Đã xử lý
+                Đã xử lý - Đã giao hàng
               @endif
             </td>
             <td>

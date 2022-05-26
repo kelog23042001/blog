@@ -118,7 +118,7 @@ class PostController extends Controller
 
     public function danh_muc_bai_viet($post_slug, Request $request)
     {
-        $category_post = CategoryPost::orderby('cate_post_id', 'DESC')->where('cate_post_status', '1')->paginate(5);
+        $category_post = CategoryPost::orderby('cate_post_id', 'DESC')->where('cate_post_status', '1')->where('cate_post_status', '1')->get();
         $cate_post = CategoryPost::where('cate_post_slug', $post_slug)->take(1)->get();
         foreach ($cate_post as $key => $cate) {
             $meta_decs = $cate->cate_post_desc;
@@ -149,25 +149,30 @@ class PostController extends Controller
 
     public function bai_viet($post_slug, Request $request)
     {
-        $category_post = CategoryPost::orderby('cate_post_id', 'DESC')->paginate(5);
-        $post = Post::with('cate_post')->where('post_status', 1)->where('post_slug', $post_slug)->take(1)->get();
+        $slider = Banner::orderBy('slider_id', 'DESC')->where('slider_status', '1')->take(4)->get();
+        $category = DB::table('tbl_category_product')->where('category_status', '1')->orderBy('category_id', 'desc')->get();
+        $brand = DB::table('tbl_brand_product')->where('brand_status', '1')->orderBy('brand_id', 'desc')->get();
 
-        foreach ($post as $key => $cate) {
+        $category_post = CategoryPost::orderby('cate_post_id', 'DESC')->where('cate_post_status', '1')->get();
+        $post_by_id = Post::with('cate_post')->where('post_status', 1)->where('post_slug', $post_slug)->take(1)->get();
+
+        foreach ($post_by_id as $key => $cate) {
             $meta_decs = $cate->post_desc;
             $meta_title = $cate->post_title;
             $meta_keyword = $cate->meta_post_keywords;
             $cate_id = $cate->cate_post_id;
             $cate_post_id = $cate->cate_post_id;
+            $post_id = $cate->post_id;
 
             $url_canonical = $request->url();
         }
-        $slider = Banner::orderBy('slider_id', 'DESC')->where('slider_status', '1')->take(4)->get();
+        $post = Post::find($post_id);
+        $post->post_views = $post->post_views + 1;
+        $post->save();
         $related = Post::with('cate_post')->where('post_status', 1)->where('cate_post_id', $cate_post_id)->whereNotIn(
             'post_slug',
             [$post_slug]
         )->take(5)->get();
-        $category = DB::table('tbl_category_product')->where('category_status', '1')->orderBy('category_id', 'desc')->get();
-        $brand = DB::table('tbl_brand_product')->where('brand_status', '1')->orderBy('brand_id', 'desc')->get();
 
         return view('user.pages.post.baiviet', compact(
             'slider',
@@ -178,7 +183,7 @@ class PostController extends Controller
             'category',
             'category_post',
             'brand',
-            'post',
+            'post_by_id',
             'related'
         ));
     }

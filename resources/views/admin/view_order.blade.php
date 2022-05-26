@@ -184,7 +184,7 @@
                   <select class="form-control order_details">
                     <option id="{{$or->order_id}}" value="1" selected >Chờ xử lý</option>
                     <option id="{{$or->order_id}}" value="2">Đã xử lý-Đã giao hàng</option>
-                    <option id="{{$or->order_id}}" value="3">Hủy đơn hàng-tạm giữa</option>
+                    <!-- <option id="{{$or->order_id}}" value="3">Hủy đơn hàng-tạm giữa</option> -->
                   </select>
                 </form>
               @elseif($or->order_status == 2)
@@ -193,10 +193,10 @@
                     <select class="form-control order_details">
                       <option id="{{$or->order_id}}" value="1">Chờ xử lý</option>
                       <option id="{{$or->order_id}}" value="2"selected >Đã xử lý-Đã giao hàng</option>
-                      <option id="{{$or->order_id}}" value="3">Hủy đơn hàng-tạm giữa</option>
+                      <!-- <option id="{{$or->order_id}}" value="3">Hủy đơn hàng-tạm giữa</option> -->
                     </select>
                   </form>
-                @else
+                <!-- @else
                   <form>
                     @csrf
                       <select class="form-control order_details">
@@ -204,7 +204,7 @@
                         <option id="{{$or->order_id}}" value="2">Đã xử lý-Đã giao hàng</option>
                         <option id="{{$or->order_id}}" value="3" selected >Hủy đơn hàng-tạm giữa</option>
                       </select>
-                    </form>
+                    </form> -->
               @endif
               @endforeach
             </td>

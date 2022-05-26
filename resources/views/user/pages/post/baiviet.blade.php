@@ -58,7 +58,7 @@
 </div>
 <div class="product-image-wrapper">
     <h2 style=" position: inherit; margin-top: 10px" class="title text-center">{{$meta_title}}</h2>
-    @foreach($post as $key => $val)
+    @foreach($post_by_id as $key => $val)
 
     <div class="single-products" style="margin: 10px 0px">
         {!!$val->post_content!!}

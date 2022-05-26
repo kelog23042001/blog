@@ -11,7 +11,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="keywords" content="Visitors Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
-Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+    Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
     <script type="application/x-javascript">
         addEventListener("load", function() {
             setTimeout(hideURLbar, 0);
@@ -21,6 +21,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             window.scrollTo(0, 1);
         }
     </script>
+    <!-- picker data -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+
     <!-- bootstrap-css -->
     <link rel="stylesheet" href="{{asset('/backend/css/bootstrap.min.css')}}">
     <meta name="csrf-token" content="{{csrf_token()}}">
@@ -394,6 +398,136 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     </script>
 
 
+
+
+
+<script src="//code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="{{asset('/backend/js/simple.money.format.js')}}"></script>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+
+    <script type="text/javascript">
+        $('.price_format').simpleMoneyFormat();
+</script>
+<script src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        var colorDanger = "#FF1744";
+        Morris.Donut({
+        element: 'donut',
+        resize: true,
+        colors: [
+            '#E0F7FA',
+            '#B2EBF2',
+            '#80DEEA',
+            '#4DD0E1',
+        ],
+        data: [
+            {label:"Sản phẩm", value: <?php echo $product_count?>},
+            {label:"Blog", value:<?php echo $post_count ?>},
+            {label:"Đơn hàng", value:<?php echo $order_count ?>},
+            {label:"Thành viên", value:<?php echo $customer_count ?>},
+        ]
+        });
+    });
+</script>
+<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+<script>
+    $( function() {
+        $( "#datepicker" ).datepicker({
+            prevText:"Tháng trước",
+            nextText:"Tháng sau",
+            dateFormat:"yy-mm-dd",
+            dayNamesMin:["Thứ2","Thứ3","Thứ4","Thứ5","Thứ6","Thứ7","Chủ nhật"],
+            duration:"slow"
+        });
+        } );
+        $( function() {
+        $( "#datepicker2" ).datepicker({
+            prevText:"Tháng trước",
+            nextText:"Tháng sau",
+            dateFormat:"yy-mm-dd",
+            dayNamesMin:["Thứ2","Thứ3","Thứ4","Thứ5","Thứ6","Thứ7","Chủ nhật"],
+            duration:"slow" 
+        });
+    } );
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        chart30daysorder();
+        var chart = new Morris.Bar({
+            element:'chart',
+            lineColors:['#819C79','#fc8710','#FF6541','#A4ADD3','#766856'],
+            pointFillColors:['#ffffff'],
+            pointStrokeColors:['black'],
+            fillopacity:0.6,
+            hideHover:'auto',
+            parseTime:false,
+            xkey:'period',
+            ykeys:['order','sales','profit','quantity'],
+            behaveLikeLine:true,    
+            labels:['đơn hàng','doanh số','lợi nhuận','số lượng']
+        });
+
+
+        $('#btn-dashboard-filter').click(function(){
+            var _token = $('input[name="_token"]').val();
+            var from_date = $('#datepicker').val();
+            var to_date = $('#datepicker2').val();
+            $.ajax({
+                url:"{{url('/filter-by-date')}}",
+                method:"POST",
+                dataType:"JSON",
+                data: {
+                    from_date:from_date,
+                    to_date:to_date,
+                    _token:_token
+                },
+                success:function(data)
+                {
+                    chart.setData(data);
+                }
+            });
+        });
+
+        $('.dashboard-filter').change(function(){
+            var dashboard_value = $(this).val();
+            var _token = $('input[name="_token"]').val();
+            $.ajax({
+                url:"{{url('/dashboard-filter')}}",
+                method:"POST",
+                dataType:"JSON",
+                data: {
+                    dashboard_value:dashboard_value,
+                    _token:_token
+                },
+                success:function(data)
+                {
+                    chart.setData(data);
+                }
+            });
+        });
+        
+        function chart30daysorder(){
+            var _token = $('input[name="_token"]').val();
+            $.ajax({
+                url:"{{url('/day-order')}}",
+                method:"POST",
+                dataType:"JSON",
+                data: {
+                    _token:_token
+                },
+                success:function(data)
+                {
+                    chart.setData(data);
+                }
+            });
+        }
+    });
+</script>
 <script type="text/javascript">
         $('.comment_duyet_btn').click(function(){
             var comment_status = $(this).data('comment_status');
@@ -713,8 +847,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             var order_code = $('.order_code').val();
             var _token = $('input[name="_token"]').val();
 
+            
+            var order_qty_storage = $('.order_qty_storage_' + order_product_id).val();
 
-            $.ajax({
+            if (parseInt(order_qty) > parseInt(order_qty_storage)) {
+                alert('Số lượng trong kho không đủ');
+                $('.color_qty_' + order_product_id).css('background', '#000');
+            }
+            else{
+                $.ajax({
                 url: '{{url('/update-qty')}}',
                 method: 'POST',
                 data: {
@@ -729,10 +870,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     location.reload();
                 }
             });
-
-            // alert(order_product_id);
-            // alert(order_qty);
-            // alert(order_code);
+            }
         });
     </script>
 

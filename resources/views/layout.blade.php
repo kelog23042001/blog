@@ -564,8 +564,8 @@
                         confirmButtonClass: "btn-danger",
                         confirmButtonText: "Có",
                         cancelButtonText: "Không",
-                        closeOnConfirm: false,
-                        closeOnCancel: false
+                        closeOnConfirm: true,
+                        closeOnCancel: true
                     },
                     function(isConfirm) {
                         if (isConfirm) {
@@ -580,12 +580,13 @@
                             var order_coupon = $('.order_coupon').val();
                             var _token = $('input[name="_token"]').val();
                             $.ajax({
-                                url: '{{url(' / confirm - order ')}}',
+                                url: '{{url('/confirm-order')}}',
                                 method: 'POST',
                                 data: {
                                     shipping_email: shipping_email,
                                     shipping_name: shipping_name,
                                     shipping_address: shipping_address,
+                                    shipping_notes: shipping_notes,
                                     shipping_phone: shipping_phone,
                                     shipping_method: shipping_method,
                                     order_fee: order_fee,
@@ -599,10 +600,10 @@
                             window.setTimeout(function() {
                                 location.reload();
                             }, 3000);
-                        }else{
-                            swal("Đóng", "Đơn hàng chưa được gửi, làm ơn hoàn tất đơn hàng", "error");
+                            }else{
+                                swal("Đóng", "Đơn hàng chưa được gửi, làm ơn hoàn tất đơn hàng", "error");
 
-                        }
+                            }
                     });
             });
         });

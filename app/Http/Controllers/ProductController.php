@@ -127,6 +127,7 @@ class ProductController extends Controller
         $data['product_slug']    = $request->product_slug;
         $data['product_desc']    = $request->product_desc;
         $data['product_price']   = $request->product_price;
+        $data['price_cost']   = $request->price_cost;
         $data['category_id']     = $request->product_cate;
         $data['brand_id']        = $request->product_brand;
         $data['product_status']  = $request->product_status;
@@ -203,6 +204,7 @@ class ProductController extends Controller
         $data['product_slug']    = $request->product_slug;
         $data['product_desc']    = $request->product_desc;
         $data['product_price']   = $request->product_price;
+        $data['price_cost']   = $request->price_cost;
         $data['category_id']     = $request->product_cate;
         $data['brand_id']        = $request->product_brand;
         $data['product_status']  = $request->product_status;
@@ -258,6 +260,10 @@ class ProductController extends Controller
             ->where('tbl_category_product.category_id', $category_id)->whereNotIn('tbl_product.product_id', [$product_id])->limit(3)
             ->get();
 
+            $product = Product::where('product_id', $product_id)->first();
+            $product->product_views = $product->product_views + 1;
+            $product->save();
+            
         return view('user.pages.product.show_detail', compact('brand_id', 'product_brand', 'product_cate', 'category', 'rating', 'category_id', 'brand', 'gallery', 'detail_product', 'related_product', 'category_post'))
             ->with('meta_decs', $meta_decs)->with('meta_title', $meta_title)->with('meta_keyword', $meta_keyword)->with('url_canonical', $url_canonical);
     }

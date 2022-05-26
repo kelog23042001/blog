@@ -42,8 +42,13 @@
                                 <input type="file" name="product_image" class="form-control" id="exampleInputEmail1">
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Giá sản phẩm</label>
-                                <input type="text" name="product_price" class="form-control" id="exampleInputEmail1" placeholder="Nhập giá sản phẩm">
+                                <label for="exampleInputEmail1">Giá bán</label>
+                                <input type="text" name="product_price" class="form-control price_format" id="exampleInputEmail1" placeholder="Nhập giá sản phẩm">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Giá nhập</label>
+                                <input type="text" class="money" value="20000"/>
+                                <input type="text" name="price_cost" class="form-control price_format" id="exampleInputEmail1" placeholder="Nhập giá sản phẩm">
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Mô tả sản phẩm</label>

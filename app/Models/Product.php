@@ -17,6 +17,8 @@ class Product extends Model
         'brand_id',
         'product_desc',
         'product_content',
+        'price_cost',
+        'product_views',
         'product_price',
         'product_image',
         'product_status'

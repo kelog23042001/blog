@@ -19,6 +19,8 @@ use App\Models\Shipping;
 use App\Models\OrderDetails;
 use App\Models\Order;
 
+use Carbon\Carbon;
+
 class CheckoutController extends Controller
 {
 
@@ -26,10 +28,10 @@ class CheckoutController extends Controller
         $data = $request->all();
         $shipping = new Shipping();
         $shipping->shipping_name = $data['shipping_name'];
-        $shipping->shipping_email = $data['shipping_name'];
-        $shipping->shipping_phone = $data['shipping_name'];
-        $shipping->shipping_address = $data['shipping_name'];
-        $shipping->shipping_notes = $data['shipping_name'];
+        $shipping->shipping_email = $data['shipping_email'];
+        $shipping->shipping_phone = $data['shipping_phone'];
+        $shipping->shipping_address = $data['shipping_address'];
+        $shipping->shipping_notes = $data['shipping_notes'];
         $shipping->shipping_method = $data['shipping_method'];
         $shipping->save();
         $shipping_id = $shipping->shipping_id;
@@ -42,6 +44,13 @@ class CheckoutController extends Controller
         $order->order_code = $checkout_code;
         date_default_timezone_set('Asia/Ho_Chi_Minh');
         $order->created_at = now();
+        
+        $today = Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d H:i:s');
+        $order_date = Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d');
+
+        $order->created_at = $today;
+        $order->order_date = $order_date;
+        
         $order->save();
 
         if(Session::get('cart')){
