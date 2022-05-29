@@ -3,8 +3,9 @@
 <div class="container-fluid">
     <style>
         p.title_thongke {
-            -text-align: center;
+            text-align: center;
             font-size: 20px;
+            margin-bottom: 10px;
             font-weight: bold;
         }
     </style>
@@ -15,7 +16,7 @@
         <form autocomplete="off">
             @csrf
             <div class="col-md-2">
-                <p>Từ ngày:<input type="text" id="datepicker" class="form-control"></p>
+                <p>Từ ngày:<input type="text" id="datepicker1" class="form-control"></p>
                 <input type="button" id="btn-dashboard-filter" class="btn btn-primary btn-sm" value="Lọc kết quả">
             </div>
             <div class="col-md-2">
@@ -115,8 +116,5 @@
                 @endforeach
             </ol>
         </div>
-
     </div>
-
-
     @endsection
