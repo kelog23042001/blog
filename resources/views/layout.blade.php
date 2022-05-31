@@ -597,12 +597,8 @@
                                     swal("Đặt hàng!", "Đơn đặt hàng của bạn đã đặt thành công", "success");
                                 }
                             });
-                            window.setTimeout(function() {
-                                location.reload();
-                            }, 3000);
                             }else{
                                 swal("Đóng", "Đơn hàng chưa được gửi, làm ơn hoàn tất đơn hàng", "error");
-
                             }
                     });
             });

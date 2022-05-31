@@ -19,6 +19,7 @@ use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CategoryPostController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\MailController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 
@@ -252,3 +253,11 @@ Route::post('/filter-by-date',[AdminController::class, 'filter_by_date']);
 Route::post('/dashboard-filter',[AdminController::class, 'dashboard_filter']);
 
 Route::post('/day-order',[AdminController::class, 'day_order']);
+
+//send mail
+Route::get('/send-example',[MailController::class, 'send_example']);
+Route::get('/send-coupon/{coupon_code}',[MailController::class, 'send_coupon']);
+// Route::get('/send-coupon/{coupon_time}/{coupon_condition}/{coupon_number}/{coupon_name}/{coupon_code}',[MailController::class, 'send_coupon']);
+
+Route::get('/mail-order',[MailController::class, 'mail_order']);
+

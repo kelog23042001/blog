@@ -6,12 +6,18 @@ use App\Models\Coupon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
+use Carbon\Carbon;
 
 class CouponController extends Controller
 {
     public function check_coupon(Request $request){
         $data = $request->all();
-        $coupon = Coupon::where('coupon_code', $data['coupon'])->first();
+        $now = Carbon::now('Asia/Ho_Chi_Minh')->format('d-m-y');
+
+        $coupon = Coupon::where('coupon_code', $data['coupon'])
+        ->where('coupon_date_start', '<=', $now)
+        ->where('coupon_date_end', '>=', $now)
+        ->first();
         if($coupon){
             $count_coupon = $coupon->count();
             if($count_coupon > 0){
@@ -26,7 +32,6 @@ class CouponController extends Controller
                        );
                        Session::put('coupon',$cou);
                    }
-
                 }
                 else{
                     $cou[] = array(
@@ -37,11 +42,11 @@ class CouponController extends Controller
                     Session::put('coupon',$cou);
              }
                 Session::save();
-                return redirect()->back()->with('message', 'Thêm mã giảm giá thành công');
+                // return redirect()->back()->with('message', $coupon->coupon_date_start."///".$now."////".$coupon->coupon_date_end);
+                return redirect()->back()->with('message', 'Áp dụng mã giảm giá thành công');
             }
         }else{
-           return redirect()->back()->with('error', 'Mã giảm giá không đúng');
-
+           return redirect()->back()->with('error', 'Mã giảm giá không đúng hoặc đã hết hạn');
         }
     }
     public function insert_coupon_code(Request $request){
@@ -56,6 +61,9 @@ class CouponController extends Controller
        $coupon->coupon_time      = $data['coupon_time'];
        $coupon->coupon_condition = $data['coupon_condition'];
        $coupon->coupon_code      = $data['coupon_code'];
+       $coupon->coupon_date_start      = $data['coupon_date_start'];
+       $coupon->coupon_date_end      = $data['coupon_date_end'];
+
 
        $coupon->save();
        Session::put('message', 'Thêm mã giảm giá thành công');

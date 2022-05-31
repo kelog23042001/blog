@@ -8,13 +8,6 @@
 
     <div class="row w3-res-tb">
       <div class="col-sm-5 m-b-xs">
-        <select class="input-sm form-control w-sm inline v-middle">
-          <option value="0">Bulk action</option>
-          <option value="1">Delete selected</option>
-          <option value="2">Bulk edit</option>
-          <option value="3">Export</option>
-        </select>
-        <button class="btn btn-sm btn-default">Apply</button>
       </div>
       <div class="col-sm-4">
       </div>
@@ -28,15 +21,16 @@
       </div>
     </div>
     <div class="table-responsive">
-                        <?php
-                            use Illuminate\Support\Facades\Session;
+      <?php
 
-                            $message = Session::get('message');
-                            if($message){
-                                echo $message;
-                                Session::put('message',null);
-                            }
-                        ?>
+      use Illuminate\Support\Facades\Session;
+
+      $message = Session::get('message');
+      if ($message) {
+        echo $message;
+        Session::put('message', null);
+      }
+      ?>
       <table class="table table-striped b-t b-light">
         <thead>
           <tr>
@@ -46,52 +40,57 @@
             <th>Số lượng</th>
             <th>Điều kiện giảm giá</th>
             <th>Số giảm</th>
-
-            <th style="width:30px;"></th>
+            <th>Ngày bắt đầu</th>
+            <th>Ngày kết thúc</th>
+            <th>Thao Tác</th>
+            <th>Gửi mail</th>
           </tr>
         </thead>
         <tbody>
-            @foreach($coupon as $key => $cou)
+          @foreach($coupon as $key => $cou)
           <tr>
 
             <td>{{ $cou->coupon_name }}</td>
             <td>{{ $cou->coupon_code }}</td>
             <td>{{ $cou->coupon_time }}</td>
             <td>
-                <span class="text-ellipsis">
+              <span class="text-ellipsis">
                 <?php
-                        if($cou->coupon_condition == 1){
-                    ?>
-                        Giảm theo phần trăm
-                    <?php
-                        }else{
-                    ?>
-                        Giảm theo tiền
-                    <?php
-                        }
-                    ?>
-                </span>
+                if ($cou->coupon_condition == 1) {
+                ?>
+                  Giảm theo phần trăm
+                <?php
+                } else {
+                ?>
+                  Giảm theo tiền
+                <?php
+                }
+                ?>
+              </span>
             </td>
             <td>
-                <span class="text-ellipsis">
+              <span class="text-ellipsis">
                 <?php
-                        if($cou->coupon_condition == 1){
-                    ?>
-                        Giảm {{$cou->coupon_number}} %
-                    <?php
-                        }else{
-                    ?>
-                        Giảm {{$cou->coupon_number}} k
-                    <?php
-                        }
-                    ?>
-                </span>
+                if ($cou->coupon_condition == 1) {
+                ?>
+                  Giảm {{$cou->coupon_number}} %
+                <?php
+                } else {
+                ?>
+                  Giảm {{$cou->coupon_number}} k
+                <?php
+                }
+                ?>
+              </span>
             </td>
-
-
+            <td>{{ $cou->coupon_date_start }}</td>
+            <td>{{ $cou->coupon_date_end }}</td>
             <td>
               <a href="{{URL::to('/edit-coupon/'.$cou->coupon_id)}}" style="font-size: 20px;" class="active styling-edit" ui-toggle-class=""><i class="fa fa-pencil-square-o text-success text-active"></i></a>
-              <a  onclick="return confirm('Bạn có chắc chắn muốn xoá?')" href="{{URL::to('/delete-coupon/'.$cou->coupon_id)}}"  style="font-size: 20px;" class="active styling-edit" ui-toggle-class=""><i class="fa fa-times text-danger text"></i></a>
+              <a onclick="return confirm('Bạn có chắc chắn muốn xoá?')" href="{{URL::to('/delete-coupon/'.$cou->coupon_id)}}" style="font-size: 20px;" class="active styling-edit" ui-toggle-class=""><i class="fa fa-times text-danger text"></i></a>
+            </td>
+            <td>
+              <a href="{{URL::to('/send-coupon/'.$cou->coupon_code)}}" class="btn btn-sm btn-danger">Gửi</a>
             </td>
           </tr>
           @endforeach
@@ -106,7 +105,7 @@
         </div>
         <div class="col-sm-7 text-right text-center-xs">
           <ul class="pagination pagination-sm m-t-none m-b-none">
-          {!! $coupon->links("pagination::bootstrap-4") !!}
+            {!! $coupon->links("pagination::bootstrap-4") !!}
           </ul>
         </div>
       </div>

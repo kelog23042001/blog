@@ -12,12 +12,12 @@ use Illuminate\Support\Facades\Session;
                 <li class="active">Thanh toán giỏ hàng</li>
             </ol>
         </div>
-        @if(Session::get('customner_id'))
+        @if(!Session::get('customer_id'))
         <div class="register-req">
             <p>Bạn chưa đăng nhập</p>
         </div>
-        <!--/register-req-->
         @endif
+
         <div class="shopper-informations">
             <div class="row">
                 <div class="col-sm-12 clearfix">
@@ -71,10 +71,7 @@ use Illuminate\Support\Facades\Session;
                                 </td>
                                 <td class="cart_quantity">
                                     <div class="cart_quantity_button">
-
-
                                         <input class="cart_quantity_" type="number" min="1" name="cart_qty[{{$cart['session_id']}}]" value="{{$cart['product_qty']}}">
-
                                     </div>
                                 </td>
                                 <td class="cart_total">
@@ -218,10 +215,16 @@ use Illuminate\Support\Facades\Session;
             <div class="form-one">
                 <form method="POST">
                     @csrf
+                    @if(Session::get('customer_id'))
+                    <input type="text" name="shipping_email" class="shipping_email" placeholder="Email*" value="{{Session::get('customer_email')}}">
+                    <input type="text" name="shipping_name" class="shipping_name" placeholder="Họ và tên" value="{{Session::get('customer_name')}}">
+                    <input type="text" name="shipping_phone" class="shipping_phone" placeholder="Phone" value="{{Session::get('customer_phone')}}">
+                    @else
                     <input type="text" name="shipping_email" class="shipping_email" placeholder="Email*">
                     <input type="text" name="shipping_name" class="shipping_name" placeholder="Họ và tên">
-                    <input type="text" name="shipping_address" class="shipping_address" placeholder="Địa chỉ">
                     <input type="text" name="shipping_phone" class="shipping_phone" placeholder="Phone">
+                    @endif
+                    <input type="text" name="shipping_address" class="shipping_address" placeholder="Địa chỉ">
                     <textarea name="shipping_notes" class="shipping_notes" placeholder="Ghi chú đơn hàng của bạn" rows="5"></textarea>
 
                     @if(Session::get('fee'))
@@ -235,7 +238,7 @@ use Illuminate\Support\Facades\Session;
                     <input type="hidden" name="order_coupon" class="order_coupon" value="{{$cou['coupon_code']}}">
                     @endforeach
                     @else
-                    <input type="hidden" name="order_coupon" class="order_coupon">
+                    <input type="hidden" name="order_coupon" value="non" class="order_coupon">
                     @endif
                     <div class="">
                         <div class="form-group">

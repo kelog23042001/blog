@@ -14,7 +14,7 @@
 								<input type="checkbox" class="checkbox">
 								Ghi nhớ đăng nhập
 							</span>
-							<button type="submit" class="btn btn-default">Login</button>
+							<button type="submit" class="btn btn-default">Đăng Nhập</button>
 						</form>
                         <style>
                             ul.list-login{
@@ -48,7 +48,7 @@
 							<input type="email" name = "customer_email"  placeholder="Địa chỉ mail"/>
 							<input type="password" name = "customer_password"  placeholder="Password"/>
                             <input type="password" name = "customer_phone"  placeholder="Phone"/>
-							<button type="submit" class="btn btn-default">Signup</button>
+							<button type="submit" class="btn btn-default">Đăng Ký</button>
 						</form>
 					</div><!--/sign up form-->
 				</div>

@@ -23,12 +23,12 @@
                 @csrf
                 <table class="table table-condensed">
                     @if(Session::get('cart'))
-                        @csrf
-                        <thead>
-                            <td colspan="4"></td> 
-                            <td style= "float: left"><input type="submit" value="Cập nhật giỏ hàng" name="update_qty" class="btn btn-warning check_out"></td>
-                            <td style= "float: right"><a class="btn btn-danger check_out" href="{{url('/delete-all-product')}}">Xoá tất cả</a></td>
-                        </thead>
+                    @csrf
+                    <thead>
+                        <td colspan="4"></td>
+                        <td><input type="submit" value="Cập nhật giỏ hàng" name="update_qty" class="btn btn-warning check_out"></td>
+                        <td><a class="btn btn-danger check_out" href="{{url('/delete-all-product')}}">Xoá tất cả</a></td>
+                    </thead>
                     @endif
                     <thead>
                         <tr class="cart_menu">
@@ -77,51 +77,6 @@
                         </tr>
                         @endforeach
                         <tr>
-                            <!-- <td>
-                            @if(Session::get('customer_id'))
-                                <a class="btn btn-default check_out" href="{{url('/checkout')}}">Đặt hàng</a>
-                            @else
-                                <a class="btn btn-default check_out" href="{{url('/login-checkout')}}">Đặt hàng</a>
-                            @endif
-                            </td> -->
-                            <!-- <td>
-                                @if(Session::get('coupon'))
-                                <li>
-                                        @foreach(Session::get('coupon') as $key => $cou)
-                                            @if($cou['coupon_condition'] == 1)
-                                                Mã giảm :{{$cou['coupon_number']}} %
-                                            <p>
-                                                @php
-                                                    $total_coupon = ($total*$cou['coupon_number']) / 100;
-                                                    echo '<p><li>Tổng giảm: '.number_format($total_coupon,0,',','.').' VND</li></p>';
-                                                @endphp
-                                            </p>
-                                            <p><li>Tổng đã giảm: {{number_format($total - $total_coupon,0,',','.')}}</li></p>
-                                            @else
-                                            Mã giảm :{{number_format($cou['coupon_number'],0,',','.')}}đ
-                                            <p>
-                                                @php
-                                                $total_coupon = $total - $cou['coupon_number'];
-
-                                                @endphp
-                                            </p>
-                                            <p><li>Tổng đã giảm: {{number_format($total_coupon,0,',','.')}}đ</li></p>
-                                            @endif
-                                        @endforeach
-                                </li>
-                                @endif
-                            </td> -->
-                        </tr>
-                        <tr>
-                                <form method="POST" action="{{URL::to('/check-coupon')}}">
-                                    {{ csrf_field() }}
-                                    @if(Session::get('coupon'))
-                                    <td><a class="btn btn-default check_out" href="{{url('/')}}">Xoá mã giảm giá</a></td>
-                                    @else
-                                    <td class="td_input_coupon"><input type="text" class="input_coupon" name="coupon" placeholder="Nhập mã giảm giá"></td>
-                                    <td><input type="submit" class="btn btn-danger check_coupon" name="check_coupon" value="Áp dụng mã giảm giá" href=""></td>
-                                    @endif
-                                </form>
                         </tr>
                         @else
                         <tr>
@@ -148,6 +103,15 @@
             <div class="col-sm-6">
                 <div class="total_area">
                     <ul>
+                        <li style="background: none;">
+                            <form method="POST" action="{{URL::to('/check-coupon')}}">
+                                {{ csrf_field() }}
+                                @if(!Session::get('coupon'))
+                                <td class="td_input_coupon"><input type="text" class="input_coupon" name="coupon" placeholder="Nhập mã giảm giá"></td>
+                                <td><input type="submit" class="btn btn-danger check_coupon" name="check_coupon" value="Áp dụng mã giảm giá"></td>
+                                @endif
+                            </form>
+                        </li>
                         <li>Tổng tiền :<span>{{number_format($total,0,',','.')}} VND</span></li>
                         @if(Session::get('coupon'))
                         @foreach(Session::get('coupon') as $key => $cou)
@@ -155,14 +119,16 @@
                         @php
                         $total_coupon = ($total*$cou['coupon_number']) / 100;
                         @endphp
-                        <!-- <li>Mã giảm :<span>{{$cou['coupon_number']}} %</span></li> -->
                         @else
                         @php
                         $total_coupon = $cou['coupon_number'];
                         @endphp
-                        <!-- <li>Mã giảm :<span>{{number_format($cou['coupon_number'],0,',','.')}} VND</span></li> -->
                         @endif
-                        <li>Giảm giá : <span> - {{number_format($total_coupon,0,',','.')}} VND</span></li>
+                        <li>Giảm giá :
+                            <span style="display: inline;"> - {{number_format($total_coupon,0,',','.')}} VND
+                                <a class="check_out" href="{{url('/unset-coupon')}}"><i style="font-size: 20px;" class="fa fa-times text-danger text"></i></a></span>
+                        </li>
+
                         <li>Thành tiền: <span>{{number_format($total - $total_coupon,0,',','.')}} VND</span></li>
                         @endforeach
                         @endif
@@ -170,7 +136,9 @@
                     @if(Session::get('customer_id'))
                     <a class="btn btn-warning check_out" href="{{url('/checkout')}}">Đặt hàng</a>
                     @else
-                    <a class="btn btn-warning check_out" href="{{url('/login-checkout')}}">Đặt hàng</a>
+                    <a class="btn btn-warning check_out" href="{{url('/checkout')}}">Đặt hàng</a>
+
+                    <!-- <a class="btn btn-warning check_out" href="{{url('/login-checkout')}}">Đặt hàng</a> -->
                     @endif
                 </div>
             </div>

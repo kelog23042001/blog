@@ -420,6 +420,21 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             dayNamesMin:["Thứ2","Thứ3","Thứ4","Thứ5","Thứ6","Thứ7","Chủ nhật"],
             duration:"slow"
         });
+
+        $( "#datepicker3" ).datepicker({
+            prevText:"Tháng trước",
+            nextText:"Tháng sau",
+            dateFormat:"dd-mm-yy",
+            dayNamesMin:["Thứ2","Thứ3","Thứ4","Thứ5","Thứ6","Thứ7","Chủ nhật"],
+            duration:"slow"
+        });
+        $( "#datepicker4" ).datepicker({
+            prevText:"Tháng trước",
+            nextText:"Tháng sau",
+            dateFormat:"dd-mm-yy",
+            dayNamesMin:["Thứ2","Thứ3","Thứ4","Thứ5","Thứ6","Thứ7","Chủ nhật"],
+            duration:"slow"
+        });
     } );
 </script>
 <script src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
@@ -912,7 +927,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
             if (j == 0) {
                 alert('Cập nhật trạng thái đơn hàng thành công');
-                location.reload();
+                // location.reload();
                 $.ajax({
                     url: '{{url('/update-order-quantity')}}',
                     method: 'POST',

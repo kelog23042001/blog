@@ -16,17 +16,18 @@ class HomeController extends Controller
 {
 
 
-    // public function send_mail(){
+    public function send_mail(){
 
-    //    $to_name="Thiatv.com";
-    //    $to_email="thiatv1994@gmail.com";
-    //    $link_reset_pass=url('/update-new-pass?email='.$to_email.'&token='.$rand_id);
-    //    $data=array("name"=>"Thiatv.com","body"=>$link_reset_pass);
-    //    Mail::send('admin.reset_pass',$data,function($message) use ($to_name,$to_email){
-    //      $message->to($to_email)->subject('Quên mật khẩu Admin Thiatv.com'):
-    //      $message->from($to_email,$to_name):
-    //    })
-    // }
+       $to_name="LKShop";
+       $to_email="khalongtvh@gmail.com";
+       $data=array("name"=>"LKShop","body"=>"Mail mã khuyến mãi");
+
+       Mail::send('admin.mail.confirm_order',$data,function($message) use ($to_name,$to_email){
+         $message->to($to_email)->subject('Nhận mã khuyến mãi');
+         $message->from($to_email,$to_name);
+       });
+    //    return redirect('/')->with('message', '');
+    }
     public function index(Request $request){
         //Post category
 

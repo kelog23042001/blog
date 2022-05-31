@@ -192,14 +192,12 @@ class AdminController extends Controller
             if($authUser){
                 $account_name = Customer::where('customer_id',$authUser->user)->first();
                 Session::put('customer_id',$account_name->customer_id);
-                Session::put('customer_picture',$account_name->customer_picture);
                 Session::put('customer_name',$account_name->customer_name);
                 Session::put('customer_phone',$account_name->customer_phone);
                 Session::put('customer_email',$account_name->customer_email);
             }else{
                 $account_name = Customer::where('customer_id',$authUser->user)->first();
                 Session::put('customer_id',$account_name->customer_id);
-                Session::put('customer_picture',$account_name->customer_picture);
                 Session::put('customer_name',$account_name->customer_name);
                 Session::put('customer_phone',$account_name->customer_phone);
                 Session::put('customer_email',$account_name->customer_email);
@@ -225,8 +223,6 @@ class AdminController extends Controller
                 $customer = Customer::create([
                     'customer_name' => $users->name,
                     'customer_email' => $users->email,
-                    'customer_picture' => '',
-
                     'customer_password' => '123456',
                     'customer_phone' => '01234567'
                 ]);

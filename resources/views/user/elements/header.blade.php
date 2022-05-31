@@ -24,7 +24,7 @@
         </div>
     </div>
 </div>
-<!--/header_top-->  
+<!--/header_top-->
 
 <div class="header-middle">
     <!--header-middle-->
@@ -55,7 +55,9 @@
                         <?php
                         } else {
                         ?>
-                            <li><a href="{{URL::to('/login-checkout')}}"> <i class="fa fa-crosshairs"></i>Thanh toán</a></li>
+                            <li><a href="{{URL::to('/checkout')}}"> <i class="fa fa-crosshairs"></i>Thanh toán</a></li>
+
+                            <!-- <li><a href="{{URL::to('/login-checkout')}}"> <i class="fa fa-crosshairs"></i>Thanh toán</a></li> -->
                         <?php
                         }
                         ?>
@@ -63,15 +65,13 @@
                         <li><a href="{{URL::to('/gio-hang')}}"><i class="fa fa-shopping-cart"></i>Giỏ hàng</a></li>
                         <?php
 
-
-
                         $customer_id = Session::get('customer_id');
                         if ($customer_id != NULL) {
 
                         ?>
                             <li><a href="{{URL::to('/logout-checkout')}}"><i class="fa fa-lock"></i>Đăng xuất</a></li>
                             <br>
-                            <img width="15%" src="{{Session::get('customer_picture')}}"> <p style="float:right ;">{{Session::get('customer_name') }}</p>
+                            <!-- <img width="15%" src="{{Session::get('customer_picture')}}"> <p style="float:right ;">{{Session::get('customer_name') }}</p> -->
 
                         <?php
                         } else {
@@ -108,18 +108,18 @@
                         <li><a href="{{ URL::to('/trang-chu') }}" class="active">Trang Chủ</a></li>
                         <li class="dropdown"><a href="#">Sản Phẩm<i class="fa fa-angle-down"></i></a>
                             <ul role="menu" class="sub-menu">
-                            @foreach($category as $key => $cate)
-                                        @if($cate->category_parent == 0)
-                                        <li><a href="{{URL::to('/danh-muc-san-pham/'.$cate->category_id)}}">{{$cate->category_name}}</a></li>
-                                        @foreach($category as $key => $cate_sub)
-                                            @if($cate_sub->category_parent == $cate->category_id )
-                                                <ul>
-                                                    <li><a href="{{URL::to('/danh-muc-san-pham/'.$cate_sub->category_id)}}">{{$cate_sub->category_name}}</a></li>
-                                                </ul>
-                                            @endif
-                                        @endforeach
-                                        @endif
-                                    @endforeach
+                                @foreach($category as $key => $cate)
+                                @if($cate->category_parent == 0)
+                                <li><a href="{{URL::to('/danh-muc-san-pham/'.$cate->category_id)}}">{{$cate->category_name}}</a></li>
+                                @foreach($category as $key => $cate_sub)
+                                @if($cate_sub->category_parent == $cate->category_id )
+                                <ul>
+                                    <li><a href="{{URL::to('/danh-muc-san-pham/'.$cate_sub->category_id)}}">{{$cate_sub->category_name}}</a></li>
+                                </ul>
+                                @endif
+                                @endforeach
+                                @endif
+                                @endforeach
                             </ul>
                         </li>
                         <li class="dropdown"><a href="#">BLog<i class="fa fa-angle-down"></i></a>
@@ -144,7 +144,7 @@
                     {{ csrf_field() }}
                     <div class="">
                         <input type="text" style="width: 50%; " name="keywords_submit" id="keywords" placeholder="Tìm kiếm sản phẩm" />
-                            <div id="search_ajax"></div>
+                        <div id="search_ajax"></div>
                         <input type="submit" name="search_items" class="btn btn-warning btn-sm" value="Tìm kiếm">
                     </div>
                 </form>

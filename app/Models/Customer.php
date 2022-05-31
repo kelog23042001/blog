@@ -13,7 +13,6 @@ class Customer extends Model
         'customer_email',
         'customer_password',
         'customer_phone',
-        'customer_picture'
     ];
     protected $primaryKey = 'customer_id';
     protected $table = 'tbl_customers';
