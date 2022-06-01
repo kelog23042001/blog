@@ -2615,3 +2615,22 @@ ul.hover-cart li img{
 li.cart-hover:hover .hover-cart{
     display: inherit;
 }
+ul.nav.nav-pills.nav-justified li{
+    text-align:center;
+    font-size:13px;
+}
+.button_wishlist{
+    border:none;
+    background:#ffff;
+    color:#83AFA8;
+}
+ul.nav.nav-pills.nav-justified i{
+    color:#83AFA8;
+}
+.button_wishlist span:hover{
+    color:#FE980F;
+}
+.button_wishlist:focus{
+    border:none;
+    outline:none;
+}

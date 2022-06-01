@@ -10,6 +10,7 @@
     <meta name="robots" content="INDEX,FOLLOW" />
     <link rel="canonical" href="{{$url_canonical}}" />
     <link rel="icon" type="image/x-icon" href="" />
+    <meta name="csrf-token" content="{{csrf_token()}}">
     <link rel="shortcut icon" type="image/ico" href="{{asset('frontend/images/shop/lk2.jpg')}}">
     <title>{{$meta_title}}</title>
     <link href="{{asset('frontend/css/bootstrap.min.css')}}" rel="stylesheet">
@@ -106,7 +107,31 @@
     <script src="{{asset('frontend/js/simple.money.format.js')}}"></script>
     <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
 
+    <script>
+        load_more_product();
+        function load_more_product(id = ''){
+            $.ajax({
+                url:"{{url('load-more-product')}}",
+                method:"POST",
+                headers:{
+                    'X-CSRF-TOKEN': $('meta[name = "csrf-token"]').attr('content')
+                },
+                data:{
+                    id:id
+                },
+                success: function(data){
+                    $('#load_more_button').remove();
+                    $('#all_product').append(data);
+                }
+            });
+        }
 
+        $(document).on('click', '#load_more_button', function(){
+            var id = $(this).data('id');
+            load_more_product(id);
+
+        })
+    </script>
     <script type="text/javascript">
         $('.order_details').on('change', function() {
             var order_status = $(this).val();
@@ -181,7 +206,119 @@
             // alert(order_code);
         });
     </script>
+ <script>
+        function show_quick_cart(){
+            $.ajax({
+                url: '{{url('/show-quick-cart')}}',
+                method: 'GET',
 
+                success: function(data) {
+                        $('#show_quick_cart').html(data);
+                        $('#quick-cart').modal();
+                        show_cart();
+                        hover_cart();
+
+                }
+
+            });
+        }
+        function DeleteItemCart($session_id){
+            var session_id = $session_id;
+            var _token = $('input[name="_token"]').val();
+            $.ajax({
+                url: '{{url('/del-product')}}' +'/'+session_id,
+                method: 'GET',
+                data: {
+                    session_id: session_id,
+                    _token: _token
+                },
+                success: function() {
+                    $('#show_quick_cart_alert').append('<p class = "text text-success">Xoá sản phẩm trong giỏ hàng thành công</p>')
+                    setTimeout(function(){
+                    $('#show_quick_cart_alert').fadeOut(1000);
+                   },1000);
+                    show_quick_cart();
+
+                        show_cart();
+                        hover_cart();
+
+                }
+
+            });
+        }
+        $(document).on('input', '.cart_qty_update', function(){
+            var quantity = $(this).val();
+            var session_id = $(this).data('session_id');
+            var _token = $('input[name="_token"]').val();
+            $.ajax({
+                url: '{{url('/update-quick-cart')}}' ,
+                method: 'POST',
+                data: {
+                    quantity:quantity,
+                    session_id: session_id,
+                    _token: _token
+                },
+                success: function() {
+
+                    show_quick_cart();
+
+                        show_cart();
+                        hover_cart();
+
+                }
+
+            });
+        })
+        function Addtocart($product_id){
+
+            var id = $product_id;
+
+            var cart_product_id = $('.cart_product_id_' + id).val();
+            var cart_product_name = $('.cart_product_name_' + id).val();
+            var cart_product_image = $('.cart_product_image_' + id).val();
+            var cart_product_price = $('.cart_product_price_' + id).val();
+            var cart_product_qty = $('.cart_product_qty_' + id).val();
+            var _token = $('input[name="_token"]').val();
+            // alert(cart_product_image);
+            // alert(cart_product_qty);
+            // alert(cart_product_price);
+            // alert(cart_product_name);
+            // alert(cart_product_id);
+            $.ajax({
+                url: '{{url('/add-cart-ajax')}}',
+                method: 'POST',
+                data: {
+                    cart_product_id: cart_product_id,
+                    cart_product_name: cart_product_name,
+                    cart_product_image: cart_product_image,
+                    cart_product_price: cart_product_price,
+                    cart_product_qty: cart_product_qty,
+                    _token: _token
+                },
+                success: function() {
+                   show_quick_cart();
+                    // swal({
+                    //         title: "Đã thêm sản phẩm vào giỏ hàng",
+                    //         text: "Bạn có thể mua hàng tiếp hoặc tới giỏ hàng để tiến hành thanh toán",
+                    //         showCancelButton: true,
+                    //         cancelButtonText: "Xem tiếp",
+                    //         confirmButtonClass: "btn-success",
+                    //         confirmButtonText: "Đi đến giỏ hàng",
+                    //         closeOnConfirm: false
+                    //     },
+                    //     function() {
+                    //         window.location.href = "{{url('/gio-hang')}}";
+                    //     });
+                        show_cart();
+                        hover_cart();
+
+                }
+
+            });
+
+
+        }
+    </script>
     <script>
         function delete_compare(id){
             if(localStorage.getItem('compare') != null){
