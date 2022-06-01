@@ -31,15 +31,15 @@ class CheckoutController extends Controller
     public function confirm_order(Request $request)
     {
         $data = $request->all();
+
+        $coupon_mail = '';
         if ($data['order_coupon'] != 'non') {
-            $coupon = Coupon :: where('coupon_code',$data['order_coupon'])->first();
+            $coupon = Coupon::where('coupon_code', $data['order_coupon'])->first();
             // $coupon->coupon_time = $coupon->coupon_time - 1;
             $coupon_number = $coupon->coupon_number;
             $coupon_condition = $coupon->coupon_condition;
             $coupon_mail = $data['order_coupon'];
             // $coupon->save();
-        }else{
-            $coupon_mail = '';
         }
 
         $shipping = new Shipping();
@@ -72,6 +72,23 @@ class CheckoutController extends Controller
         $order->save();
 
 
+        if ($data['order_coupon'] != 'non') {
+            $ordercode_mail = array(
+                'coupon_number' => $coupon_number,
+                'coupon_condition' => $coupon_condition,
+                'coupon_code' => $coupon_mail,
+                'order_code' => $data['order_coupon']
+            );
+        }else{
+            $ordercode_mail = array(
+                'coupon_number' => '',
+                'coupon_condition' => '',
+                'coupon_code' => '',
+                'order_code' => $checkout_code
+            );
+        }
+
+
         if (Session::get('cart')) {
             foreach (Session::get('cart') as $key => $cart) {
                 $order_details =  new OrderDetails;
@@ -94,7 +111,7 @@ class CheckoutController extends Controller
         $title_mail = "Đơn hàng xác nhận ngày " . $now;
         $customer = Customer::find(Session::get('customer_id'));
         $data['email'][] = $customer->customer_email;
-        
+
         if (session::get('cart')) {
             foreach (session::get('cart') as $key => $cart_mail) {
                 $cart_array[] = array(
@@ -110,17 +127,10 @@ class CheckoutController extends Controller
             'shipping_name' => $data['shipping_name'],
             'shipping_email' => $data['shipping_email'],
             'shipping_phone' => $data['shipping_phone'],
-            'shipping_address' => $data['shipping_address'],
+            'shipping_address' => $data['shipping_address'],        
             'shipping_notes' => $data['shipping_notes'],
             'shipping_method' => $data['shipping_method'],
             'shipping_feeShip' => $data['order_fee']
-        );
-
-        $ordercode_mail = array(
-            'coupon_number'=> $coupon_number,
-            'coupon_condition'=> $coupon_condition,
-            'coupon_code' => $coupon_mail,
-            'order_code' => $checkout_code
         );
 
         Mail::send(

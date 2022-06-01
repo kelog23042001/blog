@@ -261,3 +261,7 @@ Route::get('/send-coupon/{coupon_code}',[MailController::class, 'send_coupon']);
 
 Route::get('/mail-order',[MailController::class, 'mail_order']);
 
+///history-order
+Route::get('/history-order',[OrderController::class, 'history_order']);
+Route::get('/view-history-order/{order_code}',[OrderController::class, 'view_history_order']);
+

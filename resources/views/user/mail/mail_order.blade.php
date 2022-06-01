@@ -131,7 +131,16 @@
                                                     <td>{{number_format($total,0,',','.')}} VND</td>
                                                 </tr>
 
-                                                @if($code['coupon_code'])
+                                                <tr>
+                                                    <td colspan="4"></td>
+                                                    <!-- <td></td>
+                                                    <td></td>
+                                                    <td></td> -->
+                                                    <td>Phí giao hàng :</td>
+                                                    <td></td>
+                                                    <td>{{number_format($shipping_array['shipping_feeShip'],0,',','.')}} VND</td>
+                                                </tr>
+                                                @if($code['coupon_code']!='')
                                                 <tr>
                                                     <td colspan="4"></td>
                                                     <!-- <td></td>
@@ -150,16 +159,11 @@
                                                     @endif
                                                     <td>{{number_format($total_coupon,0,',','.')}} VND</td>
                                                 </tr>
+                                                @else
+                                                @php
+                                                $total_coupon = 0
+                                                @endphp
                                                 @endif
-                                                <tr>
-                                                    <td colspan="4"></td>
-                                                    <!-- <td></td>
-                                                    <td></td>
-                                                    <td></td> -->
-                                                    <td>Phí giao hàng :</td>
-                                                    <td></td>
-                                                    <td>{{number_format($shipping_array['shipping_feeShip'],0,',','.')}} VND</td>
-                                                </tr>
                                                 <tr>
                                                     <td colspan="4"></td>
                                                     <!-- <td></td>
@@ -167,11 +171,11 @@
                                                     <td></td> -->
                                                     <td>Tổng Cộng</td>
                                                     <td></td>
-                                                    <td>{{number_format($total - $total_coupon +$shipping_array['shipping_feeShip'] ,0,',','.')}} VND</td>
+                                                    <td>{{number_format( $total - $total_coupon +$shipping_array['shipping_feeShip'],0,',','.')}} VND</td>
                                                 </tr>
 
                                                 <tr>
-                                                    <td  colspan="7" style="border-bottom: 2px solid #000; width: 100%; padding: 5px 0;"></td>
+                                                    <td colspan="7" style="border-bottom: 2px solid #000; width: 100%; padding: 5px 0;"></td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -212,7 +216,7 @@
                     </td>
                     <td width="5px" style="padding: 0;"></td>
                 </tr>
-<!-- 
+                <!-- 
                 <tr style="color: #666; font-size: 12px;">
                     <td width="5px"></td>
                     <td style="clear: both; display: block; margin: 0 auto;  padding: 10px 0;">

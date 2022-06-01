@@ -40,8 +40,6 @@
                     <ul class="nav navbar-nav">
 
                         <li><a href="#"> <i class="fa fa-star"></i>Yêu thích</a></li>
-
-
                         <?php
 
                         use Illuminate\Support\Facades\Session;
@@ -69,6 +67,7 @@
                         if ($customer_id != NULL) {
 
                         ?>
+                            <li><a href="{{URL::to('/history-order')}}"><i class="fa fa-bell" aria-hidden="true"></i></i>Lịch sử mua hàng</a></li>
                             <li><a href="{{URL::to('/logout-checkout')}}"><i class="fa fa-lock"></i>Đăng xuất</a></li>
                             <br>
                             <!-- <img width="15%" src="{{Session::get('customer_picture')}}"> <p style="float:right ;">{{Session::get('customer_name') }}</p> -->

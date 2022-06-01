@@ -73,7 +73,7 @@
                                             <tbody>
                                                 <tr>
                                                     <td style="padding: 5px 0;">Mã đơn hàng: </td>
-                                                    <td align="right" style="padding: 5px 0;">{{$code['coupon_code']}}</td>
+                                                    <td align="right" style="padding: 5px 0;">{{$code['order_code']}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td style="padding: 5px 0;">Ngày đặt: </td>
@@ -212,7 +212,7 @@
                     </td>
                     <td width="5px" style="padding: 0;"></td>
                 </tr>
-<!-- 
+
                 <tr style="color: #666; font-size: 12px;">
                     <td width="5px"></td>
                     <td style="clear: both; display: block; margin: 0 auto;  padding: 10px 0;">
@@ -220,28 +220,28 @@
                             <tbody>
                                 <tr>
                                     <td width="40%" valign="top">
-                                        <h4 style="margin: 0;">Questions?</h4>
+                                        <h4 style="margin: 0;"></h4>
                                         <p style="color: #666; font-size: 12px; font-weight: normal;">
-                                            Please visit our
-                                            <a href="#" style="color: #666;" target="_blank">
-                                                Support Center
+                                            Xem lại lịch sử mua hàng 
+                                            <a style="color: red;" target="_blank" href="{{URL::to('/history-order')}}">
+                                                Tại đây
                                             </a>
-                                            with any questions.
+                                            .
                                         </p>
                                     </td>
                                     <td width="10%">&nbsp;</td>
                                     <td width="40%" valign="top">
-                                        <h4 style="margin: 0;"><span class="il">Bootdey</span> Technologies</h4>
+                                        <!-- <h4 style="margin: 0;"><span class="il">Bootdey</span> Technologies</h4>
                                         <p style="color: #666; font-size: 12px; font-weight: normal;">
                                             <a href="#">535 Mission St., 14th Floor San Francisco, CA 94105</a>
-                                        </p>
+                                        </p> -->
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
                     </td>
                     <td width="5px" style="padding: 10px 0;"></td>
-                </tr> -->
+                </tr>
             </tbody>
         </table>
     </div>

@@ -30,8 +30,6 @@ class HomeController extends Controller
     }
     public function index(Request $request){
         //Post category
-
-
         $category_post = CategoryPost::orderby('cate_post_id', 'DESC')->where('cate_post_status', "1")->get();
 
         //slider
