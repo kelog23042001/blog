@@ -59,8 +59,12 @@
                         <?php
                         }
                         ?>
-
-                        <li><a href="{{URL::to('/gio-hang')}}"><i class="fa fa-shopping-cart"></i>Giỏ hàng</a></li>
+                        <style>
+                            span#show-cart li{
+                                margin-top: 9px;
+                            }
+                        </style>
+                        <span  id="show-cart"></span>
                         <?php
 
                         $customer_id = Session::get('customer_id');

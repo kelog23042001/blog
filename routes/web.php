@@ -179,6 +179,7 @@ Route::get('/delete-all-product',[CartController::class, 'delete_all_product']);
 Route::get('/gio-hang',[CartController::class, 'gio_hang']);
 Route::get('/show-cart',[CartController::class, 'show_cart']);
 Route::get('/del-product/{session_id}',[CartController::class, 'delete_product']);
+Route::get('/show-cart-qty',[CartController::class, 'show_cart_qty']);
 //cart delete
 Route::get('/detele-to-cart/{rowId}',[CartController::class, 'detele_to_cart']);
 

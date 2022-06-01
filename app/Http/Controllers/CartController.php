@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Session;
 use Cart;
 class CartController extends Controller
 {
+
     public function save_cart(Request $request){
 
 
@@ -29,6 +30,23 @@ class CartController extends Controller
 
         // Cart::destroy();
         return Redirect::to('/show_cart');
+    }
+    public function show_cart_qty(){
+        $cart = count(Session::get('cart'));
+        $output = '';
+        if($cart> 0 ){
+            $output.=' <li><a href="'.url('/gio-hang').'"><i class="fa fa-shopping-cart"></i>
+            Giỏ hàng
+            <span class="badges">'.$cart.'</span>
+            </a></li>';
+        }else{
+            $output.=' <li><a href="'.url('/gio-hang').'"><i class="fa fa-shopping-cart"></i>
+            Giỏ hàng
+            <span class="badges">0</span>
+            </a></li>';
+        }
+
+        echo $output;
     }
     public function delete_product($session_id){
         $cart = Session::get('cart');

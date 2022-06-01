@@ -6,7 +6,7 @@
     @foreach($category_name as $key => $category_name)
         <h2 class="title text-center">{{$category_name->category_name}}</h2>
     @endforeach
-    <div class="col-md-4">
+            <div class="col-md-4">
                 <label for="amount">Lọc giá theo</label>
                 <form>
 
@@ -32,6 +32,7 @@
                     <option value="{{Request::url()}}?sort_by=giam_dan">---Giá giảm dần---</option>
                     <option value="{{Request::url()}}?sort_by=kytu_az">---A đến Z---</option>
                     <option value="{{Request::url()}}?sort_by=kytu_za">---Z đến A---</option>
+                </select>
                 </form>
            </div>
            <div class="col-md-4">

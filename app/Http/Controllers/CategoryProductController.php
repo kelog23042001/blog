@@ -134,12 +134,12 @@ class CategoryProductController extends Controller
                 $category_by_id = Product::with('category')->where('category_id',$category_id)->orderby('product_name',
                 'ASC')->paginate(6)->appends(request()->query());
             }
-        }else if(isset( $_GET['start_price']) && $_GET['end_price'] ){
+        }elseif(isset( $_GET['start_price']) && $_GET['end_price'] ){
             $max_price = $_GET['end_price'];
             $min_price = $_GET['start_price'];
             $category_by_id = Product::with('category')->whereBetween('product_price',[$min_price, $max_price])->orderby('product_price',
             'ASC')->paginate(6)->appends(request()->query());
-        }else{
+        }else {
             $category_by_id = Product::with('category')->where('category_id',$category_id)->orderby('product_id',
             'DESC')->paginate(6);
         }

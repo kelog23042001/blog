@@ -106,7 +106,7 @@
     <script src="{{asset('frontend/js/simple.money.format.js')}}"></script>
     <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
 
-    
+
     <script type="text/javascript">
         $('.order_details').on('change', function() {
             var order_status = $(this).val();
@@ -512,8 +512,24 @@
         });
     </script>
 
+
     <script>
+        show_cart();
+            //show carrt
+            function show_cart(){
+                $.ajax({
+                    url: "{{('/show-cart-qty')}}",
+                    method: "GET",
+
+                    success: function(data) {
+                        // $('#notify_comment').html('<span class="text text-success">Thêm bình luận thành công</span>');
+                        $('#show-cart').html(data);
+
+                    }
+                });
+            }
         $(document).ready(function() {
+
             $('.add-to-cart').click(function() {
                 var id = $(this).data('id_product');
                 var cart_product_id = $('.cart_product_id_' + id).val();
@@ -546,6 +562,7 @@
                             function() {
                                 window.location.href = "{{url('/gio-hang')}}";
                             });
+                            show_cart();
 
                     }
 
