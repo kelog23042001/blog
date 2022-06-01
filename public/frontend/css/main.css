@@ -2587,3 +2587,31 @@ textarea {
 span.badges{
     background:red; padding: 5px; border-radius: 10px;color:#fff;font-weight: bold
 }
+.shop-menu .hover-cart{
+    display: block;
+}
+.shop-menu .hover-cart{
+    display: inline-grid;
+    display:  none;
+    position: absolute;
+    z-index: 9999;
+    background: bisque;
+    padding: 0;
+    width: 90px;
+}
+
+ul.hover-cart li{
+    padding: 10px;
+    border-bottom: 1px solid ;
+}
+
+ul.hover-cart li img{
+    display: block;
+    margin: 0 auto;
+    width: 70px;
+    height: 70px;
+}
+
+li.cart-hover:hover .hover-cart{
+    display: inherit;
+}

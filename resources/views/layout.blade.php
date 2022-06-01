@@ -514,6 +514,19 @@
 
 
     <script>
+        hover_cart();
+        function hover_cart(){
+            $.ajax({
+                    url: "{{('/hover-cart')}}",
+                    method: "GET",
+
+                    success: function(data) {
+                        // $('#notify_comment').html('<span class="text text-success">Thêm bình luận thành công</span>');
+                        $('#giohang-hover').html(data);
+
+                    }
+                });
+        }
         show_cart();
             //show carrt
             function show_cart(){
@@ -563,6 +576,7 @@
                                 window.location.href = "{{url('/gio-hang')}}";
                             });
                             show_cart();
+                            hover_cart();
 
                     }
 

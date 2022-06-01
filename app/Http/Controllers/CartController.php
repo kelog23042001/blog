@@ -31,21 +31,44 @@ class CartController extends Controller
         // Cart::destroy();
         return Redirect::to('/show_cart');
     }
+    public function hover_cart(){
+        $cart = count(Session::get('cart'));
+        $output = '';
+        if($cart > 0){
+
+
+
+            $output.='
+            <ul class="hover-cart">';
+            foreach(Session::get('cart') as $key => $val){
+                $output.=' <li href = ".."><a>
+                    <img  src="'.asset('public/uploads/product/'.$val['product_image']).'">
+                 
+                    <p>'.number_format($val['product_price'],0,',','.').'</p>
+                    <p>Số lượng: '.$val['product_qty'].'</p>
+                </a>
+                <p>
+                    <a style = "    background: bisque;text-align: center; font-size: 20px;" class = "delete-hover-cart" href = "'.url('del-product/'.$val['session_id']).'">
+                    <i class= "fa fa-times"></i>
+                    </a>
+                </p></li>';
+            }
+            $output.='  </ul>';
+        }
+        // elseif($cart == ''){
+        //     $output.='
+        //     <ul class="hover-cart">
+        //     <li><p>Giỏ hàng trống</p></li>
+
+        // </ul>';
+        // }
+
+        echo $output;
+    }
     public function show_cart_qty(){
         $cart = count(Session::get('cart'));
         $output = '';
-        if($cart> 0 ){
-            $output.=' <li><a href="'.url('/gio-hang').'"><i class="fa fa-shopping-cart"></i>
-            Giỏ hàng
-            <span class="badges">'.$cart.'</span>
-            </a></li>';
-        }else{
-            $output.=' <li><a href="'.url('/gio-hang').'"><i class="fa fa-shopping-cart"></i>
-            Giỏ hàng
-            <span class="badges">0</span>
-            </a></li>';
-        }
-
+        $output.= '     <span class="badges">'.$cart.'  </span>';
         echo $output;
     }
     public function delete_product($session_id){

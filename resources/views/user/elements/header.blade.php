@@ -37,6 +37,7 @@
             </div>
             <div class="col-sm-8">
                 <div class="shop-menu pull-right">
+
                     <ul class="nav navbar-nav">
 
                         <li><a href="#"> <i class="fa fa-star"></i>Yêu thích</a></li>
@@ -64,7 +65,20 @@
                                 margin-top: 9px;
                             }
                         </style>
+                        <li class="cart-hover" style="position:relative ;"><a href="{{URL::to('/gio-hang')}}"><i class="fa fa-shopping-cart"></i>
+                    Giỏ hàng
+
                         <span  id="show-cart"></span>
+                        <div class="clearfix"></div>
+                        <span id="giohang-hover"></span>
+
+
+
+                    </a>
+
+                </li>
+
+
                         <?php
 
                         $customer_id = Session::get('customer_id');
