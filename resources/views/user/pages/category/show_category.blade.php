@@ -3,9 +3,36 @@
 
 <div class="features_items"><!--features_items-->
 
-    @foreach($category_name as $key => $category_name)
-        <h2 class="title text-center">{{$category_name->category_name}}</h2>
+    @foreach($category_name as $key => $name)
+        <h2 class="title text-center">{{$name->category_name}}</h2>
     @endforeach
+    <div class="row">
+               <div class="col-md-12">
+                   <label for="amount">Lọc danh mục theo</label><br>
+                   @php
+                        $category_id =  [];
+                        $category_arr = [];
+                        if(isset($_GET['cate'])){
+                            $category_id = $_GET['cate'];
+                        }else{
+                            $category_id = $name->category_id.",";
+                        }
+                        $category_arr = explode(",", $category_id);
+                   @endphp
+
+                   @foreach($category   as $key => $cate)
+                        <label class="checkbox-inline">
+                            <input type="checkbox"
+                            {{in_array($cate->category_id,$category_arr) ? 'checked' : ''}}
+                            data-filters = "category" name="category-filter" value="{{$cate->category_id}}" class="category-filter">
+
+                                {{$cate->category_name  }}
+
+                        </label>
+
+                   @endforeach<br>
+               </div>
+           </div>
             <div class="col-md-4">
                 <label for="amount">Lọc giá theo</label>
                 <form>
@@ -21,6 +48,7 @@
                     <input type="submit" name="filter_price" value="Lọc theo giá" class="btn btn-sm btn-defalut">
                 </form>
            </div>
+
         <div class="row">
             <div class="col-md-4">
                 <label for="amount">Sắp xếp theo </label>

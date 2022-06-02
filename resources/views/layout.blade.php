@@ -108,6 +108,30 @@
     <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
 
     <script>
+        $('.category-filter').click(function(){
+            var category = [], temArray = [];
+            $.each($("[data-filters='category']:checked"), function(){
+                temArray.push($(this).val())
+            });
+            temArray.reverse();
+            if(temArray.length !==0){
+                category+='?cate='+temArray.toString();
+            }
+            window.location.href = category
+        })
+        $('.brand-filter').click(function(){
+            var brand = [], temArray = [];
+            $.each($("[data-filters='brand']:checked"), function(){
+                temArray.push($(this).val())
+            });
+            temArray.reverse();
+            if(temArray.length !=0){
+                brand+='?brand='+temArray.toString();
+            }
+            window.location.href = brand
+        })
+    </script>
+    <script>
         load_more_product();
         function load_more_product(id = ''){
             $.ajax({
