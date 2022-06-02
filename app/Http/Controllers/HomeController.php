@@ -189,7 +189,9 @@ class HomeController extends Controller
                     </td>
                 </tr>';
                 }
-                $output.='</tbody> </table>  </form>';
+                $output.='</tbody>
+                        </table>
+                        </form>';
 
 
 
@@ -230,7 +232,7 @@ $output.='<section id="do_action">
         $data = $request->all();
         $cart = Session::get('cart');
         if($cart){
-            foreach($cart as $key => $val){
+            foreach($cart as $session => $val){
                 if($val['session_id'] == $data['session_id']){
                     $cart[$session]['product_qty'] = $data['quantity'];
                 }

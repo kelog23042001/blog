@@ -270,29 +270,29 @@
 
             });
         }
-        // $(document).on('input', '.cart_qty_update', function(){
-        //     var quantity = $(this).val();
-        //     var session_id = $(this).data('session_id');
-        //     var _token = $('input[name="_token"]').val();
-        //     $.ajax({
-        //         url: '{{url('/update-quick-cart')}}' ,
-        //         method: 'POST',
-        //         data: {
-        //             quantity:quantity,
-        //             session_id: session_id,
-        //             _token: _token
-        //         },
-        //         success: function() {
+        $(document).on('input', '.cart_qty_update', function(){
+            var quantity = $(this).val();
+            var session_id = $(this).data('session_id');
+            var _token = $('input[name="_token"]').val();
+            $.ajax({
+                url: '{{url('/update-quick-cart')}}' ,
+                method: 'POST',
+                data: {
+                    quantity:quantity,
+                    session_id: session_id,
+                    _token: _token
+                },
+                success: function() {
 
-        //             show_quick_cart();
+                        show_quick_cart();
 
-        //                 show_cart();
-        //                 hover_cart();
+                        show_cart();
+                        hover_cart();
 
-        //         }
+                }
 
-        //     });
-        // })
+            });
+        })
         function Addtocart($product_id){
 
             var id = $product_id;
@@ -344,6 +344,7 @@
         }
     </script>
     <script>
+
         function delete_compare(id){
             if(localStorage.getItem('compare') != null){
                 var data = JSON.parse(localStorage.getItem('compare'));
@@ -354,7 +355,8 @@
 
             }
         }
-        function viewed_compare(){
+        sosanh();
+        function sosanh(){
             if(localStorage.getItem('compare') != null){
                 var data = JSON.parse(localStorage.getItem('compare'));
                 for(i=0; i< data.length; i++){
@@ -371,10 +373,12 @@
                     id+')"><a style = "cursor: pointer"> Xoá so sánh</a></td>/tr>');
                 }
             }
+
         }
-        viewed_compare();
+
 
         function add_compare(product_id){
+
             document.getElementById('title-compare').innerText = 'Chỉ cho phép so sánh tối đa 3 sản phẩm';
             var id = product_id;
             var name = document.getElementById('wishlist_productname'+id).value;
@@ -414,7 +418,9 @@
             }
             localStorage.setItem('compare',JSON.stringify(old_data));
             $('#sosanh').modal();
+
         }
+
     </script>
     <script>
         $(document).ready(function(){

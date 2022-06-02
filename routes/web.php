@@ -37,6 +37,7 @@ Route::post('/load-more-product', [HomeController::class, 'load_more_product']);
 Route::get('/', [HomeController::class, 'index']);
 Route::post('/tim-kiem', [HomeController::class, 'search']);
 Route::post('/autocomplete-ajax', [HomeController::class, 'autocomplete_ajax']);
+
 Route::post('/update-quick-cart', [HomeController::class, 'update_quick_cart']);
 Route::get('/show-quick-cart', [HomeController::class, 'show_quick_cart']);
 //blog
