@@ -61,22 +61,22 @@
                         }
                         ?>
                         <style>
-                            span#show-cart li{
+                            span#show-cart li {
                                 margin-top: 9px;
                             }
                         </style>
                         <li class="cart-hover" style="position:relative ;"><a href="{{URL::to('/gio-hang')}}"><i class="fa fa-shopping-cart"></i>
-                    Giỏ hàng
+                                Giỏ hàng
 
-                        <span  id="show-cart"></span>
-                        <div class="clearfix"></div>
-                        <span id="giohang-hover"></span>
+                                <span id="show-cart"></span>
+                                <div class="clearfix"></div>
+                                <span id="giohang-hover"></span>
 
 
 
-                    </a>
+                            </a>
 
-                </li>
+                        </li>
 
 
                         <?php
@@ -120,8 +120,6 @@
                 </div>
                 <div class="mainmenu pull-left">
                     <ul class="nav navbar-nav collapse navbar-collapse">
-
-
                         <li><a href="{{ URL::to('/trang-chu') }}" class="active">Trang Chủ</a></li>
                         <li class="dropdown"><a href="#">Sản Phẩm<i class="fa fa-angle-down"></i></a>
                             <ul role="menu" class="sub-menu">
@@ -160,9 +158,8 @@
                 <form action="{{URL::to('/tim-kiem')}}" autocomplete="off" method="POST">
                     {{ csrf_field() }}
                     <div class="">
-                        <input type="text" style="width: 50%; " name="keywords_submit" id="keywords" placeholder="Tìm kiếm sản phẩm" />
-                        <div id="search_ajax"></div>
-                        <input type="submit" name="search_items" class="btn btn-warning btn-sm" value="Tìm kiếm">
+                        <input type="text" style="width: 100%; " name="keywords_submit" id="keywords" placeholder="Tìm kiếm sản phẩm" />
+                        <div id="search_ajax" style="display: none; position: absolute; z-index: 2;"></div>
                     </div>
                 </form>
 

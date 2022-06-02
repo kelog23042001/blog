@@ -433,8 +433,8 @@
             min:{{$min_price_range}},
             max:{{$max_price_range}},
             slide: function( event, ui ) {
-                $( "#amount_start" ).val(  ui.values[ 0 ] + 'Vnd' ).simpleMoneyFormat() ;
-                $( "#amount_end" ).val( ui.values[ 1 ]  + 'Vnd').simpleMoneyFormat();
+                $( "#amount_start" ).val(  ui.values[ 0 ] + 'VND' ).simpleMoneyFormat() ;
+                $( "#amount_end" ).val( ui.values[ 1 ]  + 'VND').simpleMoneyFormat();
                 $( "#start_price" ).val(ui.values[ 0 ]);
                 $( "#end_price" ).val(ui.values[ 1 ] );
 
@@ -516,10 +516,8 @@
             if(localStorage.getItem('viewed') != null){
                 var data = JSON.parse(localStorage.getItem('viewed'));
                 data.reverse();
-                document.getElementById('row_viewed').style.overflow = 'scroll';
+                document.getElementById('row_viewed').style.overflowY = 'scroll';
                 document.getElementById('row_viewed').style.height  =    '300px';
-
-
                 for(i=0; i<data.length; i++){
                     var name = data[i].name;
                     var price =  data[i].price;
@@ -580,10 +578,8 @@
             if(localStorage.getItem('data') != null){
                 var data = JSON.parse(localStorage.getItem('data'));
                 data.reverse();
-                document.getElementById('row_wishlist').style.overflow = 'scroll';
+                document.getElementById('row_wishlist').style.overflowY = 'scroll';
                 document.getElementById('row_wishlist').style.height  =    '300px';
-
-
                 for(i=0; i<data.length; i++){
                     var name = data[i].name;
                     var price =  data[i].price;

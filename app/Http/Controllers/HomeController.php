@@ -17,11 +17,10 @@ class HomeController extends Controller
     public function load_more_product(Request $request){
         $data = $request->all();
         if($data['id'] > 0){
-            $all_product = Product::where('product_status', '1')->where('product_id', '<', $data['id'])->orderBy('product_id','desc')->take(6)->get();
+            $all_product = Product::where('product_status', '1')->where('product_id', '<', $data['id'])->orderBy('product_id','desc')->take(3)->get();
 
         }else{
-            $all_product = Product::where('product_status', '1')->orderBy('product_id','desc')->take(6)->get();
-
+            $all_product = Product::where('product_status', '1')->orderBy('product_id','desc')->take(3)->get();
         }
         $output = '';
         if(!$all_product->isEmpty()){
@@ -60,10 +59,10 @@ class HomeController extends Controller
                         <li><i class="fa fa-star"></i><button  class="button_wishlist" id="'.$val->product_id.'" onclick="add_wistlist(this.id);"><span>Yêu thích</span></button></li>
                         <li><a style="cursor: pointer;" onclick="add_compare('.$val->product_id.');" ><i class="fa fa-plus-square"></i>So sánh</a></li>
 
-                        <div class="container" >
+                        <div class="container">
                             <div class="modal fade" id="sosanh" role="dialog" >
                                 <div class="modal-dialog modal-lg">
-                                <div class="modal-content"  >
+                                <div class="modal-content">
 
                                         <div class="modal-header">
                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -108,12 +107,12 @@ class HomeController extends Controller
 
         }
         $output.='<div id = "load_more" >
-        <button type = "button" name = "load_more_button" class = "btn btn-success form-control" data-id="'.$last_id.'"
-         id = "load_more_button">Load thêm</button>
+        <button type = "button" name = "load_more_button" class = "form-control" style="border:none; color:red; height:40px; font-size:16px; -webkit-box-shadow:none; font-size:16" data-id="'.$last_id.'"
+         id = "load_more_button">Xem thêm...</button>
     </div>';
         }else{
             $output.='<div id = "load_more" >
-            <button type = "button" name = "load_more_button" class = "btn btn-default form-control"
+            <button type = "button" name = "load_more_button" class = "btn btn-default form-control " style="display: none;"
              >Dữ liệu đang cập nhập thêm</button>
         </div>';
         }
@@ -137,7 +136,7 @@ class HomeController extends Controller
                     <td class="price">Giá sản phẩm</td>
                     <td class="quantity">Số lượng</td>
                     <td class="total">Thành tiền</td>
-                    <td class="function"></td>
+                    <td class="function">&nbsp</td>
                 </tr>
             </thead>
             <tbody>';
@@ -299,16 +298,20 @@ $output.='<section id="do_action">
 
 
     public function autocomplete_ajax(Request $request){
-        $category_post = CategoryPost::orderby('cate_post_id', 'DESC')->paginate(5);
-
         $data = $request->all();
         if ($data['query']){
             $product = Product::where('product_status',1)->where('product_name','LIKE','%'.$data['query'].'%')->get();
             $output = '<ul class= "dropdown-menu" style="display:block; position:relative">';
-            foreach($product as $key =>$val){
-                $output.='
-                <li class="li_search_ajax"><a  href="#">'.$val->product_name.'</a></li>';
+            if(count($product)){
+                foreach($product as $key =>$val){
+                    $output.='
+                    <li class="li_search_ajax"><a  href="'.url('chi-tiet-san-pham/'.$val->product_id).'">'.$val->product_name.'</a></li>';
+                }
+            }else{
+                    $output.='
+                    <li class="li_search_ajax"><a  href="#">Không thấy sản phẩm</a></li>';
             }
+            
         $output.='</ul>';
         echo $output;
         }

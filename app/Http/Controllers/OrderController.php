@@ -29,7 +29,122 @@ class OrderController extends Controller
     }
     public function print_order_convert($order_code)
     {
-        return "1";
+        $order = Order::where('order_code', $order_code)->get();
+
+        foreach ($order as $key => $ord) {
+            $customer_id = $ord->customer_id;
+            $shipping_id = $ord->shipping_id;
+        }
+        $customer = Customer::where('customer_id', $customer_id)->first();
+        $shipping = Shipping::where('shipping_id', $shipping_id)->first();
+
+        $order_details = OrderDetails::with('product')->where('order_code', $order_code)->get();
+        foreach ($order_details as $key => $order_d) {
+            $product_coupon = $order_d->product_coupon;
+        }
+        $coupon_condition = 2;
+        $coupon_number =  0;
+        if ($product_coupon != 'non') {
+            $coupon = Coupon::where('coupon_code', $product_coupon)->first();
+            $coupon_condition = $coupon->coupon_condition;
+            $coupon_number =  $coupon->coupon_number;
+        }
+
+        $output = '';
+        $output = '
+        <style>
+        body{
+            font-family: Dejavu Sans;
+        }
+        table, th, td {
+            border: 1px solid black;
+            margin: o auto;
+            padding: 10px 20px;
+            border-collapse: collapse;
+          }
+        </style>
+        <div class="table-agile-info">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <center><h2>THÔNG TIN ĐƠN HÀNG</h2></center>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Nguời nhận hàng</th>
+                                <th>Địa chỉ</th>
+                                <th>Số điện thoại</th>
+                                <th>Ghi Chú</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>' . $shipping->shipping_name . '</td>
+                                <td>' . $shipping->shipping_address . '</td>
+                                <td>' . $shipping->shipping_phone . '</td>
+                                <td>' . $shipping->shipping_notes . '</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="table-agile-info">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <center><h2>THÔNG TIN HÀNG HOÁ</h2></center>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Tên sản phẩm</th>
+                                <th>Số lượng</th>
+                                <th>Đơn giá</th>
+                            </tr>
+                        </thead>
+                        <tbody>';
+        $i = 0;
+        $total = 0;
+        foreach ($order_details as $key => $details) {
+            $i++;
+            $subTotal = $details->product_price * $details->product_sale_quantity;
+            $total += $subTotal;
+            $output .=
+                '<tr>'
+                . '<td>' . $details->product_name . '</td>'
+                . '<td>' . $details->product_sale_quantity . '</td>'
+                . '<td>' . number_format($details->product_price, 0, ',', '.') . ' VND</td>' .
+                '</tr>';
+        }
+
+        if ($coupon_condition == 1) {
+            $total_coupon = $total * $coupon_number / 100;
+        } else {
+            $total_coupon = $coupon_number;
+        }
+
+        $output .= '  <tr>
+                                <td colspan="2" style="text-align:right">Thành tiền</td>
+                                <td>' . number_format($total, 0, ',', '.') . ' VND</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" style="text-align:right">Phí vận chuyển</td>
+                                <td>' . number_format($details->product_feeship, 0, ',', '.') . ' VND</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" style="text-align:right">Tổng tiền thanh toán</td>
+                                <td>' . number_format($total - $total_coupon + $details->product_feeship, 0, ',', '.') . ' VND</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        ';
+
+        return ($output);
     }
     public function manage_order()
     {
@@ -126,11 +241,9 @@ class OrderController extends Controller
                 }
             }
 
-            $title_mail = "Đơn hàng của bạn đã được giao";
-
+            $title_mail = "Đơn hàng của bạn đã đang được vận chuyển";
 
             $customer = Customer::find(Session::get('customer_id'));
-
             $shipping = Shipping::where('shipping_id', $order->shipping_id)->first();
             $details = OrderDetails::where('order_code', $order->order_code)->first();
             $fee_ship = $details->product_feeship;

@@ -296,7 +296,8 @@ ul.sub-menu {
   position: absolute;
   top: 30px;
   left: 0;
-  background: rgba(0, 0, 0, 0.6);
+  /* background: rgba(0, 0, 0, 0.6); */
+  background: rgba(255, 255, 255, 0.6);
   list-style: none;
   padding: 0;
   margin: 0;
@@ -306,7 +307,9 @@ ul.sub-menu {
   display: none;
   z-index: 999;
 }
-
+.dropdown ul.sub-menu li:hover{
+  text-decoration: underline;
+}
 .dropdown ul.sub-menu li .active {
   color: #FDB45E;
   padding-left: 0;
@@ -318,15 +321,15 @@ ul.sub-menu {
 }
 
 .navbar-nav li ul.sub-menu li:last-child {
-  padding-bottom: 20px;
+  padding-bottom: 10px;
 }
 
 .navbar-nav li ul.sub-menu li a {
-  color: #fff;
+  color: rgb(0, 0, 0);
 }
 
 .navbar-nav li ul.sub-menu li a:hover {
-  color: #FDB45E;
+  color: #480551;
 }
 
 .fa-angle-down {
@@ -661,7 +664,7 @@ ul.sub-menu {
   right: 0;
 }
 
-.category-products {
+.category-products, .brands_products {
   border: 1px solid #F7F7F0;
   margin-bottom: 35px;
   padding-bottom: 20px;
@@ -885,10 +888,15 @@ h2.title {
   font-family: 'Roboto', sans-serif;
   font-size: 24px;
   font-weight: 700;
+  padding-left: 5px;
 }
 
 
 .productinfo p {
+  height: 60px;
+  overflow: hidden;
+  text-align: left;
+  padding: 0 10px;
   font-family: 'Roboto', sans-serif;
   font-size: 14px;
   font-weight: 400;
