@@ -1,7 +1,7 @@
 @extends('layout')
 @section('content')
 <section id="slider"><!--slider-->
-    @include('elements.slider')
+    @include('user.elements.slider')
 </section>
 <div class="col-sm-3">
     <div class="left-sidebar">

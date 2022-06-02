@@ -49,7 +49,7 @@
 
     <footer id="footer">
         <!--Footer-->
-        @include('elements.footer')
+        @include('user.elements.footer')
     </footer>
     <!--/Footer-->
     <script src="https://www.paypalobjects.com/api/checkout.js"></script>
