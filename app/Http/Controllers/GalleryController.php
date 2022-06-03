@@ -20,6 +20,7 @@ class GalleryController extends Controller
         $pro_id = $request->pro_id;
         $gallery = Gallery::where('product_id', $pro_id)->get();
         $gallery_count = $gallery->count();
+        $output = '';
         $output = '<table class="table">
                         <thead>
                         <tr>
@@ -37,15 +38,15 @@ class GalleryController extends Controller
                 $output.='
                 <tr>
                 <td>'.$i.'</td>
-                <td data-gal_id>'.$gal->gallery_name.'</td>
+                <td contenteditable class = "edit_gal_name" data-gal_id="'.$gal->gallery_id.'">'.$gal->gallery_name.'</td>
                 <td style =  "width: 500px;">
                     <img width = "20%" height = "120px" src = "'.url('public/uploads/gallery/'.$gal->gallery_image).'" class = "img-thumbnail"><br>
-
+                    <input type ="file" class = "file_image" style ="width: 40%" data-gal_id="'.$gal->gallery_id.'" id = "file-'.$gal->gallery_id.'" name="file" accpect="image/*" />
                 </td>
 
 
                 <td>
-                    <button type ="button" data-gal_id="'.$gal->gallery_id.'" class ="btn btn-xs btn-danger delete-gallery" >Xoá</button>
+                    <button type ="button" data-gal_id="'.$gal->gallery_id.'" class ="btn btn-xs btn-danger delete-gallery">Xoá</button>
 
                 </td>
             </tr>
@@ -61,7 +62,6 @@ class GalleryController extends Controller
         }
         echo $output;
 
-
     }
     public function update_gallery_name(Request $request){
         $gal_id = $request->gal_id;
@@ -70,7 +70,7 @@ class GalleryController extends Controller
         $gallery = Gallery::find($gal_id);
         $gallery->gallery_name = $gal_text;
 
-        // $gallery->save();
+         $gallery->save();
         echo $gallery;
     }
 
@@ -79,7 +79,6 @@ class GalleryController extends Controller
         $gal_id = $request->gal_id;
         if($get_image){
 
-                if($get_image){
                     $get_name_image = $get_image->getClientOriginalName(); //tenhinhanh.jpg
                     $name_image = current(explode('.',$get_name_image)); //[0] => tenhinhanh . [1] => jpg , lay mang dau tien
                     $new_image = $name_image.rand(0,9999).'.'. $get_image->getClientOriginalExtension(); // random tranh trung hinh anh, getClientOriginalExtension lay duoi mo rong
@@ -91,7 +90,7 @@ class GalleryController extends Controller
                     $gallery->gallery_image = $new_image;
                     $gallery->save();
 
-                }
+
 
         }
     }
@@ -101,6 +100,7 @@ class GalleryController extends Controller
         unlink('public/uploads/gallery/'.$gallery->gallery_image);
         $gallery->delete();
     }
+
     public function insert_gallery(Request $request,$product_id){
         $get_image = $request->file('file');
         if($get_image){
@@ -133,98 +133,5 @@ class GalleryController extends Controller
         return view('admin.product.all_product', compact('all_product'));
     }
 
-    // public function save_product(Request $request){
-    //     $this->validate($request,[
-    //         'product_name' => ['required','max:255', 'unique:tbl_product'],
-    //     ]);
-    //     $data = array();
-    //     $data['product_name']    = $request->product_name;
-    //     $data['product_quantity']= $request->product_quantity;
-    //     $data['product_slug']    = $request->product_slug;
-    //     $data['product_desc']    = $request->product_desc;
-    //     $data['product_price']   = $request->product_price;
-    //     $data['category_id']     = $request->product_cate;
-    //     $data['brand_id']        = $request->product_brand;
-    //     $data['product_status']  = $request->product_status;
 
-    //     $get_image = $request->file('product_image');
-    //     if($get_image){
-    //         $get_name_image = $get_image->getClientOriginalName(); //tenhinhanh.jpg
-    //         $name_image = current(explode('.',$get_name_image)); //[0] => tenhinhanh . [1] => jpg , lay mang dau tien
-    //         $new_image = $name_image.rand(0,9999).'.'. $get_image->getClientOriginalExtension(); // random tranh trung hinh anh, getClientOriginalExtension lay duoi mo rong
-    //         $get_image->move('public/uploads/product', $new_image);
-    //         $data['product_image'] = $new_image;
-    //         DB::table('tbl_product')->insert($data);
-    //         Session::put('message', 'Thêm sản phẩm thành công');
-
-    //         return Redirect::to('/add-product');
-    //     }
-    //     $data['product_image'] = '';
-    //     DB::table('tbl_product')->insert($data);
-    //     Session::put('message', 'Thêm sản phẩm thành công');
-
-    //     return Redirect::to('/all-product');
-    // }
-
-    // public function unactive_product($product_id){
-    //     DB::table('tbl_product')->where('product_id',$product_id)->update(['product_status' => 1]);
-    //     return Redirect::to('/all-product');
-    // }
-
-    // public function active_product($product_id){
-    //     DB::table('tbl_product')->where('product_id',$product_id)->update(['product_status' => 0]);
-    //     return Redirect::to('/all-product');
-    // }
-
-    // public function edit_product($product_id){
-    //     $cate_product = DB::table('tbl_category_product')->orderBy('category_id','desc')->get();
-    //     $brand_product = DB::table('tbl_brand_product')->orderBy('brand_id','desc')->get();
-
-    //     $edit_product = DB::table('tbl_product')->where('product_id', $product_id)->get();
-    //     return view('admin.product.edit_product', compact('edit_product', 'cate_product', 'brand_product'));
-    // }
-
-    // public function delete_product($product_id){
-    //     // $product = DB::table('tbl_product')->where('product_id',$product_id)->get();
-    //     // $data = array();
-    //     // $product_image = $data['product_image'];
-    //     // if($product_image){
-    //     //     $path = 'public/uploads/product/'.$product_image;
-    //     //     unlink($path);
-    //     // }else{
-    //     //     $product->delete();
-    //     // }
-    //  DB::table('tbl_product')->where('product_id',$product_id)->delete();
-    //     Session::put('message', 'Xoá danh mục sản phẩm thành công');
-    //     return Redirect::to('/all-product');
-    // }
-
-    // public function update_product(Request $request,$product_id){
-    //     $data = array();
-    //     $data['product_name']    = $request->product_name;
-    //     $data['product_quantity']    = $request->product_quantity;
-    //     $data['product_slug']    = $request->product_slug;
-    //     $data['product_desc']    = $request->product_desc;
-    //     $data['product_price']   = $request->product_price;
-    //     $data['category_id']     = $request->product_cate;
-    //     $data['brand_id']        = $request->product_brand;
-    //     $data['product_status']  = $request->product_status;
-
-    //     $get_image = $request->file('product_image');
-    //     if($get_image){
-    //         $get_name_image = $get_image->getClientOriginalName(); //tenhinhanh.jpg
-    //         $name_image = current(explode('.',$get_name_image)); //[0] => tenhinhanh . [1] => jpg , lay mang dau tien
-    //         $new_image = $name_image.rand(0,9999).'.'. $get_image->getClientOriginalExtension(); // random tranh trung hinh anh, getClientOriginalExtension lay duoi mo rong
-    //         $get_image->move('public/uploads/product', $new_image);
-    //         $data['product_image'] = $new_image;
-    //         DB::table('tbl_product')->where('product_id', $product_id)->update($data);
-    //         Session::put('message', 'Cập nhập sản phẩm thành công');
-    //         return Redirect::to('/all-product');
-    //     }
-
-    //     DB::table('tbl_product')->where('product_id',$product_id)->update($data);
-    //     Session::put('message', 'Cập nhập sản phẩm thành công');
-    //     return Redirect::to('/all-product');
-    // }
-    //end admin page
 }

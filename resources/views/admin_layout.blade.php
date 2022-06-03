@@ -605,7 +605,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
     <!-- morris JavaScript -->
     <script>
-        $(document).ready(function() {
+        $(document).ready(function(){
             load_gallery();
 
             function load_gallery() {
@@ -613,18 +613,18 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 var _token = $('input[name="_token"]').val();
 
                 alert(pro_id);
-                // $.ajax({
-                //     url: '{{url('/select-gallery')}}',
-                //     method: "POST",
-                //     data: {
-                //         pro_id: pro_id,
-                //         _token: _token,
-                //     },
+                $.ajax({
+                    url: '{{url('/select-gallery')}}',
+                    method: "POST",
+                    data: {
+                        pro_id: pro_id,
+                        _token: _token,
+                    },
 
-                //     success: function(data) {
-                //         $('#gallery_load').html(data);
-                //     }
-                // });
+                    success: function(data) {
+                        $('#gallery_load').html(data);
+                    }
+                });
             }
 
             $('#file').change(function() {

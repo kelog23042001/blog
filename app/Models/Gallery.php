@@ -11,6 +11,6 @@ class Gallery extends Model
     protected $fillable = [
         'gallery_name', 'gallery_image', 'product_id'
     ];
-    protected $primaryKey = 'gallery_id ';
+    protected $primaryKey = 'gallery_id';
     protected $table = 'tbl_gallery';
 }
