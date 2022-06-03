@@ -117,6 +117,106 @@ class HomeController extends Controller
         }
         echo $output;
     }
+    public function load_more_selling_product(Request $request){
+        $data = $request->all();
+
+            $all_product = Product::where('product_status', '1')->orderBy('product_sold','desc')->take(6)->get();
+        
+        $output = '';
+        if(!$all_product->isEmpty()){
+
+            foreach($all_product as $key => $val){
+                $last_id = $val->product_id;
+                $output.='  <div class="col-sm-4">
+                <div class="product-image-wrapper">
+                    <div class="single-products">
+                            <div class="productinfo text-center">
+                                <form>
+                                    '.csrf_field().'
+                                    <input type="hidden" value="'.$val->product_id.'" class="cart_product_id_'.$val->product_id.'">
+                                    <input type="hidden" id="wishlist_productname'.$val->product_id.'" value="'.$val->product_name.'" class="cart_product_name_'.$val->product_id.'">
+                                    <input type="hidden" value="'.$val->product_image.'" class="cart_product_image_'.$val->product_id.'">
+                                    <input type="hidden" id="wishlist_productprice'.$val->product_id.'" value="'.$val->product_price.'" class="cart_product_price_'.$val->product_id.'">
+                                    <input type="hidden" value="1" class="cart_product_qty_'.$val->product_id.'">
+                                    <input type="hidden" id="wishlist_productdesc'.$val->product_id.'" value="'.$val->product_desc.'" class="cart_product_desc_'.$val->product_id.'">
+
+                                    <a id="wishlist_producturl'.$val->product_id.'" href="'.url('chi-tiet-san-pham/'.$val->product_id).'">
+                                        <img id="wishlist_productimage'.$val->product_id.'" width="200px" height="250px" src="'.url('public/uploads/product/'.$val->product_image).'" alt="" />
+                                        <h2>'.number_format($val->product_price, 0, ',','.').' VND</h2>
+                                        <p>'.$val->product_name.'</p>
+                                    </a>
+                                    <button type="button" class="btn  add-to-cart"
+                                       id="'.$val->product_id.'" onclick = "Addtocart(this.id);"><i class = "fa fa-shopping-cart"></i>Thêm giỏ hàng</button>
+                                    </form>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="choose">
+
+                        <ul class="nav nav-pills nav-justified">
+
+                            <li><i class="fa fa-star"></i><button  class="button_wishlist" id="'.$val->product_id.'" onclick="add_wistlist(this.id);"><span>Yêu thích</span></button></li>
+                            <li><a style="cursor: pointer;" onclick="add_compare('.$val->product_id.');" ><i class="fa fa-plus-square"></i>So sánh</a></li>
+
+                            <div class="container">
+                                <div class="modal fade" id="sosanh" role="dialog" >
+                                    <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <div id="notify"></div>
+                                                <h4 class="modal-title"><div id="title-compare"></div></h4>
+                                            </div>
+
+                                        <div class="modal-body" >
+                                            <table class="table table-hover" id="row_compare">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Tên</th>
+                                                        <th>Giá</th>
+                                                        <th>Hình ảnh</th>
+                                                        <th>Thuộc tính</th>
+                                                        <th>Thông tin kỹ thuật</th>
+                                                        <th>Mô tả</th>
+                                                        <th>Quản lý</th>
+                                                        <th>Xoá</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                        <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </ul>
+                    </div>
+                </div>
+            </div>';
+
+
+            }
+        //     $output.='<div id = "load_more" >
+        //     <button type = "button" name = "load_more_button" class = "form-control" style="border:none; color:red; height:40px; font-size:16px; -webkit-box-shadow:none; font-size:16" data-id="'.$last_id.'"
+        //      id = "load_more_button">Xem thêm...</button>
+        // </div>';
+        //     }else{
+        //         $output.='<div id = "load_more" >
+        //         <button type = "button" name = "load_more_button" class = "btn btn-default form-control " style="display: none;"
+        //          >Dữ liệu đang cập nhập thêm</button>
+        //     </div>';
+            }
+            echo $output;
+    }
 
     public function show_quick_cart(){
         $output = '
@@ -310,7 +410,7 @@ $output.='<section id="do_action">
                     $output.='
                     <li class="li_search_ajax"><a  href="#">Không thấy sản phẩm</a></li>';
             }
-            
+
         $output.='</ul>';
         echo $output;
         }

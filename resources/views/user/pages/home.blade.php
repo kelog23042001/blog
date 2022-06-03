@@ -14,7 +14,7 @@
     <div class="features_items">
         <!--features_items-->
         <h2 class="title text-center" style="margin-top : 16px">Sản Phẩm Mới Nhất</h2>
-        <div id="all_product"></div>
+        <div id="all_product"></div><br>
         <!-- @foreach($product as $key => $product)
         <div class="col-sm-4">
             <div class="product-image-wrapper">
@@ -95,6 +95,8 @@
             </div>
         </div>
         @endforeach -->
+       <br> <h2 class="title text-center" style="margin-top : 16px">Sản Phẩm bán chạy nhất</h2>
+        <div id="all_selling_product"></div>
         <div class="modal fade" id="quick-cart" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg"  style="width: fit-content;" role="document">
                 <div class="modal-content">

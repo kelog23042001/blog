@@ -131,6 +131,32 @@
             window.location.href = brand
         })
     </script>
+     <script>
+       // load_more_selling_product();
+        function load_more_selling_product(id = ''){
+
+            $.ajax({
+                url:"{{url('load-more-selling-product')}}",
+                method:"POST",
+                headers:{
+                    'X-CSRF-TOKEN': $('meta[name = "csrf-token"]').attr('content')
+                },
+                data:{
+                    id:id
+                },
+                success: function(data){
+                    $('#load_more_selling_button').remove();
+                    $('#all_selling_product').append(data);
+                }
+            });
+        }
+
+        $(document).on('click', '#load_more_selling_button', function(){
+            var id = $(this).data('id');
+            load_more_selling_product(id);
+            alert(id);
+        })
+    </script>
     <script>
         load_more_product();
         function load_more_product(id = ''){

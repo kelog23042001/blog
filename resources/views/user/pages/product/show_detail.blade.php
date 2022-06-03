@@ -29,8 +29,8 @@
         <ul id="imageGallery">
 
             @foreach($gallery as $key => $gal)
-            <li data-thumb="{{asset('public/uploads/gallery/'.$gal->gallery_image)}}" data-src="{{asset('public/uploads/gallery/ '.$gal->gallery_image)}}">
-                <img width="100%" src="{{asset('public/uploads/gallery/'.$gal->gallery_image)}}" />
+            <li data-thumb="{{asset('public/uploads/gallery/'.$gal->gallery_image)}}" data-src="{{asset('public/uploads/gallery/'.$gal->gallery_image)}}">
+                <img width="100%" alt="{{$gal->gallery_name}}" src="{{asset('public/uploads/gallery/'.$gal->gallery_image)}}" />
             </li>
             @endforeach
 

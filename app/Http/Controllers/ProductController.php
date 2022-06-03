@@ -55,7 +55,7 @@ class ProductController extends Controller
         $comment->comment_status = 1;
         $comment->save();
     }
-    
+
     public function load_comment(Request $request)
     {
         $product_id = $request->product_id;
@@ -131,26 +131,27 @@ class ProductController extends Controller
         $data['category_id']     = $request->product_cate;
         $data['brand_id']        = $request->product_brand;
         $data['product_status']  = $request->product_status;
+        $get_image = $request->file('product_image');
 
         $path_product = 'public/uploads/product/';
         $path_gallery = 'public/uploads/gallery/';
 
-        $get_image = $request->file('product_image');
         if ($get_image) {
             $get_name_image = $get_image->getClientOriginalName(); //tenhinhanh.jpg
             $name_image = current(explode('.', $get_name_image)); //[0] => tenhinhanh . [1] => jpg , lay mang dau tien
-            $new_image = $name_image . rand(0, 9999) . '.' . $get_image->getClientOriginalExtension(); // random tranh trung hinh anh, getClientOriginalExtension lay duoi mo rong
+            $new_image = $name_image . rand(0, 9999).'.'.$get_image->getClientOriginalExtension(); // random tranh trung hinh anh, getClientOriginalExtension lay duoi mo rong
             $get_image->move($path_product, $new_image);
-            File::copy($path_product . $new_image, $path_gallery . $new_image);
+            File::copy($path_product.$new_image, $path_gallery.$new_image);
             $data['product_image'] = $new_image;
             // DB::table('tbl_product')->insert($data);
             // Session::put('message', 'Thêm sản phẩm thành công');
             // return Redirect::to('/add-product');
         }
         // $data['product_image'] = '';
-        $gallery = new Gallery();
         $pro_id = DB::table('tbl_product')->insertGetId($data);
-        Session::put('message', 'Thêm sản phẩm thành công');
+        $gallery = new Gallery();
+
+       // Session::put('message', 'Thêm sản phẩm thành công');
         $gallery->gallery_image = $new_image;
         $gallery->gallery_name = $new_image;
         $gallery->product_id = $pro_id;
@@ -263,7 +264,7 @@ class ProductController extends Controller
             $product = Product::where('product_id', $product_id)->first();
             $product->product_views = $product->product_views + 1;
             $product->save();
-            
+
         return view('user.pages.product.show_detail', compact('brand_id', 'product_brand', 'product_cate', 'category', 'rating', 'category_id', 'brand', 'gallery', 'detail_product', 'related_product', 'category_post'))
             ->with('meta_decs', $meta_decs)->with('meta_title', $meta_title)->with('meta_keyword', $meta_keyword)->with('url_canonical', $url_canonical);
     }
@@ -293,7 +294,7 @@ class ProductController extends Controller
             ->with('product_tag', $product_tag)
             ->with('pro_tag', $pro_tag);
     }
-    
+
     public function insert_rating(Request $request)
     {
         $data = $request->all();
