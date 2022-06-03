@@ -20,7 +20,6 @@ class CouponController extends Controller
             ->whereDate('coupon_date_end', '>=', date("d-m-Y"))
             ->first();
 
-            dd( $coupon);
         if ($coupon) {
             $count_coupon = $coupon->count();
             if ($count_coupon > 0) {

@@ -2,7 +2,6 @@
 @section('content')
 
 @foreach($detail_product as $key=> $value)
-
             <input type="hidden" id="product_viewed_id" value="{{$value->product_id}}">
             <input type="hidden" id="viewed_productname{{$value->product_id}}" value="{{$value->product_name}}">
             <input type="hidden" id="viewed_productprice{{$value->product_id}}" value="{{$value->product_price}}" >
@@ -57,7 +56,7 @@
                     <input type="hidden" value="{{$value->product_price}}" class="cart_product_price_{{$value->product_id}}">
                     <input type="hidden" value="1" class="cart_product_qty_{{$value->product_id}}">
                     </br>
-                    <button type="button" class="btn btn-default add-to-cart" data-id_product="{{$value->product_id}}" name="add-to-cart">
+                    <button type="button" class="btn add-to-cart" data-id_product="{{$value->product_id}}" name="add-to-cart">
                         <i class="fa fa-shopping-cart"></i>Thêm giỏ hàng</button>
                 </span>
             </form>

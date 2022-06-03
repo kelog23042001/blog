@@ -36,22 +36,27 @@ class CartController extends Controller
         $output = '';
         if($cart > 0){
 
-
-
             $output.='
             <ul class="hover-cart">';
             foreach(Session::get('cart') as $key => $val){
-                $output.=' <li href = ".."><a>
-                    <img  src="'.asset('public/uploads/product/'.$val['product_image']).'">
-                 
-                    <p>'.number_format($val['product_price'],0,',','.').'</p>
-                    <p>Số lượng: '.$val['product_qty'].'</p>
-                </a>
-                <p>
-                    <a style = "    background: bisque;text-align: center; font-size: 20px;" class = "delete-hover-cart" href = "'.url('del-product/'.$val['session_id']).'">
-                    <i class= "fa fa-times"></i>
-                    </a>
-                </p></li>';
+                $output.=' 
+                <a>
+
+                <li  class="zoom-box">
+                        <img  src="'.asset('public/uploads/product/'.$val['product_image']).'">
+                        <div class="text">
+                            <p class="cart_item_name">'.$val['product_name'].'</p>
+                            <p style="width:150px">'.number_format($val['product_price'],0,',','.').' VND</p>
+                            <p>Số lượng: '.$val['product_qty'].'</p>
+                        </div>
+                        
+                        <p class="icon_del">
+                            <a style = "float:right; text-align: center; margin:0 0 0 5px;font-size: 25px;" class = "delete-hover-cart" href = "'.url('del-product/'.$val['session_id']).'">
+                            <i class= "fa fa-times"></i>
+                            </a>
+                        </p>
+                </li>
+                    </a>';
             }
             $output.='  </ul>';
         }

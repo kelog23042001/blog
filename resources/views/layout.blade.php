@@ -53,7 +53,7 @@
     </footer>
     <!--/Footer-->
     <script src="https://www.paypalobjects.com/api/checkout.js"></script>
-    <script>
+    <!-- <script>
         var USD = document.getElementById("vnd_to_usd").value;
         paypal.Button.render({
             // Configure environment
@@ -92,7 +92,7 @@
                 });
             }
         }, '#paypal-button');
-    </script>
+    </script> -->
     <script src="{{asset('frontend/js/jquery.js')}}"></script>
     <script src="{{asset('frontend/js/bootstrap.min.js')}}"></script>
     <script src="{{asset('frontend/js/jquery.scrollUp.min.js')}}"></script>

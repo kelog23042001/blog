@@ -67,13 +67,9 @@
                         </style>
                         <li class="cart-hover" style="position:relative ;"><a href="{{URL::to('/gio-hang')}}"><i class="fa fa-shopping-cart"></i>
                                 Giỏ hàng
-
                                 <span id="show-cart"></span>
                                 <div class="clearfix"></div>
                                 <span id="giohang-hover"></span>
-
-
-
                             </a>
 
                         </li>

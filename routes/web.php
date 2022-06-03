@@ -22,6 +22,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PayPalController;
 
 /*
 |--------------------------------------------------------------------------
@@ -192,7 +193,7 @@ Route::get('/detele-to-cart/{rowId}',[CartController::class, 'detele_to_cart']);
 //Checkout
 Route::get('/login-checkout',[CheckoutController::class, 'login_checkout']);
 Route::get('/logout-checkout',[CheckoutController::class, 'logout_checkout']);
-Route::get('/checkout',[CheckoutController::class, 'checkout']);
+Route::get('/checkout',[CheckoutController::class, 'checkout'])->name('checkout');
 Route::get('/payment',[CheckoutController::class, 'payment']);
 Route::get('/del-fee',[CheckoutController::class, 'del_fee']);
 
@@ -271,3 +272,8 @@ Route::get('/mail-order',[MailController::class, 'mail_order']);
 Route::get('/history-order',[OrderController::class, 'history_order']);
 Route::get('/view-history-order/{order_code}',[OrderController::class, 'view_history_order']);
 
+//PayPal
+Route::get('create-transaction', [PayPalController::class, 'createTransaction'])->name('createTransaction');
+Route::get('process-transaction', [PayPalController::class, 'processTransaction'])->name('processTransaction');
+Route::get('success-transaction', [PayPalController::class, 'successTransaction'])->name('successTransaction');
+Route::get('cancel-transaction', [PayPalController::class, 'cancelTransaction'])->name('cancelTransaction');

@@ -41,12 +41,11 @@ class HomeController extends Controller
                                 <input type="hidden" id="wishlist_productdesc'.$val->product_id.'" value="'.$val->product_desc.'" class="cart_product_desc_'.$val->product_id.'">
 
                                 <a id="wishlist_producturl'.$val->product_id.'" href="'.url('chi-tiet-san-pham/'.$val->product_id).'">
-
                                     <img id="wishlist_productimage'.$val->product_id.'" width="200px" height="250px" src="'.url('public/uploads/product/'.$val->product_image).'" alt="" />
                                     <h2>'.number_format($val->product_price, 0, ',','.').' VND</h2>
                                     <p>'.$val->product_name.'</p>
                                 </a>
-                                <button type="button" class="btn btn-default  add-to-cart"
+                                <button type="button" class="btn  add-to-cart"
                                    id="'.$val->product_id.'" onclick = "Addtocart(this.id);"><i class = "fa fa-shopping-cart"></i>Thêm giỏ hàng</button>
                                 </form>
                         </div>
