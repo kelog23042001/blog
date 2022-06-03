@@ -132,7 +132,7 @@
         })
     </script>
      <script>
-       // load_more_selling_product();
+        load_more_selling_product();
         function load_more_selling_product(id = ''){
 
             $.ajax({
@@ -773,6 +773,7 @@
             });
         });
     </script>
+  
     <script>
         $(document).ready(function() {
             $('#imageGallery').lightSlider({

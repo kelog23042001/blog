@@ -35,7 +35,7 @@
                         <form>
                                 @csrf
                            <div id="gallery_load">
-                                <table class="table">
+                                <!-- <table class="table">
                                     <thead>
                                     <tr>
                                         <th>Thứ tự</th>
@@ -48,7 +48,7 @@
 
 
                                     </tbody>
-                                </table>
+                                </table> -->
                                 </div>
                             </div>
                         </form>

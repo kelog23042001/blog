@@ -37,15 +37,15 @@ class GalleryController extends Controller
                 $output.='
                 <tr>
                 <td>'.$i.'</td>
-                <td contenteditable data-gal_id>'.$gal->gallery_name.'</td>
+                <td data-gal_id>'.$gal->gallery_name.'</td>
                 <td style =  "width: 500px;">
                     <img width = "20%" height = "120px" src = "'.url('public/uploads/gallery/'.$gal->gallery_image).'" class = "img-thumbnail"><br>
-                    <input type ="file" class = "file_image" style ="width: 40%" data-gal_id = "'.$gal->gallery_id.'" id = "file-'.$gal->gallery_id.'" name="file" accpect="image/*"/>
+
                 </td>
 
 
                 <td>
-                <button type ="button" data-gal_id="'.$gal->gallery_id.'" class ="btn btn-xs btn-danger delete-gallery"  >Xoá</button>
+                    <button type ="button" data-gal_id="'.$gal->gallery_id.'" class ="btn btn-xs btn-danger delete-gallery" >Xoá</button>
 
                 </td>
             </tr>

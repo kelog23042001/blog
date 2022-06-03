@@ -119,9 +119,12 @@ class HomeController extends Controller
     }
     public function load_more_selling_product(Request $request){
         $data = $request->all();
+        if($data['id'] > 0){
+            $all_product = Product::where('product_status', '1')->where('product_id', '>', $data['id'])->orwhere('product_id', '<', $data['id'])->where('product_id', '<>', $data['id'])->orderBy('product_sold','desc')->orderBy('product_sold','desc')->take(3)->get();
 
+        }else{
             $all_product = Product::where('product_status', '1')->orderBy('product_sold','desc')->take(6)->get();
-        
+        }
         $output = '';
         if(!$all_product->isEmpty()){
 

@@ -60,7 +60,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 
     <script>
-        
+
         $(document).ready(function() {
             fetch_delivery();
 
@@ -453,10 +453,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             parseTime:false,
             xkey:'period',
             ykeys:['order','sales','profit','quantity'],
-            behaveLikeLine:true,    
+            behaveLikeLine:true,
             labels:['đơn hàng','doanh số','lợi nhuận','số lượng']
         });
-        
+
         function chart30daysorder(){
             var _token = $('input[name="_token"]').val();
             $.ajax({
@@ -548,9 +548,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     }
                 });
             });
-            
+
     });
-    
+
 </script>
 
 
@@ -612,19 +612,19 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 var pro_id = $('.pro_id').val();
                 var _token = $('input[name="_token"]').val();
 
-                //alert(pro_id);
-                $.ajax({
-                    url: '{{url('/select-gallery')}}',
-                    method: "POST",
-                    data: {
-                        pro_id: pro_id,
-                        _token: _token,
-                    },
+                alert(pro_id);
+                // $.ajax({
+                //     url: '{{url('/select-gallery')}}',
+                //     method: "POST",
+                //     data: {
+                //         pro_id: pro_id,
+                //         _token: _token,
+                //     },
 
-                    success: function(data) {
-                        $('#gallery_load').html(data);
-                    }
-                });
+                //     success: function(data) {
+                //         $('#gallery_load').html(data);
+                //     }
+                // });
             }
 
             $('#file').change(function() {

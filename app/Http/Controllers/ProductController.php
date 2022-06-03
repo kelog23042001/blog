@@ -133,15 +133,15 @@ class ProductController extends Controller
         $data['product_status']  = $request->product_status;
         $get_image = $request->file('product_image');
 
-        $path_product = 'public/uploads/product/';
+        $path = 'public/uploads/product/';
         $path_gallery = 'public/uploads/gallery/';
 
         if ($get_image) {
             $get_name_image = $get_image->getClientOriginalName(); //tenhinhanh.jpg
             $name_image = current(explode('.', $get_name_image)); //[0] => tenhinhanh . [1] => jpg , lay mang dau tien
-            $new_image = $name_image . rand(0, 9999).'.'.$get_image->getClientOriginalExtension(); // random tranh trung hinh anh, getClientOriginalExtension lay duoi mo rong
-            $get_image->move($path_product, $new_image);
-            File::copy($path_product.$new_image, $path_gallery.$new_image);
+            $new_image = $name_image.rand(0, 9999).'.'.$get_image->getClientOriginalExtension(); // random tranh trung hinh anh, getClientOriginalExtension lay duoi mo rong
+            $get_image->move($path, $new_image);
+            File::copy($path.$new_image, $path_gallery.$new_image);
             $data['product_image'] = $new_image;
             // DB::table('tbl_product')->insert($data);
             // Session::put('message', 'Thêm sản phẩm thành công');
@@ -151,11 +151,12 @@ class ProductController extends Controller
         $pro_id = DB::table('tbl_product')->insertGetId($data);
         $gallery = new Gallery();
 
-       // Session::put('message', 'Thêm sản phẩm thành công');
         $gallery->gallery_image = $new_image;
         $gallery->gallery_name = $new_image;
         $gallery->product_id = $pro_id;
         $gallery->save();
+        Session::put('message', 'Thêm sản phẩm thành công');
+
         return Redirect::to('/all-product');
     }
 
@@ -244,6 +245,7 @@ class ProductController extends Controller
             $rating = Rate::where('product_id', $product_id)->avg('rating');
             $rating = round($rating);
         foreach ($detail_product as $key => $value) {
+            $product_image = $value->product_image;
             $product_id = $value->product_id;
             $category_id = $value->category_id;
             $brand_id = $value->brand_id;
