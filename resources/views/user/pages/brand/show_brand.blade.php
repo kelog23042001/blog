@@ -12,7 +12,7 @@
     <div class="features_items">
         <!--features_items-->
         <div class="row">
-            <div class="col-md-9">
+            <!-- <div class="col-md-9">
                 <label for="amount">Lọc danh mục theo</label><br>
                 @php
                 $brand_id = [];
@@ -32,7 +32,7 @@
                 </label>
 
                 @endforeach<br>
-            </div>
+            </div> -->
         </div>
         <div class="col-md-4">
             <label for="amount">Lọc giá theo</label>

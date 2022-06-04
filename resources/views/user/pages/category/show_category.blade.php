@@ -7,7 +7,7 @@
         <h2 class="title text-center">{{$name->category_name}}</h2>
     @endforeach
     <div class="row">
-               <div class="col-md-12">
+               <!-- <div class="col-md-12">
                    <label for="amount">Lọc danh mục theo</label><br>
                    @php
                         $category_id =  [];
@@ -31,7 +31,7 @@
                         </label>
 
                    @endforeach<br>
-               </div>
+               </div> -->
            </div>
             <div class="col-md-4">
                 <label for="amount">Lọc giá theo</label>

@@ -108,7 +108,7 @@
                                 </div>
                             </div>
 
-                            <!-- Your Plugin chat code -->
+
                             <div id="fb-customer-chat" class="fb-customerchat">
                             </div>
 
@@ -118,7 +118,7 @@
                                 chatbox.setAttribute("attribution", "biz_inbox");
                             </script>
 
-                            <!-- Your SDK code -->
+
                             <script>
                                 window.fbAsyncInit = function() {
                                     FB.init({
@@ -137,7 +137,7 @@
                                 }(document, 'script', 'facebook-jssdk'));
                             </script>
                         </div>
-                        <!--features_items-->
+
                     </div>
                 </div>
             </div>
@@ -229,7 +229,7 @@
 </div>
 
 <!-- <div id="all_product"></div><br>
-    
+
         <h2 class="title text-center" style="margin-top : 16px">Sản Phẩm bán chạy nhất</h2>
         <div id="all_selling_product"></div> -->
 @endsection

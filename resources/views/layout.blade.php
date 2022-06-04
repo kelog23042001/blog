@@ -532,6 +532,7 @@
                 }
                 return false;
             });
+            
         })
     </script>
 
@@ -795,7 +796,7 @@
             });
         });
     </script>
-  
+
     <script>
         $(document).ready(function() {
             $('#imageGallery').lightSlider({

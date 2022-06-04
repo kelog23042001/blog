@@ -604,7 +604,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 
     <!-- morris JavaScript -->
-    <script>
+    <!-- <script>
         $(document).ready(function(){
             load_gallery();
 
@@ -730,7 +730,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
             });
         });
-    </script>
+    </script> -->
     <script>
         $(document).ready(function() {
             //BOX BUTTON SHOW AND CLOSE
