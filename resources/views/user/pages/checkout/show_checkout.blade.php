@@ -169,17 +169,9 @@ use Illuminate\Support\Facades\Session;
                                         @endphp
                                     </li>
 
-                                    <div class="col-md-12">
-                                        @php
-                                        $vnd_to_usd = $total_after/23220;
-                                        $total_paypal = round($vnd_to_usd, 2);
-                                        \Session::put('total_paypal', $total_paypal)
-                                        @endphp
-                                        <!-- <div id="paypal-button"></div> -->
-                                        <a class="btn btn-default checkout m-3" href="{{ route('processTransaction') }}">Paypal</a>
-                                        <input type="hidden" id="vnd_to_usd" value="{{round($vnd_to_usd, 2)}}">
-                                    </div>
+
                                 </td>
+
                             </tr>
                             @else
                             <tr>
@@ -204,6 +196,32 @@ use Illuminate\Support\Facades\Session;
                             <input type="submit" class="btn btn-default check_coupon" name="check_coupon" value="Tính mã giảm giá" href="">
                         </form>
                     </td>
+                    <td>
+                        <div class="col-md-12">
+                            @php
+                            $vnd_to_usd = $total_after/23220;
+                            $total_paypal = round($vnd_to_usd, 2);
+                            \Session::put('total_paypal', $total_paypal)
+                            @endphp
+                            <!-- <div id="paypal-button"></div> -->
+                            <a class="btn btn-default checkout m-3" href="{{ route('processTransaction') }}">Paypal</a>
+                            <input type="hidden" id="vnd_to_usd" value="{{round($vnd_to_usd, 2)}}">
+                        </div>
+                    </td>
+                    <td>
+                        <form action="{{url('/vnpay_payment')}}" method="POST">
+                            @csrf
+                            <input type="hidden" name="total_vnpay" value="{{$total_after}}">
+                            <button type="submit" class="btn btn-default checkout m-3" name="redirect" href="">VNPay</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form action="{{url('/momo_payment')}}" method="POST">
+                            @csrf
+                            <input type="hidden" name="total_momopay" value="{{$total_after}}">
+                            <button type="submit" class="btn btn-default checkout m-3" name="payUrl" href="">MomoPay</button>
+                        </form>
+                    </td>
                 </tr>
                 @endif
                 </table>
@@ -215,14 +233,14 @@ use Illuminate\Support\Facades\Session;
         <div class="bill-to">
             <p>Điền thông tin gửi hàng</p>
             <div class="form-one">
-            @if(\Session::has('error'))
+                @if(\Session::has('error'))
                 <div class="alert alert-danger">{{ \Session::get('error') }}</div>
                 {{ \Session::forget('error') }}
-            @endif
-            @if(\Session::has('success'))
+                @endif
+                @if(\Session::has('success'))
                 <div class="alert alert-success">{{ \Session::get('success') }}</div>
                 {{ \Session::forget('success') }}
-            @endif
+                @endif
                 <form method="POST">
                     @csrf
                     @if(Session::get('customer_id'))

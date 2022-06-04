@@ -278,3 +278,7 @@ Route::get('create-transaction', [PayPalController::class, 'createTransaction'])
 Route::get('process-transaction', [PayPalController::class, 'processTransaction'])->name('processTransaction');
 Route::get('success-transaction', [PayPalController::class, 'successTransaction'])->name('successTransaction');
 Route::get('cancel-transaction', [PayPalController::class, 'cancelTransaction'])->name('cancelTransaction');
+
+//Payment online
+Route::post('/vnpay_payment',[CheckoutController::class, 'vnpay_payment']);
+Route::post('/momo_payment',[CheckoutController::class, 'momo_payment']);
