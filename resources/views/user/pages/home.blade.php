@@ -34,7 +34,7 @@
                                 <h2>{{ number_format($product->product_price).' '.'VND'}}</h2>
                                 <p>{{ $product->product_name}}</p>
                             </a>
-                            <button type="button" class="btn add-to-cart" data-id_product="{{$product->product_id}}" name="add-to-cart">Thêm giỏ hàng</button> @csrf
+                            <button type="button" class="btn  add-to-cart" id="{{$product->product_id}}" onclick="Addtocart(this.id);"><i class="fa fa-shopping-cart"></i>Thêm giỏ hàng</button>
                         </form>
                     </div>
                     </a>
@@ -91,6 +91,54 @@
 
                         </div>
                     </ul>
+                </div>
+                <div class="modal fade" id="quick-cart" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-lg" style="width: fit-content;" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">Giỏ hàng</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div id="show_quick_cart_alert"></div>
+                                <div id="show_quick_cart">
+
+                                </div>
+                            </div>
+
+                            <!-- Your Plugin chat code -->
+                            <div id="fb-customer-chat" class="fb-customerchat">
+                            </div>
+
+                            <script>
+                                var chatbox = document.getElementById('fb-customer-chat');
+                                chatbox.setAttribute("page_id", "102323342502839");
+                                chatbox.setAttribute("attribution", "biz_inbox");
+                            </script>
+
+                            <!-- Your SDK code -->
+                            <script>
+                                window.fbAsyncInit = function() {
+                                    FB.init({
+                                        xfbml: true,
+                                        version: 'v14.0'
+                                    });
+                                };
+
+                                (function(d, s, id) {
+                                    var js, fjs = d.getElementsByTagName(s)[0];
+                                    if (d.getElementById(id)) return;
+                                    js = d.createElement(s);
+                                    js.id = id;
+                                    js.src = 'https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js';
+                                    fjs.parentNode.insertBefore(js, fjs);
+                                }(document, 'script', 'facebook-jssdk'));
+                            </script>
+                        </div>
+                        <!--features_items-->
+                    </div>
                 </div>
             </div>
         </div>
@@ -117,7 +165,7 @@
                                 <h2>{{ number_format($product->product_price).' '.'VND'}}</h2>
                                 <p>{{ $product->product_name}}</p>
                             </a>
-                            <button type="button" class="btn add-to-cart" data-id_product="{{$product->product_id}}" name="add-to-cart">Thêm giỏ hàng</button> @csrf
+                            <button type="button" class="btn  add-to-cart" id="{{$product->product_id}}" onclick="Addtocart(this.id);"><i class="fa fa-shopping-cart"></i>Thêm giỏ hàng</button>
                         </form>
                     </div>
                     </a>
@@ -126,9 +174,8 @@
 
                     <ul class="nav nav-pills nav-justified">
 
-                        <li><i class="fa fa-star"></i><button class="button_wishlist" id="{{$product->
-                            product_id}}" onclick="add_wistlist(this.id);"><span>Yêu thích</span></button></li>
-                        <li><a style="cursor: pointer;" onclick="add_compare({{$product->product_id}});"><i class="fa fa-plus-square"></i>So sánh</a></li>
+                        <li><i class="fa fa-star"></i><button class="button_wishlist" id="{{$product->product_id}}" onclick="add_wistlist(this.id);"><span>Yêu thích</span></button></li>
+                        <li><a style="cursor: pointer;" onclick="add_compare(this.id);"><i class="fa fa-plus-square"></i>So sánh</a></li>
 
 
                         <div class="container">
@@ -181,54 +228,6 @@
     </div>
 </div>
 
-<div class="modal fade" id="quick-cart" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg" style="width: fit-content;" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Giỏ hàng</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div id="show_quick_cart_alert"></div>
-                <div id="show_quick_cart">
-
-                </div>
-            </div>
-
-            <!-- Your Plugin chat code -->
-            <div id="fb-customer-chat" class="fb-customerchat">
-            </div>
-
-            <script>
-                var chatbox = document.getElementById('fb-customer-chat');
-                chatbox.setAttribute("page_id", "102323342502839");
-                chatbox.setAttribute("attribution", "biz_inbox");
-            </script>
-
-            <!-- Your SDK code -->
-            <script>
-                window.fbAsyncInit = function() {
-                    FB.init({
-                        xfbml: true,
-                        version: 'v14.0'
-                    });
-                };
-
-                (function(d, s, id) {
-                    var js, fjs = d.getElementsByTagName(s)[0];
-                    if (d.getElementById(id)) return;
-                    js = d.createElement(s);
-                    js.id = id;
-                    js.src = 'https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js';
-                    fjs.parentNode.insertBefore(js, fjs);
-                }(document, 'script', 'facebook-jssdk'));
-            </script>
-        </div>
-        <!--features_items-->
-    </div>
-</div>
 <!-- <div id="all_product"></div><br>
     
         <h2 class="title text-center" style="margin-top : 16px">Sản Phẩm bán chạy nhất</h2>
