@@ -51,8 +51,8 @@ class CartController extends Controller
                         </div>
                         
                         <p class="icon_del">
-                            <a style = "float:right; text-align: center; margin:0 0 0 5px;font-size: 25px;" class = "delete-hover-cart" href = "'.url('del-product/'.$val['session_id']).'">
-                            <i class= "fa fa-times"></i>
+                            <a style = "background: none; float:right; text-align: center; margin:0 0 0 5px;font-size: 25px;" class = "delete-hover-cart" href = "'.url('del-product/'.$val['session_id']).'">
+                            <i class="fa fa-times"></i>
                             </a>
                         </p>
                 </li>

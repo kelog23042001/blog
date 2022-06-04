@@ -305,12 +305,13 @@ a#scrollUp i {
   animation: fadeInUp 400ms;
 }
 
+
 ul.sub-menu {
   position: absolute;
   top: 30px;
   left: 0;
   /* background: rgba(0, 0, 0, 0.6); */
-  background: rgba(255, 255, 255, 0.6);
+  background: rgb(255, 255, 255);
   list-style: none;
   padding: 0;
   margin: 0;
@@ -318,15 +319,17 @@ ul.sub-menu {
   -webkit-box-shadow: 0 3px 3px rgba(0, 0, 0, 0.1);
   box-shadow: 0 3px 3px rgba(0, 0, 0, 0.1);
   display: none;
-  z-index: 999;
+  z-index: 100;
+  border: 1px ;
 }
+
 
 .dropdown ul.sub-menu li:hover {
   text-decoration: underline;
 }
 
 .dropdown ul.sub-menu li .active {
-  color: #FDB45E;
+  color: #ff8800;
   padding-left: 0;
 }
 
@@ -344,7 +347,7 @@ ul.sub-menu {
 }
 
 .navbar-nav li ul.sub-menu li a:hover {
-  color: #480551;
+  color: #e101ff;
 }
 
 .fa-angle-down {
@@ -777,19 +780,29 @@ h2.title:before {
   vertical-align: baseline;
   white-space: nowrap;
 }
-
-.panel-body ul {
-  padding-left: 20px;
+.panel-body{
+  padding: 0;
 }
 
+.panel-body ul {
+  /* padding-left: 0; */
+}
 
+.panel-body ul li{
+
+  /* border-bottom: #000 1px solid; */
+
+}
 .panel-body ul li a {
   color: #696763;
   font-family: 'Roboto', sans-serif;
   font-size: 12px;
   text-transform: uppercase;
+  padding: 5px 0;
 }
-
+.panel-body ul li a:hover{
+  color: red;
+}
 .brands-name {
   border: 1px solid #F7F7F0;
   padding-bottom: 20px;
@@ -871,7 +884,8 @@ h2.title {
   font-weight: 700;
   margin: 0 15px;
   text-transform: uppercase;
-  margin-bottom: 30px;
+  margin: 0 auto 30px;
+  margin-top: 13px;
   position: relative;
 }
 
@@ -897,6 +911,7 @@ h2.title {
   font-family: 'Roboto', sans-serif;
   font-size: 24px;
   font-weight: 700;
+  margin-top: 0px;
 }
 
 .product-overlay h2 {
@@ -909,7 +924,7 @@ h2.title {
 
 
 .productinfo p {
-  height: 60px;
+  max-height: 60px;
   overflow: hidden;
   text-align: left;
   padding: 0 10px;
@@ -921,6 +936,7 @@ h2.title {
 
 .productinfo img {
   width: 100%;
+  padding: 10px;
 }
 
 .productinfo {
@@ -2653,6 +2669,7 @@ ul.hover-cart li {
 }
 .zoom-box:hover {
   transform: scale(1.05);
+  background: rgba(0, 0, 0, 0.047);
 }
 .zoom-box .icon_del{
   float: right;
@@ -2711,6 +2728,8 @@ ul.nav.nav-pills.nav-justified i {
 }
 .product-image-wrapper{
   transition: transform .3s;
+  /* height: 400px; */
+  /* width: auto; */
 }
 .product-image-wrapper:hover{
   /* transform: scale(1.05);  */
@@ -2749,12 +2768,12 @@ ul.nav.nav-pills.nav-justified i {
   font-family: "montserrat",sans-serif;
   text-transform: uppercase;
   padding: 12px 10px;
-  margin: 10px;
   cursor: pointer;
   transition: color 0.4s linear;
   position: relative;
 }
 .add-to-cart:hover{
+  border: 2px solid #000;
   color: #fff;
 }
 .add-to-cart::before{
@@ -2776,4 +2795,30 @@ ul.nav.nav-pills.nav-justified i {
 }
 .add-to-cart:hover::before{
   transform: scaleX(1);
+}
+a{
+  color: #000;
+}
+
+a:hover{
+  cursor: pointer;
+  color: rgb(255, 0, 0);
+}
+
+a.item_viewed .row_viewed{
+  transition: transform .3s;
+}
+a.item_viewed:hover .row_viewed{
+  transform: scale(1.01);
+  background: rgba(0, 0, 0, 0.03);
+}
+.row_viewed{
+  /* margin-left:5px; */
+  /* padding-left: 5px; */
+  border-bottom: 1px solid rgba(0, 0, 0, 0.044);
+  margin-top: 5px;
+}
+.row_viewed img {
+  /* height: 100%; */
+  margin-left: 8px;
 }

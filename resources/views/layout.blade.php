@@ -430,17 +430,16 @@
                 return obj.id == id;
             })
             if(matches.length){
-                //alert('Sản phẩm bạn đã yêu thích,nên không thể thêm');
+                // alert('Sản phẩm bạn đã yêu thích,nên không thể thêm');
             }else{
                if(old_data.length <=3){
                    old_data.push(newItem);
                    $('#row_compare').find('tbody').append('<tr id= "row_compare'+
                     id+'"><td>'+newItem.name+'</td><td>'+newItem.price+'</td><td><img width = "100%" src = "'+
                     image+'"></td> <td></td> <td></td> <td></td> <td><a href = "'+
-                    newItem.url+'">Xem sản phẩm</a><br></td><td onclick = "delete_compare('+
-                    id+')"><a style = "cursor: pointer"> Xoá so sánh</a></td>/tr>');
+                    newItem.url+'"><i class="fa fa-eye text-success text-active"></i></a><br></td><td onclick = "delete_compare('+
+                    id+')"><a style = "cursor: pointer"><i class="fa fa-times text-danger text"></i></a></td>/tr>');
                }
-
             }
             localStorage.setItem('compare',JSON.stringify(old_data));
             $('#sosanh').modal();
@@ -543,23 +542,33 @@
                 var data = JSON.parse(localStorage.getItem('viewed'));
                 data.reverse();
                 document.getElementById('row_viewed').style.overflowY = 'scroll';
+                document.getElementById('row_viewed').style.overflowX = 'hidden';
                 document.getElementById('row_viewed').style.height  =    '300px';
                 for(i=0; i<data.length; i++){
                     var name = data[i].name;
                     var price =  data[i].price;
                     var image  =  data[i].image;
                     var url = data[i].url;
-
-                        $("#row_viewed").append('<div class = "row" style = "margin:10px 0"><div class ="col-md-4"><img src = "'+
-                        image+'" width = "100%"></div><div class ="col-md-8" info_wishlist ><p style = "  margin: 0;">'+name+'</p><p style = "  margin: 0;color:#FE980F">'+
-                         price+'</p><a href = "'+url+'">Đặt hàng</a></div></div>');
-
-                    }
+                    $("#row_viewed").append(
+                        '<a class= "item_viewed">'+
+                            '<div class = "row row_viewed" >'+
+                                '<div class ="col-md-4">'+
+                                    '<img src = "'+image+'" width = "100%">'+
+                                '</div>'+
+                                '<div class ="col-md-8" info_wishlist >'+
+                                    '<p style = "margin: 0;">'+name+'</p>'+
+                                    '<p style = "margin: 0;color:#FE980F">'+price+'</p>'+
+                                '</div>'+
+                            '</div>'+
+                        '</a>'
+                    );
+                }
             }
         }
 
         product_viewed();
          viewed();
+
         function product_viewed(){
             var id_product = $('#product_viewed_id').val();
 
@@ -605,6 +614,7 @@
                 var data = JSON.parse(localStorage.getItem('data'));
                 data.reverse();
                 document.getElementById('row_wishlist').style.overflowY = 'scroll';
+                document.getElementById('row_wishlist').style.overflowX = 'hidden';
                 document.getElementById('row_wishlist').style.height  =    '300px';
                 for(i=0; i<data.length; i++){
                     var name = data[i].name;
@@ -612,10 +622,23 @@
                     var image  =  data[i].image;
                     var url = data[i].url;
 
-                        $("#row_wishlist").append('<div class = "row" style = "margin:10px 0"><div class ="col-md-4"><img src = "'+
-                        image+'" width = "100%"></div><div class ="col-md-8" info_wishlist ><p style = "  margin: 0;">'+name+'</p><p style = "  margin: 0;color:#FE980F">'+
-                         price+'</p><a href = "'+url+'">Đặt hàng</a></div></div>')
-
+                    $("#row_wishlist").append(
+                        '<a class= "item_viewed">'+
+                            '<div class = "row row_viewed" >'+
+                                '<div class ="col-md-4">'+
+                                    '<img src = "'+image+'" width = "100%">'+
+                                '</div>'+
+                                '<div class ="col-md-8" info_wishlist >'+
+                                    '<p style = "margin: 0;">'+name+'</p>'+
+                                    '<p style = "margin: 0;color:#FE980F">'+price+'</p>'+
+                                '</div>'+
+                            '</div>'+
+                        '</a>'
+                    );
+                        // $("#row_wishlist").append
+                        // ('<div class = "row" style = "margin:10px 0"><div class ="col-md-4"><img src = "'+
+                        // image+'" width = "100%"></div><div class ="col-md-8" info_wishlist ><p style = "  margin: 0;">'+name+'</p><p style = "  margin: 0;color:#FE980F">'+
+                        //  price+'</p><a href = "'+url+'">Đặt hàng</a></div></div>')
                     }
             }
      }
@@ -712,7 +735,6 @@
                     success: function(data) {
                         // $('#notify_comment').html('<span class="text text-success">Thêm bình luận thành công</span>');
                         $('#giohang-hover').html(data);
-
                     }
                 });
         }

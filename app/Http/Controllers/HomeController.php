@@ -370,12 +370,15 @@ $output.='<section id="do_action">
         $cate_product = DB::table('tbl_category_product')->where('category_status', '1')->orderBy('category_id','desc')->get();
         $brand_product = DB::table('tbl_brand_product')->where('brand_status', '1')->orderBy('brand_id','desc')->get();
 
-        $all_product = DB::table('tbl_product')->where('product_status', '1')->orderBy('product_id','desc')->limit(9)
+        $all_product = DB::table('tbl_product')->where('product_status', '1')->orderBy('product_id','desc')->limit(6)
+        ->get();
+
+        $sold_product = DB::table('tbl_product')->where('product_status', '1')->orderBy('product_sold','desc')->limit(3)
         ->get();
 
         return view('user.pages.home')->with('category', $cate_product)->with('brand', $brand_product)->with('product', $all_product)
         ->with('meta_decs',$meta_decs)->with('meta_title',$meta_title)->with('meta_keyword',$meta_keyword)->with('url_canonical', $url_canonical)
-        ->with('slider', $slider)->with('category_post', $category_post);
+        ->with('slider', $slider)->with('category_post', $category_post)->with('sold_product', $sold_product);
         //return view('user.pages.home')->with(compact('cate_product', 'brand_product', 'all_product' ));
 
     }

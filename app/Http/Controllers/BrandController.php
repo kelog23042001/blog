@@ -102,6 +102,7 @@ class BrandController extends Controller
         $url_canonical = $request->url();
         $category  = DB::table('tbl_category_product')->where('category_status', '1')->orderBy('category_id','desc')->get();
         $brand =    DB::table('tbl_brand_product')->where('brand_status', '1')->orderBy('brand_id','desc')->get();
+        
         // if(isset($_GET['cate'])){
         //     $brand_filter = $_GET['cate'];
         //     $brand_arr = explode(",", $brand_filter);
@@ -126,9 +127,8 @@ class BrandController extends Controller
             $brand_by_id = DB::table('tbl_product')
             ->join('tbl_brand_product', 'tbl_product.brand_id', '=', 'tbl_brand_product.brand_id')
             ->where('tbl_brand_product.brand_id', $brand_id)
-            ->paginate(12);
+            ->paginate(3);
         }
-
         return view('user.pages.brand.show_brand', compact('category', 'brand', 'brand_by_id', 'brand_name', 'category_post'))
         ->with('meta_decs',$meta_decs)->with('meta_title',$meta_title)->with('meta_keyword',$meta_keyword)->with('url_canonical', $url_canonical);
     }

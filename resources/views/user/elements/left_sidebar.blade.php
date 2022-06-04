@@ -1,5 +1,4 @@
-<div class="left-sidebar">
-    <h2>Danh Mục Sản Phẩm</h2>
+    <h2 style="margin-top: 13px;">Danh Mục Sản Phẩm</h2>
     <!--category-productsr-->
     <div class="panel-group category-products" id="accordian">
         @foreach($category as $key => $cate)
@@ -19,7 +18,9 @@
                     <ul>
                         @foreach($category as $key => $cate_sub)
                         @if($cate_sub->category_parent == $cate->category_id)
-                        <li><a href="{{URL::to('/danh-muc-san-pham/'.$cate_sub->category_id)}}">{{$cate_sub->category_name}} </a></li>
+                        <li class="category" style="margin: 0 5px">
+                            <a href="{{URL::to('/danh-muc-san-pham/'.$cate_sub->category_id)}}">{{$cate_sub->category_name}} </a>
+                        </li>
                         @endif
                         @endforeach
                     </ul>
@@ -43,21 +44,11 @@
         @endforeach
     </div>
     <!--/brands_products-->
-
-    <div class="brands_products">
-        <!--like-range-->
-        <h2>Sản phẩm đã xem</h2>
-        <div class="brands-name">
-            <div id="row_viewed" class="row"></div>
+    <!--price-range-->
+    <!-- <div class="price-range">
+        <div class="text-center">
+            <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="600" data-slider-step="5" data-slider-value="[250,450]" id="sl2"><br />
+            <b class="pull-left">$ 0</b> <b class="pull-right">$ 600</b>
         </div>
-    </div>
-    <!--/like-range-->
-    <div class="brands_products">
-        <!--like-range-->
-        <h2>Sản phẩm yêu thích</h2>
-        <div class="brands-name">
-            <div id="row_wishlist" class="row"></div>
-        </div>
-    </div>
-    <!--/like-range-->
-</div>
+    </div> -->
+    <!--/price-range-->
