@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Brand;
 use App\Models\CategoryPost;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\DB;
@@ -103,23 +104,46 @@ class BrandController extends Controller
         $category  = DB::table('tbl_category_product')->where('category_status', '1')->orderBy('category_id','desc')->get();
         $brand =    DB::table('tbl_brand_product')->where('brand_status', '1')->orderBy('brand_id','desc')->get();
 
-   
+
 
         $brand_name = DB::table('tbl_brand_product')->where('tbl_brand_product.brand_id', $brand_id)->limit(1)->get();
-        $brand_by_id = DB::table('tbl_product')
-        ->join('tbl_brand_product', 'tbl_product.brand_id', '=', 'tbl_brand_product.brand_id')
-        ->where('tbl_brand_product.brand_id', $brand_id)
-        ->paginate(3);
-        // if(isset($_GET['brand'])){
-        //     $brand_id = $_GET['brand'];
-        //     $brand_arr = explode(",", $brand_id);
-        //     $brand_by_id = DB::table('tbl_product')
-        //     ->join('tbl_brand_product', 'tbl_product.brand_id', '=', 'tbl_brand_product.brand_id')
-        //     ->where('tbl_brand_product.brand_id', $brand_id)
-        //     ->paginate(12)->appends(request()->query());
-        // }else{
-
-        // }
+        // $brand_by_id = DB::table('tbl_product')
+        // ->join('tbl_brand_product', 'tbl_product.brand_id', '=', 'tbl_brand_product.brand_id')
+        // ->where('tbl_brand_product.brand_id', $brand_id)
+        // ->paginate(3);
+        $brand_id_brand = Brand::where('brand_id', $brand_id)->get();
+        foreach($brand_id_brand as $key => $cate){
+            $brand_id = $cate->brand_id;
+        }
+        if(isset($_GET['sort_by'])){
+            $sort_by = $_GET['sort_by'];
+            if($sort_by == 'giam_dan'){
+                $brand_by_id = Product::with('brand')->where('brand_id',$brand_id)->orderby('product_price',
+                'DESC')->paginate(6)->appends(request()->query());
+            }else if($sort_by == 'tang_dan'){
+                $brand_by_id = Product::with('brand')->where('brand_id',$brand_id)->orderby('product_price',
+                'ASC')->paginate(6)->appends(request()->query());
+            }else if($sort_by == 'kytu_za'){
+                $brand_by_id = Product::with('brand')->where('brand_id',$brand_id)->orderby('product_name',
+                'DESC')->paginate(6)->appends(request()->query());
+            }else if($sort_by == 'kytu_az'){
+                $brand_by_id = Product::with('brand')->where('brand_id',$brand_id)->orderby('product_name',
+                'ASC')->paginate(6)->appends(request()->query());
+            }
+        }elseif(isset( $_GET['start_price']) && $_GET['end_price']){
+            $max_price = $_GET['end_price'];
+            $min_price = $_GET['start_price'];
+            $brand_by_id = Product::with('brand')->where('brand_id',$brand_id)->whereBetween('product_price',[$min_price, $max_price])->orderby('product_price',
+            'ASC')->paginate(9)->appends(request()->query());
+        }elseif(isset($_GET['brand'])){
+            $brand_filter = $_GET['brand'];
+            $brand_arr = explode(",", $brand_filter);
+            $brand_by_id = Product::with('brand')->whereIn('brand_id',$brand_arr)->orderby('product_price',
+            'ASC')->paginate(12)->appends(request()->query());
+        }else {
+            $brand_by_id = Product::with('brand')->where('brand_id',$brand_id)->orderby('product_id',
+            'DESC')->paginate(9);
+        }
         return view('user.pages.brand.show_brand', compact('category', 'brand', 'brand_by_id', 'brand_name', 'category_post'))
         ->with('meta_decs',$meta_decs)->with('meta_title',$meta_title)->with('meta_keyword',$meta_keyword)->with('url_canonical', $url_canonical);
     }

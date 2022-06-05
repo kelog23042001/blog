@@ -28,7 +28,9 @@ class Product extends Model
     public function category(){
         return$this->belongsTo('App\Models\CategoryProductModel', 'category_id');
     }
-    
+    public function brand(){
+        return$this->belongsTo('App\Models\Brand', 'brand_id');
+    }
     public function comment(){
         return $this->hasMany('App\Models\Comment');
     }

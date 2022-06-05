@@ -45,7 +45,7 @@
                 <input type="hidden" name="start_price" id="start_price">
                 <input type="hidden" name="end_price" id="end_price">
                 <br>
-                <input type="submit" name="filter_price" value="Lọc theo giá" class="btn btn-sm btn-defalut">
+                <input type="submit" name="filter_price" value="Lọc theo giá" class="btn btn-sm btn-defalut ">
             </form>
         </div>
         <div class="row">
@@ -65,7 +65,7 @@
             <div class="col-md-4">
                 <label for="amount">Lọc giá theo</label>
                 <form>
-                    <div id="slider-range"></div>
+                    <div id="slider-range" class="sort_price"></div>
                 </form>
             </div>
         </div>

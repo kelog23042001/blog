@@ -479,6 +479,26 @@
         }
 
     </script>
+      <script>
+        $(document).ready(function(){
+            $('#sort').on('change', function(){
+                var url = $(this).val();
+                if(url){
+                    window.location = url;
+                }
+                return false;
+            });
+            $('.sort_price').on('change', function(){
+                var url = $(this).val();
+                // if(url){
+                //     window.location = url;
+                // }
+                // return false;
+                alert(url);
+            });
+        })
+    </script>
+
     <script>
         $(document).ready(function(){
 
@@ -495,11 +515,11 @@
                 $( "#start_price" ).val(ui.values[ 0 ]);
                 $( "#end_price" ).val(ui.values[ 1 ] );
 
-            }
+            },
+            location:$(this).val(),
             });
             $( "#amount_start" ).val( $( "#slider-range" ).slider( "values", 0 ) + 'Vnd'  ).simpleMoneyFormat();
             $( "#amount_end" ).val(  $( "#slider-range" ).slider( "values", 1 ) +  'Vnd').simpleMoneyFormat();
-
 
         })
     </script>
@@ -555,18 +575,7 @@
     </script>
 
 
-    <script>
-        $(document).ready(function(){
-            $('#sort').on('change', function(){
-                var url = $(this).val();
-                if(url){
-                    window.location = url;
-                }
-                return false;
-            });
 
-        })
-    </script>
 
     <!-- Sản phẩm đã xem -->
     <script>

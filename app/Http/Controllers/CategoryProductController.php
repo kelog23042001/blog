@@ -120,8 +120,7 @@ class CategoryProductController extends Controller
             $category_id = $cate->category_id;
         }
 
-        $min_price_range = $min_price ;
-        $max_price_range = $max_price ;
+
         if(isset($_GET['sort_by'])){
             $sort_by = $_GET['sort_by'];
             if($sort_by == 'giam_dan'){
@@ -140,7 +139,7 @@ class CategoryProductController extends Controller
         }elseif(isset( $_GET['start_price']) && isset($_GET['end_price']) ){
             $max_price = $_GET['end_price'];
             $min_price = $_GET['start_price'];
-            $category_by_id = Product::with('category')->whereBetween('product_price',[$min_price, $max_price])->orderby('product_price',
+            $category_by_id = Product::with('category')->where('category_id',$category_id)->whereBetween('product_price',[$min_price, $max_price])->orderby('product_price',
             'ASC')->paginate(9)->appends(request()->query());
         }elseif(isset($_GET['cate'])){
             $category_filter = $_GET['cate'];
