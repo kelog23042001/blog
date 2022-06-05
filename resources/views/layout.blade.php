@@ -304,7 +304,7 @@
             var remain_qty;
             var _token = $('input[name="_token"]').val();
             // alert(remain_qty);
-            
+
             $.ajax({
                 url: '{{url('/update-quick-cart')}}' ,
                 method: 'POST',
@@ -485,10 +485,10 @@
             $( "#slider-range" ).slider({
             orientation: "horizontal",
             range: true,
-            values: [ {{$min_price}}, {{$max_price}} ],
+            values: [ {{ $min_price }}, {{ $max_price }} ],
             step: 10000,
-            min:{{$min_price_range}},
-            max:{{$max_price_range}},
+            min:{{ $min_price_range }},
+            max:{{ $max_price_range }},
             slide: function( event, ui ) {
                 $( "#amount_start" ).val(  ui.values[ 0 ] + 'VND' ).simpleMoneyFormat() ;
                 $( "#amount_end" ).val( ui.values[ 1 ]  + 'VND').simpleMoneyFormat();
@@ -564,7 +564,7 @@
                 }
                 return false;
             });
-            
+
         })
     </script>
 

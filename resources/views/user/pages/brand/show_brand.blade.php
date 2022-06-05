@@ -13,7 +13,7 @@
         <div class="row">
             <div class="col-md-9">
                 <label for="amount">Lọc danh mục theo</label><br>
-                @php
+                <!-- @php
                 $brand_id = [];
                 $brand_arr = [];
                 if(isset($_GET['brand'])){
@@ -30,7 +30,7 @@
                     {{$bra->brand_name }}
                 </label>
 
-                @endforeach<br>
+                @endforeach<br> -->
             </div>
         </div>
         <div class="col-md-4">

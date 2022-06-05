@@ -30,9 +30,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         view()->composer('*',function($view){
-            $min_price = Product :: min('product_price');
-            $max_price = Product :: max('product_price');
-            $min_price_range = $min_price - 100000;
+            $min_price = Product::min('product_price');
+            $max_price = Product::max('product_price');
+            $min_price_range = $min_price - $min_price;
             $max_price_range = $max_price + 100000;
 
             $product_count = Product::all()->count();

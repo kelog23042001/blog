@@ -119,6 +119,9 @@ class CategoryProductController extends Controller
         foreach($category_id_cate as $key => $cate){
             $category_id = $cate->category_id;
         }
+
+        $min_price_range = $min_price ;
+        $max_price_range = $max_price ;
         if(isset($_GET['sort_by'])){
             $sort_by = $_GET['sort_by'];
             if($sort_by == 'giam_dan'){
@@ -134,11 +137,11 @@ class CategoryProductController extends Controller
                 $category_by_id = Product::with('category')->where('category_id',$category_id)->orderby('product_name',
                 'ASC')->paginate(6)->appends(request()->query());
             }
-        }elseif(isset( $_GET['start_price']) && $_GET['end_price'] ){
+        }elseif(isset( $_GET['start_price']) && isset($_GET['end_price']) ){
             $max_price = $_GET['end_price'];
             $min_price = $_GET['start_price'];
             $category_by_id = Product::with('category')->whereBetween('product_price',[$min_price, $max_price])->orderby('product_price',
-            'ASC')->paginate(6)->appends(request()->query());
+            'ASC')->paginate(9)->appends(request()->query());
         }elseif(isset($_GET['cate'])){
             $category_filter = $_GET['cate'];
             $category_arr = explode(",", $category_filter);
@@ -155,9 +158,11 @@ class CategoryProductController extends Controller
                 $url_canonical = $request->url();
             }
 
-
-        return view('user.pages.category.show_category', compact('min_price','min_price_range','max_price_range','max_price','category', 'brand', 'category_by_id', 'category_name', 'category_post'))
-        ->with('meta_decs',$meta_decs)->with('meta_title',$meta_title)->with('meta_keyword',$meta_keyword)->with('url_canonical', $url_canonical);
+            // $min_price = Product::orderby('product_price', 'ASC')->value('product_price');
+            // $max_price = Product::max('product_price');
+         return view('user.pages.category.show_category', compact('min_price','min_price_range','max_price_range','max_price','category', 'brand', 'category_by_id', 'category_name', 'category_post'))
+         ->with('meta_decs',$meta_decs)->with('meta_title',$meta_title)->with('meta_keyword',$meta_keyword)->with('url_canonical', $url_canonical);
+            // echo $min_price;
     }
 }
 

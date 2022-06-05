@@ -102,33 +102,24 @@ class BrandController extends Controller
         $url_canonical = $request->url();
         $category  = DB::table('tbl_category_product')->where('category_status', '1')->orderBy('category_id','desc')->get();
         $brand =    DB::table('tbl_brand_product')->where('brand_status', '1')->orderBy('brand_id','desc')->get();
-        
-        // if(isset($_GET['cate'])){
-        //     $brand_filter = $_GET['cate'];
-        //     $brand_arr = explode(",", $brand_filter);
-        //     $category_by_id = Product::with('category')->whereIn('category_id',$category_arr)->orderby('product_price',
-        //     'ASC')->paginate(12)->appends(request()->query());
-        // }else {
-        //     $category_by_id = Product::with('category')->where('category_id',$category_id)->orderby('product_id',
-        //     'DESC')->paginate(6);
-        // }
+
+   
 
         $brand_name = DB::table('tbl_brand_product')->where('tbl_brand_product.brand_id', $brand_id)->limit(1)->get();
-        $brand_id =  [];
-        $brand_arr = [];
-        if(isset($_GET['brand'])){
-            $brand_id = $_GET['brand'];
-            $brand_arr = explode(",", $brand_id);
-            $brand_by_id = DB::table('tbl_product')
-            ->join('tbl_brand_product', 'tbl_product.brand_id', '=', 'tbl_brand_product.brand_id')
-            ->where('tbl_brand_product.brand_id', $brand_id)
-            ->paginate(12)->appends(request()->query());
-        }else{
-            $brand_by_id = DB::table('tbl_product')
-            ->join('tbl_brand_product', 'tbl_product.brand_id', '=', 'tbl_brand_product.brand_id')
-            ->where('tbl_brand_product.brand_id', $brand_id)
-            ->paginate(3);
-        }
+        $brand_by_id = DB::table('tbl_product')
+        ->join('tbl_brand_product', 'tbl_product.brand_id', '=', 'tbl_brand_product.brand_id')
+        ->where('tbl_brand_product.brand_id', $brand_id)
+        ->paginate(3);
+        // if(isset($_GET['brand'])){
+        //     $brand_id = $_GET['brand'];
+        //     $brand_arr = explode(",", $brand_id);
+        //     $brand_by_id = DB::table('tbl_product')
+        //     ->join('tbl_brand_product', 'tbl_product.brand_id', '=', 'tbl_brand_product.brand_id')
+        //     ->where('tbl_brand_product.brand_id', $brand_id)
+        //     ->paginate(12)->appends(request()->query());
+        // }else{
+
+        // }
         return view('user.pages.brand.show_brand', compact('category', 'brand', 'brand_by_id', 'brand_name', 'category_post'))
         ->with('meta_decs',$meta_decs)->with('meta_title',$meta_title)->with('meta_keyword',$meta_keyword)->with('url_canonical', $url_canonical);
     }
