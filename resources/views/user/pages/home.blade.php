@@ -37,7 +37,7 @@
 
                             <a id="wishlist_producturl{{$product->product_id}}" href="{{URL::to('chi-tiet-san-pham/'.$product->product_id)}}">
                                 <img id="wishlist_productimage{{$product->product_id}}" width="200px" height="250px" src="{{URL::to('public/uploads/product/'.$product->product_image)}}" alt="" />
-                                <h2>{{ number_format($product->product_price).' '.'VND'}}</h2>
+                                <h2>{{number_format($product->product_price,0,',','.')}} VNĐ</h2>
                                 <p>{{ $product->product_name}}</p>
                             </a>
                             <button type="button" class="btn  add-to-cart" id="{{$product->product_id}}" onclick="Addtocart(this.id);"><i class="fa fa-shopping-cart"></i>Thêm giỏ hàng</button>
@@ -88,7 +88,7 @@
                             <a id="wishlist_producturl{{$product->product_id}}" href="{{URL::to('chi-tiet-san-pham/'.$product->product_id)}}">
 
                                 <img id="wishlist_productimage{{$product->product_id}}" width="200px" height="250px" src="{{URL::to('public/uploads/product/'.$product->product_image)}}" alt="" />
-                                <h2>{{ number_format($product->product_price).' '.'VND'}}</h2>
+                                <h2>{{number_format($product->product_price,0,',','.')}} VNĐ</h2>
                                 <p>{{ $product->product_name}}</p>
                             </a>
                             <button type="button" class="btn  add-to-cart" id="{{$product->product_id}}" onclick="Addtocart(this.id);"><i class="fa fa-shopping-cart"></i>Thêm giỏ hàng</button>

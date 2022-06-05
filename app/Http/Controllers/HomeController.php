@@ -58,9 +58,7 @@ class HomeController extends Controller
                             <p>' . number_format($cart['product_price'], 0, ',', '.') . ' VNĐ</p>
                         </td>
 
-                        <td class="cart_price">
-                            <input type="number"  data-session_remain_qty="' . $cart['remain_qty'] . '" value="' . $cart['remain_qty'] . '">
-                        </td>
+                            <input type="hidden"  data-session_remain_qty="' . $cart['remain_qty'] . '" value="' . $cart['remain_qty'] . '">
 
                         <td class="cart_quantity">
                             <div class="cart_quantity_button">

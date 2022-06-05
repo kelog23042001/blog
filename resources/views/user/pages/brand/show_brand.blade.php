@@ -10,9 +10,8 @@
     <h2 class="title text-center">{{$name->brand_name}}</h2>
     @endforeach
     <div class="features_items">
-        <!--features_items-->
         <div class="row">
-            <!-- <div class="col-md-9">
+            <div class="col-md-9">
                 <label for="amount">Lọc danh mục theo</label><br>
                 @php
                 $brand_id = [];
@@ -32,7 +31,7 @@
                 </label>
 
                 @endforeach<br>
-            </div> -->
+            </div>
         </div>
         <div class="col-md-4">
             <label for="amount">Lọc giá theo</label>
@@ -49,7 +48,6 @@
                 <input type="submit" name="filter_price" value="Lọc theo giá" class="btn btn-sm btn-defalut">
             </form>
         </div>
-
         <div class="row">
             <div class="col-md-4">
                 <label for="amount">Sắp xếp theo </label>
@@ -71,6 +69,9 @@
                 </form>
             </div>
         </div>
+    </div>
+    <div class="features_items">
+        <!--features_items-->
         @foreach($brand_by_id as $key => $product)
         <div class="col-sm-4">
             <div class="product-image-wrapper">
@@ -91,6 +92,7 @@
         </div>
         @endforeach
     </div>
+
 </div>
 <!--features_items-->
 @endsection
