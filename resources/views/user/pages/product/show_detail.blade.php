@@ -27,8 +27,6 @@
             </ol>
         </nav>
         <ul id="imageGallery">
-
-
             @if($gallery->isEmpty())
                 <li data-thumb="{{asset('public/uploads/product/'.$value->product_image)}}" data-src="{{asset('public/uploads/product/'.$value->product_image)}}">
                 <img width="100%" alt="{{$value->product_name}}" src="{{asset('public/uploads/product/'.$value->product_image)}}" />
@@ -56,19 +54,30 @@
                 <span>
                     <span>{{number_format($value->product_price).' '.'VND'}}</span>
                     <label>Số lượng :</label>
-                    <input name="qty" type="number" value="1" min="1" max={{$value->product_quantity}} />
                     <input type="hidden" value="{{$value->product_id}}" class="cart_product_id_{{$value->product_id}}">
+                    
                     <input type="hidden" value="{{$value->product_name}}" class="cart_product_name_{{$value->product_id}}">
+                    
                     <input type="hidden" value="{{$value->product_image}}" class="cart_product_image_{{$value->product_id}}">
+                    
                     <input type="hidden" value="{{$value->product_price}}" class="cart_product_price_{{$value->product_id}}">
-                    <input type="hidden" value="1" class="cart_product_qty_{{$value->product_id}}">
+                    
+                    <input type="hidden" value="{{$value->product_quantity}}" class="product_qty_{{$value->product_id}}">
+                    
+                    <input oninput="checkQty()" style="width: 100px;" name="qty" id="qty_product" class="qty" type="number" value="1" min="1" max="{{$value->product_quantity}}"/>
+
+                    <!-- <input type="hidden" value="1" class="cart_product_qty_{{$value->product_id}}"> -->
+
+                    <input type="hidden" value="{{$value->product_quantity}}" id="soluongcon" class="cart_product_qty_{{$value->product_id}}">
+
                     </br>
+
                     <button type="button" class="btn add-to-cart" data-id_product="{{$value->product_id}}" name="add-to-cart">
                         <i class="fa fa-shopping-cart"></i>Thêm giỏ hàng</button>
                 </span>
             </form>
             @if( $value->product_quantity > 0)
-            <p><b>Tình Trạng:</b> Còn Hàng</p>
+            <p><b>Tình Trạng:</b> Còn Hàng( {{$value->product_quantity}} sản phẩm)</p>
             @else
             <p><b>Tình Trạng:</b> Hết Hàng</p>
             @endif

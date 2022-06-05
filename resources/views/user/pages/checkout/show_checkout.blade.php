@@ -48,7 +48,7 @@ use Illuminate\Support\Facades\Session;
                         </thead>
                         <tbody>
 
-                            @if(Session::get('cart')==true)
+                            @if(Session::get('cart'))
                             @php
                             $total = 0;
                             @endphp
@@ -67,17 +67,16 @@ use Illuminate\Support\Facades\Session;
                                     <p>{{$cart['product_name']}}</p>
                                 </td>
                                 <td class="cart_price">
-                                    <p>{{number_format($cart['product_price'],0,',','.')}}đ</p>
+                                    <p>{{number_format($cart['product_price'],0,',','.')}} VNĐ</p>
                                 </td>
                                 <td class="cart_quantity">
                                     <div class="cart_quantity_button">
-                                        <input class="cart_quantity_" type="number" min="1" name="cart_qty[{{$cart['session_id']}}]" value="{{$cart['product_qty']}}">
+                                        <input class="cart_quantity_" type="number" min="1" max = "" name="cart_qty[{{$cart['session_id']}}]" value="{{$cart['product_qty']}}">
                                     </div>
                                 </td>
                                 <td class="cart_total">
                                     <p class="cart_total_price">
-                                        {{number_format($subtotal,0,',','.')}}đ
-
+                                        {{number_format($subtotal,0,',','.')}} VNĐ
                                     </p>
                                 </td>
                                 <td class="cart_delete">
@@ -92,12 +91,10 @@ use Illuminate\Support\Facades\Session;
                                 </td>
                                 <td>
                                     <a class="btn btn-default check_out" href="{{url('/delete-all-product')}}">Xoá tất cả</a>
-
                                 </td>
                                 @if(Session::get('coupon'))
                                 <td>
                                     <a class="btn btn-default check_out" href="{{url('/unset-coupon')}}">Xoá mã giảm giá</a>
-
                                 </td>
                                 @endif
                                 <td>

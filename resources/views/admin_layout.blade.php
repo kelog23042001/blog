@@ -864,7 +864,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <!-- //calendar -->
 
 
-
     <!-- cập nhật số lượng đặt hàng -->
     <script type="text/javascript">
         $('.update_quantity_order').click(function() {
@@ -872,24 +871,25 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             var order_qty = $('.order_qty_' + order_product_id).val();
             var order_code = $('.order_code').val();
             var _token = $('input[name="_token"]').val();
-
-
-            $.ajax({
-                url: '{{url('/update-qty')}}',
-                method: 'POST',
-                data: {
-                    _token: _token,
-                    order_product_id: order_product_id,
-                    order_qty: order_qty,
-                    order_code: order_code
-                },
-
-                success: function(data) {
-                    alert('Cập nhật số lượng đặt hàng thành công');
-                    location.reload();
-                }
-            });
-
+            var order_qty_storage = $('.order_qty_storage_' + order_product_id).val();
+            if(order_qty_storage - order_qty < 0){
+                alert("Số lượng trong kho không đủ");
+            }else{
+                $.ajax({
+                    url: '{{url('/update-qty')}}',
+                    method: 'POST',
+                    data: {
+                        _token: _token,
+                        order_product_id: order_product_id,
+                        order_qty: order_qty,
+                        order_code: order_code
+                    },
+                    success: function(data) {
+                        alert('Cập nhật số lượng đặt hàng thành công');
+                        location.reload();
+                    }
+                });
+            }
             // alert(order_product_id);
             // alert(order_qty);
             // alert(order_code);
@@ -976,6 +976,24 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             slug = slug.replace(/\@\-|\-\@|\@/gi, '');
             //In slug ra textbox có id “slug”
             document.getElementById('convert_slug').value = slug;
+        }
+    </script>
+    <script>
+        function checkQty_order(){
+
+            var order_product_id = document.getElementById('order_product_id').getAttribute('value');
+
+            // var product_quantity = document.getElementById('order_qty_storage_' + order_product_id).getAttribute('value');
+
+            alert(order_product_id);
+
+            // alert(order_product_id);
+            // ele = document.getElementById('order_qty')
+            // alert( );
+            // var quantity = product_quantity.value - ele.value
+            // if(quantity < 0){
+            //     ele.value = product_quantity.value;
+            // }
         }
     </script>
 </body>

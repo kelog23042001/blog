@@ -213,7 +213,7 @@
 
             if (j == 0) {
                 alert('Cập nhật trạng thái đơn hàng thành công');
-                // location.reload();
+                location.reload();
                 $.ajax({
                     url: '{{url('/update-order-quantity')}}',
                     method: 'POST',
@@ -235,23 +235,24 @@
             var order_qty = $('.order_qty_' + order_product_id).val();
             var order_code = $('.order_code').val();
             var _token = $('input[name="_token"]').val();
-            $.ajax({
-                url: '{{url('/update-qty')}}',
-                method: 'POST',
-                data: {
-                    _token: _token,
-                    order_product_id: order_product_id,
-                    order_qty: order_qty,
-                    order_code: order_code
-                },
 
-                success: function(data) {
-                    alert('Cập nhật số lượng đặt hàng thành công');
-                    location.reload();
-                }
-            });
+            // $.ajax({
+            //     url: '{{url('/update-qty')}}',
+            //     method: 'POST',
+            //     data: {
+            //         _token: _token,
+            //         order_product_id: order_product_id,
+            //         order_qty: order_qty,
+            //         order_code: order_code
+            //     },
 
-            // alert(order_product_id);
+            //     success: function(data) {
+            //         alert('Cập nhật số lượng đặt hàng thành công11');
+            //         location.reload();
+            //     }
+            // });
+
+            alert(order_product_id);
             // alert(order_qty);
             // alert(order_code);
         });
@@ -288,7 +289,6 @@
                     $('#show_quick_cart_alert').fadeOut(1000);
                    },1000);
                     show_quick_cart();
-
                         show_cart();
                         hover_cart();
 
@@ -298,8 +298,13 @@
         }
         $(document).on('input', '.cart_qty_update', function(){
             var quantity = $(this).val();
+            // var product_quantity = document.getElementById('remain_qty_cart');
             var session_id = $(this).data('session_id');
+            // var remain_qty = $(this).data('session_remain_qty');
+            var remain_qty;
             var _token = $('input[name="_token"]').val();
+            // alert(remain_qty);
+            
             $.ajax({
                 url: '{{url('/update-quick-cart')}}' ,
                 method: 'POST',
@@ -309,12 +314,9 @@
                     _token: _token
                 },
                 success: function() {
-
-                        show_quick_cart();
-
-                        show_cart();
-                        hover_cart();
-
+                    show_quick_cart();
+                    show_cart();
+                    hover_cart();
                 }
 
             });
@@ -324,10 +326,17 @@
             var id = $product_id;
 
             var cart_product_id = $('.cart_product_id_' + id).val();
+
             var cart_product_name = $('.cart_product_name_' + id).val();
+
             var cart_product_image = $('.cart_product_image_' + id).val();
+
             var cart_product_price = $('.cart_product_price_' + id).val();
+
             var cart_product_qty = $('.cart_product_qty_' + id).val();
+
+            var remain_qty = $('.product_qty_' + id).val();
+
             var _token = $('input[name="_token"]').val();
             // alert(cart_product_image);
             // alert(cart_product_qty);
@@ -343,6 +352,7 @@
                     cart_product_image: cart_product_image,
                     cart_product_price: cart_product_price,
                     cart_product_qty: cart_product_qty,
+                    remain_qty : remain_qty,
                     _token: _token
                 },
                 success: function() {
@@ -392,11 +402,20 @@
                     var url = data[i].url;
                     var desc = data[i].desc;
                     var id = data[i].id;
-                    $('#row_compare').find('tbody').append('<tr id= "row_compare'+
-                    id+'"><td>'+name+'</td><td>'+price+'</td><td><img width = "100%" src = "'+
-                    image+'"</td> <td></td> <td></td> <td></td> <td><a href = "'+
-                    url+'">Xem sản phẩm</a><br></td><td onclick = "delete_compare('+
-                    id+')"><a style = "cursor: pointer"> Xoá so sánh</a></td>/tr>');
+                    $('#row_compare').find('tbody').append(
+                        '<tr id= "row_compare'+id+'">'+
+                            '<td><img height="190px" src = "'+image+'"</td>'+
+                            '<td style="width: 150px;" >'+name+'</td>'+
+                            '<td style="width: 100px;" >'+price+'</td>'+
+                            // '<td></td>'+
+                            // '<td></td>'+
+                            '<td style="width: 300px;" > <div class ="product_desc">'+desc+'</div></td>'+
+                            '<td><a href = "'+url+'"><i class="fa fa-eye text-success text-active"></i></a></td>'+
+                            '<td onclick = "delete_compare('+id+')">'+
+                                '<a style = "cursor: pointer"><i class="fa fa-times text-danger text"></i></a>'+
+                            '</td>'+
+                        '</tr>'
+                    );
                 }
             }
 
@@ -434,11 +453,24 @@
             }else{
                if(old_data.length <=3){
                    old_data.push(newItem);
-                   $('#row_compare').find('tbody').append('<tr id= "row_compare'+
-                    id+'"><td>'+newItem.name+'</td><td>'+newItem.price+'</td><td><img width = "100%" src = "'+
-                    image+'"></td> <td></td> <td></td> <td></td> <td><a href = "'+
-                    newItem.url+'"><i class="fa fa-eye text-success text-active"></i></a><br></td><td onclick = "delete_compare('+
-                    id+')"><a style = "cursor: pointer"><i class="fa fa-times text-danger text"></i></a></td>/tr>');
+                   $('#row_compare').find('tbody').append(
+                        '<tr id= "row_compare'+id+'">'+
+                            '<td><img height="190px" src = "'+image+'"></td>'+
+                            '<td style="width: 150px;">'+newItem.name+'</td>'+
+                            '<td style="width: 100px;">'+newItem.price+'</td>'+
+                            '<td style="width: 300px;"><div class ="product_desc">'+newItem.desc+'</div></td>'+
+                            '<td>'+
+                                '<a href = "'+newItem.url+'">'+
+                                '<i class="fa fa-eye text-success text-active"></i>'+
+                                '</a>'+
+                            '</td>'+
+                            '<td onclick = "delete_compare('+id+')">'+
+                                '<a style = "cursor: pointer">'+
+                            '       <i class="fa fa-times text-danger text"></i>'+
+                                '</a>'+
+                            '</td>'+
+                        '</tr>'
+                    );
                }
             }
             localStorage.setItem('compare',JSON.stringify(old_data));
@@ -754,15 +786,16 @@
                 });
             }
         $(document).ready(function() {
-
             $('.add-to-cart').click(function() {
                 var id = $(this).data('id_product');
                 var cart_product_id = $('.cart_product_id_' + id).val();
                 var cart_product_name = $('.cart_product_name_' + id).val();
                 var cart_product_image = $('.cart_product_image_' + id).val();
                 var cart_product_price = $('.cart_product_price_' + id).val();
-                var cart_product_qty = $('.cart_product_qty_' + id).val();
+                var cart_product_qty = $('.qty').val();
+                var remain_qty = $('.product_qty_' + id).val();
                 var _token = $('input[name="_token"]').val();
+                // alert();
                 $.ajax({
                     url: '{{url('/add-cart-ajax')}}',
                     method: 'POST',
@@ -772,31 +805,36 @@
                         cart_product_image: cart_product_image,
                         cart_product_price: cart_product_price,
                         cart_product_qty: cart_product_qty,
+                        remain_qty: remain_qty,
                         _token: _token
                     },
                     success: function() {
                         swal({
-                                title: "Đã thêm sản phẩm vào giỏ hàng",
-                                text: "Bạn có thể mua hàng tiếp hoặc tới giỏ hàng để tiến hành thanh toán",
-                                showCancelButton: true,
-                                cancelButtonText: "Xem tiếp",
-                                confirmButtonClass: "btn-success",
-                                confirmButtonText: "Đi đến giỏ hàng",
-                                closeOnConfirm: false
-                            },
-                            function() {
-                                window.location.href = "{{url('/gio-hang')}}";
-                            });
-                            show_cart();
-                            hover_cart();
-
+                            title: "Đã thêm sản phẩm vào giỏ hàng",
+                            text: "Bạn có thể mua hàng tiếp hoặc tới giỏ hàng để tiến hành thanh toán",
+                            showCancelButton: true,
+                            cancelButtonText: "Xem tiếp",
+                            confirmButtonClass: "btn-success",
+                            confirmButtonText: "Đi đến giỏ hàng",
+                            closeOnConfirm: false
+                        },
+                        function() {
+                            window.location.href = "{{url('/gio-hang')}}";
+                        });
+                        show_cart();
+                        hover_cart();
                     }
-
                 });
             });
         });
     </script>
 
+<script>
+    function setDomain() {
+        let domain = 300;
+        document.getElementById('qty_product').setAttribute('value', domain);
+    }
+</script>
     <script>
         $(document).ready(function() {
             $('#imageGallery').lightSlider({
@@ -953,6 +991,19 @@
             $('#search_ajax').fadeOut();
         });
     </script>
+
+<script>
+    function checkQty(){
+        // var product_quantity = document.getElementById('soluongcon').getAttribute('value');
+        var product_quantity = document.getElementById('soluongcon');
+        ele = document.getElementById('qty_product')
+        // alert( );
+        var quantity = product_quantity.value - ele.value
+        if(quantity < 0){
+            ele.value = product_quantity.value;
+        }
+    }
+</script>
 </body>
 
 </html>

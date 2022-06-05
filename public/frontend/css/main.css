@@ -2821,4 +2821,10 @@ a.item_viewed:hover .row_viewed{
 .row_viewed img {
   /* height: 100%; */
   margin-left: 8px;
+
+} 
+
+.table>tbody>tr>td .product_desc{
+  height: 195px;
+  overflow-y: scroll;
 }
