@@ -82,7 +82,7 @@
 
 <div class="col-sm-9 padding-right ">
 
-    <div class="features_items overflow-hidden new_top" style="height: 500px;">
+    <div class="features_items overflow-hidden new_top" style="height: 515px;">
         <h2 class="title text-center" style="margin-top : 16px; margin-bottom: 10px">Mới Nhất</h2>
         <ul class="favorites-slider list-inline">
             @foreach($product as $key=>$productNew)
@@ -110,7 +110,7 @@
                                     <h2>{{number_format($productNew->product_price,0,',','.')}} VNĐ</h2>
                                     <p>{{ $productNew->product_name}}</p>
                                 </a>
-                                <button type="button" class="btn  add-to-cart" id="{{$productNew->product_id}}" onclick="Addtocart(this.id);"><i class="fa fa-shopping-cart"></i>Thêm giỏ hàng</button>
+                                <button type="button" class="btn  add-to-cart" style="margin-bottom: 0" id="{{$productNew->product_id}}" onclick="Addtocart(this.id);"><i class="fa fa-shopping-cart"></i>Thêm giỏ hàng</button>
                             </form>
                         </div>
                         </a>
@@ -134,7 +134,7 @@
         </ul>
     </div>
 
-    <div class="features_items overflow-hidden sold_top" style="height: 500px;">
+    <div class="features_items overflow-hidden sold_top" style="height: 510px;">
         <h2 class="title text-center" style="margin-top : 16px; margin-bottom: 10px">Bán Chạy</h2>
         <ul class="favorites-slider list-inline ">
             @foreach($sold_product as $key=>$productNew)
@@ -162,7 +162,7 @@
                                     <h2>{{number_format($productNew->product_price,0,',','.')}} VNĐ</h2>
                                     <p>{{ $productNew->product_name}}</p>
                                 </a>
-                                <button type="button" class="btn  add-to-cart" id="{{$productNew->product_id}}" onclick="Addtocart(this.id);"><i class="fa fa-shopping-cart"></i>Thêm giỏ hàng</button>
+                                <button type="button" class="btn  add-to-cart"  style="margin-bottom: 0" id="{{$productNew->product_id}}" onclick="Addtocart(this.id);"><i class="fa fa-shopping-cart"></i>Thêm giỏ hàng</button>
                             </form>
                         </div>
                         </a>
