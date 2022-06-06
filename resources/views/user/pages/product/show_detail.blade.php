@@ -99,7 +99,7 @@
             <form>
                 @csrf
                 <span>
-                    <span>{{number_format($value->product_price).' '.'VND'}}</span>
+                    <span>{{number_format($value->product_price,0,',','.')}} VNĐ</span>
                     <label>Số lượng :</label>
                     <input type="hidden" value="{{$value->product_id}}" class="cart_product_id_{{$value->product_id}}">
 
@@ -119,6 +119,8 @@
 
                     </br>
                 </span>
+
+                <p><b>Đã bán :</b> {{$value->product_sold}}</p>
 
                 @if( $value->product_quantity > 0)
                 <p><b>Tình Trạng:</b> Còn Hàng( {{$value->product_quantity}} sản phẩm)</p>
@@ -212,7 +214,7 @@
                 <form>
                     @csrf
                     <input type="hidden" name="comment_product_id" class="comment_product_id" value="{{$value->product_id}}">
-                    <ul id="comment_show" style="background: none;" class="media-list"></ul>
+                    <ul id="comment_show" style="background: none;height: 400px;overflow-y: scroll;" class="media-list"></ul>
                 </form>
             </div>
         </div>

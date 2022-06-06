@@ -241,7 +241,7 @@ class OrderController extends Controller
                 }
             }
 
-            $title_mail = "Đơn hàng của bạn đã đang được vận chuyển";
+            $title_mail = "Trạng thái đơn hàng của bạn đã thay đổi";
 
             $customer = Customer::find(Session::get('customer_id'));
             $shipping = Shipping::where('shipping_id', $order->shipping_id)->first();
