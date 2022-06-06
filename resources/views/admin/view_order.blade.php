@@ -70,7 +70,7 @@
             <td>{{$shipping->shipping_address}}</td>
             <td>{{$shipping->shipping_phone}}</td>
             <td>
-              @if($shipping->order_status == 0)
+              @if($shipping->shipping_method == 0)
               Trực tuyến
               @else
               Khi nhận hàng
@@ -155,12 +155,12 @@
           <tr>
             <td></td>
             <td>Tổng tiền</td>
-            <td colspan=3>{{number_format($total,0,',','.')}} VND</td>
+            <td colspan=4>{{number_format($total,0,',','.')}} VND</td>
           </tr>
           <tr>
             <td></td>
             <td>Giảm giá</td>
-            <td colspan=3>
+            <td colspan=4>
               <?php $coupon = 0 ?>
               @if ($coupon_condition == 1)
               <?php $coupon = $total * $coupon_number / 100 ?>
@@ -175,12 +175,26 @@
           <tr>
             <td></td>
             <td>Phí giao hàng</td>
-            <td colspan=3>{{number_format($details->product_feeship - $coupon ,0,',','.')}} VND</td>
+            <td colspan=4>{{number_format($details->product_feeship ,0,',','.')}} VND</td>
           </tr>
           <tr>
             <td></td>
+            <td>Đã thanh toán</td>
+            @if($shipping->shipping_method == 0)
+            <td colspan=4>{{number_format($total - $coupon + $details->product_feeship ,0,',','.')}} VND</td>
+            @else
+            <td colspan=4> 0 VND</td>
+            @endif
+          </tr>
+          <tr>
+            <td></td>
+            
             <td>Thành tiền</td>
-            <td colspan=3>{{number_format($total - $coupon + $details->product_feeship ,0,',','.')}} VND</td>
+            @if($shipping->shipping_method == 0)
+            <td colspan=4>0 VND</td>
+            @else
+            <td colspan=4>{{number_format($total - $coupon + $details->product_feeship ,0,',','.')}} VND</td>
+            @endif
           </tr>
           <tr>
             <td colspan="6">

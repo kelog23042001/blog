@@ -70,30 +70,34 @@ class ProductController extends Controller
         foreach ($comment as $key => $comm) {
 
             $output .= '
-            <div class="row style_comment">
-                <div class="col-md-2">
-                    <img width="50%"src="' . url('frontend/images/product-details/similar3.jpg') . '" class="img img-responsive img-thumbnail">
-                </div>
-                <div class="col-md-10">
-                    <p style="color: black;">' . $comm->comment_date . '</p>
-                    <p style="color: green;"> @' . $comm->comment_name . '</p>
+            <li class="media">
+                <a class="pull-left" href="#">
+                    <img class="media-object" src="' . url('frontend/images/shop/user.png') . '" style:"margin-left:5px"  width = 20px height=20px alt="">
+                </a>
+                <div class="media-body">
+                    <ul class="sinlge-post-meta" style="background:none; border-bottom:none; margin:0 0 5px">
+                        <li><i class="fa fa-user"></i>' . $comm->comment_name . '</li>
+                        <li><i class="fa fa-clock-o"></i>' . $comm->comment_date . '</li>
+                    </ul>
                     <p>' . $comm->comment . '</p>
                 </div>
-            </div><p></p>
+            </li>
             ';
             foreach ($comment_rep as $key => $rep_comment) {
                 if ($rep_comment->comment_parent_comment == $comm->comment_id) {
                     $output .= '
-                <div class="row style_comment" style="margin:5px 40px">
-                    <div class="col-md-2">
-                    </div>
-                    <div class="col-md-10">
-                        <p style="color: black;">' .  '</p>
-                        <p style="color: green;"> @LKShop</p>
-                        <p>' . $rep_comment->comment . '</p>
-                    </div>
-                </div>
-                <p></p>';
+                    <li class="media second-media"  style="margin-left:40px;">
+                        <a class="pull-left" href="#">
+                            <img class="media-object" src="' . url('frontend/images/shop/lk2.jpg') . '" width = 20px height=20px alt="">
+                        </a>
+                        <div class="media-body">
+                            <ul class="sinlge-post-meta" style="background:none; border-bottom:none; margin-bottom: 0">
+                                <li><i class="fa fa-user"></i>LKShop</li>
+                                <li><i class="fa fa-clock-o"></i>' . $rep_comment->comment_date . '</li>
+                            </ul>
+                            <p>' . $rep_comment->comment . '</p>
+                        </div>
+                    </li>';
                 }
             }
         }

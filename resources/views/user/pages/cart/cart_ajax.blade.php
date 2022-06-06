@@ -17,7 +17,6 @@
             {{ session()->get('error') }}
         </div>
         @endif
-
         <div class="table-responsive cart_info">
             <form action="{{URL::to('/update-cart')}}" method="POST">
                 @csrf
@@ -32,7 +31,7 @@
                     @endif
                     <thead>
                         <tr class="cart_menu">
-                            <td class="image">Hình ảnh</td>
+                            <td class="image" style="padding: 0;">Hình ảnh</td>
                             <td class="description">Tên sản phẩm</td>
                             <td class="price">Giá sản phẩm</td>
                             <td class="quantity">Số lượng</td>
@@ -56,7 +55,7 @@
                             </td>
                             <td class="cart_description">
                                 <h4><a href=""></a></h4>
-                                <p>{{$cart['product_name']}}</p>
+                                <p style="text-align: left; margin-bottom:10px">{{$cart['product_name']}}</p>
                             </td>
                             <td class="cart_price">
                                 <p>{{number_format($cart['product_price'],0,',','.')}} VNĐ</p>
@@ -146,4 +145,9 @@
     </div>
 </section>
 @endif
+<style>
+    p{
+        margin: 0;
+    }
+</style>
 @endsection

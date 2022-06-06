@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
+use Illuminate\Support\Facades\Session;
 
 class PayPalController extends Controller
 {
@@ -25,6 +26,10 @@ class PayPalController extends Controller
      */
     public function processTransaction(Request $request)
     {
+        $total_paypal = \Session::get('total_paypal');
+
+        \Session::put('pay_success', false);
+        
         $provider = new PayPalClient;
         $provider->setApiCredentials(config('paypal'));
         $paypalToken = $provider->getAccessToken();
@@ -39,7 +44,7 @@ class PayPalController extends Controller
                 0 => [
                     "amount" => [
                         "currency_code" => "USD",
-                        "value" => "5.00"
+                        "value" => $total_paypal
                     ]
                 ]
             ]
@@ -56,7 +61,7 @@ class PayPalController extends Controller
 
             return redirect()
                 ->route('checkout')
-                ->with('error', 'Something went wrong.');
+                ->with('error', 'Thanh toán lỗi');
 
         } else {
             return redirect()
@@ -78,13 +83,14 @@ class PayPalController extends Controller
         $response = $provider->capturePaymentOrder($request['token']);
 
         if (isset($response['status']) && $response['status'] == 'COMPLETED') {
+            \Session::put('pay_success', true);
             return redirect()
                 ->route('checkout')
-                ->with('success', 'Transaction complete.');
+                ->with('success', 'Thanh toán thành công. Vui lòng điền thông tin để nhận hàng!');
         } else {
             return redirect()
                 ->route('checkout')
-                ->with('error', $response['message'] ?? 'Something went wrong.');
+                ->with('error', $response['message'] ?? 'Thanh toán lỗi');
         }
     }
 
@@ -97,6 +103,6 @@ class PayPalController extends Controller
     {
         return redirect()
             ->route('checkout')
-            ->with('error', $response['message'] ?? 'You have canceled the transaction.');
+            ->with('error', $response['message'] ?? 'Bạn đã dừng thành toán.');
     }
 }

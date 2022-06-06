@@ -272,28 +272,79 @@ class CheckoutController extends Controller
     public function select_delivery_home(Request $request)
     {
         $data = $request->all();
+
         if ($data['action']) {
             $output = '';
             if ($data['action'] == 'city') {
-                $select_province = Province::where('matp', $data['ma_id'])->orderby('maqh', 'ASC')->get();
-                $output .= '<option>---Chọn quận huyện---</option>';
+                if ($data['id'] < 10) {
+                    $data['id'] = '0' . $data['id'];
+                }
+                $select_province = Province::where('matp', $data['id'])->orderby('maqh', 'ASC')->get();
+                $city = City::where('matp', $data['id'])->first();
+                $output .= '<option>---Chọn Quận Huyện---</option>';
                 foreach ($select_province as $key => $province) {
                     $output .= '<option value = "' . $province->maqh . '">' . $province->name_quanhuyen . '</option>';
                 }
+                Session::forget('city');
+                // \Session::put('city', $city->name_city);
             } else {
-                $select_wards = Wards::where('maqh', $data['ma_id'])->orderby('xaid', 'ASC')->get();
-                $output .= '<option>---Chọn xã phường---</option>';
+                if ($data['id'] < 100) {
+                    $data['id'] = '00' . $data['id'];
+                }
+                $select_wards = Wards::where('maqh', $data['id'])->orderby('xaid', 'ASC')->get();
+                $output .= '<option>---Chọn Xã Phường---</option>';
                 foreach ($select_wards as $key => $province) {
                     $output .= '<option value = "' . $province->xaid . '">' . $province->name_xaphuong . '</option>';
                 }
+                Session::forget('province');
+
+                // \Session::put('province', $data['id']);
             }
         }
+        // \Session::put('pay_success', true);
         echo $output;
     }
 
     public function calculate_fee(Request $request)
     {
         $data = $request->all();
+        Session::forget('fee');
+        
+        Session::forget('city');
+        Session::forget('province');
+        Session::forget('wards');
+
+        if ($data['matp'] < 10) {
+            $data['matp'] = '0' . $data['matp'];
+        }
+        if ($data['maqh'] < 100) {
+            $data['maqh'] = '00' . $data['maqh'];
+        }elseif($data['maqh'] < 10){
+            $data['maqh'] = '0' . $data['maqh'];
+        }
+        if ($data['xaid'] < 10000) {
+            $data['xaid'] = '0000' . $data['xaid'];
+        }elseif ($data['xaid'] < 1000) {
+            $data['xaid'] = '000' . $data['xaid'];
+        }elseif ($data['xaid'] < 100) {
+            $data['xaid'] = '00' . $data['xaid'];
+        }elseif ($data['xaid'] < 10) {
+            $data['xaid'] = '0' . $data['xaid'];
+        }
+
+
+        $city = City::where('matp', $data['matp'])->first();
+
+        $province = Province::where('maqh',$data['maqh'])->first();
+
+        $wards = Wards::where('xaid',$data['xaid'])->first();
+
+        // dd($wards->name_xaphuong);
+
+        Session::put('city', $city->name_city);
+        Session::put('province', $province->name_quanhuyen);
+        Session::put('wards', $wards->name_xaphuong);
+
         if ($data['matp']) {
             $feeship = Feeship::where('fee_matp', $data['matp'])->where('fee_maqh', $data['maqh'])->where('fee_xaid', $data['xaid'])->get();
             if ($feeship) {
@@ -354,8 +405,14 @@ class CheckoutController extends Controller
         $city = City::orderby('matp', 'ASC')->get();
         $province = Province::orderby('maqh', 'ASC')->get();
         $wards = Wards::orderby('xaid', 'ASC')->get();
-
-        return view('user.pages.checkout.show_checkout', compact('category_post'))->with('category', $cate_product)->with('brand', $brand_product)
+        if (Session::get('customer_id')) {
+            $customerid = Session::get('customer_id');
+        } else {
+            $customerid = -1;
+        }
+        $customer = Customer::where('customer_id', $customerid)->first();
+        // dd($customer);
+        return view('user.pages.checkout.show_checkout', compact('category_post', 'customer'))->with('category', $cate_product)->with('brand', $brand_product)
             ->with('meta_decs', $meta_decs)->with('meta_title', $meta_title)->with('meta_keyword', $meta_keyword)->with('url_canonical', $url_canonical)
             ->with(compact('city'));
     }

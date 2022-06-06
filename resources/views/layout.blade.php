@@ -866,7 +866,7 @@
         $(document).ready(function() {
             $('.choose').on('change', function() {
                 var action = $(this).attr('id');
-                var ma_id = $(this).val();
+                var id = $(this).val();
                 var _token = $('input[name="_token"]').val();
                 var result = '';
 
@@ -880,7 +880,7 @@
                     method: 'POST',
                     data: {
                         action: action,
-                        ma_id: ma_id,
+                        id: id,
                         _token: _token
                     },
                     success: function(data) {
@@ -893,7 +893,7 @@
 
     <script>
         $(document).ready(function() {
-            $('.calculate_delivery').click(function() {
+            $('.wards').click(function() {
                 var matp = $('.city').val();
                 var maqh = $('.province').val();
                 var xaid = $('.wards').val();
