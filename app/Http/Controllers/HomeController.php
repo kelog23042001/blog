@@ -15,6 +15,33 @@ use App\Models\Product;
 class HomeController extends Controller
 {
 
+    public function test(Request $request)
+    {
+        //Post category
+        $category_post = CategoryPost::orderby('cate_post_id', 'DESC')->where('cate_post_status', "1")->get();
+
+        //slider
+        $slider = Banner::orderBy('slider_id', 'DESC')->where('slider_status', '1')->take(4)->get();
+
+        $meta_decs = "Chuyên bán quần áo nữ";
+        $meta_title = "LK - Shopping";
+        $meta_keyword = "quan ao nu, quần áo nữ";
+        $url_canonical = $request->url();
+        $cate_product = DB::table('tbl_category_product')->where('category_status', '1')->orderBy('category_id', 'desc')->get();
+        $brand_product = DB::table('tbl_brand_product')->where('brand_status', '1')->orderBy('brand_id', 'desc')->get();
+
+        $all_product = DB::table('tbl_product')->where('product_status', '1')->orderBy('product_id', 'desc')->limit(6)
+            ->get();
+
+        $sold_product = DB::table('tbl_product')->where('product_status', '1')->orderBy('product_sold', 'desc')->limit(3)
+            ->get();
+
+        return view('user.pages.testSlide')->with('category', $cate_product)->with('brand', $brand_product)->with('product', $all_product)
+            ->with('meta_decs', $meta_decs)->with('meta_title', $meta_title)->with('meta_keyword', $meta_keyword)->with('url_canonical', $url_canonical)
+            ->with('slider', $slider)->with('category_post', $category_post)->with('sold_product', $sold_product);
+        # code...
+    }
+
     public function show_quick_cart()
     {
         $output = '
@@ -137,9 +164,9 @@ class HomeController extends Controller
         if ($cart) {
             foreach ($cart as $session => $val) {
                 if ($val['session_id'] == $data['session_id']) {
-                    if($cart[$session]['remain_qty'] - $data['quantity'] < 0){
+                    if ($cart[$session]['remain_qty'] - $data['quantity'] < 0) {
                         return Redirect()->back();
-                    }else{
+                    } else {
                         $cart[$session]['product_qty'] = $data['quantity'];
                     }
                 }
@@ -176,11 +203,11 @@ class HomeController extends Controller
         $cate_product = DB::table('tbl_category_product')->where('category_status', '1')->orderBy('category_id', 'desc')->get();
         $brand_product = DB::table('tbl_brand_product')->where('brand_status', '1')->orderBy('brand_id', 'desc')->get();
 
-        $all_product = DB::table('tbl_product')->where('product_status', '1')->orderBy('product_id', 'desc')->limit(6)
-            ->get();
+        $all_product = DB::table('tbl_product')->where('product_status', '1')->orderBy('product_id', 'desc')
+            ->limit(10)->get();
 
-        $sold_product = DB::table('tbl_product')->where('product_status', '1')->orderBy('product_sold', 'desc')->limit(3)
-            ->get();
+        $sold_product = DB::table('tbl_product')->where('product_status', '1')->orderBy('product_sold', 'desc')
+            ->limit(10)->get();
 
         return view('user.pages.home')->with('category', $cate_product)->with('brand', $brand_product)->with('product', $all_product)
             ->with('meta_decs', $meta_decs)->with('meta_title', $meta_title)->with('meta_keyword', $meta_keyword)->with('url_canonical', $url_canonical)
