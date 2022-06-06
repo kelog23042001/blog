@@ -932,11 +932,11 @@
                         confirmButtonText: "Có",
                         cancelButtonText: "Không",
                         closeOnConfirm: true,
-                        closeOnCancel: true
+                        closeOnCancel: true,
+                        showLoaderOnConfirm: true
                     },
                     function(isConfirm) {
                         if (isConfirm) {
-                            // swal("Đặt hàng!", "Đơn đặt hàng của bạn đã đặt thành công", "success");
                             var shipping_email = $('.shipping_email').val();
                             var shipping_name = $('.shipping_name').val();
                             var shipping_address = $('.shipping_address').val();
@@ -1010,6 +1010,22 @@
         var quantity = product_quantity.value - ele.value
         if(quantity < 0){
             ele.value = product_quantity.value;
+        }
+    }
+</script>
+<script>
+    function changMethod(){
+        var method = document.getElementById("payment_select").value;
+        if(method == 0){
+            document.getElementById('PaypalButton').style.display = 'block';
+            document.getElementById('PaypalButton').style.float = 'left';
+            // document.getElementById('VNPayButton').style.display = 'block';
+            document.getElementById('MomoPaylButton').style.display = 'block';
+        }else{
+            document.getElementById('PaypalButton').style.display = 'none';
+            document.getElementById('PaypalButton').style.float = 'left';
+            // document.getElementById('VNPayButton').style.display = 'block';
+            document.getElementById('MomoPaylButton').style.display = 'none';
         }
     }
 </script>

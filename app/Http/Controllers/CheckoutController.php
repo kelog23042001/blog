@@ -72,6 +72,7 @@ class CheckoutController extends Controller
         $jsonResult = json_decode($result, true);  // decode json
 
         //Just a example, please check more in there
+        \Session::put('pay_success', true);
 
         return redirect()->to($jsonResult['payUrl']);
         // header('Location: ' . $jsonResult['payUrl']);
@@ -149,6 +150,7 @@ class CheckoutController extends Controller
         } else {
             echo json_encode($returnData);
         }
+        \Session::put('pay_success', true);
     }
     public function confirm_order(Request $request)
     {
@@ -263,6 +265,10 @@ class CheckoutController extends Controller
                 $message->from($data['email'], $title_mail);
             }
         );
+        session::forget('cart');
+        session::forget('pay_success');
+        session::forget('fee');
+        session::forget('coupon');
     }
     public function del_fee()
     {

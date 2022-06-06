@@ -4,6 +4,14 @@
 
 use Illuminate\Support\Facades\Session;
 ?>
+
+<?php 
+    if(Session::get('fee')){
+        $fee = Session::get('fee');
+    }else{
+        $fee = 20000;
+    }
+?>
 <section id="cart_items">
     <div class="container">
         <div class="breadcrumbs">
@@ -66,10 +74,6 @@ use Illuminate\Support\Facades\Session;
                             $subtotal = $cart['product_price']*$cart['product_qty'];
                             $total+=$subtotal;
                             @endphp
-
-                            <?php
-                            $total_after_fee = $total + Session::get('fee');
-                            ?>
                             <tr>
                                 <td class="cart_product">
                                     <img src="{{asset('public/uploads/product/'.$cart['product_image'])}}" width="90" alt="{{$cart['product_name']}}" />
@@ -125,32 +129,7 @@ use Illuminate\Support\Facades\Session;
                             <input type="submit" class="btn btn-default check_coupon" name="check_coupon" value="Tính mã giảm giá" href="">
                         </form>
                     </td> -->
-                    @if(!Session::get('pay_success'))
-                    <td>
-                        @php
-                        $vnd_to_usd = $total_after_fee/23220;
-                        $total_paypal = round($vnd_to_usd, 2);
-                        \Session::put('total_paypal', $total_paypal)
-                        @endphp
-                        <!-- <div id="paypal-button"></div> -->
-                        <a class="btn btn-default checkout m-3" href="{{ route('processTransaction') }}">Paypal</a>
-                        <input type="hidden" id="vnd_to_usd" value="{{round($vnd_to_usd, 2)}}">
-                    </td>
-                    <td>
-                        <form action="{{url('/vnpay_payment')}}" method="POST">
-                            @csrf
-                            <input type="hidden" name="total_vnpay" value="{{$total_after_fee}}">
-                            <button type="submit" class="btn btn-default checkout m-3" name="redirect" href="">VNPay</button>
-                        </form>
-                    </td>
-                    <td>
-                        <form action="{{url('/momo_payment')}}" method="POST">
-                            @csrf
-                            <input type="hidden" name="total_momopay" value="{{$total_after_fee}}">
-                            <button type="submit" class="btn btn-default checkout m-3" name="payUrl" href="">MomoPay</button>
-                        </form>
-                    </td>
-                    @endif
+
                 </tr>
                 @endif
                 </table>
@@ -201,22 +180,24 @@ use Illuminate\Support\Facades\Session;
                         @endforeach
                         @endif
 
-                        @if(Session::get('fee'))
+                        <?php 
+                            $total_after_fee = $total + $fee;
+                            $total_final = $total_after_fee - $total_coupon;
+                        ?>
                         <li>Phí giao hàng :
-                            <span class="feeCheckout" style="display: inline;"> + {{number_format(Session::get('fee'),0,',','.')}} VND
+                            <span class="feeCheckout" style="display: inline;"> + <?php echo (number_format($fee,0,',','.').' VND')?>
                             </span>
                         </li>
-                        @endif
                         <li>Thành tiền:
                             @if(!Session::get('pay_success'))
-                            <span>{{number_format($total_after_fee - $total_coupon,0,',','.')}} VND</span>
+                            <span>{{number_format($total_final,0,',','.')}} VND</span>
                             @else
                             <span>0 VND</span>
                             @endif
                         </li>
                         <li>Đã thanh toán:
                             @if(Session::get('pay_success'))
-                            <span>{{number_format($total_after_fee - $total_coupon,0,',','.')}} VND</span>
+                            <span>{{number_format($total_final,0,',','.')}} VND</span>
                             @else
                             <span>0 VND</span>
                             @endif
@@ -228,7 +209,7 @@ use Illuminate\Support\Facades\Session;
         </div>
     </div>
 </section>
-@endif
+
 <div class="col-sm-12 clearfix">
     <div class="bill-to">
         <p>Điền thông tin gửi hàng</p>
@@ -244,43 +225,43 @@ use Illuminate\Support\Facades\Session;
             <form method="POST">
                 @csrf
                 @if(Session::get('customer_id'))
-                <input type="text" name="shipping_email" class="shipping_email" placeholder="Email*" required value="{{Session::get('customer_email')}}">
-                <input type="text" name="shipping_name" class="shipping_name" placeholder="Họ và tên" required value="{{Session::get('customer_name')}}">
-                <input type="text" name="shipping_phone" class="shipping_phone" placeholder="Phone" required value="{{Session::get('customer_phone')}}">
-                @if(Session::get('wards'))
-                    <?php 
-                        $address = $customer->customer_address.', '.Session::get('wards').', '.Session::get('province').', '.Session::get('city') ;
+                    <input type="text" name="shipping_email" class="shipping_email" placeholder="Email*" required value="{{Session::get('customer_email')}}">
+                    <input type="text" name="shipping_name" class="shipping_name" placeholder="Họ và tên" required value="{{Session::get('customer_name')}}">
+                    <input type="text" name="shipping_phone" class="shipping_phone" placeholder="Phone" required value="{{Session::get('customer_phone')}}">
+                    @if(Session::get('wards'))
+                    <?php
+                    $address = $customer->customer_address . ', ' . Session::get('wards') . ', ' . Session::get('province') . ', ' . Session::get('city');
                     ?>
                     <input type="text" name="shipping_address" class="shipping_address" placeholder="Địa chỉ" value="{{$address}}" required>
-                @else
+                    @else
                     <input type="text" name="shipping_address" class="shipping_address" placeholder="Địa chỉ" value="{{$customer->customer_address}}" required>
-                @endif
+                    @endif
                 @else
-                <input type="text" name="shipping_email" class="shipping_email" placeholder="Email*" required>
-                <input type="text" name="shipping_name" class="shipping_name" placeholder="Họ và tên" required>
-                <input type="text" name="shipping_phone" class="shipping_phone" placeholder="Phone" required>
-                <input type="text" name="shipping_address" class="shipping_address" placeholder="Địa chỉ" required>
+                    <input type="text" name="shipping_email" class="shipping_email" placeholder="Email*" required>
+                    <input type="text" name="shipping_name" class="shipping_name" placeholder="Họ và tên" required>
+                    <input type="text" name="shipping_phone" class="shipping_phone" placeholder="Phone" required>
+                    <input type="text" name="shipping_address" class="shipping_address" placeholder="Địa chỉ" required>
                 @endif
 
                 <textarea name="shipping_notes" class="shipping_notes" placeholder="Ghi chú đơn hàng của bạn" rows="5"></textarea>
 
                 @if(Session::get('fee'))
-                <input type="hidden" name="order_fee" class="order_fee" value="{{Session::get('fee')}}">
+                    <input type="hidden" name="order_fee" class="order_fee" value="{{Session::get('fee')}}">
                 @else
-                <input type="hidden" name="order_fee" class="order_fee" value="20000">
+                    <input type="hidden" name="order_fee" class="order_fee" value="20000">
                 @endif
                 @if(Session::get('coupon'))
-                @foreach(Session::get('coupon') as $key=>$cou)
-                <input type="hidden" name="order_coupon" class="order_coupon" value="{{$cou['coupon_code']}}">
-                @endforeach
+                    @foreach(Session::get('coupon') as $key=>$cou)
+                    <input type="hidden" name="order_coupon" class="order_coupon" value="{{$cou['coupon_code']}}">
+                    @endforeach
                 @else
-                <input type="hidden" name="order_coupon" value="non" class="order_coupon">
+                    <input type="hidden" name="order_coupon" value="non" class="order_coupon">
                 @endif
                 <div class="">
                     <div class="form-group">
                         <label for="exampleInputPassword1">Phương thức thanh toán</label>
                         @if(!Session::get('pay_success'))
-                        <select name="payment_select" class="form-control input-sm m-bot15 payment_select ">
+                        <select name="payment_select" id="payment_select" onchange="changMethod()" class="form-control input-sm m-bot15 payment_select ">
                             <option value="1">Thanh toán khi nhận hàng</option>
                             <option value="0">Thanh toán trực tuyến</option>
                         </select>
@@ -292,9 +273,31 @@ use Illuminate\Support\Facades\Session;
                         @endif
                     </div>
                 </div>
+                @if(!Session::get('pay_success'))
+                @php
+                $vnd_to_usd = $total_final/23220;
+                $total_paypal = round($vnd_to_usd, 2);
+                \Session::put('total_paypal', $total_paypal)
+                @endphp
+                <!-- <div id="paypal-button"></div> -->
+                <a class="btn btn-default checkout m-3" id="PaypalButton" href="{{ route('processTransaction') }}" style="display: none; margin-right: 10px">Paypal</a>
+                <input type="hidden" id="vnd_to_usd" value="{{round($vnd_to_usd, 2)}}">
+
+                <form action="{{url('/vnpay_payment')}}" method="POST">
+                    @csrf
+                    <input type="hidden" name="total_vnpay" value="{{$total_final}}">
+                    <button type="submit" class="btn btn-default checkout m-3" id="VNPayButton" name="redirect" href="" style="display: none;" disabled>VNPay</button>
+                </form>
+
+                <form action="{{url('/momo_payment')}}" method="POST">
+                    @csrf
+                    <input type="hidden" name="total_momopay" value="{{$total_final}}">
+                    <button type="submit" class="btn btn-default checkout m-3" id="MomoPaylButton" name="payUrl" href="" style="display: none;">MomoPay</button>
+                </form>
                 @php
                 \Session::forget('pay_success');
                 @endphp
+                @endif
                 <input value="Xác nhận đơn hàng" type="button" name="send_order" class="btn btn-primary btn-sm send_order">
             </form>
         </div>
@@ -332,4 +335,5 @@ use Illuminate\Support\Facades\Session;
         margin: 0;
     }
 </style>
+@endif
 @endsection
