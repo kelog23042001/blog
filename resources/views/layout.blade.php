@@ -32,7 +32,7 @@
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
 
-    
+
     <link rel="stylesheet" href="{{asset('frontend/css/typography.css')}}">
     <link rel="stylesheet" href="{{asset('frontend/css/style.css')}}" />
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -113,11 +113,12 @@
     <script src="{{asset('frontend/js/simple.money.format.js')}}"></script>
     <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
 
-    
+
     <script src="{{asset('frontend/js/slick.min.js')}}"></script>
     <script src="{{asset('frontend/js/slick-animation.min.js')}}"></script>
     <script src="{{asset('frontend/js/custom.js')}}"></script>
-
+    <script src="{{asset('frontend/js/scroll.js')}}"></script>
+    <script src="{{asset('frontend/js/SmoothScroll.min.js')}}"></script>
     <script>
         $('.category-filter').click(function(){
             var category = [], temArray = [];

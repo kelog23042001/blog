@@ -12,7 +12,7 @@
     <div class="features_items">
         <div class="row">
             <div class="col-md-9">
-                <label for="amount">Lọc danh mục theo</label><br>
+           
                 <!-- @php
                 $brand_id = [];
                 $brand_arr = [];
