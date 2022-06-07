@@ -209,9 +209,18 @@ class HomeController extends Controller
         $sold_product = DB::table('tbl_product')->where('product_status', '1')->orderBy('product_sold', 'desc')
             ->limit(10)->get();
 
+        $view_product = DB::table('tbl_product')->where('product_status', '1')->orderBy('product_views', 'desc')
+            ->limit(10)->get();
+
+        $price_product = DB::table('tbl_product')->where('product_status', '1')->where('product_price','<','500000')->orderBy('product_price', 'desc')
+            ->limit(10)->get();
+
         return view('user.pages.home')->with('category', $cate_product)->with('brand', $brand_product)->with('product', $all_product)
             ->with('meta_decs', $meta_decs)->with('meta_title', $meta_title)->with('meta_keyword', $meta_keyword)->with('url_canonical', $url_canonical)
-            ->with('slider', $slider)->with('category_post', $category_post)->with('sold_product', $sold_product);
+            ->with('slider', $slider)->with('category_post', $category_post)
+            ->with('view_product', $view_product)
+            ->with('price_product', $price_product)
+            ->with('sold_product', $sold_product);
         //return view('user.pages.home')->with(compact('cate_product', 'brand_product', 'all_product' ));
 
     }

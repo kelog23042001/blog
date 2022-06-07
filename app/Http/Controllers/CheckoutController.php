@@ -178,7 +178,6 @@ class CheckoutController extends Controller
         $shipping->save();
         $shipping_id = $shipping->shipping_id;
 
-
         $checkout_code = substr(md5(microtime()), rand(0, 26), 5);
         $order = new Order;
         $order->customer_id = Session::get('customer_id');
@@ -196,7 +195,6 @@ class CheckoutController extends Controller
 
         $order->save();
 
-
         if ($data['order_coupon'] != 'non') {
             $ordercode_mail = array(
                 'coupon_number' => $coupon_number,
@@ -212,7 +210,6 @@ class CheckoutController extends Controller
                 'order_code' => $checkout_code
             );
         }
-
 
         if (Session::get('cart')) {
             foreach (Session::get('cart') as $key => $cart) {

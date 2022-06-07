@@ -303,7 +303,6 @@
                     show_quick_cart();
                         show_cart();
                         hover_cart();
-
                 }
 
             });
@@ -621,7 +620,7 @@
         }
 
         product_viewed();
-         viewed();
+        viewed();
 
         function product_viewed(){
             var id_product = $('#product_viewed_id').val();

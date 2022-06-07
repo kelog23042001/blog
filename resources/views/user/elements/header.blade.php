@@ -32,15 +32,12 @@
         <div class="row">
             <div class="col-sm-4">
                 <div class="logo pull-left">
-                    <a href="index.html"><img src="images/home/logo.png" alt="" /></a>
                 </div>
             </div>
             <div class="col-sm-8">
                 <div class="shop-menu pull-right">
-
                     <ul class="nav navbar-nav">
-
-                        <li><a href="#"> <i class="fa fa-star"></i>Yêu thích</a></li>
+                        <!-- <li><a href="#"> <i class="fa fa-star"></i>Yêu thích</a></li> -->
                         <?php
 
                         use Illuminate\Support\Facades\Session;
@@ -100,34 +97,33 @@
     </div>
 </div>
 <!--/header-middle-->
-<div class="header-bottom">
+<div class="header-bottom ">
     <!--header-bottom-->
     <div class="container">
         <div class="row">
-            <div class="col-sm-8">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
+            <div class="col-sm-3">
+                <div class="companyinfo" style="float: right;">
+                    <h2><span style="font-size: 27px;">LK</span>-shopping</h2>
+                    <p>Uy Tín - Chất Lượng - Giá Rẻ</p>
                 </div>
+                <a href="{{ URL::to('/trang-chu') }}"><img src="{{asset('frontend/images/shop/lk2.jpg')}}" style="top: -26px;position: absolute;width: 100px; height:100px" alt="" /></a>
+            </div>
+            <div class="col-sm-5">
                 <div class="mainmenu pull-left">
-                    <ul class="nav navbar-nav collapse navbar-collapse">
+                    <ul class="nav navbar-nav collapse navbar-collapse" style="margin-top: 10px;">
                         <li><a href="{{ URL::to('/trang-chu') }}" class="active">Trang Chủ</a></li>
                         <li class="dropdown"><a href="#">Sản Phẩm<i class="fa fa-angle-down"></i></a>
                             <ul role="menu" class="sub-menu">
                                 @foreach($category as $key => $cate)
                                 @if($cate->category_parent == 0)
                                 <li><a href="{{URL::to('/danh-muc-san-pham/'.$cate->category_id)}}">{{$cate->category_name}}</a></li>
-                                    @foreach($category as $key => $cate_sub)
-                                    @if($cate_sub->category_parent == $cate->category_id )
-                                    <ul>
-                                        <li ><a href="{{URL::to('/danh-muc-san-pham/'.$cate_sub->category_id)}}">{{$cate_sub->category_name}}</a></li>
-                                    </ul>
-                                    @endif
-                                    @endforeach
+                                @foreach($category as $key => $cate_sub)
+                                @if($cate_sub->category_parent == $cate->category_id )
+                                <ul>
+                                    <li><a href="{{URL::to('/danh-muc-san-pham/'.$cate_sub->category_id)}}">{{$cate_sub->category_name}}</a></li>
+                                </ul>
+                                @endif
+                                @endforeach
                                 @endif
                                 @endforeach
                             </ul>

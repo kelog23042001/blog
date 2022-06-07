@@ -4,7 +4,7 @@
 			<div class="col-sm-2">
 				<div class="companyinfo">
 					<h2><span>LK</span>-shopping</h2>
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,sed do eiusmod tempor</p>
+					<p>Uy Tín - Chất Lượng - Giá Rẻ</p>
 				</div>
 			</div>
 		</div>
