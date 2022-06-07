@@ -76,14 +76,6 @@
                                 <input type="text" data-role="tagsinput" name="product_tags" class="form-control">
                             </div>
 
-                            <div class="form-group">
-                                <label for="exampleInputPassword1">Thương hiệu</label>
-                                <select name="product_brand" class="form-control input-sm m-bot15">
-                                    @foreach($brand_product as $key => $brand)
-                                    <option value="{{$brand->brand_id}}">{{$brand->brand_name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
                             <button type="submit" name="add_category_product" class="btn btn-info">Thêm sản phẩm</button>
                     </form>
                 </div>

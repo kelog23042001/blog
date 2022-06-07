@@ -62,7 +62,6 @@
             <ol class="breadcrumb" style="background:none ;">
                 <li class="breadcrumb-item"><a href="{{url('/trang-chu')}}">Trang chủ</a></li>
                 <li class="breadcrumb-item"><a href="{{url('danh-muc-san-pham/'.$category_id)}}">{{$product_cate}}</a></li>
-                <li class="breadcrumb-item"><a href="{{url('thuong-hieu-san-pham/'.$brand_id)}}">{{$product_brand}}</a></li>
 
                 <li class="breadcrumb-item active" aria-current="page">{{$meta_title}}</li>
             </ol>
@@ -127,7 +126,7 @@
                 @else
                 <p><b>Tình Trạng:</b> Hết Hàng</p>
                 @endif
-                <p><b>Thương Hiệu :</b> {{$value->brand_name}}</p>
+               
                 <p><b>Danh Mục :</b> {{$value->category_name}}</p>
 
                 <button type="button" class="btn add-to-cart"  data-id_product="{{$value->product_id}}" name="add-to-cart">

@@ -32,17 +32,6 @@
     </div>
     <!--/category-products-->
 
-    <div class="brands_products">
-        <!--brands_products-->
-        <h2>Thương Hiệu Sản Phẩm</h2>
-        @foreach($brand as $key => $brand)
-        <div class="brands-name">
-            <ul class="nav nav-pills nav-stacked">
-                <li><a href="{{URL::to('/thuong-hieu-san-pham/'.$brand->brand_id)}}">{{$brand->brand_name}}</a></li>
-            </ul>
-        </div>
-        @endforeach
-    </div>
     <!--/brands_products-->
     <!--price-range-->
     <!-- <div class="price-range">

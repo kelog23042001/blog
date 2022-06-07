@@ -114,7 +114,6 @@ class ProductController extends Controller
     {
         $all_product = DB::table('tbl_product')
             ->join('tbl_category_product', 'tbl_category_product.category_id', '=', 'tbl_product.category_id')
-            ->join('tbl_brand_product', 'tbl_brand_product.brand_id', '=', 'tbl_product.brand_id')
             ->paginate(5);
         return view('admin.product.all_product', compact('all_product'));
     }
@@ -133,7 +132,6 @@ class ProductController extends Controller
         $data['product_price']   = $request->product_price;
         $data['price_cost']   = $request->price_cost;
         $data['category_id']     = $request->product_cate;
-        $data['brand_id']        = $request->product_brand;
         $data['product_status']  = $request->product_status;
         $get_image = $request->file('product_image');
 
@@ -212,7 +210,6 @@ class ProductController extends Controller
         $data['product_price']   = $request->product_price;
         $data['price_cost']   = $request->price_cost;
         $data['category_id']     = $request->product_cate;
-        $data['brand_id']        = $request->product_brand;
         $data['product_status']  = $request->product_status;
 
         $get_image = $request->file('product_image');
@@ -237,12 +234,12 @@ class ProductController extends Controller
     {
         $category_post = CategoryPost::orderby('cate_post_id', 'DESC')->paginate(5);
 
-        $category = DB::table('tbl_category_product')->where('category_status', '0')->orderBy('category_id', 'desc')->get();
+        $category = DB::table('tbl_category_product')->where('category_status', '1')->orderBy('category_id', 'desc')->get();
         $brand = DB::table('tbl_brand_product')->where('brand_status', '0')->orderBy('brand_id', 'desc')->get();
 
         $detail_product = DB::table('tbl_product')
             ->join('tbl_category_product', 'tbl_category_product.category_id', '=', 'tbl_product.category_id')
-            ->join('tbl_brand_product', 'tbl_brand_product.brand_id', '=', 'tbl_product.brand_id')
+
             ->where('tbl_product.product_id', $product_id)
             ->get();
 
@@ -252,9 +249,7 @@ class ProductController extends Controller
             $product_image = $value->product_image;
             $product_id = $value->product_id;
             $category_id = $value->category_id;
-            $brand_id = $value->brand_id;
             $product_cate = $value->category_name;
-            $product_brand = $value->brand_name;
             $meta_decs = $value->product_desc;
             $meta_title =  $value->product_name;
             $meta_keyword =  $value->product_slug;
@@ -263,7 +258,7 @@ class ProductController extends Controller
         $gallery = Gallery::where('product_id', $product_id)->get();
         $related_product = DB::table('tbl_product')
             ->join('tbl_category_product', 'tbl_category_product.category_id', '=', 'tbl_product.category_id')
-            ->join('tbl_brand_product', 'tbl_brand_product.brand_id', '=', 'tbl_product.brand_id')
+
             ->where('tbl_category_product.category_id', $category_id)->whereNotIn('tbl_product.product_id', [$product_id])->limit(3)
             ->get();
 
@@ -271,7 +266,7 @@ class ProductController extends Controller
             $product->product_views = $product->product_views + 1;
             $product->save();
 
-        return view('user.pages.product.show_detail', compact('brand_id', 'product_brand', 'product_cate', 'category', 'rating', 'category_id', 'brand', 'gallery', 'detail_product', 'related_product', 'category_post'))
+        return view('user.pages.product.show_detail', compact( 'product_cate', 'category', 'rating', 'category_id', 'brand', 'gallery', 'detail_product', 'related_product', 'category_post'))
             ->with('meta_decs', $meta_decs)->with('meta_title', $meta_title)->with('meta_keyword', $meta_keyword)->with('url_canonical', $url_canonical);
     }
     public function tag(Request $request, $product_tag)

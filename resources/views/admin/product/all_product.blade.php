@@ -53,7 +53,6 @@
             <th>Slug</th>
             <th>Giá</th>
             <th>Danh mục</th>
-            <th>Thương hiệu</th>
             <th>Ẩn hiện</th>
 
             <th style="width:30px;"></th>
@@ -71,7 +70,6 @@
             <td>{{ $pro->product_price }}</td>
 
             <td>{{ $pro->category_name }}</td>
-            <td>{{ $pro->brand_name }}</td>
             <td><span class="text-ellipsis">
                 <?php
                 if ($pro->product_status == 0) {
