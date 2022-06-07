@@ -17,6 +17,7 @@ use App\Http\Controllers\SizeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CategoryPostController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MailController;
@@ -44,6 +45,11 @@ Route::post('/update-quick-cart', [HomeController::class, 'update_quick_cart']);
 Route::get('/show-quick-cart', [HomeController::class, 'show_quick_cart']);
 //blog
 Route::get('/danh-muc-bai-viet/{post_slug}',[PostController::class, 'danh_muc_bai_viet']);
+Route::get('/lien-he', [ContactController::class, 'lien_he']);
+Route::get('/information', [ContactController::class, 'information']);
+Route::post('/save-info', [ContactController::class, 'save_info']);
+Route::post('/update-info/{info_id}', [ContactController::class, 'update_info']);
+
 
 // //Danh muc san pham trang chu
 Route::get('/danh-muc-san-pham/{category_id}',[CategoryProductController::class, 'show_category_home']);

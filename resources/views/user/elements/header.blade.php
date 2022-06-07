@@ -138,7 +138,7 @@
                                 <li><a href="{{URL::to('/danh-muc-bai-viet/'.$cate_post->cate_post_slug)}}">{{$cate_post->cate_post_name}}</a></li>
                                 @endforeach
                             </ul>
-                        <li><a href="">Liên Hệ</a></li>
+                        <li><a href="{{URl::to('/lien-he')}}">Liên Hệ</a></li>
                         </li>
 
                         <!-- <li><a href="{{URL::to('/login-checkout')}}"><i  class="fa fa-user"></i>Tài khoản</a></li>

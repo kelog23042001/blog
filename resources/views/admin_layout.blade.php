@@ -218,6 +218,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             </a>
                         </li>
                         <li>
+                            <a class="active" href="{{URL::to('/information')}}">
+                                <i class="fa fa-dashboard"></i>
+                                <span>Thông tin Website</span>
+                            </a>
+                        </li>
+                        <li>
                             <a href="{{URL::to('/comment')}}">
                                 <i class="fa fa-dashboard"></i>
                                 <span>Bình luận</span>
