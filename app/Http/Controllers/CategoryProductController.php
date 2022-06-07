@@ -83,7 +83,7 @@ class CategoryProductController extends Controller
             'category_name' => ['required','max:255', 'unique:tbl_category_product'],
         ]);
         $data = array();
-        $data['category_name'] = $request->category_name;
+        $data['category_name'] = $request->category_product_name;
         $data['meta_keywords'] = $request->category_product_keywords;
         $data['category_parent'] = $request->category_parent;
 
