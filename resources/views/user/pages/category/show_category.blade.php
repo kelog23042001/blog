@@ -7,9 +7,8 @@
         <form>
             <div id="slider-range"></div>
             <div class="style-range"></div>
-            <!-- <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;"> -->
             <input type="text" name="amount_start" id="amount_start" disabled readonly style="border:0; color:#f6931f;background: none; font-weight:bold; width: 50%; ">
-            <input type="text" name="amount_end" id="amount_end" disabled readonly style="border:0;background: none; color:#f6931f; font-weight:bold; width: 40%; float: right;">
+            <input type="text" name="amount_end" id="amount_end" disabled readonly style="border:0;background: none; color:#f6931f; font-weight:bold; width: 40%; float: right; padding: 0;">
             <input type="hidden" name="start_price" id="start_price">
             <input type="hidden" name="end_price" id="end_price">
             <input type="submit" style="border: 1px solid black; width: auto; height: auto" name="filter_price" value="Lọc theo giá" class="btn btn-sm btn-defalut">
@@ -25,7 +24,6 @@
 
         </div>
         <div class="col-md-3" style="float: right; margin-bottom: 10px">
-            <label for="amount">Sắp xếp </label>
             <form style=" border: 1px solid black;">
                 @csrf
                 <select name="sort" id="sort" class="form-control">
@@ -46,9 +44,12 @@
                 <div class="product-image-wrapper">
                     <div class="single-products">
                         <div class="productinfo text-center">
-                            <img src="{{URL::to('public/uploads/product/'.$product->product_image)}}" width="200px" height="250px" alt="" />
-                            <h2>{{ number_format($product->product_price).' '.'VND'}}</h2>
-                            <p>{{ $product->product_name}}</p>
+                            <a id="wishlist_producturl{{$product->product_id}}" href="{{URL::to('chi-tiet-san-pham/'.$product->product_id)}}">
+                                <img src="{{URL::to('public/uploads/product/'.$product->product_image)}}" width="200px" height="250px" alt="" />
+                                <h2>{{ number_format($product->product_price).' '.'VND'}}</h2>
+                                <p>{{ $product->product_name}}</p>
+                            </a>
+
                             <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm Vào Giỏ Hàng</a>
                         </div>
                     </div>
@@ -84,12 +85,11 @@
                             <input type="checkbox"
                             {{in_array($cate->category_id,$category_arr) ? 'checked' : ''}}
                             data-filters = "category" name="category-filter" value="{{$cate->category_id}}" class="category-filter">
-
                                 {{$cate->category_name  }}
-
                         </label>
 
                    @endforeach<br>
                </div>
         </div> -->
+    {!! $category_by_id->links("pagination::bootstrap-4") !!}
     @endsection

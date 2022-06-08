@@ -22,13 +22,13 @@ use Illuminate\Support\Facades\Session;
         </div>
         @if(!Session::get('customer_id'))
         <div class="register-req">
-            <p>Bạn chưa đăng nhập</p>
+            <p>Bạn chưa đăng nhập. <a style="color:red" href="{{url('/login-checkout')}}">Đăng Nhập</a></p>
         </div>
         @endif
 
         <div class="shopper-informations">
             <div class="row">
-                <div class="col-sm-12 clearfix">
+                <!-- <div class="col-sm-12 clearfix">
                     @if(session()->has('message'))
                     <div class="alert alert-success">
                         {{ session()->get('message') }}
@@ -38,7 +38,7 @@ use Illuminate\Support\Facades\Session;
                         {{ session()->get('error') }}
                     </div>
                     @endif
-                </div>
+                </div> -->
             </div>
             <div class="table-responsive cart_info">
                 <form action="{{URL::to('/update-cart')}}" method="POST">

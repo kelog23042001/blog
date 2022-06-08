@@ -2,7 +2,6 @@
 @section('content')
 
 <style>
-
     .add-to-cart {
         background: none;
         border: 2px solid #000;
@@ -126,10 +125,10 @@
                 @else
                 <p><b>Tình Trạng:</b> Hết Hàng</p>
                 @endif
-               
+
                 <p><b>Danh Mục :</b> {{$value->category_name}}</p>
 
-                <button type="button" class="btn add-to-cart"  data-id_product="{{$value->product_id}}" name="add-to-cart">
+                <button type="button" class="btn add-to-cart" data-id_product="{{$value->product_id}}" name="add-to-cart">
                     <i class="fa fa-shopping-cart"></i>Thêm giỏ hàng</button>
                 <fieldset>
                     <legend>Tags</legend>
@@ -169,22 +168,29 @@
 
         <div class="tab-pane fade" id="reviews">
             <div class="col-sm-12">
+                
                 <!-- <ul>
                     <li><a href=""><i class="fa fa-user"></i>EUGEN</a></li>
                     <li><a href=""><i class="fa fa-clock-o"></i>12:41 PM</a></li>
                     <li><a href=""><i class="fa fa-calendar-o"></i>31 DEC 2014</a></li>
                 </ul> -->
 
-
                 <p><b>Viết Đánh Giá Của Bạn</b></p>
                 <div id="notify_comment">
+                    @if(!Session::get('customer_id'))
+                    <div class="register-req">
+                        <p>Bạn chưa đăng nhập. <a style="color:red" href="{{url('/login-checkout')}}">Đăng Nhập</a></p>
+                    </div>
+                    @endif
                 </div>
+                @if(Session::get('customer_id'))
                 <ul class="list-inline rating" title="Average Rating">
                     @for($count = 1; $count<=5; $count++) @php if($count <=$rating) { $color='color:#ffcc00;' ; } else{ $color='color:#ccc;' ; } @endphp <li title="Đánh giá theo sao" id="{{$value->product_id}}-{{$count}}" data-index="{{$count}}" data-product_id="{{$value->product_id}}" data-rating="{{$rating}}" class="rating" style="cursor: pointer;{{$color}} font-size:30px;">&#9733;
                         </li>
                         @endfor
                         <li>({{$rating}}/5)</li>
                 </ul>
+                @endif
                 <form action="#">
                     <span>
                         <input class="comment_name" type="text" style="width:100%; margin-left: 0px" placeholder="Tên" />

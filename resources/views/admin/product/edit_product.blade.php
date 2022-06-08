@@ -80,19 +80,6 @@
                             <label for="exampleInputPassword1">Tags sản phẩm</label>
                             <input type="text" data-role="tagsinput" name="product_tags" class="form-control" value="{{$pro->product_tags}}">
                         </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">Thương hiệu</label>
-                            <select name="product_brand" class="form-control input-sm m-bot15">
-                                @foreach($brand_product as $key => $brand)
-                                @if($brand->brand_id == $pro->brand_id)
-                                <option seslected value="{{$brand->brand_id}}">{{$brand->brand_name}}</option>
-                                @else
-                                <option value="{{$brand->brand_id}}">{{$brand->brand_name}}</option>
-                                @endif
-
-                                @endforeach
-                            </select>
-                        </div>
                         <button type="submit" name="add_category_product" class="btn btn-info">Cập nhập sản phẩm</button>
                     </form>
                     @endforeach

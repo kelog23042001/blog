@@ -97,7 +97,7 @@ class CategoryProductController extends Controller
      //End function Admin Page
 
     public function show_category_home($category_id, Request $request){
-        $category_post = CategoryPost::orderby('cate_post_id', 'DESC')->paginate(5);
+        $category_post = CategoryPost::orderby('cate_post_name', 'DESC')->where('cate_post_status', '1')->get();
 
         $meta_decs = "Danh mục mô hình";
         $meta_title = "LK - Shopping";
@@ -119,7 +119,6 @@ class CategoryProductController extends Controller
         foreach($category_id_cate as $key => $cate){
             $category_id = $cate->category_id;
         }
-
 
         if(isset($_GET['sort_by'])){
             $sort_by = $_GET['sort_by'];

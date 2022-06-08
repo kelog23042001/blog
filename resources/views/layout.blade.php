@@ -529,8 +529,8 @@
             },
             location:$(this).val(),
             });
-            $( "#amount_start" ).val( $( "#slider-range" ).slider( "values", 0 ) + 'Vnd'  ).simpleMoneyFormat();
-            $( "#amount_end" ).val(  $( "#slider-range" ).slider( "values", 1 ) +  'Vnd').simpleMoneyFormat();
+            $( "#amount_start" ).val( $( "#slider-range" ).slider( "values", 0 ) + 'VND'  ).simpleMoneyFormat();
+            $( "#amount_end" ).val(  $( "#slider-range" ).slider( "values", 1 ) +  'VND').simpleMoneyFormat();
 
         })
     </script>

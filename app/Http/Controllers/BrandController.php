@@ -93,19 +93,14 @@ class BrandController extends Controller
     }
 
     //End funcion admin pages
-
     public function show_brand_home($brand_id, Request $request){
-        $category_post = CategoryPost::orderby('cate_post_id', 'DESC')->paginate(5);
-
+        $category_post = CategoryPost::orderby('cate_post_id', 'DESC')->where('cate_post_status', '1')->get();
         $meta_decs = "Chuyên bán quần áo nữ";
         $meta_title = "LK - Shopping";
         $meta_keyword = "quan ao nu, quần áo nữ";
         $url_canonical = $request->url();
         $category  = DB::table('tbl_category_product')->where('category_status', '1')->orderBy('category_id','desc')->get();
         $brand =    DB::table('tbl_brand_product')->where('brand_status', '1')->orderBy('brand_id','desc')->get();
-
-
-
         $brand_name = DB::table('tbl_brand_product')->where('tbl_brand_product.brand_id', $brand_id)->limit(1)->get();
         // $brand_by_id = DB::table('tbl_product')
         // ->join('tbl_brand_product', 'tbl_product.brand_id', '=', 'tbl_brand_product.brand_id')

@@ -103,8 +103,10 @@
         <div class="row">
             <div class="col-sm-3">
                 <div class="companyinfo" style="float: right;">
-                    <h2><span style="font-size: 27px;">LK</span>-shopping</h2>
-                    <p>Uy Tín - Chất Lượng - Giá Rẻ</p>
+                    <a href="{{ URL::to('/trang-chu') }}">
+                        <h2><span style="font-size: 27px;">LK</span>-shopping</h2>
+                        <p>Uy Tín - Chất Lượng - Giá Rẻ</p>
+                    </a>
                 </div>
                 <a href="{{ URL::to('/trang-chu') }}"><img src="{{asset('frontend/images/shop/lk2.jpg')}}" style="top: -26px;position: absolute;width: 100px; height:100px" alt="" /></a>
             </div>
