@@ -5,12 +5,12 @@
 use Illuminate\Support\Facades\Session;
 ?>
 
-<?php 
-    if(Session::get('fee')){
-        $fee = Session::get('fee');
-    }else{
-        $fee = 20000;
-    }
+<?php
+if (Session::get('fee')) {
+    $fee = Session::get('fee');
+} else {
+    $fee = 20000;
+}
 ?>
 <section id="cart_items">
     <div class="container">
@@ -25,7 +25,14 @@ use Illuminate\Support\Facades\Session;
             <p>Bạn chưa đăng nhập. <a style="color:red" href="{{url('/login-checkout')}}">Đăng Nhập</a></p>
         </div>
         @endif
-
+        @if(\Session::has('error'))
+        <div class="alert alert-danger">{{ \Session::get('error') }}</div>
+        {{ \Session::forget('error') }}
+        @endif
+        @if(\Session::has('success'))
+        <div class="alert alert-success">{{ \Session::get('success') }}</div>
+        {{ \Session::forget('success') }}
+        @endif
         <div class="shopper-informations">
             <div class="row">
                 <!-- <div class="col-sm-12 clearfix">
@@ -148,8 +155,8 @@ use Illuminate\Support\Facades\Session;
                             <form method="POST" action="{{URL::to('/check-coupon')}}">
                                 {{ csrf_field() }}
                                 @if(!Session::get('coupon'))
-                                <td class="td_input_coupon"><input type="text" class="input_coupon" name="coupon" placeholder="Nhập mã giảm giá"></td>
-                                <td><input type="submit" class="btn btn-danger check_coupon" name="check_coupon" value="Áp dụng mã giảm giá"></td>
+                                <td class="td_input_coupon"><input type="text" class="input_coupon" style="width: 45%;" name="coupon" placeholder="Nhập mã giảm giá"></td>
+                                <td><input type="submit" class="btn btn-danger check_coupon" style="width: 45%;" name="check_coupon" value="Áp dụng mã giảm giá"></td>
                                 @endif
                             </form>
                         </li>
@@ -180,12 +187,12 @@ use Illuminate\Support\Facades\Session;
                         @endforeach
                         @endif
 
-                        <?php 
-                            $total_after_fee = $total + $fee;
-                            $total_final = $total_after_fee - $total_coupon;
+                        <?php
+                        $total_after_fee = $total + $fee;
+                        $total_final = $total_after_fee - $total_coupon;
                         ?>
                         <li>Phí giao hàng :
-                            <span class="feeCheckout" style="display: inline;"> + <?php echo (number_format($fee,0,',','.').' VND')?>
+                            <span class="feeCheckout" style="display: inline;"> + <?php echo (number_format($fee, 0, ',', '.') . ' VND') ?>
                             </span>
                         </li>
                         <li>Thành tiền:
@@ -214,48 +221,41 @@ use Illuminate\Support\Facades\Session;
     <div class="bill-to">
         <p>Điền thông tin gửi hàng</p>
         <div class="form-one">
-            @if(\Session::has('error'))
-            <div class="alert alert-danger">{{ \Session::get('error') }}</div>
-            {{ \Session::forget('error') }}
-            @endif
-            @if(\Session::has('success'))
-            <div class="alert alert-success">{{ \Session::get('success') }}</div>
-            {{ \Session::forget('success') }}
-            @endif
+
             <form method="POST">
                 @csrf
                 @if(Session::get('customer_id'))
-                    <input type="text" name="shipping_email" class="shipping_email" placeholder="Email*" required value="{{Session::get('customer_email')}}">
-                    <input type="text" name="shipping_name" class="shipping_name" placeholder="Họ và tên" required value="{{Session::get('customer_name')}}">
-                    <input type="text" name="shipping_phone" class="shipping_phone" placeholder="Phone" required value="{{Session::get('customer_phone')}}">
-                    @if(Session::get('wards'))
-                    <?php
-                    $address = $customer->customer_address . ', ' . Session::get('wards') . ', ' . Session::get('province') . ', ' . Session::get('city');
-                    ?>
-                    <input type="text" name="shipping_address" class="shipping_address" placeholder="Địa chỉ" value="{{$address}}" required>
-                    @else
-                    <input type="text" name="shipping_address" class="shipping_address" placeholder="Địa chỉ" value="{{$customer->customer_address}}" required>
-                    @endif
+                <input type="text" name="shipping_email" class="shipping_email" placeholder="Email*" required value="{{Session::get('customer_email')}}">
+                <input type="text" name="shipping_name" class="shipping_name" placeholder="Họ và tên" required value="{{Session::get('customer_name')}}">
+                <input type="text" name="shipping_phone" class="shipping_phone" placeholder="Phone" required value="{{Session::get('customer_phone')}}">
+                @if(Session::get('wards'))
+                <?php
+                $address = $customer->customer_address . ', ' . Session::get('wards') . ', ' . Session::get('province') . ', ' . Session::get('city');
+                ?>
+                <input type="text" name="shipping_address" class="shipping_address" placeholder="Địa chỉ" value="{{$address}}" required>
                 @else
-                    <input type="text" name="shipping_email" class="shipping_email" placeholder="Email*" required>
-                    <input type="text" name="shipping_name" class="shipping_name" placeholder="Họ và tên" required>
-                    <input type="text" name="shipping_phone" class="shipping_phone" placeholder="Phone" required>
-                    <input type="text" name="shipping_address" class="shipping_address" placeholder="Địa chỉ" required>
+                <input type="text" name="shipping_address" class="shipping_address" placeholder="Địa chỉ" value="{{$customer->customer_address}}" required>
+                @endif
+                @else
+                <input type="text" name="shipping_email" class="shipping_email" placeholder="Email*" required>
+                <input type="text" name="shipping_name" class="shipping_name" placeholder="Họ và tên" required>
+                <input type="text" name="shipping_phone" class="shipping_phone" placeholder="Phone" required>
+                <input type="text" name="shipping_address" class="shipping_address" placeholder="Địa chỉ" required>
                 @endif
 
                 <textarea name="shipping_notes" class="shipping_notes" placeholder="Ghi chú đơn hàng của bạn" rows="5"></textarea>
 
                 @if(Session::get('fee'))
-                    <input type="hidden" name="order_fee" class="order_fee" value="{{Session::get('fee')}}">
+                <input type="hidden" name="order_fee" class="order_fee" value="{{Session::get('fee')}}">
                 @else
-                    <input type="hidden" name="order_fee" class="order_fee" value="20000">
+                <input type="hidden" name="order_fee" class="order_fee" value="20000">
                 @endif
                 @if(Session::get('coupon'))
-                    @foreach(Session::get('coupon') as $key=>$cou)
-                    <input type="hidden" name="order_coupon" class="order_coupon" value="{{$cou['coupon_code']}}">
-                    @endforeach
+                @foreach(Session::get('coupon') as $key=>$cou)
+                <input type="hidden" name="order_coupon" class="order_coupon" value="{{$cou['coupon_code']}}">
+                @endforeach
                 @else
-                    <input type="hidden" name="order_coupon" value="non" class="order_coupon">
+                <input type="hidden" name="order_coupon" value="non" class="order_coupon">
                 @endif
                 <div class="">
                     <div class="form-group">
@@ -307,22 +307,34 @@ use Illuminate\Support\Facades\Session;
                 <div class="form-group">
                     <label for="exampleInputPassword1">Chọn thành phố</label>
                     <select name="city" id="city" class="form-control input-sm m-bot15 choose city">
+                        @if(Session::get('city'))
+                        <option value="{{Session::get('city_id')}}">{{Session::get('city')}}</option>
+                        @else
                         <option value="">--- Chọn Tỉnh ---</option>
                         @foreach($city as $key => $ci)
                         <option value="{{$ci->matp}}">{{$ci->name_city}}</option>
                         @endforeach
+                        @endif
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="exampleInputPassword1">Chọn quận huyện</label>
                     <select name="province" id="province" class="form-control input-sm m-bot15 province choose">
+                        @if(Session::get('province'))
+                        <option value="{{Session::get('province_id')}}">{{Session::get('province')}}</option>
+                        @else
                         <option value="">--- Chọn Quận Huyện ---</option>
+                        @endif
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="exampleInputPassword1">Chọn xã phường</label>
                     <select name="wards" id="wards" class="form-control input-sm m-bot15 wards ">
+                    @if(Session::get('city'))
+                        <option value="{{Session::get('wards_id')}}">{{Session::get('wards')}}</option>
+                        @else
                         <option value="">--- Chọn Xã-Phường ---</option>
+                        @endif
                     </select>
                 </div>
                 <!-- <input value="Tính phí vận chuyển" type="button" name="calculate_order" class="btn btn-primary btn-sm calculate_delivery"> -->

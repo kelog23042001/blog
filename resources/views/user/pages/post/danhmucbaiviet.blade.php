@@ -1,7 +1,9 @@
 @extends('layout')
 @section('content')
 <div class="col-sm-3">
-    @include('user.elements.left_sidebar')
+    <div class="left-sidebar">
+        @include('user.elements.left_sidebar')
+    </div>
 </div>
 <div class="col-sm-9">
     <h2 class="title text-center" style="margin-top: 10px">Tin tức - {{$meta_title}}</h2>
@@ -33,7 +35,7 @@
     }
 
     .post_row:hover {
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.19), 0 6px 20px 0 rgba(0, 0, 0, 0.312); 
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.19), 0 6px 20px 0 rgba(0, 0, 0, 0.312);
     }
 </style>
 @endsection

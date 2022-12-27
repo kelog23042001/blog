@@ -19,7 +19,7 @@
             <table class="table table-striped b-t b-light">
                 <thead>
                     <tr>
-                        <th>Tên sản phẩm</th>
+                        <!-- <th>Tên sản phẩm</th> -->
                         <th>Tên khách hàng</th>
                         <th>Ngày gửi</th>
                         <th>Nội dung</th>

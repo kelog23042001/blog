@@ -191,7 +191,7 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         //Post category
-        $category_post = CategoryPost::orderby('cate_post_id', 'DESC')->where('cate_post_status', "1")->get();
+        $category_post = CategoryPost::orderby('cate_post_name', 'ASC')->where('cate_post_status', "1")->get();
 
         //slider
         $slider = Banner::orderBy('slider_id', 'DESC')->where('slider_status', '1')->take(4)->get();
@@ -200,7 +200,9 @@ class HomeController extends Controller
         $meta_title = "LK - Shopping";
         $meta_keyword = "quan ao nu, quần áo nữ";
         $url_canonical = $request->url();
-        $cate_product = DB::table('tbl_category_product')->where('category_status', '1')->orderBy('category_id', 'desc')->get();
+
+        $cate_product = DB::table('tbl_category_product')->where('category_status', '1')->orderBy('category_name', 'asc')->get();
+
         $brand_product = DB::table('tbl_brand_product')->where('brand_status', '1')->orderBy('brand_id', 'desc')->get();
 
         $all_product = DB::table('tbl_product')->where('product_status', '1')->orderBy('product_id', 'desc')

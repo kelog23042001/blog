@@ -113,12 +113,10 @@
     <script src="{{asset('frontend/js/simple.money.format.js')}}"></script>
     <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
 
-
     <script src="{{asset('frontend/js/slick.min.js')}}"></script>
     <script src="{{asset('frontend/js/slick-animation.min.js')}}"></script>
     <script src="{{asset('frontend/js/custom.js')}}"></script>
-    <script src="{{asset('frontend/js/scroll.js')}}"></script>
-    <script src="{{asset('frontend/js/SmoothScroll.min.js')}}"></script>
+    <!-- <script src="{{asset('frontend/js/scroll.js')}}"></script> -->
     <script>
         $('.category-filter').click(function(){
             var category = [], temArray = [];
@@ -934,7 +932,11 @@
     <script type="text/javascript">
         $(document).ready(function() {
             $('.send_order').click(function() {
-                swal({
+                var matp = document.getElementById("wards").value;
+                if(matp == ''){
+                    alert('Hãy chọn địa chỉ nhận hàng')
+                }else{
+                    swal({
                         title: "Xác nhận đặt hàng?",
                         text: "Bạn có muốn đặt hàng không?",
                         type: "warning",
@@ -973,12 +975,15 @@
                                 },
                                 success: function() {
                                     swal("Đặt hàng!", "Đơn đặt hàng của bạn đã đặt thành công", "success");
+                                    location.reload();
                                 }
                             });
                             }else{
                                 swal("Đóng", "Đơn hàng chưa được gửi, làm ơn hoàn tất đơn hàng", "error");
                             }
                     });
+                }
+               
             });
         });
     </script>
@@ -1002,7 +1007,6 @@
                 });
             } else {
                 $('#search_ajax').fadeOut();
-
             }
         });
 

@@ -217,7 +217,6 @@ class OrderController extends Controller
                 $product_cost = $product->price_cost;
                 $now = Carbon::now('Asia/Ho_Chi_Minh')->toDateString();
 
-
                 foreach ($data['quantity'] as $key2 => $qty) {
 
                     if ($key == $key2) {
@@ -279,17 +278,17 @@ class OrderController extends Controller
             $data['email'][] = $customer->customer_email;
 
 
-            Mail::send(
-                'admin.mail.confirm_order',
-                ['data', $data, 'cart_array' => $cart_array, 'shipping_array' => $shipping_array, 'code' => $ordercode_mail],
-                function ($message) use ($data, $title_mail) {
-                    $message->to($data['email'])->subject($title_mail);
-                    $message->from($data['email'], "LKShop");
-                }
-            );
-
+            // Mail::send(
+            //     'admin.mail.confirm_order',
+            //     ['data', $data, 'cart_array' => $cart_array, 'shipping_array' => $shipping_array, 'code' => $ordercode_mail],
+            //     function ($message) use ($data, $title_mail) {
+            //         $message->to($data['email'])->subject($title_mail);
+            //         $message->from($data['email'], "LKShop");
+            //     }
+            // );
 
             if ($statistic_count > 0) {
+                dd($statistic_count);
                 $statistic_update = Statistic::where('order_date', $order_date)->first();
                 $statistic_update->sales = $statistic_update->sales + $sales;
                 $statistic_update->profit = $statistic_update->profit + $profit;

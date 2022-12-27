@@ -59,7 +59,7 @@
         width: 40px;
         height: 40px;
         background: #ff000000;
-        border: 2px solid #FE980F;
+        border: 2px solid #8b1fc0;
         border-radius: 20px 20px;
     }
 
@@ -104,13 +104,10 @@
         top: 0;
         right: 58px;
     }
-    
-
 </style>
 
 
 <div class="col-sm-9 padding-right ">
-
     <div class="features_items overflow-hidden new_top" style="height: 530px;">
         <h2 class="title text-center" style="margin-top : 16px; margin-bottom: 10px">hàng mới về</h2>
         <ul class="favorites-slider list-inline">
@@ -136,8 +133,8 @@
 
                                 <a id="wishlist_producturl{{$productNew->product_id}}" href="{{URL::to('chi-tiet-san-pham/'.$productNew->product_id)}}">
                                     <img id="wishlist_productimage{{$productNew->product_id}}" width="200px" height="250px" src="{{URL::to('public/uploads/product/'.$productNew->product_image)}}" alt="" />
-                                    <h2>{{number_format($productNew->product_price,0,',','.')}} VNĐ</h2>
-                                    <p>{{ $productNew->product_name}}</p>
+                                    <h2>{{ $productNew->product_name}}</h2>
+                                    <p>{{number_format($productNew->product_price,0,',','.')}} VNĐ</p>
                                 </a>
                                 <button type="button" class="btn  add-to-cart" style="margin-bottom: 0" id="{{$productNew->product_id}}" onclick="Addtocart(this.id);"><i class="fa fa-shopping-cart"></i>Thêm giỏ hàng</button>
                             </form>
@@ -351,6 +348,7 @@
         </div>
     </div>
 </div>
+
 <div class="modal fade" id="quick-cart" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" style="width: fit-content; height:1000px" role="document">
         <div class="modal-content">

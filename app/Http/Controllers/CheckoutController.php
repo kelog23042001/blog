@@ -28,7 +28,7 @@ use Illuminate\Support\Facades\Mail;
 class CheckoutController extends Controller
 {
 
-    
+
     public function momo_payment(Request $request)
     {
 
@@ -255,14 +255,14 @@ class CheckoutController extends Controller
             'shipping_feeShip' => $data['order_fee']
         );
 
-        Mail::send(
-            'user.mail.mail_order',
-            ['data' => $data, 'cart_array' => $cart_array, 'shipping_array' => $shipping_array, 'code' => $ordercode_mail],
-            function ($message) use ($title_mail, $data) {
-                $message->to($data['email'])->subject($title_mail);
-                $message->from($data['email'], $title_mail);
-            }
-        );
+        // Mail::send(
+        //     'user.mail.mail_order',
+        //     ['data' => $data, 'cart_array' => $cart_array, 'shipping_array' => $shipping_array, 'code' => $ordercode_mail],
+        //     function ($message) use ($title_mail, $data) {
+        //         $message->to($data['email'])->subject($title_mail);
+        //         $message->from($data['email'], $title_mail);
+        //     }
+        // );
         session::forget('cart');
         session::forget('pay_success');
         session::forget('fee');
@@ -313,7 +313,7 @@ class CheckoutController extends Controller
     {
         $data = $request->all();
         Session::forget('fee');
-        
+
         Session::forget('city');
         Session::forget('province');
         Session::forget('wards');
@@ -323,31 +323,35 @@ class CheckoutController extends Controller
         }
         if ($data['maqh'] < 100) {
             $data['maqh'] = '00' . $data['maqh'];
-        }elseif($data['maqh'] < 10){
+        } elseif ($data['maqh'] < 10) {
             $data['maqh'] = '0' . $data['maqh'];
         }
         if ($data['xaid'] < 10000) {
             $data['xaid'] = '0000' . $data['xaid'];
-        }elseif ($data['xaid'] < 1000) {
+        } elseif ($data['xaid'] < 1000) {
             $data['xaid'] = '000' . $data['xaid'];
-        }elseif ($data['xaid'] < 100) {
+        } elseif ($data['xaid'] < 100) {
             $data['xaid'] = '00' . $data['xaid'];
-        }elseif ($data['xaid'] < 10) {
+        } elseif ($data['xaid'] < 10) {
             $data['xaid'] = '0' . $data['xaid'];
         }
 
 
         $city = City::where('matp', $data['matp'])->first();
 
-        $province = Province::where('maqh',$data['maqh'])->first();
+        $province = Province::where('maqh', $data['maqh'])->first();
 
-        $wards = Wards::where('xaid',$data['xaid'])->first();
+        $wards = Wards::where('xaid', $data['xaid'])->first();
 
         // dd($wards->name_xaphuong);
 
         Session::put('city', $city->name_city);
         Session::put('province', $province->name_quanhuyen);
         Session::put('wards', $wards->name_xaphuong);
+
+        Session::put('city_id', $city->matp);
+        Session::put('province_id', $province->maqh);
+        Session::put('wards_id', $wards->xaid);
 
         if ($data['matp']) {
             $feeship = Feeship::where('fee_matp', $data['matp'])->where('fee_maqh', $data['maqh'])->where('fee_xaid', $data['xaid'])->get();
@@ -382,7 +386,6 @@ class CheckoutController extends Controller
 
     public function add_customer(Request $request)
     {
-
         $data = array();
         $data['customer_name'] = $request->customer_name;
         $data['customer_password'] = $request->customer_password;

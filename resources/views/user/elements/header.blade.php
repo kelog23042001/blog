@@ -155,7 +155,6 @@
                         <div id="search_ajax" style="display: none; position: absolute; z-index: 2;"></div>
                     </div>
                 </form>
-
             </div>
         </div>
     </div>

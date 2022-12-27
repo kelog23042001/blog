@@ -18,7 +18,7 @@ class AccessPermission
      */
     public function handle(Request $request, Closure $next)
     {
-        if(Auth::user()->hasRole('admin')){
+        if (Auth::user()->hasRole('admin')) {
             return $next($request);
         }
         return redirect('/dashboard');
@@ -26,10 +26,10 @@ class AccessPermission
 
         $roles = isset($actions['roles']) ? $actions['roles'] : null;
 
-        if($this->admin->hasRole($roles) || !$roles){
-                return $next($request);
-            }else{
-              return abort(401);
-            }
+        if ($this->admin->hasRole($roles) || !$roles) {
+            return $next($request);
+        } else {
+            return abort(401);
         }
+    }
 }

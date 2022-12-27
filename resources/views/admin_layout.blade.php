@@ -933,7 +933,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
             if (j == 0) {
                 alert('Cập nhật trạng thái đơn hàng thành công');
-                // location.reload();
+                location.reload();
                 $.ajax({
                     url: '{{url('/update-order-quantity')}}',
                     method: 'POST',
