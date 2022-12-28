@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    public $timestamps = false;// set time to false
-    protected$fillable = [
+    public $timestamps = false; // set time to false
+    protected $fillable = [
         'product_name',
         'product_tags',
         'product_quantiry',
@@ -21,19 +21,28 @@ class Product extends Model
         'product_views',
         'product_price',
         'product_image',
-        'product_status'
+        'product_status',
+        'deleted',
     ];
     protected $primaryKey = 'product_id';
     protected $table = 'tbl_product';
-    public function category(){
-        return$this->belongsTo('App\Models\CategoryProductModel', 'category_id');
+
+    public function Images()
+    {
+        return $this->hasMany(Gallery::class);
+    }
+    public function category()
+    {
+        return $this->belongsTo('App\Models\CategoryProductModel', 'category_id');
     }
 
-    public function brand(){
-        return$this->belongsTo('App\Models\Brand', 'brand_id');
+    public function brand()
+    {
+        return $this->belongsTo('App\Models\Brand', 'brand_id');
     }
 
-    public function comment(){
-        return $this->hasMany(Comment::class)->orderBy('product_id','DESC');
+    public function comment()
+    {
+        return $this->hasMany(Comment::class)->orderBy('product_id', 'DESC');
     }
 }

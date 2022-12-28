@@ -35,6 +35,8 @@
     </div>
 
 
+    <script src="{{asset('Backend/vendors/choices.js/choices.min.js')}}"></script>
+
     <script src="{{asset('Backend/js/bootstrap.bundle.min.js')}}"></script>
     <script src="{{asset('Backend/js/main.js')}}"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>

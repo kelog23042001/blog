@@ -8,6 +8,8 @@ use App\Models\Rate;
 use App\Models\Gallery;
 use App\Models\Product;
 use App\Models\CategoryProductModel;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -44,11 +46,12 @@ class ProductController extends Controller
         return view('admin.comment.list_comment', compact('comment', 'comment_rep'));
     }
 
-    public function send_comment(Request$request){
+    public function send_comment(Request $request)
+    {
         $product_id = $request->product_id;
         $comment_name = $request->comment_name;
         $comment_content = $request->comment_content;
-        $comment=new Comment();
+        $comment = new Comment();
         $comment->comment = $comment_content;
         $comment->comment_name = $comment_name;
         $comment->comment_product_id = $product_id;
@@ -113,52 +116,54 @@ class ProductController extends Controller
     public function all_product()
     {
         $all_product = DB::table('tbl_product')
-            ->join('tbl_category_product', 'tbl_category_product.category_id', '=', 'tbl_product.category_id')
-            ->paginate(5);
+            ->join('tbl_category_product', 'tbl_category_product.category_id', '=', 'tbl_product.category_id')->where('deleted', 0)
+            ->get();
         return view('admin.product.all_product', compact('all_product'));
     }
 
     public function save_product(Request $request)
     {
-        $this->validate($request, [
-            'product_name' => ['required', 'max:255', 'unique:tbl_product'],
-        ]);
-        $data = array();
-        $data['product_name']    = $request->product_name;
-        $data['product_tags']    = $request->product_tags;
-        $data['product_quantity'] = $request->product_quantity;
-        $data['product_slug']    = $request->product_slug;
-        $data['product_desc']    = $request->product_desc;
-        $data['product_price']   = $request->product_price;
-        $data['price_cost']   = $request->price_cost;
-        $data['category_id']     = $request->product_cate;
-        $data['product_status']  = $request->product_status;
-        $get_image = $request->file('product_image');
+        // dd($request->all());
+        try {
+            $data = array();
+            $this->validate($request, [
+                'product_name' => ['required', 'max:255', 'unique:tbl_product'],
+            ]);
+            // $data['product_tags']    = $request->product_tags;
+            $data['product_name']    = $request->product_name;
+            $data['product_slug']    = $request->product_slug;
+            $data['product_quantity'] = $request->product_quantity;
+            $data['product_price']   = $request->product_price;
+            $data['price_cost']   = $request->price_cost;
+            $data['product_desc']    = $request->description;
+            $data['category_id']     = $request->product_cate;
+            $data['product_status']  = 1;
 
-        $path = 'public/uploads/product/';
-        $path_gallery = 'public/uploads/gallery/';
+            $thumbnailUrl = Cloudinary::upload($request['product_image'][0]->getRealPath(), [
+                'folder' => 'Products',
+            ])->getSecurePath();
+            $data['product_image'] = $thumbnailUrl;
+            $product = new Product();
+            // dd($product->insertGetId($data));
+            $newProduct = $product->insertGetId($data);
 
-        if ($get_image) {
-            $get_name_image = $get_image->getClientOriginalName(); //tenhinhanh.jpg
-            $name_image = current(explode('.', $get_name_image)); //[0] => tenhinhanh . [1] => jpg , lay mang dau tien
-            $new_image = $name_image.rand(0, 9999).'.'.$get_image->getClientOriginalExtension(); // random tranh trung hinh anh, getClientOriginalExtension lay duoi mo rong
-            $get_image->move($path, $new_image);
-            File::copy($path.$new_image, $path_gallery.$new_image);
-            $data['product_image'] = $new_image;
-            // DB::table('tbl_product')->insert($data);
-            // Session::put('message', 'Thêm sản phẩm thành công');
-            // return Redirect::to('/add-product');
+            foreach ($request->file('product_image') as $key => $file) {
+                $uploadedImages = Cloudinary::upload($file->getRealPath(), [
+                    'folder' => 'Products',
+                ])->getSecurePath();
+
+                $image = new Gallery();
+                $image::create([
+                    'imageUrl' => $uploadedImages,
+                    'product_id' => $newProduct,
+                ]);
+                // dd($image);
+            }
+            Session::put('message', 'Thêm sản phẩm thành công');
+        } catch (Exception $e) {
+            dd($e);
+            Session::put('message', 'Thêm sản phẩm Không thành công');
         }
-        // $data['product_image'] = '';
-        $pro_id = DB::table('tbl_product')->insertGetId($data);
-        $gallery = new Gallery();
-
-        $gallery->gallery_image = $new_image;
-        $gallery->gallery_name = $new_image;
-        $gallery->product_id = $pro_id;
-        $gallery->save();
-        Session::put('message', 'Thêm sản phẩm thành công');
-
         return Redirect::to('/all-product');
     }
 
@@ -176,55 +181,39 @@ class ProductController extends Controller
 
     public function edit_product($product_id)
     {
-        $cate_product = DB::table('tbl_category_product')->orderBy('category_id', 'desc')->get();
-        $brand_product = DB::table('tbl_brand_product')->orderBy('brand_id', 'desc')->get();
-
-        $edit_product = DB::table('tbl_product')->where('product_id', $product_id)->get();
-        return view('admin.product.edit_product', compact('edit_product', 'cate_product', 'brand_product'));
+        $categories = CategoryProductModel::orderBy('category_id', 'desc')->get();
+        // $product = Product::where('product_id', $product_id)->first();
+        $product = Product::find($product_id);
+        return view('admin.product.edit_product', compact('product', 'categories'));
     }
 
     public function delete_product($product_id)
     {
-        // $product = DB::table('tbl_product')->where('product_id',$product_id)->get();
-        // $data = array();
-        // $product_image = $data['product_image'];
-        // if($product_image){
-        //     $path = 'public/uploads/product/'.$product_image;
-        //     unlink($path);
-        // }else{
-        //     $product->delete();
-        // }
-        DB::table('tbl_product')->where('product_id', $product_id)->delete();
+        Product::where('product_id', $product_id)->update(['deleted' => 1]);
         Session::put('message', 'Xoá danh mục sản phẩm thành công');
         return Redirect::to('/all-product');
     }
 
     public function update_product(Request $request, $product_id)
     {
+        // dd($request->all());;
+
         $data = array();
+        // $data['product_tags']    = $request->product_tags;
         $data['product_name']    = $request->product_name;
-        $data['product_tags']    = $request->product_tags;
-        $data['product_quantity']    = $request->product_quantity;
         $data['product_slug']    = $request->product_slug;
-        $data['product_desc']    = $request->product_desc;
+        $data['product_quantity']    = $request->product_quantity;
+        $data['product_desc']    = $request->description;
         $data['product_price']   = $request->product_price;
         $data['price_cost']   = $request->price_cost;
         $data['category_id']     = $request->product_cate;
-        $data['product_status']  = $request->product_status;
-
-        $get_image = $request->file('product_image');
-        if ($get_image) {
-            $get_name_image = $get_image->getClientOriginalName(); //tenhinhanh.jpg
-            $name_image = current(explode('.', $get_name_image)); //[0] => tenhinhanh . [1] => jpg , lay mang dau tien
-            $new_image = $name_image . rand(0, 9999) . '.' . $get_image->getClientOriginalExtension(); // random tranh trung hinh anh, getClientOriginalExtension lay duoi mo rong
-            $get_image->move('public/uploads/product', $new_image);
-            $data['product_image'] = $new_image;
-            DB::table('tbl_product')->where('product_id', $product_id)->update($data);
-            Session::put('message', 'Cập nhập sản phẩm thành công');
-            return Redirect::to('/all-product');
+        if ($request->file('product_image')) {
+            $uploadedImages = Cloudinary::upload($request->file('product_image')->getRealPath(), [
+                'folder' => 'Products',
+            ])->getSecurePath();
+            $data['product_image']     = $uploadedImages;
         }
-
-        DB::table('tbl_product')->where('product_id', $product_id)->update($data);
+        Product::where('product_id', $product_id)->update($data);
         Session::put('message', 'Cập nhập sản phẩm thành công');
         return Redirect::to('/all-product');
     }
@@ -243,8 +232,8 @@ class ProductController extends Controller
             ->where('tbl_product.product_id', $product_id)
             ->get();
 
-            $rating = Rate::where('product_id', $product_id)->avg('rating');
-            $rating = round($rating);
+        $rating = Rate::where('product_id', $product_id)->avg('rating');
+        $rating = round($rating);
         foreach ($detail_product as $key => $value) {
             $product_image = $value->product_image;
             $product_id = $value->product_id;
@@ -262,11 +251,11 @@ class ProductController extends Controller
             ->where('tbl_category_product.category_id', $category_id)->whereNotIn('tbl_product.product_id', [$product_id])->limit(3)
             ->get();
 
-            $product = Product::where('product_id', $product_id)->first();
-            $product->product_views = $product->product_views + 1;
-            $product->save();
+        $product = Product::where('product_id', $product_id)->first();
+        $product->product_views = $product->product_views + 1;
+        $product->save();
 
-        return view('user.pages.product.show_detail', compact( 'product_cate', 'category', 'rating', 'category_id', 'brand', 'gallery', 'detail_product', 'related_product', 'category_post'))
+        return view('user.pages.product.show_detail', compact('product_cate', 'category', 'rating', 'category_id', 'brand', 'gallery', 'detail_product', 'related_product', 'category_post'))
             ->with('meta_decs', $meta_decs)->with('meta_title', $meta_title)->with('meta_keyword', $meta_keyword)->with('url_canonical', $url_canonical);
     }
     public function tag(Request $request, $product_tag)
@@ -275,15 +264,15 @@ class ProductController extends Controller
 
         $category = CategoryProductModel::where('category_status', '1')->orderBy('category_id', 'desc')->get();
         $brand = DB::table('tbl_brand_product')->where('brand_status', '1')->orderBy('brand_id', 'desc')->get();
-        $tag = str_replace("-","",$product_tag);
+        $tag = str_replace("-", "", $product_tag);
 
         $pro_tag = Product::where('product_status', 1)
-        ->where('product_name', 'LIKE', '%'.$tag.'%')
-        ->orWhere('product_tags', 'LIKE', '%'.$tag.'%')
-        ->get();
-        $meta_decs = 'Tag: '.$product_tag;
-        $meta_title =  'Tag: '.$product_tag;
-        $meta_keyword =  'Tag: '.$product_tag;
+            ->where('product_name', 'LIKE', '%' . $tag . '%')
+            ->orWhere('product_tags', 'LIKE', '%' . $tag . '%')
+            ->get();
+        $meta_decs = 'Tag: ' . $product_tag;
+        $meta_title =  'Tag: ' . $product_tag;
+        $meta_keyword =  'Tag: ' . $product_tag;
         $url_canonical = $request->url();
         return view('user.pages.product.tag')
             ->with('category_post', $category_post)

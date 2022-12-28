@@ -1,153 +1,149 @@
-<div class="header_top">
-    <!--header_top-->
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-6">
-                <div class="contactinfo">
-                    <ul class="nav nav-pills">
-                        <li><a href="#"><i class="fa fa-phone"></i> +84 036822362</a></li>
-                        <li><a href="#"><i class="fa fa-envelope"></i> admin@domain.com</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <div class="social-icons pull-right">
-                    <ul class="nav navbar-nav">
-                        <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                        <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                        <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
-                        <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                    </ul>
-                </div>
+    <!-- HEADER -->
+    <header>
+        <!-- TOP HEADER -->
+        <div id="top-header">
+            <div class="container">
+                <ul class="header-links pull-left">
+                    <li><a href="#"><i class="fa fa-phone"></i> +021-95-51-84</a></li>
+                    <li><a href="#"><i class="fa fa-envelope-o"></i> email@email.com</a></li>
+                    <li><a href="#"><i class="fa fa-map-marker"></i> 1734 Stonecoal Road</a></li>
+                </ul>
+                <ul class="header-links pull-right">
+                    <li><a href="#"><i class="fa fa-dollar"></i> USD</a></li>
+                    <li><a href="#"><i class="fa fa-user-o"></i> My Account</a></li>
+                </ul>
             </div>
         </div>
-    </div>
-</div>
-<!--/header_top-->
+        <!-- /TOP HEADER -->
 
-<div class="header-middle">
-    <!--header-middle-->
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-4">
-                <div class="logo pull-left">
-                </div>
-            </div>
-            <div class="col-sm-8">
-                <div class="shop-menu pull-right">
-                    <ul class="nav navbar-nav">
-                        <!-- <li><a href="#"> <i class="fa fa-star"></i>Yêu thích</a></li> -->
-                        <?php
-
-                        use Illuminate\Support\Facades\Session;
-
-                        $customer_id = Session::get('customer_id');
-                        if ($customer_id != NULL) {
-
-                        ?>
-                            <li><a href="{{URL::to('/checkout')}}"> <i class="fa fa-crosshairs"></i>Thanh toán</a></li>
-
-                        <?php
-                        } else {
-                        ?>
-                            <li><a href="{{URL::to('/checkout')}}"> <i class="fa fa-crosshairs"></i>Thanh toán</a></li>
-
-                            <!-- <li><a href="{{URL::to('/login-checkout')}}"> <i class="fa fa-crosshairs"></i>Thanh toán</a></li> -->
-                        <?php
-                        }
-                        ?>
-                        <style>
-                            span#show-cart li {
-                                margin-top: 9px;
-                            }
-                        </style>
-                        <li class="cart-hover" style="position:relative ;"><a href="{{URL::to('/gio-hang')}}"><i class="fa fa-shopping-cart"></i>
-                                Giỏ hàng
-                                <span id="show-cart"></span>
-                                <div class="clearfix"></div>
-                                <span id="giohang-hover"></span>
+        <!-- MAIN HEADER -->
+        <div id="header">
+            <!-- container -->
+            <div class="container">
+                <!-- row -->
+                <div class="row">
+                    <!-- LOGO -->
+                    <div class="col-md-3">
+                        <div class="header-logo">
+                            <a href="#" class="logo">
+                                <img src="{{asset('Frontend/img/logo.png')}}" alt="">
                             </a>
-                        </li>
-
-
-                        <?php
-
-                        $customer_id = Session::get('customer_id');
-                        if ($customer_id != NULL) {
-
-                        ?>
-                            <li><a href="{{URL::to('/history-order')}}"><i class="fa fa-bell" aria-hidden="true"></i></i>Lịch sử mua hàng</a></li>
-                            <li><a href="{{URL::to('/logout-checkout')}}"><i class="fa fa-lock"></i>Đăng xuất</a></li>
-                            <br>
-                            <!-- <img width="15%" src="{{Session::get('customer_picture')}}"> <p style="float:right ;">{{Session::get('customer_name') }}</p> -->
-
-                        <?php
-                        } else {
-                        ?>
-                            <li><a href="{{URL::to('/login-checkout')}}"><i class="fa fa-lock"></i>Đăng nhập</a></li>
-                        <?php
-                        }
-                        ?>
-
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!--/header-middle-->
-<div class="header-bottom ">
-    <!--header-bottom-->
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-3">
-                <div class="companyinfo" style="float: right;">
-                    <a href="{{ URL::to('/trang-chu') }}">
-                        <h2><span style="font-size: 27px;">LK</span>-shopping</h2>
-                        <p>Uy Tín - Chất Lượng - Giá Rẻ</p>
-                    </a>
-                </div>
-                <a href="{{ URL::to('/trang-chu') }}"><img src="{{asset('frontend/images/shop/lk2.jpg')}}" style="top: -26px;position: absolute;width: 100px; height:100px" alt="" /></a>
-            </div>
-            <div class="col-sm-5">
-                <div class="mainmenu pull-left">
-                    <ul class="nav navbar-nav collapse navbar-collapse" style="margin-top: 10px;">
-                        <li><a href="{{ URL::to('/trang-chu') }}" class="active">Trang Chủ</a></li>
-                        <li class="dropdown"><a href="#">Sản Phẩm<i class="fa fa-angle-down"></i></a>
-                            <ul role="menu" class="sub-menu">
-                                @foreach($category as $key => $cate)
-                                <li><a href="{{URL::to('/danh-muc-san-pham/'.$cate->category_id)}}">{{$cate->category_name}}</a></li>
-                                @endforeach
-                            </ul>
-                        </li>
-                        <li class="dropdown"><a href="#">BLog<i class="fa fa-angle-down"></i></a>
-                            <ul role="menu" class="sub-menu">
-                                @foreach($category_post as $key =>$cate_post)
-                                <li><a href="{{URL::to('/danh-muc-bai-viet/'.$cate_post->cate_post_slug)}}">{{$cate_post->cate_post_name}}</a></li>
-                                @endforeach
-                            </ul>
-                        <li><a href="{{URl::to('/lien-he')}}">Liên Hệ</a></li>
-                        </li>
-
-                        <!-- <li><a href="{{URL::to('/login-checkout')}}"><i  class="fa fa-user"></i>Tài khoản</a></li>
-                        <li><a href="#"> <i  class="fa fa-start"></i>Yêu thích</a></li>
-                        <li><a href="{{URL::to('/checkout')}}">  <i  class="fa fa-crosshairs"></i>Thanh toán</a></li>
-                        <li><a href="{{URL::to('/show_cart')}}">Giỏ Hàng</a></li>
-                        <li><a href="{{URL::to('/login-checkout')}}"><i  class="fa fa-lock"></i>Đăng Nhập</a></li> -->
-                    </ul>
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <form action="{{URL::to('/tim-kiem')}}" autocomplete="off" method="POST">
-                    {{ csrf_field() }}
-                    <div class="">
-                        <input type="text" style="width: 100%; " name="keywords_submit" id="keywords" placeholder="Tìm kiếm sản phẩm" />
-                        <div id="search_ajax" style="display: none; position: absolute; z-index: 2;"></div>
+                        </div>
                     </div>
-                </form>
+                    <!-- /LOGO -->
+
+                    <!-- SEARCH BAR -->
+                    <div class="col-md-6">
+                        <div class="header-search">
+                            <form>
+                                <select class="input-select">
+                                    <option value="0">All Categories</option>
+                                    <option value="1">Category 01</option>
+                                    <option value="1">Category 02</option>
+                                </select>
+                                <input class="input" placeholder="Search here">
+                                <button class="search-btn">Search</button>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- /SEARCH BAR -->
+
+                    <!-- ACCOUNT -->
+                    <div class="col-md-3 clearfix">
+                        <div class="header-ctn">
+                            <!-- Wishlist -->
+                            <div>
+                                <a href="#">
+                                    <i class="fa fa-heart-o"></i>
+                                    <span>Your Wishlist</span>
+                                    <div class="qty">2</div>
+                                </a>
+                            </div>
+                            <!-- /Wishlist -->
+
+                            <!-- Cart -->
+                            <div class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                                    <i class="fa fa-shopping-cart"></i>
+                                    <span>Your Cart</span>
+                                    <div class="qty">3</div>
+                                </a>
+                                <div class="cart-dropdown">
+                                    <div class="cart-list">
+                                        <div class="product-widget">
+                                            <div class="product-img">
+                                                <img src="./img/product01.png" alt="">
+                                            </div>
+                                            <div class="product-body">
+                                                <h3 class="product-name"><a href="#">product name goes here</a></h3>
+                                                <h4 class="product-price"><span class="qty">1x</span>$980.00</h4>
+                                            </div>
+                                            <button class="delete"><i class="fa fa-close"></i></button>
+                                        </div>
+
+                                        <div class="product-widget">
+                                            <div class="product-img">
+                                                <img src="./img/product02.png" alt="">
+                                            </div>
+                                            <div class="product-body">
+                                                <h3 class="product-name"><a href="#">product name goes here</a></h3>
+                                                <h4 class="product-price"><span class="qty">3x</span>$980.00</h4>
+                                            </div>
+                                            <button class="delete"><i class="fa fa-close"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="cart-summary">
+                                        <small>3 Item(s) selected</small>
+                                        <h5>SUBTOTAL: $2940.00</h5>
+                                    </div>
+                                    <div class="cart-btns">
+                                        <a href="#">View Cart</a>
+                                        <a href="#">Checkout <i class="fa fa-arrow-circle-right"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /Cart -->
+
+                            <!-- Menu Toogle -->
+                            <div class="menu-toggle">
+                                <a href="#">
+                                    <i class="fa fa-bars"></i>
+                                    <span>Menu</span>
+                                </a>
+                            </div>
+                            <!-- /Menu Toogle -->
+                        </div>
+                    </div>
+                    <!-- /ACCOUNT -->
+                </div>
+                <!-- row -->
             </div>
+            <!-- container -->
         </div>
-    </div>
-</div>
-<!--/header-bottom-->
+        <!-- /MAIN HEADER -->
+    </header>
+    <!-- /HEADER -->
+
+    <!-- NAVIGATION -->
+    <nav id="navigation">
+        <!-- container -->
+        <div class="container">
+            <!-- responsive-nav -->
+            <div id="responsive-nav">
+                <!-- NAV -->
+                <ul class="main-nav nav navbar-nav">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Hot Deals</a></li>
+                    <li><a href="#">Categories</a></li>
+                    <li><a href="#">Laptops</a></li>
+                    <li><a href="#">Smartphones</a></li>
+                    <li><a href="#">Cameras</a></li>
+                    <li><a href="#">Accessories</a></li>
+                </ul>
+                <!-- /NAV -->
+            </div>
+            <!-- /responsive-nav -->
+        </div>
+        <!-- /container -->
+    </nav>
+    <!-- /NAVIGATION -->

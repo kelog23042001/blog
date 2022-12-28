@@ -21,13 +21,13 @@
             </li>
 
             <li class="sidebar-item  has-sub">
-                <a href="#" class='sidebar-link'>
+                <a href="" class='sidebar-link'>
                     <i class="bi bi-stack"></i>
-                    <span>Product</span>
+                    <span>Sản Phẩm</span>
                 </a>
                 <ul class="submenu ">
                     <li class="submenu-item ">
-                        <a href="#">Products</a>
+                        <a href="{{URL::to('/all-product')}}">Sản Phẩm</a>
                     </li>
                     <li class="submenu-item ">
                         <a href="component-badge.html">Sizes</a>

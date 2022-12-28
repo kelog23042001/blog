@@ -9,8 +9,13 @@ class Gallery extends Model
 {
     public $timestamps = false;
     protected $fillable = [
-        'gallery_name', 'gallery_image', 'product_id'
+        'imageUrl', 'product_id'
     ];
     protected $primaryKey = 'gallery_id';
     protected $table = 'tbl_gallery';
+
+    public function Product()
+    {
+        return $this->belongsTo(Product::class, 'product_id');
+    }
 }

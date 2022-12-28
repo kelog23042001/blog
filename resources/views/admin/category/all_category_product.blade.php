@@ -30,9 +30,6 @@
 <div class="page-heading">
     <section class="section">
         <div class="card">
-            <!-- <div class="card-header">
-                Simple Datatable
-            </div> -->
             <div class="card-body">
                 <table class="table table-striped" id="table-category">
                     <thead>
