@@ -30,7 +30,9 @@
 </head>
 
 <body>
-    
+    @include('user.elements.header')
+    @yield('content')
+    @include('user.elements.footer')
     <!-- jQuery Plugins -->
     <script src="{{asset('Frontend/js/jquery.min.js')}}"></script>
     <script src="{{asset('Frontend/js/bootstrap.min.js')}}"></script>
