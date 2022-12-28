@@ -162,6 +162,8 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
+        CloudinaryLabs\CloudinaryLaravel\CloudinaryServiceProvider::class,
+
         /*
          * Package Service Providers...
          */
@@ -192,6 +194,7 @@ return [
 
     'aliases' => [
 
+        'Cloudinary' => CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary::class,
         'App' => Illuminate\Support\Facades\App::class,
         'Arr' => Illuminate\Support\Arr::class,
         'Artisan' => Illuminate\Support\Facades\Artisan::class,
