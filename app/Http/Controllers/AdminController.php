@@ -21,14 +21,16 @@ use App\Models\Post;
 use App\Models\Visitors;
 use Carbon\Carbon;
 
-session_start();
+// session_start();
 
 class AdminController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         return view('admin_login');
     }
-    public function show_dashboard( Request $request){
+    public function show_dashboard(Request $request)
+    {
         $user_ip_address = $request->ip();
 
         $early_last_month = Carbon::now('Asia/Ho_Chi_Minh')->subMonth()->startOfMonth()->toDateString();
@@ -77,9 +79,8 @@ class AdminController extends Controller
         $post_views = Post::orderBy('post_views', 'DESC')->take(10)->get();
 
         return view('admin.dashboard', compact('product_views', 'post_views', 'product_count', 'post_count', 'order_count', 'customer_count', 'visitor_year_count', 'visitors_total', 'visitor_count', 'visitor_last_month_count', 'visitor_this_month_count',));
-    
     }
-    
+
     public function day_order()
     {
         $dauthangnay = Carbon::now('Asia/Ho_Chi_Minh')->startOfMonth()->toDateString();
@@ -155,71 +156,74 @@ class AdminController extends Controller
         }
         echo $data = json_encode($chart_data);
     }
-    public function dashboard(Request $request){
+    public function dashboard(Request $request)
+    {
         $admin_email = $request->admin_email;
         $admin_password = md5($request->admin_password);
-        $result = DB::table('tbl_admin')->where('admin_email',$admin_email)->where('admin_password', $admin_password)->first();
-        if($result){
+        $result = DB::table('tbl_admin')->where('admin_email', $admin_email)->where('admin_password', $admin_password)->first();
+        if ($result) {
             Session::put('admin_name', $result->admin_name);
             Session::put('admin_id', $result->admin_id);
             return Redirect::to('/dashboard');
-        }else{
+        } else {
             Session::put('message', 'Mật khẩu hoặc tài khoản không dúng, làm ơn nhập lại');
             return Redirect::to('/admin');
         }
         return view('admin.dashboard');
         print_r($result);
     }
-    public function logout(){
+    public function logout()
+    {
         Session::put('admin_name', null);
         Session::put('admin_id', null);
         return Redirect::to('/login-auth');
     }
 
 
-    public function login_customer_google(){
+    public function login_customer_google()
+    {
 
-         return Socialite::driver('google')->redirect();
-   }
+        return Socialite::driver('google')->redirect();
+    }
 
-   public function callback_customer_google(){
-
-
-            $users = Socialite::driver('google')->stateless()->user();
+    public function callback_customer_google()
+    {
 
 
-            $authUser = $this->FindOrCreateCustomer($users, 'google');
-            if($authUser){
-                $account_name = Customer::where('customer_id',$authUser->user)->first();
-                Session::put('customer_id',$account_name->customer_id);
-                Session::put('customer_name',$account_name->customer_name);
-                Session::put('customer_phone',$account_name->customer_phone);
-                Session::put('customer_email',$account_name->customer_email);
-            }else{
-                $account_name = Customer::where('customer_id',$authUser->user)->first();
-                Session::put('customer_id',$account_name->customer_id);
-                Session::put('customer_name',$account_name->customer_name);
-                Session::put('customer_phone',$account_name->customer_phone);
-                Session::put('customer_email',$account_name->customer_email);
+        $users = Socialite::driver('google')->stateless()->user();
 
-            }
-           return redirect('/trang-chu')->with('message', 'Đăng nhập tài khoản google '.$account_name->customer_email.' thành công');
-   }
+        $authUser = $this->FindOrCreateCustomer($users, 'google');
+        if ($authUser) {
+            $account_name = Customer::where('customer_id', $authUser->user)->first();
+            Session::put('customer_id', $account_name->customer_id);
+            Session::put('customer_name', $account_name->customer_name);
+            Session::put('customer_phone', $account_name->customer_phone);
+            Session::put('customer_email', $account_name->customer_email);
+        } else {
+            $account_name = Customer::where('customer_id', $authUser->user)->first();
+            Session::put('customer_id', $account_name->customer_id);
+            Session::put('customer_name', $account_name->customer_name);
+            Session::put('customer_phone', $account_name->customer_phone);
+            Session::put('customer_email', $account_name->customer_email);
+        }
+        return redirect('/trang-chu')->with('message', 'Đăng nhập tài khoản google ' . $account_name->customer_email . ' thành công');
+    }
 
-    public function FindOrCreateCustomer($users, $provider){
+    public function FindOrCreateCustomer($users, $provider)
+    {
         $authUser = SocialCustomer::where('provider_user_id', $users->id)->first();
-        if($authUser){
+        if ($authUser) {
             return $authUser;
-        }else{
-                $customer_new = new SocialCustomer([
+        } else {
+            $customer_new = new SocialCustomer([
                 'provider_user_id' => $users->id,
                 'provider_user_email' => $users->email,
                 'provider' => strtoupper($provider)
             ]);
 
-             $customer = Customer::where('customer_email',$users->email)->first();
+            $customer = Customer::where('customer_email', $users->email)->first();
 
-             if(!$customer){
+            if (!$customer) {
                 $customer = Customer::create([
                     'customer_name' => $users->name,
                     'customer_email' => $users->email,
@@ -227,13 +231,9 @@ class AdminController extends Controller
                     'customer_phone' => '01234567'
                 ]);
             }
-             $customer_new->customer()->associate($customer);
+            $customer_new->customer()->associate($customer);
             $customer_new->save();
             return $customer_new;
         }
-
     }
-
-
 }
-

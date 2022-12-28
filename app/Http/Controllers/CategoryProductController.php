@@ -10,50 +10,50 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Session;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use Exception;
 
 class CategoryProductController extends Controller
 {
     public function add_category_product()
     {
-
         $category = CategoryProductModel::orderby('category_id', 'DESC')->get();
-
         return view('admin.category.add_category_product', compact('category'));
     }
 
     public function all_category_product()
     {
         $category_product = CategoryProductModel::orderby('category_id', 'DESC')->get();
-        $all_category_product = DB::table('tbl_category_product')->paginate(5);
+        $all_category_product = DB::table('tbl_category_product')->get();
         return view('admin.category.all_category_product', compact('all_category_product', 'category_product'));
     }
     public function validation($request)
     {
         return $this->validate($request, [
             'category_name' => 'required', 'max:255',
-            'category_product_desc' => 'required|max:255',
-            'category_product_keywords' => 'required|email|max:255',
+            // 'category_product_desc' => 'required|max:255',
+            // 'category_product_keywords' => 'required|email|max:255',
         ]);
     }
     public function save_category_product(Request $request)
     {
-
-        $this->validate($request, [
-            'category_product_desc' =>  ['required', 'max:255'],
-            'category_name' => ['required', 'max:255', 'unique:tbl_category_product'],
-            'category_product_keywords' =>  ['required', 'max:255'],
-        ]);
+        // dd($request['thumbnail']);
+        $this->validation($request);
         $data = array();
+        $uploadedFileUrl = Cloudinary::upload($request->file('thumbnail')->getRealPath(), [
+            'folder' => 'Category',
+        ])->getSecurePath();
+        $data['thumbnail'] = $uploadedFileUrl;
         $data['category_name'] = $request->category_name;
         $data['meta_keywords'] = $request->category_product_keywords;
         $data['category_desc'] = $request->category_product_desc;
         $data['slug_category_product'] = $request->category_product_slug;
-        $data['category_status'] = $request->category_product_status;
+        $data['category_status'] = 1;
 
         DB::table('tbl_category_product')->insert($data);
         Session::put('message', 'Thêm danh mục sản phẩm thành công');
 
-        return Redirect::to('/add-category-product');
+        return back();
     }
 
     public function unactive_category_product($categoryproduct_id)
@@ -72,11 +72,10 @@ class CategoryProductController extends Controller
 
     public function edit_category_product($categoryproduct_id)
     {
-        $category = CategoryProductModel::orderby('category_id', 'DESC')->get();
-        $category_product = CategoryProductModel::orderby('category_id', 'DESC')->get();
+        // dd($categoryproduct_id);
 
-        $edit_category_product = DB::table('tbl_category_product')->where('category_id', $categoryproduct_id)->get();
-        return view('admin.category.edit_category_product', compact('edit_category_product', 'category', 'category_product'));
+        $category = CategoryProductModel::where('category_id', $categoryproduct_id)->first();
+        return view('admin.category.edit_category_product', compact('category'));
     }
 
     public function delete_category_product($categoryproduct_id)
@@ -88,15 +87,19 @@ class CategoryProductController extends Controller
 
     public function update_category_product(Request $request, $categoryproduct_id)
     {
-        $this->validate($request, [
-            'category_name' => ['required', 'max:255', 'unique:tbl_category_product'],
-        ]);
         $data = array();
+
+        if ($request->file('thumbnail')) {
+            $uploadedFileUrl = Cloudinary::upload($request->file('thumbnail')->getRealPath(), [
+                'folder' => 'Category',
+            ])->getSecurePath();
+            $data['thumbnail'] = $uploadedFileUrl;
+        }
         $data['category_name'] = $request->category_product_name;
         $data['meta_keywords'] = $request->category_product_keywords;
         $data['category_desc'] = $request->category_product_desc;
         $data['slug_category_product'] = $request->category_product_slug;
-        DB::table('tbl_category_product')->where('category_id', $categoryproduct_id)->update($data);
+        CategoryProductModel::where('category_id', $categoryproduct_id)->update($data);
         Session::put('message', 'Cập nhập thành công');
         return Redirect::to('/all-category-product');
     }
@@ -112,14 +115,9 @@ class CategoryProductController extends Controller
         $meta_keyword = "danh mục mô hình";
         $url_canonical = $request->url();
         $category  = DB::table('tbl_category_product')->where('category_status', '1')->orderBy('category_id', 'desc')->get();
-        //  $brand = DB::table('tbl_brand_product')->where('brand_status', '1')->orderBy('brand_id','desc')->get();
 
         $category_name = DB::table('tbl_category_product')->where('tbl_category_product.category_id', $category_id)->limit(1)->get();
         $category_id_cate = CategoryProductModel::where('category_id', $category_id)->get();
-        // $category_by_id = DB::table('tbl_product')
-        // ->join('tbl_category_product', 'tbl_product.category_id', '=', 'tbl_category_product.category_id')
-        // ->where('tbl_category_product.category_id', $category_id)
-        // ->paginate(6);
         $min_price = Product::min('product_price');
         $max_price = Product::max('product_price');
         $min_price_range = $min_price - 100000;
@@ -178,10 +176,7 @@ class CategoryProductController extends Controller
             $url_canonical = $request->url();
         }
 
-        // $min_price = Product::orderby('product_price', 'ASC')->value('product_price');
-        // $max_price = Product::max('product_price');
         return view('user.pages.category.show_category', compact('min_price', 'min_price_range', 'max_price_range', 'max_price', 'category', 'category_by_id', 'category_name', 'category_post'))
             ->with('meta_decs', $meta_decs)->with('meta_title', $meta_title)->with('meta_keyword', $meta_keyword)->with('url_canonical', $url_canonical);
-        // echo $min_price;
     }
 }
