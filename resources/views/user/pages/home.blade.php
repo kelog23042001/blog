@@ -35,7 +35,7 @@
                                 <!-- product -->
                                 @foreach($products as $key => $product)
                                 <div class="product">
-                                    <a href="">
+                                    <a href="{{URL::to('chi-tiet-san-pham/'.$product->product_id)}}">
                                         <div class="product-img">
                                             <img src="{{$product->product_image}}" alt="">
                                             <div class="product-label">
@@ -46,7 +46,7 @@
                                     </a>
                                     <div class="product-body">
                                         <p class="product-category">{{$product->category->category_name}}</p>
-                                        <h3 class="product-name"><a href="#">product name goes here</a></h3>
+                                        <h3 class="product-name"><a href="#">{{$product->product_name}}</a></h3>
                                         <h4 class="product-price">{{$product->product_price}} <del class="product-old-price">{{$product->product_price}}</del></h4>
                                         <div class="product-rating">
                                             <i class="fa fa-star"></i>

@@ -65,11 +65,11 @@
                                     <?php
                                     if ($pro->product_status == 0) {
                                     ?>
-                                        <a href="{{URL::to('/unactive-product/'.$pro->product_id)}} " class="badge bg-danger">Inactive</a>
+                                        <a href="{{URL::to('/active-product/'.$pro->product_id)}} " class="badge bg-danger">Inactive</a>
                                     <?php
                                     } else {
                                     ?>
-                                        <a href="{{URL::to('/active-product/'.$pro->product_id)}}" class="badge bg-success">Active</a>
+                                        <a href="{{URL::to('/unactive-product/'.$pro->product_id)}}" class="badge bg-success">Active</a>
                                     <?php
                                     }
                                     ?>

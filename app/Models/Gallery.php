@@ -14,8 +14,8 @@ class Gallery extends Model
     protected $primaryKey = 'gallery_id';
     protected $table = 'tbl_gallery';
 
-    public function Product()
+    public function product()
     {
-        return $this->belongsTo(Product::class, 'product_id');
+        return $this->belongsTo(Product::class);
     }
 }

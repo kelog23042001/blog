@@ -27,9 +27,10 @@ class PayPalController extends Controller
     public function processTransaction(Request $request)
     {
         $total_paypal = \Session::get('total_paypal');
+        // dd($total_paypal);s
 
         \Session::put('pay_success', false);
-        
+
         $provider = new PayPalClient;
         $provider->setApiCredentials(config('paypal'));
         $paypalToken = $provider->getAccessToken();
@@ -62,7 +63,6 @@ class PayPalController extends Controller
             return redirect()
                 ->route('checkout')
                 ->with('error', 'Thanh toán lỗi');
-
         } else {
             return redirect()
                 ->route('checkout')
@@ -77,6 +77,7 @@ class PayPalController extends Controller
      */
     public function successTransaction(Request $request)
     {
+        // dd($request);
         $provider = new PayPalClient;
         $provider->setApiCredentials(config('paypal'));
         $provider->getAccessToken();
@@ -85,8 +86,9 @@ class PayPalController extends Controller
         if (isset($response['status']) && $response['status'] == 'COMPLETED') {
             \Session::put('pay_success', true);
             return redirect()
-                ->route('checkout')
-                ->with('success', 'Thanh toán thành công. Vui lòng điền thông tin để nhận hàng!');
+                ->to(url('/confirm-order'));
+            // ->route('checkout')
+            // ->with('success', 'Thanh toán thành công. Vui lòng điền thông tin để nhận hàng!');
         } else {
             return redirect()
                 ->route('checkout')

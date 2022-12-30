@@ -50,8 +50,7 @@ class HomeController extends Controller
 
         <table class="table table-condensed">';
         if (Session::get('cart')) {
-            $output .= '' . csrf_field() . '
-          ';
+            $output .= '' . csrf_field() . '';
         }
         $output .= '<thead>
                 <tr class="cart_menu">
@@ -205,16 +204,16 @@ class HomeController extends Controller
 
         $brand_product = DB::table('tbl_brand_product')->where('brand_status', '1')->orderBy('brand_id', 'desc')->get();
 
-        $all_product = Product::where('product_status', '1')->where('deleted', 0)->orderBy('product_id', 'desc')
+        $all_product = Product::where('product_status', 1)->where('deleted', 0)->orderBy('product_id', 'desc')
             ->limit(10)->get();
 
-        $sold_product = Product::where('product_status', '1')->where('deleted', 0)->orderBy('product_sold', 'desc')
+        $sold_product = Product::where('product_status', 1)->where('deleted', 0)->orderBy('product_sold', 'desc')
             ->limit(10)->get();
 
-        $view_product = Product::where('product_status', '1')->where('deleted', 0)->orderBy('product_views', 'desc')
+        $view_product = Product::where('product_status', 1)->where('deleted', 0)->orderBy('product_views', 'desc')
             ->limit(10)->get();
 
-        $price_product = Product::where('product_status', '1')->where('deleted', 0)->where('product_price', '<', '500000')->orderBy('product_price', 'desc')
+        $price_product = Product::where('product_status', 1)->where('deleted', 0)->where('product_price', '<', '500000')->orderBy('product_price', 'desc')
             ->limit(10)->get();
 
         return view('user.pages.home')->with('categories', $cate_product)->with('brand', $brand_product)->with('products', $all_product)

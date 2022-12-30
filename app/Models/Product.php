@@ -27,9 +27,9 @@ class Product extends Model
     protected $primaryKey = 'product_id';
     protected $table = 'tbl_product';
 
-    public function Images()
+    public function images()
     {
-        return $this->hasMany(Gallery::class);
+        return $this->hasMany(Gallery::class, 'product_id');
     }
     public function category()
     {

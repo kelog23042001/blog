@@ -169,13 +169,13 @@ class ProductController extends Controller
 
     public function unactive_product($product_id)
     {
-        DB::table('tbl_product')->where('product_id', $product_id)->update(['product_status' => 1]);
+        DB::table('tbl_product')->where('product_id', $product_id)->update(['product_status' => 0]);
         return Redirect::to('/all-product');
     }
 
     public function active_product($product_id)
     {
-        DB::table('tbl_product')->where('product_id', $product_id)->update(['product_status' => 0]);
+        DB::table('tbl_product')->where('product_id', $product_id)->update(['product_status' => 1]);
         return Redirect::to('/all-product');
     }
 
@@ -223,40 +223,36 @@ class ProductController extends Controller
     {
         $category_post = CategoryPost::orderby('cate_post_id', 'DESC')->paginate(5);
 
-        $category = DB::table('tbl_category_product')->where('category_status', '1')->orderBy('category_id', 'desc')->get();
+        $categories = DB::table('tbl_category_product')->where('category_status', '1')->orderBy('category_id', 'desc')->get();
         $brand = DB::table('tbl_brand_product')->where('brand_status', '0')->orderBy('brand_id', 'desc')->get();
 
-        $detail_product = DB::table('tbl_product')
-            ->join('tbl_category_product', 'tbl_category_product.category_id', '=', 'tbl_product.category_id')
-
-            ->where('tbl_product.product_id', $product_id)
-            ->get();
+        $detail_product = Product::find($product_id);
+        // dd($detail_product);
 
         $rating = Rate::where('product_id', $product_id)->avg('rating');
         $rating = round($rating);
-        foreach ($detail_product as $key => $value) {
-            $product_image = $value->product_image;
-            $product_id = $value->product_id;
-            $category_id = $value->category_id;
-            $product_cate = $value->category_name;
-            $meta_decs = $value->product_desc;
-            $meta_title =  $value->product_name;
-            $meta_keyword =  $value->product_slug;
-            $url_canonical = $request->url();
-        }
-        $gallery = Gallery::where('product_id', $product_id)->get();
+
+        $product_image = $detail_product->product_image;
+        $product_id = $detail_product->product_id;
+        $category_id = $detail_product->category_id;
+        $product_cate = $detail_product->category->category_name;
+        $meta_decs = $detail_product->product_desc;
+        $meta_title =  $detail_product->product_name;
+        $meta_keyword =  $detail_product->product_slug;
+        $url_canonical = $request->url();
+
         $related_product = DB::table('tbl_product')
             ->join('tbl_category_product', 'tbl_category_product.category_id', '=', 'tbl_product.category_id')
-
             ->where('tbl_category_product.category_id', $category_id)->whereNotIn('tbl_product.product_id', [$product_id])->limit(3)
             ->get();
 
-        $product = Product::where('product_id', $product_id)->first();
+        $product = Product::find($product_id);
         $product->product_views = $product->product_views + 1;
         $product->save();
 
-        return view('user.pages.product.show_detail', compact('product_cate', 'category', 'rating', 'category_id', 'brand', 'gallery', 'detail_product', 'related_product', 'category_post'))
-            ->with('meta_decs', $meta_decs)->with('meta_title', $meta_title)->with('meta_keyword', $meta_keyword)->with('url_canonical', $url_canonical);
+        return view('user.pages.product.show_detail', compact('product', 'product_cate', 'categories', 'rating', 'category_id', 'detail_product', 'related_product', 'category_post'))
+            ->with('meta_decs', $meta_decs)->with('meta_title', $meta_title)->with('meta_keyword', $meta_keyword)
+            ->with('url_canonical', $url_canonical);
     }
     public function tag(Request $request, $product_tag)
     {
@@ -276,7 +272,7 @@ class ProductController extends Controller
         $url_canonical = $request->url();
         return view('user.pages.product.tag')
             ->with('category_post', $category_post)
-            ->with('category', $category)
+            ->with('categories', $categories)
             ->with('brand', $brand)
             ->with('meta_decs', $meta_decs)->with('meta_title', $meta_title)
             ->with('meta_keyword', $meta_keyword)

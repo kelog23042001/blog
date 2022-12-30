@@ -22,6 +22,7 @@ use App\Models\Customer;
 use App\Models\Coupon;
 
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Support\Facades\Mail;
 
 
@@ -156,9 +157,12 @@ class CheckoutController extends Controller
     public function confirm_order(Request $request)
     {
         $data = $request->all();
+        dd($data);
+        if ($data['shipping_method'] == 'paypal') {
+        }
 
         $coupon_mail = '';
-        if ($data['order_coupon'] != 'non') {
+        if (isset($data['order_coupon'])) {
             $coupon = Coupon::where('coupon_code', $data['order_coupon'])->first();
             // $coupon->coupon_time = $coupon->coupon_time - 1;
             $coupon_number = $coupon->coupon_number;
@@ -180,7 +184,9 @@ class CheckoutController extends Controller
 
         $checkout_code = substr(md5(microtime()), rand(0, 26), 5);
         $order = new Order;
-        $order->customer_id = Session::get('customer_id');
+        if (Session::get('customer_id')) {
+            $order->customer_id = Session::get('customer_id');
+        }
         $order->shipping_id = $shipping_id;
         $order->order_status = 1;
         $order->order_code = $checkout_code;
@@ -195,7 +201,7 @@ class CheckoutController extends Controller
 
         $order->save();
 
-        if ($data['order_coupon'] != 'non') {
+        if (isset($data['order_coupon'])) {
             $ordercode_mail = array(
                 'coupon_number' => $coupon_number,
                 'coupon_condition' => $coupon_condition,
@@ -219,7 +225,7 @@ class CheckoutController extends Controller
                 $order_details->product_name = $cart['product_name'];
                 $order_details->product_price = $cart['product_price'];
                 $order_details->product_sale_quantity = $cart['product_qty'];
-                if ($data['order_coupon'] != null) {
+                if (isset($data['order_coupon'])) {
                     $order_details->product_coupon = $data['order_coupon'];
                 } else {
                     $order_details->product_coupon = 0;
@@ -232,28 +238,30 @@ class CheckoutController extends Controller
         $now = Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d H:i:s');
         $title_mail = "Đơn hàng xác nhận ngày " . $now;
         $customer = Customer::find(Session::get('customer_id'));
-        $data['email'][] = $customer->customer_email;
-
-        if (session::get('cart')) {
-            foreach (session::get('cart') as $key => $cart_mail) {
-                $cart_array[] = array(
-                    'product_name' => $cart_mail['product_name'],
-                    'product_price' => $cart_mail['product_price'],
-                    'product_qty' => $cart_mail['product_qty']
-                );
-            }
+        if ($customer != null) {
+            $data['email'][] = $customer->customer_email;
         }
 
-        $shipping_array = array(
-            'customer_name' => $customer->customer_name,
-            'shipping_name' => $data['shipping_name'],
-            'shipping_email' => $data['shipping_email'],
-            'shipping_phone' => $data['shipping_phone'],
-            'shipping_address' => $data['shipping_address'],
-            'shipping_notes' => $data['shipping_notes'],
-            'shipping_method' => $data['shipping_method'],
-            'shipping_feeShip' => $data['order_fee']
-        );
+        // if (session::get('cart')) {
+        //     foreach (session::get('cart') as $key => $cart_mail) {
+        //         $cart_array[] = array(
+        //             'product_name' => $cart_mail['product_name'],
+        //             'product_price' => $cart_mail['product_price'],
+        //             'product_qty' => $cart_mail['product_qty']
+        //         );
+        //     }
+        // }
+
+        // $shipping_array = array(
+        //     'customer_name' => $customer->customer_name,
+        //     'shipping_name' => $data['shipping_name'],
+        //     'shipping_email' => $data['shipping_email'],
+        //     'shipping_phone' => $data['shipping_phone'],
+        //     'shipping_address' => $data['shipping_address'],
+        //     'shipping_notes' => $data['shipping_notes'],
+        //     'shipping_method' => $data['shipping_method'],
+        //     'shipping_feeShip' => $data['order_fee']
+        // );
 
         // Mail::send(
         //     'user.mail.mail_order',
@@ -276,7 +284,6 @@ class CheckoutController extends Controller
     public function select_delivery_home(Request $request)
     {
         $data = $request->all();
-
         if ($data['action']) {
             $output = '';
             if ($data['action'] == 'city') {
@@ -285,35 +292,32 @@ class CheckoutController extends Controller
                 }
                 $select_province = Province::where('matp', $data['id'])->orderby('maqh', 'ASC')->get();
                 $city = City::where('matp', $data['id'])->first();
-                $output .= '<option>---Chọn Quận Huyện---</option>';
+                $output .= '<option>Chọn Quận-Huyện</option>';
                 foreach ($select_province as $key => $province) {
                     $output .= '<option value = "' . $province->maqh . '">' . $province->name_quanhuyen . '</option>';
                 }
                 Session::forget('city');
-                // \Session::put('city', $city->name_city);
             } else {
                 if ($data['id'] < 100) {
                     $data['id'] = '00' . $data['id'];
                 }
                 $select_wards = Wards::where('maqh', $data['id'])->orderby('xaid', 'ASC')->get();
-                $output .= '<option>---Chọn Xã Phường---</option>';
+                $output .= '<option value="non">Chọn Xã Phường</option>';
                 foreach ($select_wards as $key => $province) {
                     $output .= '<option value = "' . $province->xaid . '">' . $province->name_xaphuong . '</option>';
                 }
                 Session::forget('province');
-
-                // \Session::put('province', $data['id']);
             }
         }
         // \Session::put('pay_success', true);
-        echo $output;
+        return $output;
     }
 
     public function calculate_fee(Request $request)
     {
         $data = $request->all();
+        // dd($data);
         Session::forget('fee');
-
         Session::forget('city');
         Session::forget('province');
         Session::forget('wards');
@@ -335,7 +339,6 @@ class CheckoutController extends Controller
         } elseif ($data['xaid'] < 10) {
             $data['xaid'] = '0' . $data['xaid'];
         }
-
 
         $city = City::where('matp', $data['matp'])->first();
 
@@ -368,6 +371,7 @@ class CheckoutController extends Controller
                 }
             }
         }
+        return 10000;
     }
     public function login_checkout(Request $request)
     {
@@ -401,27 +405,39 @@ class CheckoutController extends Controller
     }
     public function checkout(Request $request)
     {
-        $category_post = CategoryPost::orderby('cate_post_id', 'DESC')->paginate(5);
+        if (Session::get('cart')) {
+            $cart = Session::get('cart');
+            $total = 0;
+            foreach ($cart as $key => $value) {
+                $subtotal = $value['product_qty'] * $value['product_price'];
+                $total += $subtotal;
+            }
+            // dd($total);
+            $category_post = CategoryPost::orderby('cate_post_id', 'DESC')->paginate(5);
+            $meta_decs = "Chuyên bán quần áo nữ";
+            $meta_title = "Thanh toán";
+            $meta_keyword = "quan ao nu, quần áo nữ";
+            $url_canonical = $request->url();
 
-        $meta_decs = "Chuyên bán quần áo nữ";
-        $meta_title = "LK - Shopping";
-        $meta_keyword = "quan ao nu, quần áo nữ";
-        $url_canonical = $request->url();
-        $cate_product = DB::table('tbl_category_product')->where('category_status', '0')->orderBy('category_id', 'desc')->get();
-        $brand_product = DB::table('tbl_brand_product')->where('brand_status', '0')->orderBy('brand_id', 'desc')->get();
-        $city = City::orderby('matp', 'ASC')->get();
-        $province = Province::orderby('maqh', 'ASC')->get();
-        $wards = Wards::orderby('xaid', 'ASC')->get();
-        if (Session::get('customer_id')) {
-            $customerid = Session::get('customer_id');
-        } else {
-            $customerid = -1;
+            // dd($categories);
+            $categories = DB::table('tbl_category_product')->where('category_status', '1')->orderBy('category_id', 'desc')->get();
+            $city = City::orderby('matp', 'ASC')->get();
+            $province = Province::orderby('maqh', 'ASC')->get();
+            $wards = Wards::orderby('xaid', 'ASC')->get();
+
+            if (Session::get('customer_id')) {
+                $customerid = Session::get('customer_id');
+            } else {
+                $customerid = -1;
+            }
+            $customer = Customer::where('customer_id', $customerid)->first();
+            // dd($customer);
+            return view('user.pages.checkout.show_checkout', compact('cart', 'total', 'category_post', 'customer'))->with('categories', $categories)
+                ->with('meta_decs', $meta_decs)->with('meta_title', $meta_title)->with('meta_keyword', $meta_keyword)->with('url_canonical', $url_canonical)
+                ->with(compact('city'));
+        } {
+            return back();
         }
-        $customer = Customer::where('customer_id', $customerid)->first();
-        // dd($customer);
-        return view('user.pages.checkout.show_checkout', compact('category_post', 'customer'))->with('category', $cate_product)->with('brand', $brand_product)
-            ->with('meta_decs', $meta_decs)->with('meta_title', $meta_title)->with('meta_keyword', $meta_keyword)->with('url_canonical', $url_canonical)
-            ->with(compact('city'));
     }
 
     public function save_checkout_customer(Request $request)
@@ -436,7 +452,6 @@ class CheckoutController extends Controller
         $shipping_id = DB::table('tbl_shipping')->insertGetId($data);
 
         Session::put('shipping_id', $shipping_id);
-
 
         return Redirect('/payment');
     }

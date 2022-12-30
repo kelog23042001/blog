@@ -85,10 +85,10 @@ class CartController extends Controller
             foreach ($data['cart_qty'] as $key => $qty) {
                 foreach ($cart as $session => $val) {
                     if ($val['session_id']  == $key) {
-                        if($cart[$session]['remain_qty'] - $qty < 0){
+                        if ($cart[$session]['remain_qty'] - $qty < 0) {
                             // dd($cart[$session]['remain_qty']);
-                            return Redirect()->back()->with('error', 'Số lượng thất bại cho sản phẩm '.$cart[$session]['product_name']. ' không đủ!');
-                        }else{
+                            return Redirect()->back()->with('error', 'Số lượng thất bại cho sản phẩm ' . $cart[$session]['product_name'] . ' không đủ!');
+                        } else {
                             $cart[$session]['product_qty'] = $qty;
                         }
                     }
@@ -118,11 +118,19 @@ class CartController extends Controller
 
     public function add_cart_ajax(Request $request)
     {
+        // "cart_product_id" => "130"
+        // "cart_product_name" => "123"
+        // "cart_product_image" => "https://res.cloudinary.com/ddnvoenef/image/upload/v1672221610/Products/rrmr8fwzc23wtpcmpj6t.png"
+        // "cart_product_price" => "123"
+        // "cart_product_qty" => "1"
+        // "remain_qty" => "123"
+        // "_token" => "frzAvB1ASqHFhlDnP4w1a3gWjx1oplFacugAO9DD"
+
+
         $data = $request->all();
         // dd($data);
         $session_id = substr(md5(microtime()), rand(0, 26), 5);
         $cart = Session::get('cart');
-
         if ($cart) {
             $is_avaiable = 0;
             $i = 0;
@@ -166,14 +174,13 @@ class CartController extends Controller
 
     public function gio_hang(Request $request)
     {
-        $category_post = CategoryPost::orderby('cate_post_id', 'DESC')->paginate(5);
+        // $category_post = CategoryPost::orderby('cate_post_id', 'DESC')->paginate(5);
         $meta_decs = "Giỏ hàng";
         $meta_title = "Giỏ hàng ";
         $meta_keyword = "Giỏ hàng ";
         $url_canonical = $request->url();
-        $category = DB::table('tbl_category_product')->where('category_status', '0')->orderBy('category_id', 'desc')->get();
-        $brand = DB::table('tbl_brand_product')->where('brand_status', '0')->orderBy('brand_id', 'desc')->get();
-        return view('user.pages.cart.cart_ajax', compact('category', 'brand', 'category_post'))
+        $categories = DB::table('tbl_category_product')->where('category_status', '1')->orderBy('category_id', 'desc')->get();
+        return view('user.pages.cart.cart_ajax', compact('categories'))
             ->with('meta_decs', $meta_decs)->with('meta_title', $meta_title)->with('meta_keyword', $meta_keyword)->with('url_canonical', $url_canonical);
     }
 

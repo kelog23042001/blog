@@ -51,7 +51,7 @@
                             <td>{{ $cate_pro->slug_category_product }}</td>
                             <td>
                                 <span class="text-ellipsis">
-                                    @if ($cate_pro->category_status == 0)
+                                    @if ($cate_pro->category_status == 1)
                                     <a href="{{URL::to('/unactive-category-product/'.$cate_pro->category_id)}}" class="badge bg-success">Active</a>
                                     @else
                                     <a href="{{URL::to('/active-category-product/'.$cate_pro->category_id)}}" class="badge bg-danger">Inactive</a>

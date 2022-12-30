@@ -210,6 +210,8 @@ Route::post('/save-checkout-customer', [CheckoutController::class, 'save_checkou
 Route::post('/select-delivery-home', [CheckoutController::class, 'select_delivery_home']);
 Route::post('/confirm-order', [CheckoutController::class, 'confirm_order']);
 
+Route::get('/confirm-order', [CheckoutController::class, 'confirm_order']);
+
 
 //Login customer by GOOGLE
 Route::get('/login-customer-google', [AdminController::class, 'login_customer_google']);
