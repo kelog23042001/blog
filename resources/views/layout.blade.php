@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="csrf-token" content="{{ csrf_token() }}" />
-    <title>Electro</title>
+    <title>{{$meta_title}}</title>
 
     <!-- Google font -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
@@ -53,6 +53,19 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+
+        function sendOrder() {
+            data = JSON.parse(window.localStorage.getItem("data"));
+            $.ajax({
+                url: "{{url('/confirm-order')}}",
+                method: 'POST',
+                data: data,
+                success: function() {
+                    swal("Đặt hàng!", "Đơn đặt hàng của bạn đã đặt thành công", "success");
+                }
+            });
+        }
+
         $(document).ready(function() {
             $('.send_order').click(function() {
                 data = {
@@ -66,11 +79,42 @@
                     order_coupon: $('.order_coupon').val(),
                 }
                 window.localStorage.setItem("data", JSON.stringify(data));
-
                 var paymentMethod = $('input[name=payment]:checked', '#payment-method').val()
                 if (paymentMethod == 'paypal') {
-                    // alert();
                     window.location.href = "{{route('processTransaction')}}";
+                } else if (paymentMethod == 'momo') {
+                    if ($('.order-total').text() < 10000) {
+                        swal({
+                            title: "Cảnh Báo",
+                            text: "Yêu cầu bị từ chối vì số tiền giao dịch nhỏ hơn số tiền tối thiểu cho phép là 10.000 VND hoặc lớn hơn số tiền tối đa cho phép là 50.000.000 VND",
+                            type: "warning",
+                            showCancelButton: false,
+                            confirmButtonClass: "btn-danger",
+                            confirmButtonText: "Đóng",
+                            // cancelButtonText: "Không",
+                            closeOnConfirm: false,
+                            closeOnCancel: false,
+                            showLoaderOnConfirm: true
+                        })
+                    } else {
+                        $.ajax({
+                            url: "{{url('/momo_payment')}}",
+                            method: 'POST',
+                            data: {
+                                // 'total_momopay': 99999
+                                'total_momopay': $('.order-total').text()
+                            },
+                            success: function(response) {
+                                window.location.href = response
+                            }
+                        })
+                    }
+
+                } else if (paymentMethod == 'vnpay') {
+
+                } else {
+                    // alert();
+                    sendOrder();
                 }
                 // swal({
                 //         title: "Xác nhận đặt hàng?",

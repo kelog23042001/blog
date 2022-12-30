@@ -46,8 +46,6 @@ class CheckoutController extends Controller
         $ipnUrl = "http://127.0.0.1:8000/checkout";
         $extraData = "";
 
-
-
         $requestId = time() . "";
         $requestType = "payWithATM";
         // $extraData = ($_POST["extraData"] ? $_POST["extraData"] : "");
@@ -74,15 +72,16 @@ class CheckoutController extends Controller
         $jsonResult = json_decode($result, true);  // decode json
 
         //Just a example, please check more in there
+        dd($result);
         \Session::put('pay_success', true);
-
-        return redirect()->to($jsonResult['payUrl']);
+        return response()->json($jsonResult['payUrl']);
         // header('Location: ' . $jsonResult['payUrl']);
     }
     public function vnpay_payment(Request $request)
     {
-
         $data = $request->all();
+        // dd($data);
+
         $code_cart = rand(00, 9999);
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
         $vnp_Returnurl = "http://127.0.0.1:8000/checkout";

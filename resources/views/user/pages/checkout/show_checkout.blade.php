@@ -1,5 +1,11 @@
 @extends('layout')
 @section('content')
+<?php
+
+use Illuminate\Support\Facades\Session;
+
+// session::forget('pay_success');
+?>
 <!-- BREADCRUMB -->
 <div id="breadcrumb" class="section">
     <!-- container -->
@@ -39,13 +45,13 @@
                         @endif
                     </div>
                     <div class="form-group">
-                        <input class="input shipping_name" type="text" placeholder="Tên" required>
+                        <input class="input shipping_name" type="text" placeholder="Tên" value="test" required>
                     </div>
                     <div class="form-group">
-                        <input class="input shipping_email" type="email" placeholder="Email" required>
+                        <input class="input shipping_email" type="email" placeholder="Email" value="test" required>
                     </div>
                     <div class="form-group">
-                        <input class="input shipping_phone" type="tel" name="shipping_phone" placeholder="Số điện thoại" required>
+                        <input class="input shipping_phone" type="tel" name="shipping_phone" value="test" placeholder="Số điện thoại" required>
                     </div>
                     <div class="form-group">
                         <div class="input-checkbox">
@@ -68,7 +74,7 @@
                         <h3 class="title">Địa chỉ nhận hàng</h3>
                     </div>
                     <div class="form-group">
-                        <input class="input shipping_address" type="text" name="address" placeholder="Địa chỉ" required>
+                        <input class="input shipping_address" type="text" name="address" value="test" placeholder="Địa chỉ" required>
                     </div>
                     <div class="form-group">
                         <select name="city" id="city" class="form-control choose">
@@ -127,12 +133,17 @@
                     </div>
                     <div class="order-col">
                         <div><strong>THÀNH TIỀN</strong></div>
-                        <div><strong class="order-total">{{number_format($total,0,',','.')}} <span style="text-decoration: underline;">đ</span></strong></div>
+                        <div><strong><span class="order-total">{{number_format($total,0,',','.')}} </span><span style="text-decoration: underline;">đ</span></strong></div>
                     </div>
                 </div>
+                <!-- <form action="{{url('/momo_payment')}}" method="POST">
+                    @csrf
+                    <input type="hidden" name="total_momopay" value="99999">
+                    <button type="submit" class="btn btn-default checkout m-3" id="MomoPaylButton" name="payUrl" href="">MomoPay</button>
+                </form> -->
                 <div class="payment-method" id="payment-method">
                     <div class="input-radio">
-                        <input type="radio" value="cash" name="payment" id="payment-1" checked>
+                        <input type="radio" value="cash" name="payment" id="payment-1">
                         <label for="payment-1">
                             <span></span>
                             Thanh toán khi nhận hàng
@@ -141,19 +152,29 @@
                             <!-- <p>Chuyển qua ngân hàng</p> -->
                         </div>
                     </div>
-                    <div class="input-radio">
-                        <input type="radio" value="momo" name="payment" id="payment-2">
+                    <!-- <div class="input-radio">
+                        <input type="radio" value="vnpay" name="payment" id="payment-2">
                         <label for="payment-2">
                             <span></span>
-                            Thẻ ATM nội địa
+                            VNpay
                         </label>
                         <div class="caption">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                        </div>
+                    </div> -->
+
+                    <div class="input-radio">
+                        <input type="radio" value="momo" name="payment" id="payment-3" checked>
+                        <label for="payment-3">
+                            <span></span>
+                            Momo
+                        </label>
+                        <div class="caption">
+                            <p><strong> Lưu ý: </strong>Số tiền tối thiểu cho phép là 10.000 VND hoặc lớn hơn số tiền tối đa cho phép là 50.000.000 VND</p>
                         </div>
                     </div>
                     <div class="input-radio">
-                        <input type="radio" value="paypal" name="payment" id="payment-3" checked>
-                        <label for="payment-3">
+                        <input type="radio" value="paypal" name="payment" id="payment-4">
+                        <label for="payment-4">
                             <span></span>
                             Paypal
                         </label>
@@ -187,11 +208,11 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script>
     $(document).ready(function() {
-
         pay_success = $('#pay_success').val()
         if (pay_success) {
+
             data = JSON.parse(window.localStorage.getItem("data"));
-            console.log(data)
+            // console.log(data)
             $.ajax({
                 url: "{{url('/confirm-order')}}",
                 method: 'POST',
