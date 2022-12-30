@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: May 24, 2022 at 12:48 PM
--- Server version: 10.4.21-MariaDB
--- PHP Version: 8.0.10
+-- Máy chủ: localhost:3306
+-- Thời gian đã tạo: Th12 30, 2022 lúc 01:38 PM
+-- Phiên bản máy phục vụ: 5.7.33
+-- Phiên bản PHP: 7.4.19
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `webbanquanao`
+-- Cơ sở dữ liệu: `webbanquanao`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `admin_roles`
+-- Cấu trúc bảng cho bảng `admin_roles`
 --
 
 CREATE TABLE `admin_roles` (
@@ -34,7 +34,7 @@ CREATE TABLE `admin_roles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `admin_roles`
+-- Đang đổ dữ liệu cho bảng `admin_roles`
 --
 
 INSERT INTO `admin_roles` (`id_admin_roles`, `admin_admin_id`, `roles_id_roles`) VALUES
@@ -47,7 +47,7 @@ INSERT INTO `admin_roles` (`id_admin_roles`, `admin_admin_id`, `roles_id_roles`)
 -- --------------------------------------------------------
 
 --
--- Table structure for table `failed_jobs`
+-- Cấu trúc bảng cho bảng `failed_jobs`
 --
 
 CREATE TABLE `failed_jobs` (
@@ -57,13 +57,13 @@ CREATE TABLE `failed_jobs` (
   `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `migrations`
+-- Cấu trúc bảng cho bảng `migrations`
 --
 
 CREATE TABLE `migrations` (
@@ -73,7 +73,7 @@ CREATE TABLE `migrations` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `migrations`
+-- Đang đổ dữ liệu cho bảng `migrations`
 --
 
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
@@ -96,7 +96,7 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `password_resets`
+-- Cấu trúc bảng cho bảng `password_resets`
 --
 
 CREATE TABLE `password_resets` (
@@ -108,7 +108,7 @@ CREATE TABLE `password_resets` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `personal_access_tokens`
+-- Cấu trúc bảng cho bảng `personal_access_tokens`
 --
 
 CREATE TABLE `personal_access_tokens` (
@@ -117,7 +117,7 @@ CREATE TABLE `personal_access_tokens` (
   `tokenable_id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `token` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `abilities` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `abilities` text COLLATE utf8mb4_unicode_ci,
   `last_used_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -126,7 +126,7 @@ CREATE TABLE `personal_access_tokens` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_admin`
+-- Cấu trúc bảng cho bảng `tbl_admin`
 --
 
 CREATE TABLE `tbl_admin` (
@@ -140,7 +140,7 @@ CREATE TABLE `tbl_admin` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `tbl_admin`
+-- Đang đổ dữ liệu cho bảng `tbl_admin`
 --
 
 INSERT INTO `tbl_admin` (`admin_id`, `admin_email`, `admin_password`, `admin_name`, `admin_phone`, `created_at`, `updated_at`) VALUES
@@ -152,7 +152,7 @@ INSERT INTO `tbl_admin` (`admin_id`, `admin_email`, `admin_password`, `admin_nam
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_brand_product`
+-- Cấu trúc bảng cho bảng `tbl_brand_product`
 --
 
 CREATE TABLE `tbl_brand_product` (
@@ -166,16 +166,18 @@ CREATE TABLE `tbl_brand_product` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `tbl_brand_product`
+-- Đang đổ dữ liệu cho bảng `tbl_brand_product`
 --
 
 INSERT INTO `tbl_brand_product` (`brand_id`, `brand_name`, `brand_slug`, `brand_desc`, `brand_status`, `created_at`, `updated_at`) VALUES
-(1, 'Nendoroid', 'Nendoroid', 'Nendoroid', 1, NULL, NULL);
+(1, 'Nendoroid', 'Nendoroid', 'Nendoroid', 1, NULL, NULL),
+(2, 'Riot', 'riot', 'Riot', 1, NULL, NULL),
+(6, 'BMB', 'bmb', 'bmb', 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_category_post`
+-- Cấu trúc bảng cho bảng `tbl_category_post`
 --
 
 CREATE TABLE `tbl_category_post` (
@@ -187,47 +189,66 @@ CREATE TABLE `tbl_category_post` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `tbl_category_post`
+-- Đang đổ dữ liệu cho bảng `tbl_category_post`
 --
 
 INSERT INTO `tbl_category_post` (`cate_post_id`, `cate_post_name`, `cate_post_status`, `cate_post_slug`, `cate_post_desc`) VALUES
-(1, 'Công nghệ', 0, 'cong-nghe', 'Công nghệ số'),
-(3, 'Tinh mô hình', 1, 'tinh-mo-hinh', 'Tin trong ngày mới nhất'),
-(5, 'Tin mua bán', 1, 'tin-mua-ban', 'Mua bán có giá'),
+(1, 'Anime', 1, 'anime', 'Anime'),
+(3, 'Tinh mô hình', 0, 'tinh-mo-hinh', 'Tin trong ngày mới nhất'),
+(5, 'Tin mua bán', 0, 'tin-mua-ban', 'Mua bán có giá'),
 (6, 'Tin Black God', 0, 'tin-black-god', 'Black god hiện nay là sản phẩm bán chạy chất');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_category_product`
+-- Cấu trúc bảng cho bảng `tbl_category_product`
 --
 
 CREATE TABLE `tbl_category_product` (
   `category_id` int(10) UNSIGNED NOT NULL,
-  `meta_keywords` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `meta_keywords` text COLLATE utf8mb4_unicode_ci,
   `category_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `slug_category_product` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `category_parent` int(11) NOT NULL,
-  `category_desc` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `thumbnail` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `category_desc` text COLLATE utf8mb4_unicode_ci,
   `category_status` int(11) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `tbl_category_product`
+-- Đang đổ dữ liệu cho bảng `tbl_category_product`
 --
 
-INSERT INTO `tbl_category_product` (`category_id`, `meta_keywords`, `category_name`, `slug_category_product`, `category_parent`, `category_desc`, `category_status`, `created_at`, `updated_at`) VALUES
-(1, 'Black Gold Saw', 'Black Gold Saw', 'Black-Gold-Saw', 0, 'Black Gold Saw', 1, NULL, NULL),
-(2, 'mô hình', 'Mô hình', 'mo-hinh', 3, 'Mô hình', 1, NULL, NULL),
-(3, 'Đồ chơi', 'Đồ chơi', 'do-choi', 0, 'Đồ chơi', 1, NULL, NULL),
-(4, 'White Gold Saw', 'White Gold Saw', 'White-Gold-Saw', 3, 'White Gold Saw', 1, NULL, NULL);
+INSERT INTO `tbl_category_product` (`category_id`, `meta_keywords`, `category_name`, `slug_category_product`, `thumbnail`, `category_desc`, `category_status`, `created_at`, `updated_at`) VALUES
+(9, 'áo polo', 'áo polo', 'ao-polo', 'https://res.cloudinary.com/ddnvoenef/image/upload/v1672217021/Category/okpphwrqanriwt33zl8g.png', 'áo polo', 1, NULL, NULL),
+(10, 'áo khoác', 'áo khoác', 'ao-khoac', 'https://res.cloudinary.com/ddnvoenef/image/upload/v1672217143/Category/ldahjslst4wfrs1dy3ti.png', 'áo khoác', 1, NULL, NULL),
+(11, 'marvel', 'áo giữ nhiệt', 'ao-giu-nhiet', 'https://res.cloudinary.com/ddnvoenef/image/upload/v1672217449/Category/al3nut0gkzlqy3xhbhjp.png', 'áo giữ nhiệt', 0, NULL, NULL),
+(12, 'demon Slayer', 'quần bò', 'quan-bo', 'https://res.cloudinary.com/ddnvoenef/image/upload/v1672217481/Category/lcumwcfq9mnucq6pl9fq.png', 'QUẦN BÒ', 1, NULL, NULL),
+(13, 'CHÂN VÁY', 'chân váy', 'chan-vay', 'https://res.cloudinary.com/ddnvoenef/image/upload/v1672217519/Category/zmuw9ethuufgyrpr53mv.png', 'CHÂN VÁY', 1, NULL, NULL),
+(21, 'QUẦN ÂU', 'quần âu', 'quan-au', 'https://res.cloudinary.com/ddnvoenef/image/upload/v1672218608/Category/kdxcf70le0rrplvjewqk.png', 'QUẦN ÂU', 1, NULL, NULL),
+(22, 'áo len', 'áo len', 'ao-len', 'https://res.cloudinary.com/ddnvoenef/image/upload/v1672218592/Category/f6hmmnas9iajw25eyzl2.png', 'áo len', 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_coupon`
+-- Cấu trúc bảng cho bảng `tbl_comment`
+--
+
+CREATE TABLE `tbl_comment` (
+  `comment_id` int(11) NOT NULL,
+  `comment` varchar(255) NOT NULL,
+  `comment_name` varchar(255) NOT NULL,
+  `comment_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `comment_product_id` int(11) NOT NULL,
+  `comment_parent_comment` int(11) DEFAULT '0',
+  `comment_status` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `tbl_coupon`
 --
 
 CREATE TABLE `tbl_coupon` (
@@ -236,45 +257,43 @@ CREATE TABLE `tbl_coupon` (
   `coupon_time` int(50) NOT NULL,
   `coupon_condition` int(11) NOT NULL,
   `coupon_number` int(11) NOT NULL,
-  `coupon_code` varchar(50) COLLATE utf8_unicode_ci NOT NULL
+  `coupon_code` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `coupon_date_start` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `coupon_date_end` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Dumping data for table `tbl_coupon`
---
-
-INSERT INTO `tbl_coupon` (`coupon_id`, `coupon_name`, `coupon_time`, `coupon_condition`, `coupon_number`, `coupon_code`) VALUES
-(1, 'Giảm giá 30/4', 10, 1, 10, 'HDH375Y'),
-(2, 'Giảm Hallowen', 12, 2, 100000, 'ABC123D');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_customers`
+-- Cấu trúc bảng cho bảng `tbl_customers`
 --
 
 CREATE TABLE `tbl_customers` (
   `customer_id` int(11) UNSIGNED NOT NULL,
   `customer_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `customer_email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `customer_email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `customer_password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `customer_phone` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `customer_phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `customer_address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `customer_idxa` varchar(5) CHARACTER SET utf8mb4 DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `tbl_customers`
+-- Đang đổ dữ liệu cho bảng `tbl_customers`
 --
 
-INSERT INTO `tbl_customers` (`customer_id`, `customer_name`, `customer_email`, `customer_password`, `customer_phone`, `created_at`, `updated_at`) VALUES
-(1, 'tran khanh', 'user@gmail.com', '123456', '123', NULL, NULL),
-(2, 'tran khanh', 'khanh@gmail.com', '123456', '123456789', NULL, NULL);
+INSERT INTO `tbl_customers` (`customer_id`, `customer_name`, `customer_email`, `customer_password`, `customer_phone`, `customer_address`, `customer_idxa`, `created_at`, `updated_at`) VALUES
+(1, 'tran khanh', 'user@gmail.com', '123456', '123', '512/18 tôn đản', '20306', NULL, NULL),
+(2, 'tran khanh', 'khanh@gmail.com', '123456', '123456789', '512/18 tôn đản', '20306', NULL, NULL),
+(3, 'ss', 'khanhadmin@gmail.com', '123456', '2', '512/18 tôn đản', '20306', NULL, NULL),
+(4, 'Khánh Trần Văn', 'khalongtvh@gmail.com', '123456', '0376822362', '512/18 tôn đản', '20306', NULL, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_feeship`
+-- Cấu trúc bảng cho bảng `tbl_feeship`
 --
 
 CREATE TABLE `tbl_feeship` (
@@ -285,56 +304,92 @@ CREATE TABLE `tbl_feeship` (
   `fee_feeship` varchar(255) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+--
+-- Đang đổ dữ liệu cho bảng `tbl_feeship`
+--
+
+INSERT INTO `tbl_feeship` (`fee_id`, `fee_matp`, `fee_maqh`, `fee_xaid`, `fee_feeship`) VALUES
+(1, '48', '495', '20306', '50');
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_gallery`
+-- Cấu trúc bảng cho bảng `tbl_gallery`
 --
 
 CREATE TABLE `tbl_gallery` (
   `gallery_id` int(11) NOT NULL,
-  `gallery_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `gallery_image` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `imageUrl` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `product_id` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `tbl_gallery`
+-- Đang đổ dữ liệu cho bảng `tbl_gallery`
 --
 
-INSERT INTO `tbl_gallery` (`gallery_id`, `gallery_name`, `gallery_image`, `product_id`) VALUES
-(1, 'hinh_1', 'luffy3.jpg', 1),
-(2, 'hinh_2', 'luffy2.jpg', 1),
-(3, 'hinh_3', 'luffy4.jpg', 1),
-(5, 'luffy54218.jpg', 'luffy54218.jpg', 1);
+INSERT INTO `tbl_gallery` (`gallery_id`, `imageUrl`, `product_id`) VALUES
+(497, 'https://res.cloudinary.com/ddnvoenef/image/upload/v1672231322/Products/otxs7nyzspfnzmydxqsf.png', 130),
+(499, 'https://res.cloudinary.com/ddnvoenef/image/upload/v1672231326/Products/wk6y2bdu7wvq1jlmjlv3.png', 130),
+(500, 'https://res.cloudinary.com/ddnvoenef/image/upload/v1672231666/Products/zy9o6nblxj4ic85xacky.png', 130),
+(501, 'https://res.cloudinary.com/ddnvoenef/image/upload/v1672231382/Products/af4idkwnxfzfdmxxnkpp.png', 130),
+(502, 'https://res.cloudinary.com/ddnvoenef/image/upload/v1672231383/Products/u9ktgv421jrkq3u7l5ol.png', 130),
+(503, 'https://res.cloudinary.com/ddnvoenef/image/upload/v1672231385/Products/brvcht7rycghjmr6y8rx.png', 130),
+(504, 'https://res.cloudinary.com/ddnvoenef/image/upload/v1672231387/Products/j445rlgaqg0wmfvymywd.png', 125),
+(505, 'https://res.cloudinary.com/ddnvoenef/image/upload/v1672231388/Products/zvgal3aphzw8lbepac5n.png', 125);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_order`
+-- Cấu trúc bảng cho bảng `tbl_information`
+--
+
+CREATE TABLE `tbl_information` (
+  `info_id` int(11) NOT NULL,
+  `info_contact` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `info_map` text COLLATE utf8_unicode_ci NOT NULL,
+  `info_logo` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `info_fanpage` text COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `tbl_information`
+--
+
+INSERT INTO `tbl_information` (`info_id`, `info_contact`, `info_map`, `info_logo`, `info_fanpage`) VALUES
+(2, '<p>Địa chỉ 1:<br />\r\nĐịa chỉ 2:<br />\r\nSố điện thoại:<br />\r\nFanpage: <a href=\"https://www.facebook.com/LKShop-102323342502839\" target=\"_blank\">LK-Shopping</a></p>', '<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3833.7263763223623!2d108.21310381494115!3d16.079682688874467!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3142183893c66699%3A0xdc9b8be4b0f68595!2zNTQgSOG6o2kgSOG7kywgVGhhbmggQsOsbmgsIEjhuqNpIENow6J1LCDEkMOgIE7hurVuZyA1NTAwMDAsIFZp4buHdCBOYW0!5e0!3m2!1svi!2s!4v1654571862232!5m2!1svi!2s\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>', 'logo5711.png', '<div id=\"fb-root\"></div>\r\n                        <script async defer crossorigin=\"anonymous\" src=\"https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v14.0&appId=3121457568126928&autoLogAppEvents=1\" nonce=\"iDBrj1Ra\"></script>\r\n                        <div class=\"fb-page\" data-href=\"https://www.facebook.com/LKShop-102323342502839\" data-tabs=\"timeline\" data-width=\"\" data-height=\"\" data-small-header=\"false\" data-adapt-container-width=\"true\" data-hide-cover=\"false\" data-show-facepile=\"true\"><blockquote cite=\"https://www.facebook.com/LKShop-102323342502839\" class=\"fb-xfbml-parse-ignore\"><a href=\"https://www.facebook.com/LKShop-102323342502839\">LKShop</a></blockquote></div>');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `tbl_order`
 --
 
 CREATE TABLE `tbl_order` (
   `order_id` bigint(20) UNSIGNED NOT NULL,
-  `customer_id` int(11) UNSIGNED NOT NULL,
+  `customer_id` int(11) UNSIGNED DEFAULT NULL,
   `shipping_id` int(11) UNSIGNED NOT NULL,
   `order_status` int(50) NOT NULL,
   `order_code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `order_date` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `tbl_order`
+-- Đang đổ dữ liệu cho bảng `tbl_order`
 --
 
-INSERT INTO `tbl_order` (`order_id`, `customer_id`, `shipping_id`, `order_status`, `order_code`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 3, '60451', '2022-05-22 02:55:18', NULL);
+INSERT INTO `tbl_order` (`order_id`, `customer_id`, `shipping_id`, `order_status`, `order_code`, `order_date`, `created_at`, `updated_at`) VALUES
+(2, NULL, 39, 1, '287b9', '2022-12-29', '2022-12-29 15:26:53', NULL),
+(3, NULL, 40, 1, '18a51', '2022-12-29', '2022-12-29 15:29:51', NULL),
+(4, NULL, 41, 1, 'a8305', '2022-12-29', '2022-12-29 15:32:04', NULL),
+(5, NULL, 42, 1, '6c1d3', '2022-12-29', '2022-12-29 15:32:39', NULL),
+(6, NULL, 43, 1, 'bd88b', '2022-12-30', '2022-12-30 05:36:12', NULL);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_order_details`
+-- Cấu trúc bảng cho bảng `tbl_order_details`
 --
 
 CREATE TABLE `tbl_order_details` (
@@ -351,16 +406,22 @@ CREATE TABLE `tbl_order_details` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `tbl_order_details`
+-- Đang đổ dữ liệu cho bảng `tbl_order_details`
 --
 
 INSERT INTO `tbl_order_details` (`order_detail_id`, `order_code`, `product_id`, `product_name`, `product_price`, `product_sale_quantity`, `product_coupon`, `product_feeship`, `created_at`, `updated_at`) VALUES
-(2, '60451', 1, 'Mô Hình Nendoroid 145 - Black Gold Saw - Black Rock Shooter', '333000', 4, '0', '20000', NULL, NULL);
+(1, '18a51', 128, '3', '123', 5, '0', 'FREE', NULL, NULL),
+(2, '18a51', 129, '4', '123', 8, '0', 'FREE', NULL, NULL),
+(3, 'a8305', 128, '3', '123', 5, '0', '10.000 ₫', NULL, NULL),
+(4, 'a8305', 129, '4', '123', 8, '0', '10.000 ₫', NULL, NULL),
+(5, '6c1d3', 128, '3', '123', 5, '0', '10.000 ₫', NULL, NULL),
+(6, '6c1d3', 129, '4', '123', 8, '0', '10.000 ₫', NULL, NULL),
+(7, 'bd88b', 129, '4', '123', 1, '0', '10.000 ₫', NULL, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_payment`
+-- Cấu trúc bảng cho bảng `tbl_payment`
 --
 
 CREATE TABLE `tbl_payment` (
@@ -371,27 +432,10 @@ CREATE TABLE `tbl_payment` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `tbl_payment`
---
-
-INSERT INTO `tbl_payment` (`payment_id`, `payment_method`, `payment_status`, `created_at`, `updated_at`) VALUES
-(1, '1', 'Đang chờ xử lý', NULL, NULL),
-(2, '1', 'Đang chờ xử lý', NULL, NULL),
-(3, '1', 'Đang chờ xử lý', NULL, NULL),
-(4, '1', 'Đang chờ xử lý', NULL, NULL),
-(5, '1', 'Đang chờ xử lý', NULL, NULL),
-(6, '1', 'Đang chờ xử lý', NULL, NULL),
-(7, '1', 'Đang chờ xử lý', NULL, NULL),
-(8, '2', 'Đang chờ xử lý', NULL, NULL),
-(9, '2', 'Đang chờ xử lý', NULL, NULL),
-(10, '2', 'Đang chờ xử lý', NULL, NULL),
-(11, '2', 'Đang chờ xử lý', NULL, NULL);
-
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_posts`
+-- Cấu trúc bảng cho bảng `tbl_posts`
 --
 
 CREATE TABLE `tbl_posts` (
@@ -404,51 +448,51 @@ CREATE TABLE `tbl_posts` (
   `post_meta_keywords` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `post_image` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `cate_post_id` int(10) UNSIGNED NOT NULL,
-  `post_status` int(11) NOT NULL
+  `post_status` int(11) NOT NULL,
+  `post_views` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Dumping data for table `tbl_posts`
---
-
-INSERT INTO `tbl_posts` (`post_id`, `post_title`, `post_slug`, `post_desc`, `post_content`, `post_meta_desc`, `post_meta_keywords`, `post_image`, `cate_post_id`, `post_status`) VALUES
-(1, '3 mô hình bán lẻ thích ứng nhanh mùa dịch', '3-mo-hinh-ban-le-thich-ung-nhanh-mua-dich', 'Mô hình sanja siêu to khổng lồ', 'Nhiều doanh nghiệp chuyển sang mô hình kinh doanh cửa hàng trong cửa hàng, đa thương hiệu và đa kênh để thúc đẩy bán hàng mùa dịch.\r\n\r\nÔng David Jackson, CEO Colliers Việt Nam cho biết, Covid-19 tuy mang đến nhiều khó khăn thách thức nhưng cũng thúc đẩy thị trường bán lẻ phát triển theo hướng sáng tạo và linh hoạt hơn với những mô hình kinh doanh tích hợp và cộng hưởng gây được hiệu ứng tích cực.\r\n\r\nÔng David Jackson chỉ ra 3 hình thức bán lẻ nhanh chóng thích ứng trong các đợt dịch vừa qua.\r\n\r\nCửa hàng trong cửa hàng (shop in shop)\r\n\r\nThương vụ Masan mua 20% cổ phần của Công ty Phúc Long Heritage, cùng hợp tác phát triển mô hình kiốt Phúc Long tại VinMart+ mới đây là một ví dụ tiêu biểu của việc áp dụng mô hình này.\r\n\r\nPhía Phúc Long tiết kiệm được các chi phí thuê mặt bằng, nhanh chóng mở rộng được chuỗi hệ thống theo các điểm bán có sẵn của Vinmart+, từ đó có thêm thế mạnh để chiếm lĩnh thị phần, cạnh tranh hữu hiệu hơn với các đối thủ. Ở chiều ngược lại, sự hợp tác này cũng có thể giúp Vinmart+ thu hút thêm khách hàng từ nhiều phân khúc khác nhau, bao gồm cả giới trẻ, gia tăng trải nghiệm cho khách hàng của mình.', 'Nhiều doanh nghiệp chuyển sang mô hình kinh doanh cửa hàng trong cửa hàng, đa thương hiệu và đa kênh để thúc đẩy bán hàng mùa dịch.', 'mô hình sanji, mo hinh sanji', 'lù-mohinhdep9723.jpg', 6, 1),
-(4, 'Mô hình sanji', 'mo-hinh-sanji', 'Ông David Jackson chỉ ra 3 hình thức bán lẻ nhanh chóng thích ứng trong các đợt dịch vừa qua.', 'Nhiều doanh nghiệp chuyển sang mô hình kinh doanh cửa hàng trong cửa hàng, đa thương hiệu và đa kênh để thúc đẩy bán hàng mùa dịch.\r\n\r\nÔng David Jackson, CEO Colliers Việt Nam cho biết, Covid-19 tuy mang đến nhiều khó khăn thách thức nhưng cũng thúc đẩy thị trường bán lẻ phát triển theo hướng sáng tạo và linh hoạt hơn với những mô hình kinh doanh tích hợp và cộng hưởng gây được hiệu ứng tích cực.\r\n\r\nÔng David Jackson chỉ ra 3 hình thức bán lẻ nhanh chóng thích ứng trong các đợt dịch vừa qua.', 'Nhiều doanh nghiệp chuyển sang mô hình kinh doanh cửa hàng trong cửa hàng, đa thương hiệu và đa kênh để thúc đẩy bán hàng mùa dịch.', 'mô hình sanji, mo hinh sanji', 'sanji16746.jpg', 6, 1),
-(5, '2333', '2333', '123', '123', '23', '213', 'ute4632.png', 6, 1);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_product`
+-- Cấu trúc bảng cho bảng `tbl_product`
 --
 
 CREATE TABLE `tbl_product` (
   `product_id` int(10) UNSIGNED NOT NULL,
   `category_id` int(11) UNSIGNED NOT NULL,
-  `brand_id` int(11) UNSIGNED NOT NULL,
   `product_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `product_tags` text COLLATE utf8mb4_unicode_ci,
   `product_quantity` int(11) NOT NULL,
-  `product_sold` int(11) DEFAULT 0,
+  `product_sold` int(11) NOT NULL DEFAULT '0',
   `product_slug` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `product_desc` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `product_price` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `product_price` bigint(20) NOT NULL,
+  `price_cost` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `product_image` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `product_status` int(11) NOT NULL,
+  `product_views` int(11) NOT NULL DEFAULT '0',
+  `product_status` int(11) NOT NULL DEFAULT '1',
+  `deleted` tinyint(1) NOT NULL DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `tbl_product`
+-- Đang đổ dữ liệu cho bảng `tbl_product`
 --
 
-INSERT INTO `tbl_product` (`product_id`, `category_id`, `brand_id`, `product_name`, `product_quantity`, `product_sold`, `product_slug`, `product_desc`, `product_price`, `product_image`, `product_status`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 'Mô Hình Nendoroid 145 - Black Gold Saw - Black Rock Shooter', 96, 4, 'Nendoroid', 'Dòng sản phẩm : Nendoroid\r\nMã số Nendoroid: 145\r\nChất liệu: PVC\r\nchiều cao : 10cm\r\n\r\nBộ sản phẩm gồm: nhân vật cơ bản và nhiều phụ kiện đi kèm có thể thay đổi theo ý thích\r\nKiểu dáng : Mô hình cử động khớp và tạo dáng dễ dàng, thay đổi bộ phận linh hoạt.\r\n:heavy_check_mark: Có thể tạo nhiều kiểu dáng/tư thế cho mô hình.', '333000', 'DSC_00964631.JPG', 1, NULL, NULL);
+INSERT INTO `tbl_product` (`product_id`, `category_id`, `product_name`, `product_tags`, `product_quantity`, `product_sold`, `product_slug`, `product_desc`, `product_price`, `price_cost`, `product_image`, `product_views`, `product_status`, `deleted`, `created_at`, `updated_at`) VALUES
+(123, 22, '1', NULL, 123, 0, '1', '<p><strong>123</strong></p>', 1, '123', 'https://res.cloudinary.com/ddnvoenef/image/upload/v1672221130/Products/oszone9pgphaksvglgxi.png', 1, 1, 0, NULL, NULL),
+(124, 22, '2', NULL, 123, 0, '2', '<p>123</p>', 2, '123', 'https://res.cloudinary.com/ddnvoenef/image/upload/v1672232633/Products/xjikhmtojq4s26kwjws5.png', 3, 1, 0, NULL, NULL),
+(125, 21, '123', NULL, 123, 0, '123', '<p>123</p>', 123, '123', 'https://res.cloudinary.com/ddnvoenef/image/upload/v1672221610/Products/rrmr8fwzc23wtpcmpj6t.png', 0, 1, 1, NULL, NULL),
+(128, 22, '3', NULL, 123, 0, '3', '<p><strong>123</strong></p>', 123, '123', 'https://res.cloudinary.com/ddnvoenef/image/upload/v1672221130/Products/oszone9pgphaksvglgxi.png', 35, 1, 0, NULL, NULL),
+(129, 22, '4', NULL, 123, 0, '4', '<p>123</p>', 123, '123', 'https://res.cloudinary.com/ddnvoenef/image/upload/v1672232633/Products/xjikhmtojq4s26kwjws5.png', 16, 1, 0, NULL, NULL),
+(130, 21, '5', NULL, 123, 0, '5', '<p>123</p>', 123, '123', 'https://res.cloudinary.com/ddnvoenef/image/upload/v1672221610/Products/rrmr8fwzc23wtpcmpj6t.png', 223, 0, 0, NULL, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_quanhuyen`
+-- Cấu trúc bảng cho bảng `tbl_quanhuyen`
 --
 
 CREATE TABLE `tbl_quanhuyen` (
@@ -459,7 +503,7 @@ CREATE TABLE `tbl_quanhuyen` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `tbl_quanhuyen`
+-- Đang đổ dữ liệu cho bảng `tbl_quanhuyen`
 --
 
 INSERT INTO `tbl_quanhuyen` (`maqh`, `name_quanhuyen`, `type`, `matp`) VALUES
@@ -1180,7 +1224,19 @@ INSERT INTO `tbl_quanhuyen` (`maqh`, `name_quanhuyen`, `type`, `matp`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_roles`
+-- Cấu trúc bảng cho bảng `tbl_rating`
+--
+
+CREATE TABLE `tbl_rating` (
+  `rating_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `rating` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `tbl_roles`
 --
 
 CREATE TABLE `tbl_roles` (
@@ -1189,7 +1245,7 @@ CREATE TABLE `tbl_roles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `tbl_roles`
+-- Đang đổ dữ liệu cho bảng `tbl_roles`
 --
 
 INSERT INTO `tbl_roles` (`id_roles`, `name`) VALUES
@@ -1200,14 +1256,14 @@ INSERT INTO `tbl_roles` (`id_roles`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_shipping`
+-- Cấu trúc bảng cho bảng `tbl_shipping`
 --
 
 CREATE TABLE `tbl_shipping` (
   `shipping_id` int(11) UNSIGNED NOT NULL,
   `shipping_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `shipping_notes` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `shipping_method` int(11) NOT NULL,
+  `shipping_notes` text COLLATE utf8mb4_unicode_ci,
+  `shipping_method` varchar(11) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `shipping_email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `shipping_phone` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `shipping_address` text COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -1216,16 +1272,58 @@ CREATE TABLE `tbl_shipping` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `tbl_shipping`
+-- Đang đổ dữ liệu cho bảng `tbl_shipping`
 --
 
 INSERT INTO `tbl_shipping` (`shipping_id`, `shipping_name`, `shipping_notes`, `shipping_method`, `shipping_email`, `shipping_phone`, `shipping_address`, `created_at`, `updated_at`) VALUES
-(1, 'khanh', 'khanh', 1, 'khanh', 'khanh', 'khanh', NULL, NULL);
+(1, 'khanh', 'khanh', '1', 'khanh', 'khanh', 'khanh', NULL, NULL),
+(2, 's', 's', '1', 's', 's', 's', NULL, NULL),
+(3, 's', 'hs', '1', 's', 'ha', 'ha', NULL, NULL),
+(4, 'g', 'g', '1', '1', 'g', 'g', NULL, NULL),
+(5, 'h', 'h', '1', 's', 'h', 'h', NULL, NULL),
+(6, 'h', 'h', '1', 's', 'h', 'h', NULL, NULL),
+(7, 'l', 'l', '1', 'l', '1', 'l', NULL, NULL),
+(8, 'Khánh Trần Văn', 'l', '1', 'khalongtvh@gmail.com', '01234567', 'l', NULL, NULL),
+(9, 'Khánh Trần Văn', 's', '1', 'khalongtvh@gmail.com', '01234567', 's', NULL, NULL),
+(10, 'Khánh Trần Văn', 's', '1', 'khalongtvh@gmail.com', '01234567', 's', NULL, NULL),
+(11, 'Khánh Trần Văn', 's', '1', 'khalongtvh@gmail.com', '01234567', 's', NULL, NULL),
+(12, 'Khánh Trần Văn', 's', '1', 'khalongtvh@gmail.com', '01234567', 's', NULL, NULL),
+(13, 'Khánh Trần Văn', 's', '1', 'khalongtvh@gmail.com', '01234567', 's', NULL, NULL),
+(14, 'Khánh Trần Văn', 's', '1', 'khalongtvh@gmail.com', '01234567', 's', NULL, NULL),
+(15, 'Khánh Trần Văn', 's', '1', 'khalongtvh@gmail.com', '01234567', 's', NULL, NULL),
+(16, 'Khánh Trần Văn', 's', '1', 'khalongtvh@gmail.com', '01234567', 's', NULL, NULL),
+(17, 'Khánh Trần Văn', 's', '1', 'khalongtvh@gmail.com', '01234567', 's', NULL, NULL),
+(18, 'Khánh Trần Văn', 's', '1', 'khalongtvh@gmail.com', '01234567', 's', NULL, NULL),
+(19, 'Khánh Trần Văn', 's', '1', 'khalongtvh@gmail.com', '01234567', 's', NULL, NULL),
+(20, 'Khánh Trần Văn', 's', '1', 'khalongtvh@gmail.com', '01234567', 's', NULL, NULL),
+(21, 'Khánh Trần Văn', 's', '1', 'khalongtvh@gmail.com', '01234567', 's', NULL, NULL),
+(22, 'Khánh Trần Văn', 's', '1', 'khalongtvh@gmail.com', '01234567', 's', NULL, NULL),
+(23, 'Khánh Trần Văn', 's', '1', 'khalongtvh@gmail.com', '01234567', 's', NULL, NULL),
+(24, 'Khánh Trần Văn', 's', '1', 'khalongtvh@gmail.com', '01234567', 's', NULL, NULL),
+(25, 'Khánh Trần Văn', 's', '1', 'khalongtvh@gmail.com', '01234567', 's', NULL, NULL),
+(26, 'Khánh Trần Văn', 's', '1', 'khalongtvh@gmail.com', '01234567', 's', NULL, NULL),
+(27, 'Khánh Trần Văn', 'd', '1', 'khalongtvh@gmail.com', '01234567', 'd', NULL, NULL),
+(28, 'Khánh Trần Văn', 'w', '1', 'khalongtvh@gmail.com', '01234567', 'w', NULL, NULL),
+(29, 'Khánh Trần Văn', 'notes', '1', 'khalongtvh@gmail.com', '0376822362', '512/18 tôn đản, Phường Hòa An, Quận Cẩm Lệ, Thành phố Đà Nẵng', NULL, NULL),
+(30, 'Khánh Trần Văn', NULL, '0', 'khalongtvh@gmail.com', '0376822362', '512/18 tôn đản, Phường Hòa An, Quận Cẩm Lệ, Thành phố Đà Nẵng', NULL, NULL),
+(31, 'Khánh Trần Văn', NULL, '1', 'khalongtvh@gmail.com', '0376822362', '512/18 tôn đản, Phường Hòa An, Quận Cẩm Lệ, Thành phố Đà Nẵng', NULL, NULL),
+(32, 'Khánh Trần Văn', NULL, '1', 'khalongtvh@gmail.com', '0376822362', '512/18 tôn đản, Phường Hòa An, Quận Cẩm Lệ, Thành phố Đà Nẵng', NULL, NULL),
+(33, 'asdasd', NULL, '0', 'khalongtvh@gmail.com', '0376822362', '512/18 tôn đản, Phường Phúc Xá, Quận Ba Đình, Thành phố Hà Nội', NULL, NULL),
+(34, 'trab', NULL, '1', 'trankhanh@hotgmail.com', '0376822362', 'fas', NULL, NULL),
+(35, 'trab', NULL, '1', 'trankhanh@hotgmail.com', '0376822362', 'fas', NULL, NULL),
+(36, 'tra', NULL, 'cash', 'jast.reynold@example.net', '0376822362', 'hieuaddresstan', NULL, NULL),
+(37, 'a', NULL, 'cash', 'khalongtvh1@gmail.com', '0376822363', 'hieuaddresstan', NULL, NULL),
+(38, 'asd', NULL, 'cash', 'khalongtvh1@gmail.com', '0376822363', 'hieuaddresstan', NULL, NULL),
+(39, 'dasd', NULL, 'cash', 'khalongtvh@gmail.com', '0376822362', 's', NULL, NULL),
+(40, 'das', NULL, 'cash', 'jast.reynold@example.net', '0376822362', 'hieuaddresstan', NULL, NULL),
+(41, 'das', NULL, 'cash', 'jast.reynold@example.net', '0376822362', 'hieuaddresstan', NULL, NULL),
+(42, 'asd', NULL, 'cash', 'khalongtvh@gmail.com', '0376822362', 's', NULL, NULL),
+(43, 'tar', NULL, 'paypal', 'khalongtvh@gmail.com', 'khanhadmin@gmail.com', 's', NULL, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_slider`
+-- Cấu trúc bảng cho bảng `tbl_slider`
 --
 
 CREATE TABLE `tbl_slider` (
@@ -1237,7 +1335,7 @@ CREATE TABLE `tbl_slider` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `tbl_slider`
+-- Đang đổ dữ liệu cho bảng `tbl_slider`
 --
 
 INSERT INTO `tbl_slider` (`slider_id`, `slider_name`, `slider_status`, `slider_image`, `slider_desc`) VALUES
@@ -1246,7 +1344,122 @@ INSERT INTO `tbl_slider` (`slider_id`, `slider_name`, `slider_status`, `slider_i
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_tinhthanhpho`
+-- Cấu trúc bảng cho bảng `tbl_social_customer`
+--
+
+CREATE TABLE `tbl_social_customer` (
+  `user_id` int(11) NOT NULL,
+  `provider_user_id` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `provider_user_email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `provider` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `user` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `tbl_social_customer`
+--
+
+INSERT INTO `tbl_social_customer` (`user_id`, `provider_user_id`, `provider_user_email`, `provider`, `user`) VALUES
+(3, '109207900777109601876', 'kelong23042001@gmail.com', 'GOOGLE', 4),
+(4, '115622576735845717894', 'khalongtvh@gmail.com', 'GOOGLE', 4);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `tbl_statistical`
+--
+
+CREATE TABLE `tbl_statistical` (
+  `id_statistical` int(11) NOT NULL,
+  `order_date` varchar(100) NOT NULL,
+  `sales` varchar(200) NOT NULL,
+  `profit` varchar(200) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `total_order` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Đang đổ dữ liệu cho bảng `tbl_statistical`
+--
+
+INSERT INTO `tbl_statistical` (`id_statistical`, `order_date`, `sales`, `profit`, `quantity`, `total_order`) VALUES
+(2, '2022-05-07', '68000000', '9000000', 60, 8),
+(3, '2022-05-06', '30000000', '3000000', 45, 7),
+(4, '2022-05-05', '45000000', '3800000', 30, 9),
+(5, '2022-05-04', '30000000', '1500000', 15, 12),
+(6, '2022-05-03', '8000000', '700000', 65, 30),
+(7, '2022-05-02', '28000000', '23000000', 32, 20),
+(8, '2022-05-01', '25000000', '20000000', 7, 6),
+(9, '2022-04-31', '36000000', '28000000', 40, 15),
+(10, '2022-04-30', '50000000', '13000000', 89, 19),
+(11, '2022-04-29', '20000000', '15000000', 63, 11),
+(12, '2022-04-28', '25000000', '16000000', 94, 14),
+(13, '2022-04-27', '32000000', '17000000', 16, 10),
+(14, '2022-04-26', '33000000', '19000000', 14, 5),
+(15, '2022-04-25', '36000000', '18000000', 22, 12),
+(16, '2022-04-24', '34000000', '20000000', 33, 20),
+(17, '2022-04-23', '25000000', '16000000', 94, 14),
+(18, '2022-04-22', '12000000', '7000000', 16, 10),
+(19, '2022-04-21', '63000000', '19000000', 14, 5),
+(20, '2022-04-20', '66000000', '18000000', 22, 12),
+(21, '2022-04-19', '74000000', '20000000', 33, 20),
+(22, '2022-04-18', '63000000', '19000000', 14, 5),
+(23, '2022-04-17', '66000000', '18000000', 23, 12),
+(24, '2022-04-16', '74000000', '20000000', 32, 20),
+(25, '2022-04-15', '63000000', '19000000', 14, 5),
+(26, '2022-04-14', '66000000', '18000000', 23, 12),
+(27, '2022-04-13', '74000000', '20000000', 33, 20),
+(28, '2022-04-12', '66000000', '18000000', 23, 12),
+(29, '2022-04-11', '74000000', '20000000', 10, 20),
+(30, '2022-04-10', '63000000', '19000000', 14, 5),
+(31, '2022-04-09', '66000000', '18000000', 23, 12),
+(32, '2022-04-08', '74000000', '20000000', 15, 20),
+(33, '2022-04-07', '66000000', '18000000', 23, 12),
+(34, '2022-04-06', '74000000', '20000000', 30, 22),
+(35, '2022-04-05', '66000000', '18000000', 23, 12),
+(36, '2022-04-04', '74000000', '20000000', 32, 20),
+(37, '2022-04-03', '63000000', '19000000', 14, 5),
+(38, '2022-04-02', '66000000', '18000000', 23, 12),
+(39, '2022-04-01', '74000000', '20000000', 32, 20),
+(40, '2022-03-30', '63000000', '19000000', 14, 5),
+(41, '2022-03-29', '66000000', '18000000', 23, 12),
+(42, '2022-03-28', '74000000', '20000000', 15, 20),
+(43, '2022-03-27', '66000000', '18000000', 23, 12),
+(44, '2022-03-26', '74000000', '20000000', 30, 22),
+(45, '2022-03-25', '66000000', '18000000', 23, 12),
+(46, '2022-03-24', '74000000', '20000000', 32, 20),
+(47, '2022-03-23', '63000000', '19000000', 14, 5),
+(48, '2022-03-22', '66000000', '18000000', 23, 12),
+(49, '2022-03-21', '74000000', '20000000', 32, 20),
+(50, '2022-03-20', '63000000', '19000000', 14, 5),
+(51, '2022-03-19', '66000000', '18000000', 23, 12),
+(52, '2022-03-18', '74000000', '20000000', 15, 20),
+(53, '2022-03-17', '66000000', '18000000', 23, 12),
+(54, '2022-03-16', '74000000', '20000000', 30, 22),
+(55, '2022-03-15', '66000000', '18000000', 23, 12),
+(56, '2022-03-14', '74000000', '20000000', 32, 20),
+(57, '2022-03-13', '63000000', '19000000', 14, 5),
+(58, '2022-03-12', '66000000', '18000000', 23, 12),
+(59, '2022-03-11', '74000000', '20000000', 32, 20),
+(60, '2022-03-10', '63000000', '19000000', 14, 5),
+(61, '2022-03-09', '66000000', '18000000', 23, 12),
+(62, '2022-03-08', '74000000', '20000000', 15, 20),
+(63, '2022-03-07', '66000000', '18000000', 23, 12),
+(64, '2022-03-06', '74000000', '20000000', 30, 22),
+(65, '2022-03-05', '66000000', '18000000', 23, 12),
+(66, '2022-03-04', '74000000', '20000000', 32, 20),
+(67, '2022-03-03', '63000000', '19000000', 14, 5),
+(68, '2022-03-02', '66000000', '18000000', 23, 12),
+(69, '2022-03-01', '74000000', '20000000', 32, 20),
+(80, '2022-05-26', '16100000', '5300000', 46, 3),
+(81, '2022-05-31', '11900000', '6800000', 34, 34),
+(82, '2022-06-01', '10850000', '6650000', 31, 22),
+(83, '2022-12-28', '1520000', '720000', 4, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `tbl_tinhthanhpho`
 --
 
 CREATE TABLE `tbl_tinhthanhpho` (
@@ -1256,7 +1469,7 @@ CREATE TABLE `tbl_tinhthanhpho` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 --
--- Dumping data for table `tbl_tinhthanhpho`
+-- Đang đổ dữ liệu cho bảng `tbl_tinhthanhpho`
 --
 
 INSERT INTO `tbl_tinhthanhpho` (`matp`, `name_city`, `type`) VALUES
@@ -1327,7 +1540,26 @@ INSERT INTO `tbl_tinhthanhpho` (`matp`, `name_city`, `type`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_xaphuongthitran`
+-- Cấu trúc bảng cho bảng `tbl_visitors`
+--
+
+CREATE TABLE `tbl_visitors` (
+  `id_visitors` int(11) NOT NULL,
+  `ip_address` varchar(50) NOT NULL,
+  `date_visitors` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Đang đổ dữ liệu cho bảng `tbl_visitors`
+--
+
+INSERT INTO `tbl_visitors` (`id_visitors`, `ip_address`, `date_visitors`) VALUES
+(1, '127.0.0.1', '2022-05-25');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `tbl_xaphuongthitran`
 --
 
 CREATE TABLE `tbl_xaphuongthitran` (
@@ -1338,7 +1570,7 @@ CREATE TABLE `tbl_xaphuongthitran` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `tbl_xaphuongthitran`
+-- Đang đổ dữ liệu cho bảng `tbl_xaphuongthitran`
 --
 
 INSERT INTO `tbl_xaphuongthitran` (`xaid`, `name_xaphuong`, `type`, `maqh`) VALUES
@@ -12516,7 +12748,7 @@ INSERT INTO `tbl_xaphuongthitran` (`xaid`, `name_xaphuong`, `type`, `maqh`) VALU
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- Cấu trúc bảng cho bảng `users`
 --
 
 CREATE TABLE `users` (
@@ -12531,36 +12763,36 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Indexes for dumped tables
+-- Chỉ mục cho các bảng đã đổ
 --
 
 --
--- Indexes for table `admin_roles`
+-- Chỉ mục cho bảng `admin_roles`
 --
 ALTER TABLE `admin_roles`
   ADD PRIMARY KEY (`id_admin_roles`);
 
 --
--- Indexes for table `failed_jobs`
+-- Chỉ mục cho bảng `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
 
 --
--- Indexes for table `migrations`
+-- Chỉ mục cho bảng `migrations`
 --
 ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `password_resets`
+-- Chỉ mục cho bảng `password_resets`
 --
 ALTER TABLE `password_resets`
   ADD KEY `password_resets_email_index` (`email`);
 
 --
--- Indexes for table `personal_access_tokens`
+-- Chỉ mục cho bảng `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
   ADD PRIMARY KEY (`id`),
@@ -12568,43 +12800,49 @@ ALTER TABLE `personal_access_tokens`
   ADD KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`);
 
 --
--- Indexes for table `tbl_admin`
+-- Chỉ mục cho bảng `tbl_admin`
 --
 ALTER TABLE `tbl_admin`
   ADD PRIMARY KEY (`admin_id`);
 
 --
--- Indexes for table `tbl_brand_product`
+-- Chỉ mục cho bảng `tbl_brand_product`
 --
 ALTER TABLE `tbl_brand_product`
   ADD PRIMARY KEY (`brand_id`);
 
 --
--- Indexes for table `tbl_category_post`
+-- Chỉ mục cho bảng `tbl_category_post`
 --
 ALTER TABLE `tbl_category_post`
   ADD PRIMARY KEY (`cate_post_id`);
 
 --
--- Indexes for table `tbl_category_product`
+-- Chỉ mục cho bảng `tbl_category_product`
 --
 ALTER TABLE `tbl_category_product`
   ADD PRIMARY KEY (`category_id`);
 
 --
--- Indexes for table `tbl_coupon`
+-- Chỉ mục cho bảng `tbl_comment`
+--
+ALTER TABLE `tbl_comment`
+  ADD PRIMARY KEY (`comment_id`);
+
+--
+-- Chỉ mục cho bảng `tbl_coupon`
 --
 ALTER TABLE `tbl_coupon`
   ADD PRIMARY KEY (`coupon_id`);
 
 --
--- Indexes for table `tbl_customers`
+-- Chỉ mục cho bảng `tbl_customers`
 --
 ALTER TABLE `tbl_customers`
   ADD PRIMARY KEY (`customer_id`);
 
 --
--- Indexes for table `tbl_feeship`
+-- Chỉ mục cho bảng `tbl_feeship`
 --
 ALTER TABLE `tbl_feeship`
   ADD PRIMARY KEY (`fee_id`),
@@ -12614,13 +12852,19 @@ ALTER TABLE `tbl_feeship`
   ADD KEY `tbl_feeship_ibfk_3` (`fee_xaid`);
 
 --
--- Indexes for table `tbl_gallery`
+-- Chỉ mục cho bảng `tbl_gallery`
 --
 ALTER TABLE `tbl_gallery`
   ADD PRIMARY KEY (`gallery_id`);
 
 --
--- Indexes for table `tbl_order`
+-- Chỉ mục cho bảng `tbl_information`
+--
+ALTER TABLE `tbl_information`
+  ADD PRIMARY KEY (`info_id`);
+
+--
+-- Chỉ mục cho bảng `tbl_order`
 --
 ALTER TABLE `tbl_order`
   ADD PRIMARY KEY (`order_id`),
@@ -12628,213 +12872,272 @@ ALTER TABLE `tbl_order`
   ADD KEY `tbl_order_ibfk_2` (`shipping_id`);
 
 --
--- Indexes for table `tbl_order_details`
+-- Chỉ mục cho bảng `tbl_order_details`
 --
 ALTER TABLE `tbl_order_details`
   ADD PRIMARY KEY (`order_detail_id`),
   ADD KEY `product_id` (`product_id`);
 
 --
--- Indexes for table `tbl_payment`
+-- Chỉ mục cho bảng `tbl_payment`
 --
 ALTER TABLE `tbl_payment`
   ADD PRIMARY KEY (`payment_id`);
 
 --
--- Indexes for table `tbl_posts`
+-- Chỉ mục cho bảng `tbl_posts`
 --
 ALTER TABLE `tbl_posts`
   ADD PRIMARY KEY (`post_id`);
 
 --
--- Indexes for table `tbl_product`
+-- Chỉ mục cho bảng `tbl_product`
 --
 ALTER TABLE `tbl_product`
   ADD PRIMARY KEY (`product_id`),
-  ADD KEY `category_id` (`category_id`,`brand_id`),
-  ADD KEY `tbl_product_ibfk_1` (`brand_id`);
+  ADD KEY `category_id` (`category_id`);
 
 --
--- Indexes for table `tbl_quanhuyen`
+-- Chỉ mục cho bảng `tbl_quanhuyen`
 --
 ALTER TABLE `tbl_quanhuyen`
   ADD PRIMARY KEY (`maqh`),
   ADD KEY `matp` (`matp`);
 
 --
--- Indexes for table `tbl_roles`
+-- Chỉ mục cho bảng `tbl_rating`
+--
+ALTER TABLE `tbl_rating`
+  ADD PRIMARY KEY (`rating_id`);
+
+--
+-- Chỉ mục cho bảng `tbl_roles`
 --
 ALTER TABLE `tbl_roles`
   ADD PRIMARY KEY (`id_roles`);
 
 --
--- Indexes for table `tbl_shipping`
+-- Chỉ mục cho bảng `tbl_shipping`
 --
 ALTER TABLE `tbl_shipping`
   ADD PRIMARY KEY (`shipping_id`);
 
 --
--- Indexes for table `tbl_slider`
+-- Chỉ mục cho bảng `tbl_slider`
 --
 ALTER TABLE `tbl_slider`
   ADD PRIMARY KEY (`slider_id`);
 
 --
--- Indexes for table `tbl_tinhthanhpho`
+-- Chỉ mục cho bảng `tbl_social_customer`
+--
+ALTER TABLE `tbl_social_customer`
+  ADD PRIMARY KEY (`user_id`);
+
+--
+-- Chỉ mục cho bảng `tbl_statistical`
+--
+ALTER TABLE `tbl_statistical`
+  ADD PRIMARY KEY (`id_statistical`);
+
+--
+-- Chỉ mục cho bảng `tbl_tinhthanhpho`
 --
 ALTER TABLE `tbl_tinhthanhpho`
   ADD PRIMARY KEY (`matp`);
 
 --
--- Indexes for table `tbl_xaphuongthitran`
+-- Chỉ mục cho bảng `tbl_visitors`
+--
+ALTER TABLE `tbl_visitors`
+  ADD PRIMARY KEY (`id_visitors`);
+
+--
+-- Chỉ mục cho bảng `tbl_xaphuongthitran`
 --
 ALTER TABLE `tbl_xaphuongthitran`
   ADD PRIMARY KEY (`xaid`),
   ADD KEY `maqh` (`maqh`);
 
 --
--- Indexes for table `users`
+-- Chỉ mục cho bảng `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `users_email_unique` (`email`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT cho các bảng đã đổ
 --
 
 --
--- AUTO_INCREMENT for table `admin_roles`
+-- AUTO_INCREMENT cho bảng `admin_roles`
 --
 ALTER TABLE `admin_roles`
   MODIFY `id_admin_roles` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
--- AUTO_INCREMENT for table `failed_jobs`
+-- AUTO_INCREMENT cho bảng `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `migrations`
+-- AUTO_INCREMENT cho bảng `migrations`
 --
 ALTER TABLE `migrations`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
--- AUTO_INCREMENT for table `personal_access_tokens`
+-- AUTO_INCREMENT cho bảng `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `tbl_admin`
+-- AUTO_INCREMENT cho bảng `tbl_admin`
 --
 ALTER TABLE `tbl_admin`
   MODIFY `admin_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT for table `tbl_brand_product`
+-- AUTO_INCREMENT cho bảng `tbl_brand_product`
 --
 ALTER TABLE `tbl_brand_product`
-  MODIFY `brand_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `brand_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT for table `tbl_category_post`
+-- AUTO_INCREMENT cho bảng `tbl_category_post`
 --
 ALTER TABLE `tbl_category_post`
   MODIFY `cate_post_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT for table `tbl_category_product`
+-- AUTO_INCREMENT cho bảng `tbl_category_product`
 --
 ALTER TABLE `tbl_category_product`
-  MODIFY `category_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `category_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
--- AUTO_INCREMENT for table `tbl_coupon`
+-- AUTO_INCREMENT cho bảng `tbl_comment`
+--
+ALTER TABLE `tbl_comment`
+  MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT cho bảng `tbl_coupon`
 --
 ALTER TABLE `tbl_coupon`
-  MODIFY `coupon_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `coupon_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `tbl_customers`
+-- AUTO_INCREMENT cho bảng `tbl_customers`
 --
 ALTER TABLE `tbl_customers`
-  MODIFY `customer_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `customer_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `tbl_feeship`
+-- AUTO_INCREMENT cho bảng `tbl_feeship`
 --
 ALTER TABLE `tbl_feeship`
-  MODIFY `fee_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `fee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `tbl_gallery`
+-- AUTO_INCREMENT cho bảng `tbl_gallery`
 --
 ALTER TABLE `tbl_gallery`
-  MODIFY `gallery_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `gallery_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=506;
 
 --
--- AUTO_INCREMENT for table `tbl_order`
+-- AUTO_INCREMENT cho bảng `tbl_information`
+--
+ALTER TABLE `tbl_information`
+  MODIFY `info_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT cho bảng `tbl_order`
 --
 ALTER TABLE `tbl_order`
-  MODIFY `order_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `order_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT for table `tbl_order_details`
+-- AUTO_INCREMENT cho bảng `tbl_order_details`
 --
 ALTER TABLE `tbl_order_details`
-  MODIFY `order_detail_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `order_detail_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT for table `tbl_payment`
+-- AUTO_INCREMENT cho bảng `tbl_payment`
 --
 ALTER TABLE `tbl_payment`
-  MODIFY `payment_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `payment_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `tbl_posts`
+-- AUTO_INCREMENT cho bảng `tbl_posts`
 --
 ALTER TABLE `tbl_posts`
-  MODIFY `post_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `post_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `tbl_product`
+-- AUTO_INCREMENT cho bảng `tbl_product`
 --
 ALTER TABLE `tbl_product`
-  MODIFY `product_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `product_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=131;
 
 --
--- AUTO_INCREMENT for table `tbl_roles`
+-- AUTO_INCREMENT cho bảng `tbl_rating`
+--
+ALTER TABLE `tbl_rating`
+  MODIFY `rating_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT cho bảng `tbl_roles`
 --
 ALTER TABLE `tbl_roles`
   MODIFY `id_roles` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `tbl_shipping`
+-- AUTO_INCREMENT cho bảng `tbl_shipping`
 --
 ALTER TABLE `tbl_shipping`
-  MODIFY `shipping_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `shipping_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
--- AUTO_INCREMENT for table `tbl_slider`
+-- AUTO_INCREMENT cho bảng `tbl_slider`
 --
 ALTER TABLE `tbl_slider`
   MODIFY `slider_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `users`
+-- AUTO_INCREMENT cho bảng `tbl_social_customer`
+--
+ALTER TABLE `tbl_social_customer`
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT cho bảng `tbl_statistical`
+--
+ALTER TABLE `tbl_statistical`
+  MODIFY `id_statistical` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
+
+--
+-- AUTO_INCREMENT cho bảng `tbl_visitors`
+--
+ALTER TABLE `tbl_visitors`
+  MODIFY `id_visitors` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT cho bảng `users`
 --
 ALTER TABLE `users`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- Constraints for dumped tables
+-- Các ràng buộc cho các bảng đã đổ
 --
 
 --
--- Constraints for table `tbl_feeship`
+-- Các ràng buộc cho bảng `tbl_feeship`
 --
 ALTER TABLE `tbl_feeship`
   ADD CONSTRAINT `tbl_feeship_ibfk_1` FOREIGN KEY (`fee_maqh`) REFERENCES `tbl_quanhuyen` (`maqh`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -12842,33 +13145,32 @@ ALTER TABLE `tbl_feeship`
   ADD CONSTRAINT `tbl_feeship_ibfk_3` FOREIGN KEY (`fee_xaid`) REFERENCES `tbl_xaphuongthitran` (`xaid`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `tbl_order`
+-- Các ràng buộc cho bảng `tbl_order`
 --
 ALTER TABLE `tbl_order`
   ADD CONSTRAINT `tbl_order_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `tbl_customers` (`customer_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `tbl_order_ibfk_2` FOREIGN KEY (`shipping_id`) REFERENCES `tbl_shipping` (`shipping_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `tbl_order_details`
+-- Các ràng buộc cho bảng `tbl_order_details`
 --
 ALTER TABLE `tbl_order_details`
   ADD CONSTRAINT `tbl_order_details_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `tbl_product` (`product_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `tbl_product`
+-- Các ràng buộc cho bảng `tbl_product`
 --
 ALTER TABLE `tbl_product`
-  ADD CONSTRAINT `tbl_product_ibfk_1` FOREIGN KEY (`brand_id`) REFERENCES `tbl_brand_product` (`brand_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `tbl_product_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `tbl_category_product` (`category_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `tbl_quanhuyen`
+-- Các ràng buộc cho bảng `tbl_quanhuyen`
 --
 ALTER TABLE `tbl_quanhuyen`
   ADD CONSTRAINT `tbl_quanhuyen_ibfk_1` FOREIGN KEY (`matp`) REFERENCES `tbl_tinhthanhpho` (`matp`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `tbl_xaphuongthitran`
+-- Các ràng buộc cho bảng `tbl_xaphuongthitran`
 --
 ALTER TABLE `tbl_xaphuongthitran`
   ADD CONSTRAINT `tbl_xaphuongthitran_ibfk_1` FOREIGN KEY (`maqh`) REFERENCES `tbl_quanhuyen` (`maqh`) ON DELETE CASCADE ON UPDATE CASCADE;
