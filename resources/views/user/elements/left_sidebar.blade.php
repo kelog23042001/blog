@@ -2,7 +2,6 @@
     <!--category-productsr-->
     <div class="panel-group category-products" id="accordian">
         @foreach($category as $key => $cate)
-        @if($cate->category_parent == 0)
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h4 class="panel-title">
@@ -12,22 +11,7 @@
                     </a>
                 </h4>
             </div>
-
-            <div id="{{$cate->slug_category_product}}" class="panel-collapse collapse">
-                <div class="panel-body">
-                    <ul>
-                        @foreach($category as $key => $cate_sub)
-                        @if($cate_sub->category_parent == $cate->category_id)
-                        <li class="category" style="margin: 0 5px">
-                            <a href="{{URL::to('/danh-muc-san-pham/'.$cate_sub->category_id)}}">{{$cate_sub->category_name}} </a>
-                        </li>
-                        @endif
-                        @endforeach
-                    </ul>
-                </div>
-            </div>
         </div>
-        @endif
         @endforeach
     </div>
     <!--/category-products-->

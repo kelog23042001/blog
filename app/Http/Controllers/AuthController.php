@@ -31,6 +31,7 @@ class AuthController extends Controller
             return redirect('/login-auth')->with('message', 'Lỗi đăng nhập');
         }
     }
+    
     public function register(Request $request){
         $this->validation($request);
         $data = $request->all();

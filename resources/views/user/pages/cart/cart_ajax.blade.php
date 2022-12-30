@@ -1,13 +1,26 @@
 @extends('layout')
 @section('content')
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="breadcrumb-tree">
+                    <li><a href="{{url('/trang-chu')}}">Trang chủ</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{$meta_title}}</li>
+                </ul>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /BREADCRUMB -->
 <section id="cart_items">
     <div class="container">
-        <div class="breadcrumbs">
-            <ol class="breadcrumb">
-                <li><a href="{{URL::to('/')}}">Home</a></li>
-                <li class="active">Giỏ hàng của bạn</li>
-            </ol>
-        </div>
+
         @if(session()->has('message'))
         <div class="alert alert-success">
             {{ session()->get('message') }}
@@ -51,7 +64,7 @@
                         @endphp
                         <tr>
                             <td class="cart_product">
-                                <img src="{{asset('public/uploads/product/'.$cart['product_image'])}}" width="90" alt="{{$cart['product_name']}}" />
+                                <img src="{{$cart['product_image']}}" width="90" alt="{{$cart['product_name']}}" />
                             </td>
                             <td class="cart_description">
                                 <h4><a href=""></a></h4>
@@ -146,7 +159,7 @@
 </section>
 @endif
 <style>
-    p{
+    p {
         margin: 0;
     }
 </style>

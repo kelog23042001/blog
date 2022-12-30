@@ -50,8 +50,7 @@ class HomeController extends Controller
 
         <table class="table table-condensed">';
         if (Session::get('cart')) {
-            $output .= '' . csrf_field() . '
-          ';
+            $output .= '' . csrf_field() . '';
         }
         $output .= '<thead>
                 <tr class="cart_menu">
@@ -191,7 +190,7 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         //Post category
-        $category_post = CategoryPost::orderby('cate_post_id', 'DESC')->where('cate_post_status', "1")->get();
+        $category_post = CategoryPost::orderby('cate_post_name', 'ASC')->where('cate_post_status', "1")->get();
 
         //slider
         $slider = Banner::orderBy('slider_id', 'DESC')->where('slider_status', '1')->take(4)->get();
@@ -200,22 +199,24 @@ class HomeController extends Controller
         $meta_title = "LK - Shopping";
         $meta_keyword = "quan ao nu, quần áo nữ";
         $url_canonical = $request->url();
-        $cate_product = DB::table('tbl_category_product')->where('category_status', '1')->orderBy('category_id', 'desc')->get();
+
+        $cate_product = CategoryProductModel::where('category_status', '1')->orderBy('category_name', 'asc')->get();
+
         $brand_product = DB::table('tbl_brand_product')->where('brand_status', '1')->orderBy('brand_id', 'desc')->get();
 
-        $all_product = DB::table('tbl_product')->where('product_status', '1')->orderBy('product_id', 'desc')
+        $all_product = Product::where('product_status', 1)->where('deleted', 0)->orderBy('product_id', 'desc')
             ->limit(10)->get();
 
-        $sold_product = DB::table('tbl_product')->where('product_status', '1')->orderBy('product_sold', 'desc')
+        $sold_product = Product::where('product_status', 1)->where('deleted', 0)->orderBy('product_sold', 'desc')
             ->limit(10)->get();
 
-        $view_product = DB::table('tbl_product')->where('product_status', '1')->orderBy('product_views', 'desc')
+        $view_product = Product::where('product_status', 1)->where('deleted', 0)->orderBy('product_views', 'desc')
             ->limit(10)->get();
 
-        $price_product = DB::table('tbl_product')->where('product_status', '1')->where('product_price','<','500000')->orderBy('product_price', 'desc')
+        $price_product = Product::where('product_status', 1)->where('deleted', 0)->where('product_price', '<', '500000')->orderBy('product_price', 'desc')
             ->limit(10)->get();
 
-        return view('user.pages.home')->with('category', $cate_product)->with('brand', $brand_product)->with('product', $all_product)
+        return view('user.pages.home')->with('categories', $cate_product)->with('brand', $brand_product)->with('products', $all_product)
             ->with('meta_decs', $meta_decs)->with('meta_title', $meta_title)->with('meta_keyword', $meta_keyword)->with('url_canonical', $url_canonical)
             ->with('slider', $slider)->with('category_post', $category_post)
             ->with('view_product', $view_product)

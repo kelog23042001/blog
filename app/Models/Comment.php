@@ -16,6 +16,6 @@ class Comment extends Model
     protected $table = 'tbl_comment';
 
     public function product(){
-        return$this->belongsTo('App\Models\Product', 'comment_product_id');
+        return$this->belongsTo(Product::class, 'comment_product_id');
     }
 }
