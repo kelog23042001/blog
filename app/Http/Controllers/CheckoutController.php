@@ -156,10 +156,11 @@ class CheckoutController extends Controller
     }
     public function confirm_order(Request $request)
     {
+        // if (Session::get('pay_success')) {
+        //     dd(session::get('order'));
+        // };
         $data = $request->all();
-        dd($data);
-        if ($data['shipping_method'] == 'paypal') {
-        }
+        // dd($data);
 
         $coupon_mail = '';
         if (isset($data['order_coupon'])) {

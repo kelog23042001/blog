@@ -55,6 +55,18 @@
         });
         $(document).ready(function() {
             $('.send_order').click(function() {
+                data = {
+                    shipping_email: $('.shipping_email').val(),
+                    shipping_name: $('.shipping_name').val(),
+                    shipping_phone: $('.shipping_phone').val(),
+                    shipping_notes: $('.shipping_notes').val(),
+                    shipping_address: $('.shipping_address').val(),
+                    shipping_method: $('input[name=payment]:checked', '#payment-method').val(),
+                    order_fee: $('.order_fee').text(),
+                    order_coupon: $('.order_coupon').val(),
+                }
+                window.localStorage.setItem("data", JSON.stringify(data));
+
                 var paymentMethod = $('input[name=payment]:checked', '#payment-method').val()
                 if (paymentMethod == 'paypal') {
                     // alert();

@@ -152,7 +152,7 @@
                         </div>
                     </div>
                     <div class="input-radio">
-                        <input type="radio" value="paypal" name="payment" id="payment-3">
+                        <input type="radio" value="paypal" name="payment" id="payment-3" checked>
                         <label for="payment-3">
                             <span></span>
                             Paypal
@@ -176,5 +176,32 @@
         <!-- /row -->
     </div>
     <!-- /container -->
+    <?php
+    if (\session::get('pay_success')) {
+        echo '<input type="hidden" id="pay_success" name="abc" value="abc">';
+        \session::forget('pay_success');
+    }
+    ?>
 </div>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+
+        pay_success = $('#pay_success').val()
+        if (pay_success) {
+            data = JSON.parse(window.localStorage.getItem("data"));
+            console.log(data)
+            $.ajax({
+                url: "{{url('/confirm-order')}}",
+                method: 'POST',
+                data: data,
+                success: function() {
+                    swal("Đặt hàng!", "Đơn đặt hàng của bạn đã đặt thành công", "success");
+                }
+            });
+        }
+        // window.location.href = "{{route('processTransaction')}}";
+    })
+</script>
 @endsection
