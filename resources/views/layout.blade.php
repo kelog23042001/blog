@@ -129,7 +129,9 @@
                 if (paymentMethod == 'paypal') {
                     window.location.href = "{{route('processTransaction')}}";
                 } else if (paymentMethod == 'momo') {
-                    if ($('.order-total').text() < 10000) {
+                    order_total = $('#order-total').val()
+                    if (order_total < 10000) {
+                        // alert(order_total)
                         swal({
                             title: "Cảnh Báo",
                             text: "Yêu cầu bị từ chối vì số tiền giao dịch nhỏ hơn số tiền tối thiểu cho phép là 10.000 VND hoặc lớn hơn số tiền tối đa cho phép là 50.000.000 VND",
@@ -148,7 +150,7 @@
                             method: 'POST',
                             data: {
                                 // 'total_momopay': 99999
-                                'total_momopay': $('.order-total').text()
+                                'total_momopay': order_total
                             },
                             success: function(response) {
                                 window.location.href = response
@@ -225,6 +227,7 @@
                 var matp = $('#city').val();
                 var maqh = $('#province').val();
                 var xaid = $('#wards').val();
+                // alert(xaid);
                 if (xaid != "non") {
                     // alert(maqh);
                     if (matp == '' && maqh == '' && xaid == '')
@@ -239,13 +242,13 @@
                                 xaid: xaid,
                             },
                             success: function(response) {
-                                const fee = new Intl.NumberFormat('vi-VN', {
-                                    style: 'currency',
-                                    currency: 'VND',
-                                });
+                                // const fee = new Intl.NumberFormat('vi-VN', {
+                                //     style: 'currency',
+                                //     currency: 'VND',
+                                // });
                                 // console.log(response)
-                                $('.order_fee').text(fee.format(response))
-                                // location.reload();
+                                // $('.order_fee').text(fee.format(response))
+                                location.reload();
                             }
                         });
                     }

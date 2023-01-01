@@ -69,7 +69,7 @@ class CheckoutController extends Controller
         $jsonResult = json_decode($result, true);  // decode json
 
         //Just a example, please check more in there
-        dd($result);
+        // dd($result);
         \Session::put('pay_success', true);
         return response()->json($jsonResult['payUrl']);
         // header('Location: ' . $jsonResult['payUrl']);
@@ -300,8 +300,8 @@ class CheckoutController extends Controller
                 }
                 $select_wards = Wards::where('maqh', $data['id'])->orderby('xaid', 'ASC')->get();
                 $output .= '<option value="non">Chọn Xã Phường</option>';
-                foreach ($select_wards as $key => $province) {
-                    $output .= '<option value = "' . $province->xaid . '">' . $province->name_xaphuong . '</option>';
+                foreach ($select_wards as $key => $ward) {
+                    $output .= '<option value = "' . $ward->xaid . '">' . $ward->name_xaphuong . '</option>';
                 }
                 Session::forget('province');
             }
@@ -327,15 +327,10 @@ class CheckoutController extends Controller
         } elseif ($data['maqh'] < 10) {
             $data['maqh'] = '0' . $data['maqh'];
         }
-        if ($data['xaid'] < 10000) {
-            $data['xaid'] = '0000' . $data['xaid'];
-        } elseif ($data['xaid'] < 1000) {
-            $data['xaid'] = '000' . $data['xaid'];
-        } elseif ($data['xaid'] < 100) {
-            $data['xaid'] = '00' . $data['xaid'];
-        } elseif ($data['xaid'] < 10) {
+        while (strlen($data['xaid']) < 5) {
             $data['xaid'] = '0' . $data['xaid'];
         }
+        // dd($data['xaid']);
 
         $city = City::where('matp', $data['matp'])->first();
 
@@ -343,8 +338,7 @@ class CheckoutController extends Controller
 
         $wards = Wards::where('xaid', $data['xaid'])->first();
 
-        // dd($wards->name_xaphuong);
-
+        // dd($wards);
         Session::put('city', $city->name_city);
         Session::put('province', $province->name_quanhuyen);
         Session::put('wards', $wards->name_xaphuong);
@@ -403,8 +397,8 @@ class CheckoutController extends Controller
     public function checkout(Request $request)
     {
         // $coupon = Session::forget('coupon');
-
-
+        // Session::forget('fee');
+        // dd(Session::get('wards_id') . ': ' . Session::get('wards'));
         if (Session::get('cart')) {
             $cart = Session::get('cart');
             $total = 0;
@@ -427,6 +421,16 @@ class CheckoutController extends Controller
             }
             // Session::forget('fee');
             $fee_ship = Session::get('fee');
+            $ward = null;
+            $city = null;
+            $province = null;
+            if ($fee_ship) {
+                $city  = ['id' => Session::get('city_id'), 'name' => Session::get('city')];
+                $province  = ['id' => Session::get('province_id'), 'name' => Session::get('province')];
+                $ward  = ['id' => Session::get('wards_id'), 'name' => Session::get('wards')];
+            }
+
+            // dd($city);
             // dd($fee_ship);
             if ($fee_ship) {
                 $total = $total + $fee_ship;
@@ -441,9 +445,7 @@ class CheckoutController extends Controller
 
             // dd($categories);
             $categories = DB::table('tbl_category_product')->where('category_status', '1')->orderBy('category_id', 'desc')->get();
-            $city = City::orderby('matp', 'ASC')->get();
-            $province = Province::orderby('maqh', 'ASC')->get();
-            $wards = Wards::orderby('xaid', 'ASC')->get();
+            $citys = City::orderby('matp', 'ASC')->get();
 
             if (Session::get('customer_id')) {
                 $customerid = Session::get('customer_id');
@@ -451,10 +453,10 @@ class CheckoutController extends Controller
                 $customerid = -1;
             }
             $customer = Customer::where('customer_id', $customerid)->first();
-            // dd($customer);
-            return view('user.pages.checkout.show_checkout', compact('fee_ship','coupon', 'total_coupon', 'cart', 'total', 'category_post', 'customer'))->with('categories', $categories)
+            // dd($ward);
+            return view('user.pages.checkout.show_checkout', compact('fee_ship', 'coupon', 'total_coupon', 'cart', 'total', 'category_post', 'customer'))->with('categories', $categories)
                 ->with('meta_decs', $meta_decs)->with('meta_title', $meta_title)->with('meta_keyword', $meta_keyword)->with('url_canonical', $url_canonical)
-                ->with(compact('city'));
+                ->with(compact('citys', 'city', 'province', 'ward'));
         } {
             return back();
         }

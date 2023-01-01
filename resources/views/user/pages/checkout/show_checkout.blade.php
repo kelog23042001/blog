@@ -78,20 +78,33 @@ use Illuminate\Support\Facades\Session;
                     </div>
                     <div class="form-group">
                         <select name="city" id="city" class="form-control choose">
+                            @if($city)
+                            <option value="{{$city['id']}}">{{$city['name']}}</option>
+                            @else
                             <option value="">Chọn Tỉnh-Thành Phố</option>
-                            @foreach($city as $key => $ci)
+                            @endif
+                            @foreach($citys as $key => $ci)
                             <option value="{{$ci->matp}}">{{$ci->name_city}}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="form-group">
+
                         <select name="province" id="province" class="form-control choose">
+                            @if($province)
+                            <option value="{{$province['id']}}">{{$province['name']}}</option>
+                            @else
                             <option value="non">Chọn Quận-Huyện</option>
+                            @endif
                         </select>
                     </div>
                     <div class="form-group">
                         <select name="wards" id="wards" class="form-control wards">
-                            <option value="">Chọn Phường-Xã</option>
+                            @if($ward)
+                            <option value="{{$ward['id']}}">{{$ward['name']}}</option>
+                            @else
+                            <option value="non">Chọn Phường-Xã</option>
+                            @endif
                         </select>
                     </div>
                 </div>
@@ -158,6 +171,7 @@ use Illuminate\Support\Facades\Session;
                     </div>
                     <div class="order-col">
                         <div><strong>THÀNH TIỀN</strong></div>
+                        <input type="hidden" id="order-total" value="{{$total}}">
                         <div><strong><span class="order-total">{{number_format($total,0,',','.')}} </span><span style="text-decoration: underline;">đ</span></strong></div>
                     </div>
                 </div>
@@ -235,7 +249,6 @@ use Illuminate\Support\Facades\Session;
     $(document).ready(function() {
         pay_success = $('#pay_success').val()
         if (pay_success) {
-
             data = JSON.parse(window.localStorage.getItem("data"));
             // console.log(data)
             $.ajax({
