@@ -63,13 +63,178 @@
     <script src="{{asset('Frontend/js/sweetalert.min.js')}}"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="{{asset('Backend/vendors/choices.js/choices.min.js')}}"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 
     <script>
+        localStorage.clear();
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+
+        function view() {
+            if (localStorage.getItem('data') != null) {
+                var data = JSON.parse(localStorage.getItem('data'));
+                data.reverse();
+                for (i = 0; i < data.length; i++) {
+                    var name = data[i].name;
+                    var price = data[i].price;
+                    var image = data[i].image;
+                    var url = data[i].url;
+                    $("#row_wishlist").append(
+                        '<a class= "item_viewed">' +
+                        '<div class = "row row_viewed" >' +
+                        '<div class ="col-md-4">' +
+                        '<img src = "' + image + '" width = "100%">' +
+                        '</div>' +
+                        '<div class ="col-md-8" info_wishlist >' +
+                        '<p style = "margin: 0;">' + name + '</p>' +
+                        '<p style = "margin: 0;color:#FE980F">' + price + '</p>' +
+                        '</div>' +
+                        '</div>' +
+                        '</a>'
+                    );
+                    // $("#row_wishlist").append
+                    // ('<div class = "row" style = "margin:10px 0"><div class ="col-md-4"><img src = "'+
+                    // image+'" width = "100%"></div><div class ="col-md-8" info_wishlist ><p style = "  margin: 0;">'+name+'</p><p style = "  margin: 0;color:#FE980F">'+
+                    //  price+'</p><a href = "'+url+'">Đặt hàng</a></div></div>')
+                }
+            }
+        }
+        view();
+
+        function add_wistlist(clicked_id) {
+            var id = clicked_id;
+            var name = document.getElementById('wishlist_productname' + id).value;
+            var price = document.getElementById('wishlist_productprice' + id).value;
+            var image = $('.cart_product_image_' + id).val();
+            var url = $('.cart_product_url_' + id).attr('href');;
+            var newItem = {
+                'url': url,
+                'id': id,
+                'name': name,
+                'price': price,
+                'image': image
+            }
+            if (localStorage.getItem('data') == null) {
+                localStorage.setItem('data', '[]');
+            }
+            var old_data = JSON.parse(localStorage.getItem('data'));
+            var matches = $.grep(old_data, function(obj) {
+                return obj.id == id;
+            })
+            if (matches.length) {
+                alert('Sản phẩm bạn đã yêu thích,nên không thể thêm');
+            } else {
+                old_data.push(newItem);
+                $(".wish-list").append('<div class="product-widget">\
+                <div class="product-img">\
+                        <img src="' + newItem.image + '" alt="">\
+                    </div>\
+                    <div class="product-body">\
+                        <h3 class="product-name"><a href="' + newItem.url + '">' + newItem.name + '</a></h3>\
+                        <h4 class="product-price"><span class="qty">1x</span>' + newItem.price + '</h4>\
+                    </div>\
+                    <button class="delete"><i class="fa fa-close"></i></button>\
+                </div>')
+                $(".qty_wishlist").text(old_data.length)
+                console.log(old_data.length);
+            }
+            localStorage.setItem('data', JSON.stringify(old_data));
+        }
+
+        function add_compare(product_id) {
+            document.getElementById('title-compare').innerText = 'Bảng so sánh sản phẩm';
+            var id = product_id;
+            var name = document.getElementById('wishlist_productname' + id).value;
+            var desc = document.getElementById('wishlist_productdesc' + id).value;
+            var price = document.getElementById('wishlist_productprice' + id).value;
+            var image = $('.cart_product_image_' + id).val();
+            var url = $('.cart_product_url_' + id).attr('href');;
+            var newItem = {
+                'id': id,
+                'desc': desc,
+                'name': name,
+                'price': price,
+                'url': url,
+                'image': image
+            }
+            if (localStorage.getItem('compare') == null) {
+                localStorage.setItem('compare', '[]');
+            }
+            var old_data = JSON.parse(localStorage.getItem('compare'));
+            console.log(old_data);
+            var matches = $.grep(old_data, function(obj) {
+                return obj.id == id;
+            })
+            if (matches.length) {
+                alert('Sản phẩm đã có trong danh sách so sánh,nên không thể thêm');
+            } else {
+                if (old_data.length <= 3) {
+                    old_data.push(newItem);
+                    $('#row_compare').find('tbody').append(
+                        '<tr id= "row_compare' + id + '">' +
+                        '<td><img height="190px" src = "' + newItem.image + '"></td>' +
+                        '<td style="width: 150px;">' + newItem.name + '</td>' +
+                        '<td style="width: 100px;">' + newItem.price + '</td>' +
+                        '<td style="width: 300px;"><div class ="product_desc">' + newItem.desc + '</div></td>' +
+                        '<td>' +
+                        '<a href = "' + newItem.url + '">' +
+                        '<i class="fa fa-eye text-success text-active"></i>' +
+                        '</a>' +
+                        '</td>' +
+                        '<td onclick = "delete_compare(' + id + ')">' +
+                        '<a style = "cursor: pointer">' +
+                        '       <i class="fa fa-times text-danger text"></i>' +
+                        '</a>' +
+                        '</td>' +
+                        '</tr>'
+                    );
+                }
+            }
+            localStorage.setItem('compare', JSON.stringify(old_data));
+        }
+
+        function Addtocart($product_id) {
+            var id = $product_id;
+            var cart_product_id = $('.cart_product_id_' + id).val();
+            var cart_product_name = $('.cart_product_name_' + id).val();
+            var cart_product_image = $('.cart_product_image_' + id).val();
+            var cart_product_price = $('.cart_product_price_' + id).val();
+            var cart_product_qty = $('.cart_product_qty_' + id).val();
+            var remain_qty = $('.product_qty_' + id).val();
+            $.ajax({
+                url: "{{url('/add-cart-ajax')}}",
+                method: 'POST',
+                data: {
+                    cart_product_id: cart_product_id,
+                    cart_product_name: cart_product_name,
+                    cart_product_image: cart_product_image,
+                    cart_product_price: cart_product_price,
+                    cart_product_qty: cart_product_qty,
+                    remain_qty: remain_qty,
+                },
+                success: function(response) {
+                    console.log(response.cartLength);
+                    // show_quick_cart();
+                    swal({
+                            title: "Đã thêm sản phẩm vào giỏ hàng",
+                            text: "Bạn có thể mua hàng tiếp hoặc tới giỏ hàng để tiến hành đặt hàng",
+                            showCancelButton: true,
+                            cancelButtonText: "Xem tiếp",
+                            confirmButtonClass: "btn-success",
+                            confirmButtonText: "Đi đến giỏ hàng",
+                            closeOnConfirm: false
+                        },
+                        function() {
+                            window.location.href = "{{url('/gio-hang')}}";
+                        });
+                    // show_cart();
+                    // hover_cart();
+                }
+            });
+        }
 
         $('.order_details').on('change', function() {
             var order_status = $(this).val();
@@ -273,44 +438,45 @@
 
             $('#add-to-cart').click(function() {
                 var id = $(this).data('id_product');
-                var cart_product_id = $('.cart_product_id_' + id).val();
-                var cart_product_name = $('.cart_product_name_' + id).val();
-                var cart_product_image = $('.cart_product_image_' + id).val();
-                var cart_product_price = $('.cart_product_price_' + id).val();
-                var cart_product_qty = $('.quantity_cart').val();
-                var remain_qty = $('.product_qty_' + id).val();
-                var _token = $('input[name="_token"]').val();
-                // console.log(cart_product_id);
-                // alert();
-                $.ajax({
-                    url: "{{url('/add-cart-ajax')}}",
-                    method: 'POST',
-                    data: {
-                        cart_product_id: cart_product_id,
-                        cart_product_name: cart_product_name,
-                        cart_product_image: cart_product_image,
-                        cart_product_price: cart_product_price,
-                        cart_product_qty: cart_product_qty,
-                        remain_qty: remain_qty,
-                        _token: _token
-                    },
-                    success: function() {
-                        swal({
-                                title: "Đã thêm sản phẩm vào giỏ hàng",
-                                text: "Bạn có thể mua hàng tiếp hoặc tới giỏ hàng để tiến hành thanh toán",
-                                showCancelButton: true,
-                                cancelButtonText: "Xem tiếp",
-                                confirmButtonClass: "btn-success",
-                                confirmButtonText: "Đi đến giỏ hàng",
-                                closeOnConfirm: false
-                            },
-                            function() {
-                                window.location.href = "{{url('/gio-hang')}}";
-                            });
-                        show_cart();
-                        hover_cart();
-                    }
-                });
+                Addtocart(id);
+                // var cart_product_id = $('.cart_product_id_' + id).val();
+                // var cart_product_name = $('.cart_product_name_' + id).val();
+                // var cart_product_image = $('.cart_product_image_' + id).val();
+                // var cart_product_price = $('.cart_product_price_' + id).val();
+                // var cart_product_qty = $('.quantity_cart').val();
+                // var remain_qty = $('.product_qty_' + id).val();
+                // var _token = $('input[name="_token"]').val();
+                // // console.log(cart_product_id);
+                // // alert();
+                // $.ajax({
+                //     url: "{{url('/add-cart-ajax')}}",
+                //     method: 'POST',
+                //     data: {
+                //         cart_product_id: cart_product_id,
+                //         cart_product_name: cart_product_name,
+                //         cart_product_image: cart_product_image,
+                //         cart_product_price: cart_product_price,
+                //         cart_product_qty: cart_product_qty,
+                //         remain_qty: remain_qty,
+                //         _token: _token
+                //     },
+                //     success: function() {
+                //         swal({
+                //                 title: "Đã thêm sản phẩm vào giỏ hàng",
+                //                 text: "Bạn có thể mua hàng tiếp hoặc tới giỏ hàng để tiến hành thanh toán",
+                //                 showCancelButton: true,
+                //                 cancelButtonText: "Xem tiếp",
+                //                 confirmButtonClass: "btn-success",
+                //                 confirmButtonText: "Đi đến giỏ hàng",
+                //                 closeOnConfirm: false
+                //             },
+                //             function() {
+                //                 window.location.href = "{{url('/gio-hang')}}";
+                //             });
+                //         show_cart();
+                //         hover_cart();
+                //     }
+                // });
             });
         });
     </script>

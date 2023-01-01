@@ -1,14 +1,12 @@
 @extends('layout')
 @section('content')
-
-
+<!-- <div id="row_wishlist"></div> -->
 <!-- SECTION -->
 <div class="section">
     <!-- container -->
     <div class="container">
         <!-- row -->
         <div class="row">
-
             <!-- section title -->
             <div class="col-md-12">
                 <div class="section-title">
@@ -35,7 +33,7 @@
                                 <!-- product -->
                                 @foreach($products as $key => $product)
                                 <div class="product">
-                                    <a href="{{URL::to('chi-tiet-san-pham/'.$product->product_id)}}">
+                                    <a class="cart_product_url_{{$product->product_id}}" href="{{URL::to('chi-tiet-san-pham/'.$product->product_id)}}">
                                         <div class="product-img">
                                             <img src="{{$product->product_image}}" alt="">
                                             <div class="product-label">
@@ -56,13 +54,26 @@
                                             <i class="fa fa-star"></i>
                                         </div>
                                         <div class="product-btns">
-                                            <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-                                            <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
+                                            <button class="add-to-wishlist" id="{{$product->product_id}}" onclick="add_wistlist(this.id)">
+                                                <i class=" fa fa-heart-o"></i>
+                                                <span class="tooltipp">add to wishlist</span>
+                                            </button>
+                                            <button class="add-to-compare" id="{{$product->product_id}}" data-toggle="modal" onclick="add_compare(this.id)" data-target="#compareModal">
+                                                <i class="fa fa-exchange"></i>
+                                                <span class="tooltipp">so sánh</span>
+                                            </button>
                                         </div>
                                     </div>
                                     <div class="add-to-cart">
-                                        <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                                        <button class="add-to-cart-btn" id="{{$product->product_id}}" onclick="Addtocart(this.id);"><i class="fa fa-shopping-cart"></i> add to cart</button>
                                     </div>
+                                    <input type="hidden" value="{{$product->product_id}}" class="cart_product_id_{{$product->product_id}}">
+                                    <input type="hidden" id="wishlist_productname{{$product->product_id}}" value="{{$product->product_name}}" class="cart_product_name_{{$product->product_id}}">
+                                    <input type="hidden" value="{{$product->product_image}}" class="cart_product_image_{{$product->product_id}}">
+                                    <input type="hidden" id="wishlist_productprice{{$product->product_id}}" value="{{$product->product_price}}" class="cart_product_price_{{$product->product_id}}">
+                                    <input type="hidden" value="1" class="cart_product_qty_{{$product->product_id}}">
+                                    <input type="hidden" value="{{$product->product_quantity}}" class="product_qty_{{$product->product_id}}">
+                                    <input type="hidden" id="wishlist_productdesc{{$product->product_id}}" value="{{$product->product_desc}}" class="cart_product_desc_{{$product->product_id}}">
                                 </div>
                                 @endforeach
                                 <!-- /product -->
@@ -512,4 +523,37 @@
     <!-- /container -->
 </div>
 <!-- /NEWSLETTER -->
+
+
+<div class="modal fade" id="compareModal" tabindex="-1" role="dialog" aria-labelledby="compareModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" style="width: fit-content;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <div id="notify"></div>
+                <h2 class="modal-title title text-center">
+                    <div id="title-compare"></div>
+                </h2>
+            </div>
+            <div class="modal-body" style="padding: 0 10px;">
+                <table style="width:100%" class="table table-hover" id="row_compare">
+                    <thead>
+                        <tr>
+                            <th>Hình ảnh</th>
+                            <th>Tên</th>
+                            <th>Giá</th>
+                            <th>Mô tả</th>
+                            <th>Quản lý</th>
+                            <th>Xoá</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection

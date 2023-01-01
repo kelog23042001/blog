@@ -124,8 +124,6 @@ class CartController extends Controller
         // "cart_product_price" => "123"
         // "cart_product_qty" => "1"
         // "remain_qty" => "123"
-        // "_token" => "frzAvB1ASqHFhlDnP4w1a3gWjx1oplFacugAO9DD"
-
 
         $data = $request->all();
         // dd($data);
@@ -170,6 +168,9 @@ class CartController extends Controller
             Session::put('cart', $cart);
         }
         Session::save();
+        return response()->json([
+            'cartLength' => count($cart)
+        ]);
     }
 
     public function gio_hang(Request $request)
