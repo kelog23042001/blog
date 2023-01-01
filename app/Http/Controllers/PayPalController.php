@@ -52,7 +52,6 @@ class PayPalController extends Controller
         ]);
 
         if (isset($response['id']) && $response['id'] != null) {
-
             // redirect to approve href
             foreach ($response['links'] as $links) {
                 if ($links['rel'] == 'approve') {
@@ -87,8 +86,8 @@ class PayPalController extends Controller
             \Session::put('pay_success', true);
             return redirect()
                 // ->to(url('/confirm-order'));
-            ->route('checkout')
-            ->with('success', 'Thanh toán thành công. Vui lòng điền thông tin để nhận hàng!');
+                ->route('checkout')
+                ->with('success', 'Thanh toán thành công. Vui lòng điền thông tin để nhận hàng!');
         } else {
             return redirect()
                 ->route('checkout')

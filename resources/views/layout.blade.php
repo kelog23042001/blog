@@ -30,6 +30,23 @@
     <link type="text/css" rel="stylesheet" href="{{asset('Frontend/css/sweetalert.css')}}" />
     <link rel="stylesheet" href="{{asset('/Backend/vendors/choices.js/choices.min.css')}}">
 
+    <!-- CSS -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
+    <!-- Default theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css" />
+    <!-- Semantic UI theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css" />
+    <!-- Bootstrap theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css" />
+
+    <!-- RTL version -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.rtl.min.css" />
+    <!-- Default theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.rtl.min.css" />
+    <!-- Semantic UI theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.rtl.min.css" />
+    <!-- Bootstrap theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.rtl.min.css" />
 </head>
 
 <body>
@@ -58,7 +75,6 @@
             var order_status = $(this).val();
             var order_code = $(this).children(":selected").attr("id")
             quantity = [];
-            // alert(order_id);
             $.ajax({
                 url: "{{url('/destroy-order')}}",
                 method: 'POST',
@@ -67,53 +83,15 @@
                     order_id: order_code,
                 },
             });
-            // $("input[name='product_sales_quantity']").each(function() {
-            //     quantity.push($(this).val());
-            // });
-
-            // j = 0;
-            // for (i = 0; i < order_product_id.length; i++) {
-            //     var order_qty = $('.order_qty_' + order_product_id[i]).val();
-            //     var order_qty_storage = $('.order_qty_storage_' + order_product_id[i]).val();
-            //     if (parseInt(order_qty) > parseInt(order_qty_storage)) {
-            //         j++;
-            //         if (j == 1) {
-            //             alert('Số lượng trong kho không đủ');
-            //         }
-            //         $('.color_qty_' + order_product_id[i]).css('background', '#000');
-            //     }
-            // }
-            // if (j == 0) {
-            //     alert('Cập nhật trạng thái đơn hàng thành công');
-            //     location.reload();
-            //     $.ajax({
-            //         url: '{{url(' / update - order - quantity ')}}',
-            //         method: 'POST',
-            //         data: {
-            //             _token: _token,
-            //             order_status: order_status,
-            //             order_id: order_id,
-            //             quantity: quantity,
-            //             order_product_id: order_product_id
-            //         },
-            //     });
-            // }
         });
 
-        function sendOrder() {
-            data = JSON.parse(window.localStorage.getItem("data"));
-            $.ajax({
-                url: "{{url('/confirm-order')}}",
-                method: 'POST',
-                data: data,
-                success: function() {
-                    swal("Đặt hàng!", "Đơn đặt hàng của bạn đã đặt thành công", "success");
-                }
-            });
-        }
-
         $(document).ready(function() {
-            $('.send_order').click(function() {
+            $('.check_coupon').click(function() {
+                getDataOrder();
+            })
+
+            function getDataOrder() {
+                // save data to local storage
                 data = {
                     shipping_email: $('.shipping_email').val(),
                     shipping_name: $('.shipping_name').val(),
@@ -121,14 +99,64 @@
                     shipping_notes: $('.shipping_notes').val(),
                     shipping_address: $('.shipping_address').val(),
                     shipping_method: $('input[name=payment]:checked', '#payment-method').val(),
-                    order_fee: $('.order_fee').text(),
-                    order_coupon: $('.order_coupon').val(),
+                    order_fee: $('.order_fee').val(),
+                    order_discount: $('.order_coupon').val(),
+                    coupon_code: $('.coupon_code').val(),
+                    total_order: $('#order_total').val()
                 }
                 window.localStorage.setItem("data", JSON.stringify(data));
+            }
+
+            function sendOrder() {
+                data = JSON.parse(window.localStorage.getItem("data"));
+                $.ajax({
+                    url: "{{url('/confirm-order')}}",
+                    method: 'POST',
+                    data: data,
+                    success: function(response) {
+                        swal({
+                                title: "Đặt hàng thành công!",
+                                // text: "",
+                                icon: "success",
+                                showCancelButton: true,
+                                confirmButtonClass: "btn-danger",
+                                confirmButtonText: "Xem đơn hàng",
+                                cancelButtonText: "Trang chủ",
+                                closeOnConfirm: true,
+                                closeOnCancel: true,
+                                showLoaderOnConfirm: true
+                            },
+                            function(isConfirm) {
+                                if (isConfirm) {
+                                    window.location.href = `{{url('/view-history-order/${response.order_code}')}}`;
+                                } else {
+                                    window.location.href = `{{url('/')}}`;
+                                }
+                            });
+                    },
+                    // error: function(xhr, status, error) {
+                    //     
+                    // }
+                    error: function(xhr) {
+                        var err = JSON.parse(xhr.responseText).errors;
+                        for (const [key, value] of Object.entries(err)) {
+                            // console.log(`${key}: ${value}`);
+                            alertify.error(`${value}`);
+                            // alertify.error('Error notification message.');
+                        }
+                        // swal(err.errors);
+                    }
+                });
+            }
+
+            $('.send_order').click(function() {
+                getDataOrder()
                 var paymentMethod = $('input[name=payment]:checked', '#payment-method').val()
+
                 if (paymentMethod == 'paypal') {
                     window.location.href = "{{route('processTransaction')}}";
                 } else if (paymentMethod == 'momo') {
+                    // payment by momo
                     order_total = $('#order-total').val()
                     if (order_total < 10000) {
                         // alert(order_total)
@@ -157,49 +185,11 @@
                             }
                         })
                     }
-
-                } else if (paymentMethod == 'vnpay') {
-
                 } else {
-                    // alert();
                     sendOrder();
                 }
-                // swal({
-                //         title: "Xác nhận đặt hàng?",
-                //         text: "Bạn có muốn đặt hàng không?",
-                //         type: "warning",
-                //         showCancelButton: true,
-                //         confirmButtonClass: "btn-danger",
-                //         confirmButtonText: "Có",
-                //         cancelButtonText: "Không",
-                //         closeOnConfirm: true,
-                //         closeOnCancel: true,
-                //         showLoaderOnConfirm: true
-                //     },
-                //     function(isConfirm) {
-                //         if (isConfirm) {
-                //             $.ajax({
-                //                 url: "{{url('/confirm-order')}}",
-                //                 method: 'POST',
-                //                 data: {
-                //                     shipping_email: $('.shipping_email').val(),
-                //                     shipping_name: $('.shipping_name').val(),
-                //                     shipping_phone: $('.shipping_phone').val(),
-                //                     shipping_notes: $('.shipping_notes').val(),
-                //                     shipping_address: $('.shipping_address').val(),
-                //                     shipping_method: $('input[name=payment]:checked', '#payment-method').val(),
-                //                     order_fee: $('.order_fee').text(),
-                //                     order_coupon: $('.order_coupon').val(),
-                //                 },
-                //                 success: function() {
-                //                     swal("Đặt hàng!", "Đơn đặt hàng của bạn đã đặt thành công", "success");
-                //                 }
-                //             });
-                //         } else {
-                //             swal("Đóng", "Đơn hàng chưa được gửi, làm ơn hoàn tất đơn hàng", "error");
-                //         }
-                //     });
             });
+
             $('.choose').on('change', function() {
                 var action = $(this).attr('id');
                 var id = $(this).val();
@@ -248,6 +238,7 @@
                                 // });
                                 // console.log(response)
                                 // $('.order_fee').text(fee.format(response))
+                                getDataOrder()
                                 location.reload();
                             }
                         });
@@ -323,6 +314,9 @@
             });
         });
     </script>
+    <!-- JavaScript -->
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+
 </body>
 
 </html>

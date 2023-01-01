@@ -150,22 +150,30 @@ class CheckoutController extends Controller
         }
         \Session::put('pay_success', true);
     }
+    public function validation($request)
+    {
+        return $this->validate($request, [
+            'shipping_name' => 'required', 'max:255',
+            'shipping_phone' => 'required', 'max:255',
+            'shipping_address' => 'required', 'max:255',
+        ]);
+    }
+    public function messages()
+    {
+        return [
+            'shipping_name.*.required' => "The tag may not be greater than 15 characters.",
+        ];
+    }
+
     public function confirm_order(Request $request)
     {
-        // if (Session::get('pay_success')) {
-        //     dd(session::get('order'));
-        // };
         $data = $request->all();
-        // dd($data);
-
+        $this->validation($request);
         $coupon_mail = '';
-        if (isset($data['order_coupon'])) {
-            $coupon = Coupon::where('coupon_code', $data['order_coupon'])->first();
-            // $coupon->coupon_time = $coupon->coupon_time - 1;
+        if (isset($data['coupon_code'])) {
+            $coupon = Coupon::where('coupon_code', $data['coupon_code'])->first();
             $coupon_number = $coupon->coupon_number;
             $coupon_condition = $coupon->coupon_condition;
-            $coupon_mail = $data['order_coupon'];
-            // $coupon->save();
         }
 
         $shipping = new Shipping();
@@ -192,12 +200,30 @@ class CheckoutController extends Controller
 
         $today = Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d H:i:s');
         $order_date = Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d');
-
+        $order->total = $data['total_order'];
         $order->created_at = $today;
         $order->order_date = $order_date;
 
         $order->save();
-
+        // dd($data);
+        if (Session::get('cart')) {
+            foreach (Session::get('cart') as $key => $cart) {
+                $order_details =  new OrderDetails;
+                $order_details->order_code = $checkout_code;
+                $order_details->product_id = $cart['product_id'];
+                $order_details->product_name = $cart['product_name'];
+                $order_details->product_price = $cart['product_price'];
+                $order_details->product_sale_quantity = $cart['product_qty'];
+                // dd($data);
+                if (isset($data['coupon_code'])) {
+                    $order_details->product_coupon = $data['order_discount'];
+                } else {
+                    $order_details->product_coupon = 0;
+                }
+                $order_details->product_feeship = $data['order_fee'];
+                $order_details->save();
+            }
+        }
         if (isset($data['order_coupon'])) {
             $ordercode_mail = array(
                 'coupon_number' => $coupon_number,
@@ -214,23 +240,7 @@ class CheckoutController extends Controller
             );
         }
 
-        if (Session::get('cart')) {
-            foreach (Session::get('cart') as $key => $cart) {
-                $order_details =  new OrderDetails;
-                $order_details->order_code = $checkout_code;
-                $order_details->product_id = $cart['product_id'];
-                $order_details->product_name = $cart['product_name'];
-                $order_details->product_price = $cart['product_price'];
-                $order_details->product_sale_quantity = $cart['product_qty'];
-                if (isset($data['order_coupon'])) {
-                    $order_details->product_coupon = $data['order_coupon'];
-                } else {
-                    $order_details->product_coupon = 0;
-                }
-                $order_details->product_feeship = $data['order_fee'];
-                $order_details->save();
-            }
-        }
+
 
         $now = Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d H:i:s');
         $title_mail = "Đơn hàng xác nhận ngày " . $now;
@@ -238,7 +248,13 @@ class CheckoutController extends Controller
         if ($customer != null) {
             $data['email'][] = $customer->customer_email;
         }
-
+        session::forget('cart');
+        session::forget('pay_success');
+        session::forget('fee');
+        session::forget('coupon');
+        return response()->json([
+            'order_code' => $checkout_code
+        ]);
         // if (session::get('cart')) {
         //     foreach (session::get('cart') as $key => $cart_mail) {
         //         $cart_array[] = array(
@@ -268,10 +284,7 @@ class CheckoutController extends Controller
         //         $message->from($data['email'], $title_mail);
         //     }
         // );
-        session::forget('cart');
-        session::forget('pay_success');
-        session::forget('fee');
-        session::forget('coupon');
+
     }
     public function del_fee()
     {
@@ -419,6 +432,7 @@ class CheckoutController extends Controller
                 }
                 $total = $total - $total_coupon;
             }
+            // dd($coupon['coupon_code']);
             // Session::forget('fee');
             $fee_ship = Session::get('fee');
             $ward = null;

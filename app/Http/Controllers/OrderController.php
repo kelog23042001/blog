@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use App\Models\Banner;
 use App\Models\CategoryPost;
+use App\Models\CategoryProductModel;
 use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
@@ -354,67 +355,56 @@ class OrderController extends Controller
 
     public function view_history_order($order_code, Request $request)
     {
+        //slider
+        $meta_decs = "Lịch sử mua hàng";
+        $meta_title = "Lịch sử mua hàng";
+        $meta_keyword = "Lịch sử mua hàng";
+        $url_canonical = $request->url();
+        $cate_product = CategoryProductModel::where('category_status', '1')->orderBy('category_id', 'desc')->get();
 
-        // if (!Session::get('customer_id')) {
-        //     return redirect('login-checkout')->with('error', 'Bạn chưa đăng nhập!');
-        // } else 
-        {
-            $category_post = CategoryPost::orderby('cate_post_id', 'DESC')->where('cate_post_status', "1")->get();
+        $order_details = OrderDetails::with('product')->where('order_code', $order_code)->get();
 
-            //slider
-            $slider = Banner::orderBy('slider_id', 'DESC')->where('slider_status', '1')->take(4)->get();
+        $order = Order::where('order_code', $order_code)->first();
+        // dd($order);
+        $customer_id = $order->customer_id;
+        $shipping_id = $order->shipping_id;
+        $order_status = $order->order_status;
+        $shipping = Shipping::where('shipping_id', $shipping_id)->first();
+        $order_details_products = OrderDetails::with('product')->where('order_code', $order_code)->first();
+        $coupon = $order_details_products->product_coupon;
+        // dd($order_details_products);
 
-            $meta_decs = "Lịch sử mua hàng";
-            $meta_title = "Lịch sử mua hàng";
-            $meta_keyword = "Lịch sử mua hàng";
-            $url_canonical = $request->url();
 
-            $cate_product = DB::table('tbl_category_product')->where('category_status', '1')->orderBy('category_id', 'desc')->get();
-            $brand_product = DB::table('tbl_brand_product')->where('brand_status', '1')->orderBy('brand_id', 'desc')->get();
 
-            // $order = Order::where('customer_id', Session::get('customer_id'))->orderby('created_at', 'DESC')->get();
 
-            $order_details = OrderDetails::with('product')->where('order_code', $order_code)->get();
 
-            $order = Order::where('order_code', $order_code)->first();
 
-            $customer_id = $order->customer_id;
-            $shipping_id = $order->shipping_id;
-            $order_status = $order->order_status;
 
-            // dd($order_status);
-            $customer = Customer::where('customer_id', $customer_id)->first();
-            $shipping = Shipping::where('shipping_id', $shipping_id)->first();
-            // dd($shipping);
-            $order_details_products = OrderDetails::with('product')->where('order_code', $order_code)->first();
-            $product_coupon = $order_details_products->product_coupon;
-            // dd($product_coupon);
 
-            if ($product_coupon != 0) {
-                $coupon = Coupon::where('coupon_code', $product_coupon)->first();
-                $coupon_condition = $coupon->coupon_condition;
-                $coupon_number =  $coupon->coupon_number;
-            } else {
-                $coupon_condition = 2;
-                $coupon_number =  0;
-            }
-            // dd($customer);
 
-            return view('user.pages.history.view_history_order')
-                ->with('order', $order)
-                ->with('categories', $cate_product)
-                ->with('brand', $brand_product)
-                ->with('meta_decs', $meta_decs)
-                ->with('meta_title', $meta_title)
-                ->with('meta_keyword', $meta_keyword)
-                ->with('url_canonical', $url_canonical)
-                ->with('category_post', $category_post)
-                ->with('order_details', $order_details)
-                ->with('customer', $customer)
-                ->with('shipping', $shipping)
-                ->with('coupon_condition', $coupon_condition)
-                ->with('coupon_number', $coupon_number)
-                ->with('order_status', $order_status);
-        }
+
+
+
+        $customer = Customer::where('customer_id', $customer_id)->first();
+        return view('user.pages.history.view_history_order')
+            ->with('order', $order)
+            ->with('categories', $cate_product)
+            ->with('meta_decs', $meta_decs)
+            ->with('meta_title', $meta_title)
+            ->with('meta_keyword', $meta_keyword)
+            ->with('url_canonical', $url_canonical)
+            ->with('order_details', $order_details)
+            ->with('customer', $customer)
+            ->with('coupon', $coupon)
+            ->with('shipping', $shipping)
+            ->with('order_status', $order_status);
+        // if ($product_coupon != 0) {
+        //     $coupon_condition = $coupon->coupon_condition;
+        //     $coupon_number =  $coupon->coupon_number;
+        // } else {
+        //     $coupon_condition = 2;
+        //     $coupon_number =  0;
+        // }
+        // dd($customer);
     }
 }

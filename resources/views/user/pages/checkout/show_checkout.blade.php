@@ -45,13 +45,13 @@ use Illuminate\Support\Facades\Session;
                         @endif
                     </div>
                     <div class="form-group">
-                        <input class="input shipping_name" type="text" placeholder="Tên" value="test" required>
+                        <input class="input shipping_name" type="text" placeholder="Tên">
                     </div>
                     <div class="form-group">
-                        <input class="input shipping_email" type="email" placeholder="Email" value="test" required>
+                        <input class="input shipping_email" type="email" placeholder="Email" value="">
                     </div>
                     <div class="form-group">
-                        <input class="input shipping_phone" type="tel" name="shipping_phone" value="test" placeholder="Số điện thoại" required>
+                        <input class="input shipping_phone" type="tel" name="shipping_phone" value="" placeholder="Số điện thoại">
                     </div>
                     <div class="form-group">
                         <div class="input-checkbox">
@@ -61,7 +61,7 @@ use Illuminate\Support\Facades\Session;
                                 Create Account?
                             </label>
                             <div class="caption">
-                                <input class="input" type="password" name="password" placeholder="Điền mật khẩu" required>
+                                <input class="input" type="password" name="password" placeholder="Điền mật khẩu">
                             </div>
                         </div>
                     </div>
@@ -74,7 +74,7 @@ use Illuminate\Support\Facades\Session;
                         <h3 class="title">Địa chỉ nhận hàng</h3>
                     </div>
                     <div class="form-group">
-                        <input class="input shipping_address" type="text" name="address" value="test" placeholder="Địa chỉ" required>
+                        <input class="input shipping_address" type="text" name="address" value="" placeholder="Địa chỉ">
                     </div>
                     <div class="form-group">
                         <select name="city" id="city" class="form-control choose">
@@ -144,8 +144,10 @@ use Illuminate\Support\Facades\Session;
                     <div class="order-col">
                         <div>Voucher</div>
                         <div>
+                            <input type="hidden" class="coupon_code" value="{{$coupon['coupon_code']}}">
+                            <input type="hidden" class="order_coupon" value="{{$total_coupon}}">
                             <strong>{{number_format($total_coupon,0,',','.')}} </strong>
-                            <a class="check_out" href="{{url('/unset-coupon')}}">
+                            <a class="check_out check_coupon" href="{{url('/unset-coupon')}}">
                                 <i style="font-size: 20px;" class="fa fa-times text-danger text"></i>
                             </a>
                         </div>
@@ -161,28 +163,23 @@ use Illuminate\Support\Facades\Session;
                             </div>
                         </form>
                     </div>
-                    <!-- <div><strong class="order_fee"></strong></div> -->
                     @endif
                     <div class="order-col">
                         @if($fee_ship)
                         <div>Phí vận chuyển</div>
-                        <div><strong class="order_fee">{{number_format($fee_ship,0,',','.')}}</strong></div>
+                        <input type="hidden" class="order_fee" value="{{$fee_ship}}">
+                        <div><strong class="">{{number_format($fee_ship,0,',','.')}}</strong></div>
                         @endif
                     </div>
                     <div class="order-col">
                         <div><strong>THÀNH TIỀN</strong></div>
-                        <input type="hidden" id="order-total" value="{{$total}}">
+                        <input type="hidden" id="order_total" value="{{$total}}">
                         <div><strong><span class="order-total">{{number_format($total,0,',','.')}} </span><span style="text-decoration: underline;">đ</span></strong></div>
                     </div>
                 </div>
-                <!-- <form action="{{url('/momo_payment')}}" method="POST">
-                    @csrf
-                    <input type="hidden" name="total_momopay" value="99999">
-                    <button type="submit" class="btn btn-default checkout m-3" id="MomoPaylButton" name="payUrl" href="">MomoPay</button>
-                </form> -->
                 <div class="payment-method" id="payment-method">
                     <div class="input-radio">
-                        <input type="radio" value="cash" name="payment" id="payment-1">
+                        <input type="radio" value="cash" name="payment" id="payment-1" checked>
                         <label for="payment-1">
                             <span></span>
                             Thanh toán khi nhận hàng
@@ -202,7 +199,7 @@ use Illuminate\Support\Facades\Session;
                     </div> -->
 
                     <div class="input-radio">
-                        <input type="radio" value="momo" name="payment" id="payment-3" checked>
+                        <input type="radio" value="momo" name="payment" id="payment-3">
                         <label for="payment-3">
                             <span></span>
                             Momo
@@ -247,20 +244,47 @@ use Illuminate\Support\Facades\Session;
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script>
     $(document).ready(function() {
+        data = JSON.parse(window.localStorage.getItem("data"))
+        fetchDataOrder(data)
         pay_success = $('#pay_success').val()
         if (pay_success) {
-            data = JSON.parse(window.localStorage.getItem("data"));
             // console.log(data)
             $.ajax({
                 url: "{{url('/confirm-order')}}",
                 method: 'POST',
                 data: data,
-                success: function() {
-                    swal("Đặt hàng!", "Đơn đặt hàng của bạn đã đặt thành công", "success");
+                success: function(response) {
+                    swal({
+                            title: "Đặt hàng thành công!",
+                            // text: "",
+                            icon: "success",
+                            showCancelButton: true,
+                            confirmButtonClass: "btn-danger",
+                            confirmButtonText: "Xem đơn hàng",
+                            cancelButtonText: "Trang chủ",
+                            closeOnConfirm: true,
+                            closeOnCancel: true,
+                            showLoaderOnConfirm: true
+                        },
+                        function(isConfirm) {
+                            if (isConfirm) {
+                                window.location.href = `{{url('/view-history-order/${response.order_code}')}}`;
+                            } else {
+                                window.location.href = `{{url('/')}}`;
+                            }
+                        });
                 }
             });
         }
-        // window.location.href = "{{route('processTransaction')}}";
+
+        function fetchDataOrder(data) {
+            $('.shipping_email').val(data['shipping_email'])
+            $('.shipping_name').val(data['shipping_name'])
+            $('.shipping_phone').val(data['shipping_phone'])
+            $('.shipping_notes').val(data['shipping_notes'])
+            $('.shipping_address').val(data['shipping_address'])
+            window.localStorage.clear();
+        }
     })
 </script>
 @endsection

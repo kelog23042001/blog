@@ -115,61 +115,30 @@
                         <table class="table table-striped b-t b-light">
                             <thead>
                                 <tr>
-                                    <th></th>
+                                    <th>Ảnh sản phẩm</th>
                                     <th>Tên sản phẩm</th>
                                     <th>Số lượng đặt</th>
                                     <th>Giá sản phẩm</th>
-                                    <th>Tổng tiền</th>
+                                    <th>Tổng tiền hàng</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @php
-                                $i= 0;
-                                $total = 0;
-                                @endphp
                                 @foreach($order_details as $key=>$details)
-                                @php
-                                $i++;
-                                $subTotal = $details->product_price * $details->product_sale_quantity;
-                                $total += $subTotal;
-                                @endphp
                                 <tr class="color_qty_{{$details->product->product_id}}" )>
-                                    <td><?php $i ?></td>
+                                    <td><img src="{{$details->product->product_image}}" height="100px" alt=""></td>
                                     <td><a href="{{URL::to('chi-tiet-san-pham/'.$details->product->product_id)}}">{{$details->product->product_name}}</a></td>
                                     <td>
                                         {{$details->product_sale_quantity}}
-                                        <!-- <input type="hidden" name="order_qty_storage" class="order_qty_storage_{{$details->product_id}}" value="{{$details->product->product_quantity}}">
-
-                                        <input type="hidden" name="order_code" class="order_code" value="{{$details->order_code}}">
-
-                                        <input type="hidden" name="order_product_id" class="order_product_id" value="{{$details->product_id}}">
-                                        <input type="number" {{$order_status != 1 ?'disabled' : ''}} class="order_qty_{{$details->product_id}}" max="{{$details->product->product_quantity}}" min="1" value="{{$details->product_sale_quantity}}" name="product_sales_quantity">
-                                        @if($order_status == 1)
-                                        <button class="btn btn-danger update_quantity_order" data-product_id="{{$details->product_id}}" name="update_quantity_order">Cập nhật</button>
-                                        @endif -->
                                     </td>
-                                    <td>{{number_format($details->product_price,0,',','.')}}VND</td>
-                                    <td>{{number_format($subTotal,0,',','.')}}VND</td>
+                                    <td>{{number_format($details->product_price,0,',','.')}} VND</td>
+                                    <td>{{number_format($details->product_price * $details->product_sale_quantity,0,',','.')}} VND</td>
                                 </tr>
                                 @endforeach
-                                <tr>
-                                    <td colspan="3"></td>
-                                    <td>Tổng tiền</td>
-                                    <td>{{number_format($total,0,',','.')}} VND</td>
-                                </tr>
+
                                 <tr>
                                     <td colspan="3"></td>
                                     <td>Giảm giá</td>
-                                    <td>
-                                        <?php $coupon = 0 ?>
-                                        @if ($coupon_condition == 1)
-                                        <?php $coupon = $total * $coupon_number / 100 ?>
-                                        -{{number_format($coupon,0,',','.')}} VND
-                                        @else
-                                        <?php $coupon = $coupon_number ?>
-                                        -{{number_format($coupon,0,',','.')}} VND
-                                        @endif
-                                    </td>
+                                    <td>- {{number_format($coupon,0,',','.')}} VND</td>
                                 </tr>
                                 <tr>
                                     <td colspan=3></td>
@@ -179,7 +148,7 @@
                                 <tr>
                                     <td colspan=3></td>
                                     <td>Thành tiền</td>
-                                    <td>{{number_format($total - $coupon + $details->product_feeship ,0,',','.')}} VND</td>
+                                    <td>{{number_format($order->total,0,',','.')}} VND</td>
                                 </tr>
                                 <tr>
                                     <td colspan="6">
