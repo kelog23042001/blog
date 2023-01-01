@@ -123,6 +123,9 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @php
+                                $total = 0;
+                                @endphp
                                 @foreach($order_details as $key=>$details)
                                 <tr class="color_qty_{{$details->product->product_id}}" )>
                                     <td><img src="{{$details->product->product_image}}" height="100px" alt=""></td>
@@ -131,9 +134,18 @@
                                         {{$details->product_sale_quantity}}
                                     </td>
                                     <td>{{number_format($details->product_price,0,',','.')}} VND</td>
-                                    <td>{{number_format($details->product_price * $details->product_sale_quantity,0,',','.')}} VND</td>
+                                    @php
+                                    $subtotal = $details->product_price * $details->product_sale_quantity;
+                                    $total += $subtotal;
+                                    @endphp
+                                    <td>{{number_format($subtotal,0,',','.')}} VND</td>
                                 </tr>
                                 @endforeach
+                                <tr>
+                                    <td colspan="3"></td>
+                                    <td>Tổng tiền hàng</td>
+                                    <td>{{number_format($total,0,',','.')}} VND</td>
+                                </tr>
 
                                 <tr>
                                     <td colspan="3"></td>

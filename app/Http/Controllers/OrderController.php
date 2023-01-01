@@ -155,6 +155,7 @@ class OrderController extends Controller
     public function view_order($order_code)
     {
         $order_details = OrderDetails::with('product')->where('order_code', $order_code)->get();
+        dd($order_details);
         $order = Order::where('order_code', $order_code)->get();
         foreach ($order as $key => $ord) {
             $customer_id = $ord->customer_id;
