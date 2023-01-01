@@ -32,10 +32,7 @@ class CheckoutController extends Controller
 
     public function momo_payment(Request $request)
     {
-
-
         $endpoint = "https://test-payment.momo.vn/v2/gateway/api/create";
-
         $partnerCode = 'MOMOBKUN20180529';
         $accessKey = 'klm05TvNBzhg7h7j';
         $serectkey = 'at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa';
@@ -315,12 +312,12 @@ class CheckoutController extends Controller
 
     public function calculate_fee(Request $request)
     {
-        $data = $request->all();
-        // dd($data);
         Session::forget('fee');
         Session::forget('city');
         Session::forget('province');
         Session::forget('wards');
+
+        $data = $request->all();
 
         if ($data['matp'] < 10) {
             $data['matp'] = '0' . $data['matp'];
@@ -358,20 +355,20 @@ class CheckoutController extends Controller
 
         if ($data['matp']) {
             $feeship = Feeship::where('fee_matp', $data['matp'])->where('fee_maqh', $data['maqh'])->where('fee_xaid', $data['xaid'])->get();
+            // dd($feeship);
             if ($feeship) {
                 $count_feeship = $feeship->count();
                 if ($count_feeship > 0) {
                     foreach ($feeship as $key => $fee) {
                         Session::put('fee', $fee->fee_feeship);
-                        Session::save();
                     }
                 } else {
                     Session::put('fee', 20000);
-                    Session::save();
                 }
             }
         }
-        return 10000;
+        Session::save();
+        return  Session::get('fee');
     }
     public function login_checkout(Request $request)
     {
@@ -405,6 +402,9 @@ class CheckoutController extends Controller
     }
     public function checkout(Request $request)
     {
+        // $coupon = Session::forget('coupon');
+
+
         if (Session::get('cart')) {
             $cart = Session::get('cart');
             $total = 0;
@@ -412,7 +412,27 @@ class CheckoutController extends Controller
                 $subtotal = $value['product_qty'] * $value['product_price'];
                 $total += $subtotal;
             }
+
+            $coupon = null;
+            $total_coupon = null;
+            // get coupon value
+            if (Session::get('coupon')) {
+                $coupon = Session::get('coupon')[0];
+                if ($coupon['coupon_condition'] == 1) {
+                    $total_coupon = ($total * $coupon['coupon_number']) / 100;
+                } else {
+                    $total_coupon = $coupon['coupon_number'];
+                }
+                $total = $total - $total_coupon;
+            }
+            // Session::forget('fee');
+            $fee_ship = Session::get('fee');
+            // dd($fee_ship);
+            if ($fee_ship) {
+                $total = $total + $fee_ship;
+            }
             // dd($total);
+            // dd($total_coupon);
             $category_post = CategoryPost::orderby('cate_post_id', 'DESC')->paginate(5);
             $meta_decs = "Chuyên bán quần áo nữ";
             $meta_title = "Thanh toán";
@@ -432,7 +452,7 @@ class CheckoutController extends Controller
             }
             $customer = Customer::where('customer_id', $customerid)->first();
             // dd($customer);
-            return view('user.pages.checkout.show_checkout', compact('cart', 'total', 'category_post', 'customer'))->with('categories', $categories)
+            return view('user.pages.checkout.show_checkout', compact('fee_ship','coupon', 'total_coupon', 'cart', 'total', 'category_post', 'customer'))->with('categories', $categories)
                 ->with('meta_decs', $meta_decs)->with('meta_title', $meta_title)->with('meta_keyword', $meta_keyword)->with('url_canonical', $url_canonical)
                 ->with(compact('city'));
         } {

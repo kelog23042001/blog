@@ -127,9 +127,34 @@ use Illuminate\Support\Facades\Session;
                         @endforeach
                         <!-- end product cart -->
                     </div>
+                    @if($coupon)
                     <div class="order-col">
+                        <div>Voucher</div>
+                        <div>
+                            <strong>{{number_format($total_coupon,0,',','.')}} </strong>
+                            <a class="check_out" href="{{url('/unset-coupon')}}">
+                                <i style="font-size: 20px;" class="fa fa-times text-danger text"></i>
+                            </a>
+                        </div>
+                    </div>
+                    @else
+                    <div class="order-col">
+                        <div>Voucher</div>
+                        <form method="POST" action="{{URL::to('/check-coupon')}}" class="form-inline float-right">
+                            {{ csrf_field() }}
+                            <div class="form-group" style="float: right">
+                                <input value="" type="text" class="input_coupon form-control" name="coupon" placeholder="Nhập mã">
+                                <input type="submit" class="btn btn-danger check_coupon" name="check_coupon" value="Áp dụng">
+                            </div>
+                        </form>
+                    </div>
+                    <!-- <div><strong class="order_fee"></strong></div> -->
+                    @endif
+                    <div class="order-col">
+                        @if($fee_ship)
                         <div>Phí vận chuyển</div>
-                        <div><strong class="order_fee">FREE</strong></div>
+                        <div><strong class="order_fee">{{number_format($fee_ship,0,',','.')}}</strong></div>
+                        @endif
                     </div>
                     <div class="order-col">
                         <div><strong>THÀNH TIỀN</strong></div>

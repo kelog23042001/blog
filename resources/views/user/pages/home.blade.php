@@ -47,7 +47,7 @@
                                     <div class="product-body">
                                         <p class="product-category">{{$product->category->category_name}}</p>
                                         <h3 class="product-name"><a href="#">{{$product->product_name}}</a></h3>
-                                        <h4 class="product-price">{{$product->product_price}} <del class="product-old-price">{{$product->product_price}}</del></h4>
+                                        <h4 class="product-price">{{number_format($product->product_price,0,',','.')}} <del class="product-old-price">{{number_format($product->product_price,0,',','.')}}</del></h4>
                                         <div class="product-rating">
                                             <i class="fa fa-star"></i>
                                             <i class="fa fa-star"></i>

@@ -187,9 +187,10 @@ class OrderController extends Controller
         $order_details->save();
     }
 
-    public function update_order_quantity(Request $request)
+    public function destroy_order(Request $request)
     {
         $data = $request->all();
+        // dd($data);
         $order = Order::find($data['order_id']);
         $order->order_status = $data['order_status'];
         $order->save();
@@ -325,11 +326,11 @@ class OrderController extends Controller
 
     public function history_order(Request $request)
     {
-        if (!Session::get('customer_id')) {
-            return redirect('login-checkout')->with('error', 'Bạn chưa đăng nhập!');
-        } else {
+        // if (!Session::get('customer_id')) {
+        //     return redirect('login-checkout')->with('error', 'Bạn chưa đăng nhập!');
+        // } else 
+        {
             $category_post = CategoryPost::orderby('cate_post_id', 'DESC')->where('cate_post_status', "1")->get();
-
             //slider
             $slider = Banner::orderBy('slider_id', 'DESC')->where('slider_status', '1')->take(4)->get();
 
@@ -338,13 +339,12 @@ class OrderController extends Controller
             $meta_keyword = "Lịch sử mua hàng";
             $url_canonical = $request->url();
 
-            $cate_product = DB::table('tbl_category_product')->where('category_status', '1')->orderBy('category_id', 'desc')->get();
+            $categories = DB::table('tbl_category_product')->where('category_status', '1')->orderBy('category_id', 'desc')->get();
             $brand_product = DB::table('tbl_brand_product')->where('brand_status', '1')->orderBy('brand_id', 'desc')->get();
 
             $order = Order::where('customer_id', Session::get('customer_id'))->orderby('created_at', 'DESC')->get();
 
-
-            return view('user.pages.history.history')->with('order', $order)->with('category', $cate_product)->with('brand', $brand_product)
+            return view('user.pages.history.history')->with('order', $order)->with('categories', $categories)->with('brand', $brand_product)
                 ->with('meta_decs', $meta_decs)->with('meta_title', $meta_title)->with('meta_keyword', $meta_keyword)->with('url_canonical', $url_canonical)
                 ->with('slider', $slider)->with('category_post', $category_post);
 
@@ -354,9 +354,11 @@ class OrderController extends Controller
 
     public function view_history_order($order_code, Request $request)
     {
-        if (!Session::get('customer_id')) {
-            return redirect('login-checkout')->with('error', 'Bạn chưa đăng nhập!');
-        } else {
+
+        // if (!Session::get('customer_id')) {
+        //     return redirect('login-checkout')->with('error', 'Bạn chưa đăng nhập!');
+        // } else 
+        {
             $category_post = CategoryPost::orderby('cate_post_id', 'DESC')->where('cate_post_status', "1")->get();
 
             //slider
@@ -383,13 +385,12 @@ class OrderController extends Controller
             // dd($order_status);
             $customer = Customer::where('customer_id', $customer_id)->first();
             $shipping = Shipping::where('shipping_id', $shipping_id)->first();
+            // dd($shipping);
+            $order_details_products = OrderDetails::with('product')->where('order_code', $order_code)->first();
+            $product_coupon = $order_details_products->product_coupon;
+            // dd($product_coupon);
 
-            $order_details_products = OrderDetails::with('product')->where('order_code', $order_code)->get();
-            foreach ($order_details_products as $key => $order_d) {
-                $product_coupon = $order_d->product_coupon;
-            }
-
-            if ($product_coupon != 'non') {
+            if ($product_coupon != 0) {
                 $coupon = Coupon::where('coupon_code', $product_coupon)->first();
                 $coupon_condition = $coupon->coupon_condition;
                 $coupon_number =  $coupon->coupon_number;
@@ -401,19 +402,18 @@ class OrderController extends Controller
 
             return view('user.pages.history.view_history_order')
                 ->with('order', $order)
-                ->with('category', $cate_product)
+                ->with('categories', $cate_product)
                 ->with('brand', $brand_product)
                 ->with('meta_decs', $meta_decs)
                 ->with('meta_title', $meta_title)
                 ->with('meta_keyword', $meta_keyword)
                 ->with('url_canonical', $url_canonical)
-                ->with('slider', $slider)
                 ->with('category_post', $category_post)
                 ->with('order_details', $order_details)
                 ->with('customer', $customer)
                 ->with('shipping', $shipping)
-                ->with('coupon_number', $coupon_number)
                 ->with('coupon_condition', $coupon_condition)
+                ->with('coupon_number', $coupon_number)
                 ->with('order_status', $order_status);
         }
     }

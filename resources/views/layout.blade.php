@@ -54,6 +54,52 @@
             }
         });
 
+        $('.order_details').on('change', function() {
+            var order_status = $(this).val();
+            var order_code = $(this).children(":selected").attr("id")
+            quantity = [];
+            // alert(order_id);
+            $.ajax({
+                url: "{{url('/destroy-order')}}",
+                method: 'POST',
+                data: {
+                    order_status: order_status,
+                    order_id: order_code,
+                },
+            });
+            // $("input[name='product_sales_quantity']").each(function() {
+            //     quantity.push($(this).val());
+            // });
+
+            // j = 0;
+            // for (i = 0; i < order_product_id.length; i++) {
+            //     var order_qty = $('.order_qty_' + order_product_id[i]).val();
+            //     var order_qty_storage = $('.order_qty_storage_' + order_product_id[i]).val();
+            //     if (parseInt(order_qty) > parseInt(order_qty_storage)) {
+            //         j++;
+            //         if (j == 1) {
+            //             alert('Số lượng trong kho không đủ');
+            //         }
+            //         $('.color_qty_' + order_product_id[i]).css('background', '#000');
+            //     }
+            // }
+            // if (j == 0) {
+            //     alert('Cập nhật trạng thái đơn hàng thành công');
+            //     location.reload();
+            //     $.ajax({
+            //         url: '{{url(' / update - order - quantity ')}}',
+            //         method: 'POST',
+            //         data: {
+            //             _token: _token,
+            //             order_status: order_status,
+            //             order_id: order_id,
+            //             quantity: quantity,
+            //             order_product_id: order_product_id
+            //         },
+            //     });
+            // }
+        });
+
         function sendOrder() {
             data = JSON.parse(window.localStorage.getItem("data"));
             $.ajax({
