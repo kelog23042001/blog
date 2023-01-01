@@ -147,3 +147,32 @@
         <!-- /container -->
     </nav>
     <!-- /NAVIGATION -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script>
+        function view() {
+            if (localStorage.getItem('data') != null) {
+                var data = JSON.parse(localStorage.getItem('data'));
+                data.reverse();
+                for (i = 0; i < data.length; i++) {
+                    var name = data[i].name;
+                    var price = data[i].price;
+                    var image = data[i].image;
+                    var url = data[i].url;
+                    $("#row_wishlist").append(
+                        '<a class= "item_viewed">' +
+                        '<div class = "row row_viewed" >' +
+                        '<div class ="col-md-4">' +
+                        '<img src = "' + image + '" width = "100%">' +
+                        '</div>' +
+                        '<div class ="col-md-8" info_wishlist >' +
+                        '<p style = "margin: 0;">' + name + '</p>' +
+                        '<p style = "margin: 0;color:#FE980F">' + price + '</p>' +
+                        '</div>' +
+                        '</div>' +
+                        '</a>'
+                    );
+                }
+            }
+        }
+        view();
+    </script>
