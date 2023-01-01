@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: localhost:3306
--- Thời gian đã tạo: Th12 30, 2022 lúc 01:38 PM
+-- Thời gian đã tạo: Th1 01, 2023 lúc 11:57 AM
 -- Phiên bản máy phục vụ: 5.7.33
 -- Phiên bản PHP: 7.4.19
 
@@ -258,9 +258,16 @@ CREATE TABLE `tbl_coupon` (
   `coupon_condition` int(11) NOT NULL,
   `coupon_number` int(11) NOT NULL,
   `coupon_code` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `coupon_date_start` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `coupon_date_end` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL
+  `coupon_date_start` date NOT NULL,
+  `coupon_date_end` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `tbl_coupon`
+--
+
+INSERT INTO `tbl_coupon` (`coupon_id`, `coupon_name`, `coupon_time`, `coupon_condition`, `coupon_number`, `coupon_code`, `coupon_date_start`, `coupon_date_end`) VALUES
+(2, 'tết 2023', 72, 0, 100000, 'tet2023', '2022-12-31', '2023-01-03');
 
 -- --------------------------------------------------------
 
@@ -309,7 +316,7 @@ CREATE TABLE `tbl_feeship` (
 --
 
 INSERT INTO `tbl_feeship` (`fee_id`, `fee_matp`, `fee_maqh`, `fee_xaid`, `fee_feeship`) VALUES
-(1, '48', '495', '20306', '50');
+(1, '48', '495', '20306', '50000');
 
 -- --------------------------------------------------------
 
@@ -335,7 +342,10 @@ INSERT INTO `tbl_gallery` (`gallery_id`, `imageUrl`, `product_id`) VALUES
 (502, 'https://res.cloudinary.com/ddnvoenef/image/upload/v1672231383/Products/u9ktgv421jrkq3u7l5ol.png', 130),
 (503, 'https://res.cloudinary.com/ddnvoenef/image/upload/v1672231385/Products/brvcht7rycghjmr6y8rx.png', 130),
 (504, 'https://res.cloudinary.com/ddnvoenef/image/upload/v1672231387/Products/j445rlgaqg0wmfvymywd.png', 125),
-(505, 'https://res.cloudinary.com/ddnvoenef/image/upload/v1672231388/Products/zvgal3aphzw8lbepac5n.png', 125);
+(505, 'https://res.cloudinary.com/ddnvoenef/image/upload/v1672231388/Products/zvgal3aphzw8lbepac5n.png', 125),
+(506, 'https://res.cloudinary.com/ddnvoenef/image/upload/v1672476232/Products/ohruf4x78g8uwhe2hbff.png', 123),
+(507, 'https://res.cloudinary.com/ddnvoenef/image/upload/v1672476236/Products/kem94kymn8sopewl0aka.png', 123),
+(508, 'https://res.cloudinary.com/ddnvoenef/image/upload/v1672476239/Products/jyssek0un1tsj4irps9m.png', 123);
 
 -- --------------------------------------------------------
 
@@ -366,6 +376,7 @@ INSERT INTO `tbl_information` (`info_id`, `info_contact`, `info_map`, `info_logo
 
 CREATE TABLE `tbl_order` (
   `order_id` bigint(20) UNSIGNED NOT NULL,
+  `total` int(10) NOT NULL,
   `customer_id` int(11) UNSIGNED DEFAULT NULL,
   `shipping_id` int(11) UNSIGNED NOT NULL,
   `order_status` int(50) NOT NULL,
@@ -379,12 +390,10 @@ CREATE TABLE `tbl_order` (
 -- Đang đổ dữ liệu cho bảng `tbl_order`
 --
 
-INSERT INTO `tbl_order` (`order_id`, `customer_id`, `shipping_id`, `order_status`, `order_code`, `order_date`, `created_at`, `updated_at`) VALUES
-(2, NULL, 39, 1, '287b9', '2022-12-29', '2022-12-29 15:26:53', NULL),
-(3, NULL, 40, 1, '18a51', '2022-12-29', '2022-12-29 15:29:51', NULL),
-(4, NULL, 41, 1, 'a8305', '2022-12-29', '2022-12-29 15:32:04', NULL),
-(5, NULL, 42, 1, '6c1d3', '2022-12-29', '2022-12-29 15:32:39', NULL),
-(6, NULL, 43, 1, 'bd88b', '2022-12-30', '2022-12-30 05:36:12', NULL);
+INSERT INTO `tbl_order` (`order_id`, `total`, `customer_id`, `shipping_id`, `order_status`, `order_code`, `order_date`, `created_at`, `updated_at`) VALUES
+(49, 3420000, NULL, 88, 3, 'ae1c9', '2023-01-01', '2023-01-01 11:08:58', NULL),
+(50, 8770000, NULL, 89, 1, 'b3b62', '2023-01-01', '2023-01-01 11:33:03', NULL),
+(51, 370000, NULL, 90, 1, '7eb53', '2023-01-01', '2023-01-01 11:57:11', NULL);
 
 -- --------------------------------------------------------
 
@@ -400,7 +409,7 @@ CREATE TABLE `tbl_order_details` (
   `product_price` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `product_sale_quantity` int(11) NOT NULL,
   `product_coupon` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `product_feeship` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `product_feeship` int(11) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -410,13 +419,10 @@ CREATE TABLE `tbl_order_details` (
 --
 
 INSERT INTO `tbl_order_details` (`order_detail_id`, `order_code`, `product_id`, `product_name`, `product_price`, `product_sale_quantity`, `product_coupon`, `product_feeship`, `created_at`, `updated_at`) VALUES
-(1, '18a51', 128, '3', '123', 5, '0', 'FREE', NULL, NULL),
-(2, '18a51', 129, '4', '123', 8, '0', 'FREE', NULL, NULL),
-(3, 'a8305', 128, '3', '123', 5, '0', '10.000 ₫', NULL, NULL),
-(4, 'a8305', 129, '4', '123', 8, '0', '10.000 ₫', NULL, NULL),
-(5, '6c1d3', 128, '3', '123', 5, '0', '10.000 ₫', NULL, NULL),
-(6, '6c1d3', 129, '4', '123', 8, '0', '10.000 ₫', NULL, NULL),
-(7, 'bd88b', 129, '4', '123', 1, '0', '10.000 ₫', NULL, NULL);
+(42, 'ae1c9', 129, '4', '350000', 10, '100000', 20000, NULL, NULL),
+(43, 'b3b62', 128, '3', '350000', 10, '0', 20000, NULL, NULL),
+(44, 'b3b62', 124, '2', '350000', 15, '0', 20000, NULL, NULL),
+(45, '7eb53', 129, '4', '350000', 1, '0', 20000, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -482,12 +488,12 @@ CREATE TABLE `tbl_product` (
 --
 
 INSERT INTO `tbl_product` (`product_id`, `category_id`, `product_name`, `product_tags`, `product_quantity`, `product_sold`, `product_slug`, `product_desc`, `product_price`, `price_cost`, `product_image`, `product_views`, `product_status`, `deleted`, `created_at`, `updated_at`) VALUES
-(123, 22, '1', NULL, 123, 0, '1', '<p><strong>123</strong></p>', 1, '123', 'https://res.cloudinary.com/ddnvoenef/image/upload/v1672221130/Products/oszone9pgphaksvglgxi.png', 1, 1, 0, NULL, NULL),
-(124, 22, '2', NULL, 123, 0, '2', '<p>123</p>', 2, '123', 'https://res.cloudinary.com/ddnvoenef/image/upload/v1672232633/Products/xjikhmtojq4s26kwjws5.png', 3, 1, 0, NULL, NULL),
+(123, 22, '1', NULL, 123, 0, '1', '<p><strong>123</strong></p>', 350000, '350000', 'https://res.cloudinary.com/ddnvoenef/image/upload/v1672221130/Products/oszone9pgphaksvglgxi.png', 4, 1, 0, NULL, NULL),
+(124, 22, '2', NULL, 350000, 0, '2', '<p>123</p>', 350000, '123', 'https://res.cloudinary.com/ddnvoenef/image/upload/v1672232633/Products/xjikhmtojq4s26kwjws5.png', 5, 1, 0, NULL, NULL),
 (125, 21, '123', NULL, 123, 0, '123', '<p>123</p>', 123, '123', 'https://res.cloudinary.com/ddnvoenef/image/upload/v1672221610/Products/rrmr8fwzc23wtpcmpj6t.png', 0, 1, 1, NULL, NULL),
-(128, 22, '3', NULL, 123, 0, '3', '<p><strong>123</strong></p>', 123, '123', 'https://res.cloudinary.com/ddnvoenef/image/upload/v1672221130/Products/oszone9pgphaksvglgxi.png', 35, 1, 0, NULL, NULL),
-(129, 22, '4', NULL, 123, 0, '4', '<p>123</p>', 123, '123', 'https://res.cloudinary.com/ddnvoenef/image/upload/v1672232633/Products/xjikhmtojq4s26kwjws5.png', 16, 1, 0, NULL, NULL),
-(130, 21, '5', NULL, 123, 0, '5', '<p>123</p>', 123, '123', 'https://res.cloudinary.com/ddnvoenef/image/upload/v1672221610/Products/rrmr8fwzc23wtpcmpj6t.png', 223, 0, 0, NULL, NULL);
+(128, 22, '3', NULL, 123, 0, '3', '<p><strong>123</strong></p>', 350000, '350000', 'https://res.cloudinary.com/ddnvoenef/image/upload/v1672221130/Products/oszone9pgphaksvglgxi.png', 46, 1, 0, NULL, NULL),
+(129, 22, '4', NULL, 123, 0, '4', '<p>123</p>', 350000, '350000', 'https://res.cloudinary.com/ddnvoenef/image/upload/v1672232633/Products/xjikhmtojq4s26kwjws5.png', 57, 1, 0, NULL, NULL),
+(130, 21, '5', NULL, 123, 0, '5', '<p>123</p>', 350000, '350000', 'https://res.cloudinary.com/ddnvoenef/image/upload/v1672221610/Products/rrmr8fwzc23wtpcmpj6t.png', 223, 0, 0, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1264,7 +1270,7 @@ CREATE TABLE `tbl_shipping` (
   `shipping_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `shipping_notes` text COLLATE utf8mb4_unicode_ci,
   `shipping_method` varchar(11) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `shipping_email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `shipping_email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `shipping_phone` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `shipping_address` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -1276,49 +1282,11 @@ CREATE TABLE `tbl_shipping` (
 --
 
 INSERT INTO `tbl_shipping` (`shipping_id`, `shipping_name`, `shipping_notes`, `shipping_method`, `shipping_email`, `shipping_phone`, `shipping_address`, `created_at`, `updated_at`) VALUES
-(1, 'khanh', 'khanh', '1', 'khanh', 'khanh', 'khanh', NULL, NULL),
-(2, 's', 's', '1', 's', 's', 's', NULL, NULL),
-(3, 's', 'hs', '1', 's', 'ha', 'ha', NULL, NULL),
-(4, 'g', 'g', '1', '1', 'g', 'g', NULL, NULL),
-(5, 'h', 'h', '1', 's', 'h', 'h', NULL, NULL),
-(6, 'h', 'h', '1', 's', 'h', 'h', NULL, NULL),
-(7, 'l', 'l', '1', 'l', '1', 'l', NULL, NULL),
-(8, 'Khánh Trần Văn', 'l', '1', 'khalongtvh@gmail.com', '01234567', 'l', NULL, NULL),
-(9, 'Khánh Trần Văn', 's', '1', 'khalongtvh@gmail.com', '01234567', 's', NULL, NULL),
-(10, 'Khánh Trần Văn', 's', '1', 'khalongtvh@gmail.com', '01234567', 's', NULL, NULL),
-(11, 'Khánh Trần Văn', 's', '1', 'khalongtvh@gmail.com', '01234567', 's', NULL, NULL),
-(12, 'Khánh Trần Văn', 's', '1', 'khalongtvh@gmail.com', '01234567', 's', NULL, NULL),
-(13, 'Khánh Trần Văn', 's', '1', 'khalongtvh@gmail.com', '01234567', 's', NULL, NULL),
-(14, 'Khánh Trần Văn', 's', '1', 'khalongtvh@gmail.com', '01234567', 's', NULL, NULL),
-(15, 'Khánh Trần Văn', 's', '1', 'khalongtvh@gmail.com', '01234567', 's', NULL, NULL),
-(16, 'Khánh Trần Văn', 's', '1', 'khalongtvh@gmail.com', '01234567', 's', NULL, NULL),
-(17, 'Khánh Trần Văn', 's', '1', 'khalongtvh@gmail.com', '01234567', 's', NULL, NULL),
-(18, 'Khánh Trần Văn', 's', '1', 'khalongtvh@gmail.com', '01234567', 's', NULL, NULL),
-(19, 'Khánh Trần Văn', 's', '1', 'khalongtvh@gmail.com', '01234567', 's', NULL, NULL),
-(20, 'Khánh Trần Văn', 's', '1', 'khalongtvh@gmail.com', '01234567', 's', NULL, NULL),
-(21, 'Khánh Trần Văn', 's', '1', 'khalongtvh@gmail.com', '01234567', 's', NULL, NULL),
-(22, 'Khánh Trần Văn', 's', '1', 'khalongtvh@gmail.com', '01234567', 's', NULL, NULL),
-(23, 'Khánh Trần Văn', 's', '1', 'khalongtvh@gmail.com', '01234567', 's', NULL, NULL),
-(24, 'Khánh Trần Văn', 's', '1', 'khalongtvh@gmail.com', '01234567', 's', NULL, NULL),
-(25, 'Khánh Trần Văn', 's', '1', 'khalongtvh@gmail.com', '01234567', 's', NULL, NULL),
-(26, 'Khánh Trần Văn', 's', '1', 'khalongtvh@gmail.com', '01234567', 's', NULL, NULL),
-(27, 'Khánh Trần Văn', 'd', '1', 'khalongtvh@gmail.com', '01234567', 'd', NULL, NULL),
-(28, 'Khánh Trần Văn', 'w', '1', 'khalongtvh@gmail.com', '01234567', 'w', NULL, NULL),
-(29, 'Khánh Trần Văn', 'notes', '1', 'khalongtvh@gmail.com', '0376822362', '512/18 tôn đản, Phường Hòa An, Quận Cẩm Lệ, Thành phố Đà Nẵng', NULL, NULL),
-(30, 'Khánh Trần Văn', NULL, '0', 'khalongtvh@gmail.com', '0376822362', '512/18 tôn đản, Phường Hòa An, Quận Cẩm Lệ, Thành phố Đà Nẵng', NULL, NULL),
-(31, 'Khánh Trần Văn', NULL, '1', 'khalongtvh@gmail.com', '0376822362', '512/18 tôn đản, Phường Hòa An, Quận Cẩm Lệ, Thành phố Đà Nẵng', NULL, NULL),
-(32, 'Khánh Trần Văn', NULL, '1', 'khalongtvh@gmail.com', '0376822362', '512/18 tôn đản, Phường Hòa An, Quận Cẩm Lệ, Thành phố Đà Nẵng', NULL, NULL),
-(33, 'asdasd', NULL, '0', 'khalongtvh@gmail.com', '0376822362', '512/18 tôn đản, Phường Phúc Xá, Quận Ba Đình, Thành phố Hà Nội', NULL, NULL),
-(34, 'trab', NULL, '1', 'trankhanh@hotgmail.com', '0376822362', 'fas', NULL, NULL),
-(35, 'trab', NULL, '1', 'trankhanh@hotgmail.com', '0376822362', 'fas', NULL, NULL),
-(36, 'tra', NULL, 'cash', 'jast.reynold@example.net', '0376822362', 'hieuaddresstan', NULL, NULL),
-(37, 'a', NULL, 'cash', 'khalongtvh1@gmail.com', '0376822363', 'hieuaddresstan', NULL, NULL),
-(38, 'asd', NULL, 'cash', 'khalongtvh1@gmail.com', '0376822363', 'hieuaddresstan', NULL, NULL),
-(39, 'dasd', NULL, 'cash', 'khalongtvh@gmail.com', '0376822362', 's', NULL, NULL),
-(40, 'das', NULL, 'cash', 'jast.reynold@example.net', '0376822362', 'hieuaddresstan', NULL, NULL),
-(41, 'das', NULL, 'cash', 'jast.reynold@example.net', '0376822362', 'hieuaddresstan', NULL, NULL),
-(42, 'asd', NULL, 'cash', 'khalongtvh@gmail.com', '0376822362', 's', NULL, NULL),
-(43, 'tar', NULL, 'paypal', 'khalongtvh@gmail.com', 'khanhadmin@gmail.com', 's', NULL, NULL);
+(86, 'tran khanh', NULL, 'cash', 'khalongtvh@gmail.com', '0376822362', 's', NULL, NULL),
+(87, 'tran khanh', NULL, 'cash', 'khalongtvh@gmail.com', '0376822362', 's', NULL, NULL),
+(88, 'tran khanh', NULL, 'cash', 'khalongtvh@gmail.com', '0376822362', 's', NULL, NULL),
+(89, 'tran khanh', NULL, 'cash', 'khalongtvh@gmail.com', '0376822362', 's', NULL, NULL),
+(90, 'tran khanh', NULL, 'cash', NULL, '0376822362', 's', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -13028,7 +12996,7 @@ ALTER TABLE `tbl_comment`
 -- AUTO_INCREMENT cho bảng `tbl_coupon`
 --
 ALTER TABLE `tbl_coupon`
-  MODIFY `coupon_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `coupon_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT cho bảng `tbl_customers`
@@ -13046,7 +13014,7 @@ ALTER TABLE `tbl_feeship`
 -- AUTO_INCREMENT cho bảng `tbl_gallery`
 --
 ALTER TABLE `tbl_gallery`
-  MODIFY `gallery_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=506;
+  MODIFY `gallery_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=509;
 
 --
 -- AUTO_INCREMENT cho bảng `tbl_information`
@@ -13058,13 +13026,13 @@ ALTER TABLE `tbl_information`
 -- AUTO_INCREMENT cho bảng `tbl_order`
 --
 ALTER TABLE `tbl_order`
-  MODIFY `order_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `order_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT cho bảng `tbl_order_details`
 --
 ALTER TABLE `tbl_order_details`
-  MODIFY `order_detail_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `order_detail_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT cho bảng `tbl_payment`
@@ -13100,7 +13068,7 @@ ALTER TABLE `tbl_roles`
 -- AUTO_INCREMENT cho bảng `tbl_shipping`
 --
 ALTER TABLE `tbl_shipping`
-  MODIFY `shipping_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `shipping_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=91;
 
 --
 -- AUTO_INCREMENT cho bảng `tbl_slider`
@@ -13140,9 +13108,9 @@ ALTER TABLE `users`
 -- Các ràng buộc cho bảng `tbl_feeship`
 --
 ALTER TABLE `tbl_feeship`
+  ADD CONSTRAINT `tbl_feeship_ibfk` FOREIGN KEY (`fee_xaid`) REFERENCES `tbl_xaphuongthitran` (`xaid`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `tbl_feeship_ibfk_1` FOREIGN KEY (`fee_maqh`) REFERENCES `tbl_quanhuyen` (`maqh`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `tbl_feeship_ibfk_2` FOREIGN KEY (`fee_matp`) REFERENCES `tbl_tinhthanhpho` (`matp`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `tbl_feeship_ibfk_3` FOREIGN KEY (`fee_xaid`) REFERENCES `tbl_xaphuongthitran` (`xaid`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `tbl_feeship_ibfk_2` FOREIGN KEY (`fee_matp`) REFERENCES `tbl_tinhthanhpho` (`matp`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Các ràng buộc cho bảng `tbl_order`
