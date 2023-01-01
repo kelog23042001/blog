@@ -39,6 +39,7 @@ class CategoryProductController extends Controller
     {
         // dd($request['thumbnail']);
         $this->validation($request);
+
         $data = array();
         $uploadedFileUrl = Cloudinary::upload($request->file('thumbnail')->getRealPath(), [
             'folder' => 'Category',

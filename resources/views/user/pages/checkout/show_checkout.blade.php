@@ -1,5 +1,11 @@
 @extends('layout')
 @section('content')
+<?php
+
+use Illuminate\Support\Facades\Session;
+
+// session::forget('pay_success');
+?>
 <!-- BREADCRUMB -->
 <div id="breadcrumb" class="section">
     <!-- container -->
@@ -39,13 +45,13 @@
                         @endif
                     </div>
                     <div class="form-group">
-                        <input class="input shipping_name" type="text" placeholder="Tên" required>
+                        <input class="input shipping_name" type="text" placeholder="Tên">
                     </div>
                     <div class="form-group">
-                        <input class="input shipping_email" type="email" placeholder="Email" required>
+                        <input class="input shipping_email" type="email" placeholder="Email" value="">
                     </div>
                     <div class="form-group">
-                        <input class="input shipping_phone" type="tel" name="shipping_phone" placeholder="Số điện thoại" required>
+                        <input class="input shipping_phone" type="tel" name="shipping_phone" value="" placeholder="Số điện thoại">
                     </div>
                     <div class="form-group">
                         <div class="input-checkbox">
@@ -55,7 +61,7 @@
                                 Create Account?
                             </label>
                             <div class="caption">
-                                <input class="input" type="password" name="password" placeholder="Điền mật khẩu" required>
+                                <input class="input" type="password" name="password" placeholder="Điền mật khẩu">
                             </div>
                         </div>
                     </div>
@@ -68,24 +74,37 @@
                         <h3 class="title">Địa chỉ nhận hàng</h3>
                     </div>
                     <div class="form-group">
-                        <input class="input shipping_address" type="text" name="address" placeholder="Địa chỉ" required>
+                        <input class="input shipping_address" type="text" name="address" value="" placeholder="Địa chỉ">
                     </div>
                     <div class="form-group">
                         <select name="city" id="city" class="form-control choose">
+                            @if($city)
+                            <option value="{{$city['id']}}">{{$city['name']}}</option>
+                            @else
                             <option value="">Chọn Tỉnh-Thành Phố</option>
-                            @foreach($city as $key => $ci)
+                            @endif
+                            @foreach($citys as $key => $ci)
                             <option value="{{$ci->matp}}">{{$ci->name_city}}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="form-group">
+
                         <select name="province" id="province" class="form-control choose">
+                            @if($province)
+                            <option value="{{$province['id']}}">{{$province['name']}}</option>
+                            @else
                             <option value="non">Chọn Quận-Huyện</option>
+                            @endif
                         </select>
                     </div>
                     <div class="form-group">
                         <select name="wards" id="wards" class="form-control wards">
-                            <option value="">Chọn Phường-Xã</option>
+                            @if($ward)
+                            <option value="{{$ward['id']}}">{{$ward['name']}}</option>
+                            @else
+                            <option value="non">Chọn Phường-Xã</option>
+                            @endif
                         </select>
                     </div>
                 </div>
@@ -121,13 +140,41 @@
                         @endforeach
                         <!-- end product cart -->
                     </div>
+                    @if($coupon)
                     <div class="order-col">
+                        <div>Voucher</div>
+                        <div>
+                            <input type="hidden" class="coupon_code" value="{{$coupon['coupon_code']}}">
+                            <input type="hidden" class="order_coupon" value="{{$total_coupon}}">
+                            <strong>{{number_format($total_coupon,0,',','.')}} </strong>
+                            <a class="check_out check_coupon" href="{{url('/unset-coupon')}}">
+                                <i style="font-size: 20px;" class="fa fa-times text-danger text"></i>
+                            </a>
+                        </div>
+                    </div>
+                    @else
+                    <div class="order-col">
+                        <div>Voucher</div>
+                        <form method="POST" action="{{URL::to('/check-coupon')}}" class="form-inline float-right">
+                            {{ csrf_field() }}
+                            <div class="form-group" style="float: right">
+                                <input value="" type="text" class="input_coupon form-control" name="coupon" placeholder="Nhập mã">
+                                <input type="submit" class="btn btn-danger check_coupon" name="check_coupon" value="Áp dụng">
+                            </div>
+                        </form>
+                    </div>
+                    @endif
+                    <div class="order-col">
+                        @if($fee_ship)
                         <div>Phí vận chuyển</div>
-                        <div><strong class="order_fee">FREE</strong></div>
+                        <input type="hidden" class="order_fee" value="{{$fee_ship}}">
+                        <div><strong class="">{{number_format($fee_ship,0,',','.')}}</strong></div>
+                        @endif
                     </div>
                     <div class="order-col">
                         <div><strong>THÀNH TIỀN</strong></div>
-                        <div><strong class="order-total">{{number_format($total,0,',','.')}} <span style="text-decoration: underline;">đ</span></strong></div>
+                        <input type="hidden" id="order_total" value="{{$total}}">
+                        <div><strong><span class="order-total">{{number_format($total,0,',','.')}} </span><span style="text-decoration: underline;">đ</span></strong></div>
                     </div>
                 </div>
                 <div class="payment-method" id="payment-method">
@@ -141,19 +188,29 @@
                             <!-- <p>Chuyển qua ngân hàng</p> -->
                         </div>
                     </div>
-                    <div class="input-radio">
-                        <input type="radio" value="momo" name="payment" id="payment-2">
+                    <!-- <div class="input-radio">
+                        <input type="radio" value="vnpay" name="payment" id="payment-2">
                         <label for="payment-2">
                             <span></span>
-                            Thẻ ATM nội địa
+                            VNpay
                         </label>
                         <div class="caption">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                        </div>
+                    </div> -->
+
+                    <div class="input-radio">
+                        <input type="radio" value="momo" name="payment" id="payment-3">
+                        <label for="payment-3">
+                            <span></span>
+                            Momo
+                        </label>
+                        <div class="caption">
+                            <p><strong> Lưu ý: </strong>Số tiền tối thiểu cho phép là 10.000 VND hoặc lớn hơn số tiền tối đa cho phép là 50.000.000 VND</p>
                         </div>
                     </div>
                     <div class="input-radio">
-                        <input type="radio" value="paypal" name="payment" id="payment-3" checked>
-                        <label for="payment-3">
+                        <input type="radio" value="paypal" name="payment" id="payment-4">
+                        <label for="payment-4">
                             <span></span>
                             Paypal
                         </label>
@@ -187,21 +244,47 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script>
     $(document).ready(function() {
-
+        data = JSON.parse(window.localStorage.getItem("data"))
+        fetchDataOrder(data)
         pay_success = $('#pay_success').val()
         if (pay_success) {
-            data = JSON.parse(window.localStorage.getItem("data"));
-            console.log(data)
+            // console.log(data)
             $.ajax({
                 url: "{{url('/confirm-order')}}",
                 method: 'POST',
                 data: data,
-                success: function() {
-                    swal("Đặt hàng!", "Đơn đặt hàng của bạn đã đặt thành công", "success");
+                success: function(response) {
+                    swal({
+                            title: "Đặt hàng thành công!",
+                            // text: "",
+                            icon: "success",
+                            showCancelButton: true,
+                            confirmButtonClass: "btn-danger",
+                            confirmButtonText: "Xem đơn hàng",
+                            cancelButtonText: "Trang chủ",
+                            closeOnConfirm: true,
+                            closeOnCancel: true,
+                            showLoaderOnConfirm: true
+                        },
+                        function(isConfirm) {
+                            if (isConfirm) {
+                                window.location.href = `{{url('/view-history-order/${response.order_code}')}}`;
+                            } else {
+                                window.location.href = `{{url('/')}}`;
+                            }
+                        });
                 }
             });
         }
-        // window.location.href = "{{route('processTransaction')}}";
+
+        function fetchDataOrder(data) {
+            $('.shipping_email').val(data['shipping_email'])
+            $('.shipping_name').val(data['shipping_name'])
+            $('.shipping_phone').val(data['shipping_phone'])
+            $('.shipping_notes').val(data['shipping_notes'])
+            $('.shipping_address').val(data['shipping_address'])
+            window.localStorage.clear();
+        }
     })
 </script>
 @endsection

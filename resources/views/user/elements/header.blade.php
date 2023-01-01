@@ -52,12 +52,27 @@
                     <div class="col-md-3 clearfix">
                         <div class="header-ctn">
                             <!-- Wishlist -->
-                            <div>
+                            <!-- <div>
                                 <a href="#">
                                     <i class="fa fa-heart-o"></i>
                                     <span>Your Wishlist</span>
                                     <div class="qty">2</div>
                                 </a>
+                            </div> -->
+                            <!-- /Wishlist -->
+
+                            <!-- Wishlist -->
+                            <div class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                                    <i class="fa fa-heart-o"></i>
+                                    <span>Yêu thích</span>
+                                    <div class="qty qty_wishlist">0</div>
+                                </a>
+                                <div class="cart-dropdown">
+                                    <div class="wish-list">
+                                        <p>Hiện chưa có sản phẩm nào!</p>
+                                    </div>
+                                </div>
                             </div>
                             <!-- /Wishlist -->
 
@@ -65,8 +80,8 @@
                             <div class="dropdown">
                                 <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
                                     <i class="fa fa-shopping-cart"></i>
-                                    <span>Your Cart</span>
-                                    <div class="qty">3</div>
+                                    <span>Giỏ hàng</span>
+                                    <div class="qty qty_cart_list">3</div>
                                 </a>
                                 <div class="cart-dropdown">
                                     <div class="cart-list">
@@ -77,17 +92,6 @@
                                             <div class="product-body">
                                                 <h3 class="product-name"><a href="#">product name goes here</a></h3>
                                                 <h4 class="product-price"><span class="qty">1x</span>$980.00</h4>
-                                            </div>
-                                            <button class="delete"><i class="fa fa-close"></i></button>
-                                        </div>
-
-                                        <div class="product-widget">
-                                            <div class="product-img">
-                                                <img src="" alt="">
-                                            </div>
-                                            <div class="product-body">
-                                                <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                                <h4 class="product-price"><span class="qty">3x</span>$980.00</h4>
                                             </div>
                                             <button class="delete"><i class="fa fa-close"></i></button>
                                         </div>
@@ -143,3 +147,32 @@
         <!-- /container -->
     </nav>
     <!-- /NAVIGATION -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script>
+        function view() {
+            if (localStorage.getItem('data') != null) {
+                var data = JSON.parse(localStorage.getItem('data'));
+                data.reverse();
+                for (i = 0; i < data.length; i++) {
+                    var name = data[i].name;
+                    var price = data[i].price;
+                    var image = data[i].image;
+                    var url = data[i].url;
+                    $("#row_wishlist").append(
+                        '<a class= "item_viewed">' +
+                        '<div class = "row row_viewed" >' +
+                        '<div class ="col-md-4">' +
+                        '<img src = "' + image + '" width = "100%">' +
+                        '</div>' +
+                        '<div class ="col-md-8" info_wishlist >' +
+                        '<p style = "margin: 0;">' + name + '</p>' +
+                        '<p style = "margin: 0;color:#FE980F">' + price + '</p>' +
+                        '</div>' +
+                        '</div>' +
+                        '</a>'
+                    );
+                }
+            }
+        }
+        view();
+    </script>

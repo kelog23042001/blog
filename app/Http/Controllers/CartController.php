@@ -124,8 +124,6 @@ class CartController extends Controller
         // "cart_product_price" => "123"
         // "cart_product_qty" => "1"
         // "remain_qty" => "123"
-        // "_token" => "frzAvB1ASqHFhlDnP4w1a3gWjx1oplFacugAO9DD"
-
 
         $data = $request->all();
         // dd($data);
@@ -170,17 +168,29 @@ class CartController extends Controller
             Session::put('cart', $cart);
         }
         Session::save();
+        return response()->json([
+            'cartLength' => count($cart)
+        ]);
     }
 
     public function gio_hang(Request $request)
     {
-        // $category_post = CategoryPost::orderby('cate_post_id', 'DESC')->paginate(5);
+
+        $cart = Session::get('cart');
+        $total = 0;
+        if ($cart) {
+            foreach (Session::get('cart') as $key => $cart) {
+                $subtotal = $cart['product_price'] * $cart['product_qty'];
+                $total += $subtotal;
+            }
+        }
+        // dd($total);
         $meta_decs = "Giỏ hàng";
         $meta_title = "Giỏ hàng ";
         $meta_keyword = "Giỏ hàng ";
         $url_canonical = $request->url();
         $categories = DB::table('tbl_category_product')->where('category_status', '1')->orderBy('category_id', 'desc')->get();
-        return view('user.pages.cart.cart_ajax', compact('categories'))
+        return view('user.pages.cart.cart_ajax', compact('categories', 'cart', 'total'))
             ->with('meta_decs', $meta_decs)->with('meta_title', $meta_title)->with('meta_keyword', $meta_keyword)->with('url_canonical', $url_canonical);
     }
 

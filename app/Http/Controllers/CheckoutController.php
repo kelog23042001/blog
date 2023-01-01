@@ -32,10 +32,7 @@ class CheckoutController extends Controller
 
     public function momo_payment(Request $request)
     {
-
-
         $endpoint = "https://test-payment.momo.vn/v2/gateway/api/create";
-
         $partnerCode = 'MOMOBKUN20180529';
         $accessKey = 'klm05TvNBzhg7h7j';
         $serectkey = 'at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa';
@@ -45,8 +42,6 @@ class CheckoutController extends Controller
         $redirectUrl = "http://127.0.0.1:8000/checkout";
         $ipnUrl = "http://127.0.0.1:8000/checkout";
         $extraData = "";
-
-
 
         $requestId = time() . "";
         $requestType = "payWithATM";
@@ -74,15 +69,16 @@ class CheckoutController extends Controller
         $jsonResult = json_decode($result, true);  // decode json
 
         //Just a example, please check more in there
+        // dd($result);
         \Session::put('pay_success', true);
-
-        return redirect()->to($jsonResult['payUrl']);
+        return response()->json($jsonResult['payUrl']);
         // header('Location: ' . $jsonResult['payUrl']);
     }
     public function vnpay_payment(Request $request)
     {
-
         $data = $request->all();
+        // dd($data);
+
         $code_cart = rand(00, 9999);
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
         $vnp_Returnurl = "http://127.0.0.1:8000/checkout";
@@ -154,22 +150,30 @@ class CheckoutController extends Controller
         }
         \Session::put('pay_success', true);
     }
+    public function validation($request)
+    {
+        return $this->validate($request, [
+            'shipping_name' => 'required', 'max:255',
+            'shipping_phone' => 'required', 'max:255',
+            'shipping_address' => 'required', 'max:255',
+        ]);
+    }
+    public function messages()
+    {
+        return [
+            'shipping_name.*.required' => "The tag may not be greater than 15 characters.",
+        ];
+    }
+
     public function confirm_order(Request $request)
     {
-        // if (Session::get('pay_success')) {
-        //     dd(session::get('order'));
-        // };
         $data = $request->all();
-        // dd($data);
-
+        $this->validation($request);
         $coupon_mail = '';
-        if (isset($data['order_coupon'])) {
-            $coupon = Coupon::where('coupon_code', $data['order_coupon'])->first();
-            // $coupon->coupon_time = $coupon->coupon_time - 1;
+        if (isset($data['coupon_code'])) {
+            $coupon = Coupon::where('coupon_code', $data['coupon_code'])->first();
             $coupon_number = $coupon->coupon_number;
             $coupon_condition = $coupon->coupon_condition;
-            $coupon_mail = $data['order_coupon'];
-            // $coupon->save();
         }
 
         $shipping = new Shipping();
@@ -196,12 +200,30 @@ class CheckoutController extends Controller
 
         $today = Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d H:i:s');
         $order_date = Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d');
-
+        $order->total = $data['total_order'];
         $order->created_at = $today;
         $order->order_date = $order_date;
 
         $order->save();
-
+        // dd($data);
+        if (Session::get('cart')) {
+            foreach (Session::get('cart') as $key => $cart) {
+                $order_details =  new OrderDetails;
+                $order_details->order_code = $checkout_code;
+                $order_details->product_id = $cart['product_id'];
+                $order_details->product_name = $cart['product_name'];
+                $order_details->product_price = $cart['product_price'];
+                $order_details->product_sale_quantity = $cart['product_qty'];
+                // dd($data);
+                if (isset($data['coupon_code'])) {
+                    $order_details->product_coupon = $data['order_discount'];
+                } else {
+                    $order_details->product_coupon = 0;
+                }
+                $order_details->product_feeship = $data['order_fee'];
+                $order_details->save();
+            }
+        }
         if (isset($data['order_coupon'])) {
             $ordercode_mail = array(
                 'coupon_number' => $coupon_number,
@@ -218,23 +240,7 @@ class CheckoutController extends Controller
             );
         }
 
-        if (Session::get('cart')) {
-            foreach (Session::get('cart') as $key => $cart) {
-                $order_details =  new OrderDetails;
-                $order_details->order_code = $checkout_code;
-                $order_details->product_id = $cart['product_id'];
-                $order_details->product_name = $cart['product_name'];
-                $order_details->product_price = $cart['product_price'];
-                $order_details->product_sale_quantity = $cart['product_qty'];
-                if (isset($data['order_coupon'])) {
-                    $order_details->product_coupon = $data['order_coupon'];
-                } else {
-                    $order_details->product_coupon = 0;
-                }
-                $order_details->product_feeship = $data['order_fee'];
-                $order_details->save();
-            }
-        }
+
 
         $now = Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d H:i:s');
         $title_mail = "Đơn hàng xác nhận ngày " . $now;
@@ -242,7 +248,13 @@ class CheckoutController extends Controller
         if ($customer != null) {
             $data['email'][] = $customer->customer_email;
         }
-
+        session::forget('cart');
+        session::forget('pay_success');
+        session::forget('fee');
+        session::forget('coupon');
+        return response()->json([
+            'order_code' => $checkout_code
+        ]);
         // if (session::get('cart')) {
         //     foreach (session::get('cart') as $key => $cart_mail) {
         //         $cart_array[] = array(
@@ -272,10 +284,7 @@ class CheckoutController extends Controller
         //         $message->from($data['email'], $title_mail);
         //     }
         // );
-        session::forget('cart');
-        session::forget('pay_success');
-        session::forget('fee');
-        session::forget('coupon');
+
     }
     public function del_fee()
     {
@@ -304,8 +313,8 @@ class CheckoutController extends Controller
                 }
                 $select_wards = Wards::where('maqh', $data['id'])->orderby('xaid', 'ASC')->get();
                 $output .= '<option value="non">Chọn Xã Phường</option>';
-                foreach ($select_wards as $key => $province) {
-                    $output .= '<option value = "' . $province->xaid . '">' . $province->name_xaphuong . '</option>';
+                foreach ($select_wards as $key => $ward) {
+                    $output .= '<option value = "' . $ward->xaid . '">' . $ward->name_xaphuong . '</option>';
                 }
                 Session::forget('province');
             }
@@ -316,12 +325,12 @@ class CheckoutController extends Controller
 
     public function calculate_fee(Request $request)
     {
-        $data = $request->all();
-        // dd($data);
         Session::forget('fee');
         Session::forget('city');
         Session::forget('province');
         Session::forget('wards');
+
+        $data = $request->all();
 
         if ($data['matp'] < 10) {
             $data['matp'] = '0' . $data['matp'];
@@ -331,15 +340,10 @@ class CheckoutController extends Controller
         } elseif ($data['maqh'] < 10) {
             $data['maqh'] = '0' . $data['maqh'];
         }
-        if ($data['xaid'] < 10000) {
-            $data['xaid'] = '0000' . $data['xaid'];
-        } elseif ($data['xaid'] < 1000) {
-            $data['xaid'] = '000' . $data['xaid'];
-        } elseif ($data['xaid'] < 100) {
-            $data['xaid'] = '00' . $data['xaid'];
-        } elseif ($data['xaid'] < 10) {
+        while (strlen($data['xaid']) < 5) {
             $data['xaid'] = '0' . $data['xaid'];
         }
+        // dd($data['xaid']);
 
         $city = City::where('matp', $data['matp'])->first();
 
@@ -347,8 +351,7 @@ class CheckoutController extends Controller
 
         $wards = Wards::where('xaid', $data['xaid'])->first();
 
-        // dd($wards->name_xaphuong);
-
+        // dd($wards);
         Session::put('city', $city->name_city);
         Session::put('province', $province->name_quanhuyen);
         Session::put('wards', $wards->name_xaphuong);
@@ -359,20 +362,20 @@ class CheckoutController extends Controller
 
         if ($data['matp']) {
             $feeship = Feeship::where('fee_matp', $data['matp'])->where('fee_maqh', $data['maqh'])->where('fee_xaid', $data['xaid'])->get();
+            // dd($feeship);
             if ($feeship) {
                 $count_feeship = $feeship->count();
                 if ($count_feeship > 0) {
                     foreach ($feeship as $key => $fee) {
                         Session::put('fee', $fee->fee_feeship);
-                        Session::save();
                     }
                 } else {
                     Session::put('fee', 20000);
-                    Session::save();
                 }
             }
         }
-        return 10000;
+        Session::save();
+        return  Session::get('fee');
     }
     public function login_checkout(Request $request)
     {
@@ -406,6 +409,9 @@ class CheckoutController extends Controller
     }
     public function checkout(Request $request)
     {
+        // $coupon = Session::forget('coupon');
+        // Session::forget('fee');
+        // dd(Session::get('wards_id') . ': ' . Session::get('wards'));
         if (Session::get('cart')) {
             $cart = Session::get('cart');
             $total = 0;
@@ -413,7 +419,38 @@ class CheckoutController extends Controller
                 $subtotal = $value['product_qty'] * $value['product_price'];
                 $total += $subtotal;
             }
+
+            $coupon = null;
+            $total_coupon = null;
+            // get coupon value
+            if (Session::get('coupon')) {
+                $coupon = Session::get('coupon')[0];
+                if ($coupon['coupon_condition'] == 1) {
+                    $total_coupon = ($total * $coupon['coupon_number']) / 100;
+                } else {
+                    $total_coupon = $coupon['coupon_number'];
+                }
+                $total = $total - $total_coupon;
+            }
+            // dd($coupon['coupon_code']);
+            // Session::forget('fee');
+            $fee_ship = Session::get('fee');
+            $ward = null;
+            $city = null;
+            $province = null;
+            if ($fee_ship) {
+                $city  = ['id' => Session::get('city_id'), 'name' => Session::get('city')];
+                $province  = ['id' => Session::get('province_id'), 'name' => Session::get('province')];
+                $ward  = ['id' => Session::get('wards_id'), 'name' => Session::get('wards')];
+            }
+
+            // dd($city);
+            // dd($fee_ship);
+            if ($fee_ship) {
+                $total = $total + $fee_ship;
+            }
             // dd($total);
+            // dd($total_coupon);
             $category_post = CategoryPost::orderby('cate_post_id', 'DESC')->paginate(5);
             $meta_decs = "Chuyên bán quần áo nữ";
             $meta_title = "Thanh toán";
@@ -422,9 +459,7 @@ class CheckoutController extends Controller
 
             // dd($categories);
             $categories = DB::table('tbl_category_product')->where('category_status', '1')->orderBy('category_id', 'desc')->get();
-            $city = City::orderby('matp', 'ASC')->get();
-            $province = Province::orderby('maqh', 'ASC')->get();
-            $wards = Wards::orderby('xaid', 'ASC')->get();
+            $citys = City::orderby('matp', 'ASC')->get();
 
             if (Session::get('customer_id')) {
                 $customerid = Session::get('customer_id');
@@ -432,10 +467,10 @@ class CheckoutController extends Controller
                 $customerid = -1;
             }
             $customer = Customer::where('customer_id', $customerid)->first();
-            // dd($customer);
-            return view('user.pages.checkout.show_checkout', compact('cart', 'total', 'category_post', 'customer'))->with('categories', $categories)
+            // dd($ward);
+            return view('user.pages.checkout.show_checkout', compact('fee_ship', 'coupon', 'total_coupon', 'cart', 'total', 'category_post', 'customer'))->with('categories', $categories)
                 ->with('meta_decs', $meta_decs)->with('meta_title', $meta_title)->with('meta_keyword', $meta_keyword)->with('url_canonical', $url_canonical)
-                ->with(compact('city'));
+                ->with(compact('citys', 'city', 'province', 'ward'));
         } {
             return back();
         }
