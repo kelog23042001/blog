@@ -280,7 +280,8 @@ class AdminController extends Controller
                     'email' => $users->email,
                     'password' =>  bcrypt('123456'),
                     'provider' => strtoupper($provider),
-                    'google_id' => $users->id
+                    'google_id' => $users->id,
+                    'role_id' => '2'
                 ]);
             }
           //  $customer_new->customer()->associate($customer);

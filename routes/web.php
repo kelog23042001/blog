@@ -105,7 +105,6 @@ Route::group(['middleware' => 'checklogin'], function () {
         
     });
 
-
    
 });
 
