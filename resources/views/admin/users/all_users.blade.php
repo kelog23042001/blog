@@ -54,7 +54,7 @@
                             <td>
                                 <input type="hidden" name="user_id_hidden" id="user_id_hidden" value="{{$user->id}}">
 
-                              <select class="dataTable form-select" name="role" id="role" onchange="update_role();">
+                              <select class="dataTable form-select" name="role" id="role_{{$user->id}}"  onchange="update_role({{$user->id}});">
                                     
                                     @foreach($role as $rol)
                                       @if($rol->id == $user->role_id)
@@ -76,13 +76,13 @@
                     </tbody>
                     <script>
        
-                          function update_role(){
-                              var role_id = $('#role').val();
-                              var user_id = $('#user_id_hidden').val();
-                              // alert(user_id);
+                          function update_role(id){
+                              var role_id = $('#role_' + id).val();
+                               var user_id = id;
+                               //alert(user_id);
                               //  console.log(role_id);
                             //alert(_token);
-                            //   alert(role_id);
+                               //alert(role_id);
                               $.ajaxSetup({
                                 headers: {
                                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -92,7 +92,7 @@
                                   url :'{{url('/update-role-user')}}',
                                   method: 'POST',
                                   data: {
-                                    user_id : user_id,
+                                      user_id : user_id,
                                       role_id : role_id,
                                 
                                   },

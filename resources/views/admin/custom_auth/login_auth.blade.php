@@ -92,7 +92,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     <h1 class="auth-title">Log in.</h1>
                     <p class=" mb-5">Log in with your data that you entered during registration.</p>
 
-                    <form action="{{URL::to('/login-auth')}}" method="post">
+                    <form action="{{URL::to('/login')}}" method="post">
                         @csrf
                         <div class="form-group position-relative has-icon-left mb-4">
                             <input type="text" name="email" id="email" class="form-control form-control-xl" placeholder="Username">
@@ -122,7 +122,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     </form>
 
                     <div class="text-center mt-5 text-lg fs-4">
-                        <p class="text-gray-600">Don't have an account? <a href="{{url('/register-auth')}}"
+                        <p class="text-gray-600">Don't have an account? <a href="{{url('/register')}}"
                                 class="font-bold">Sign
                                 up</a>.</p>
                         <p><a class="font-bold" href="auth-forgot-password.html">Forgot password?</a>.</p>

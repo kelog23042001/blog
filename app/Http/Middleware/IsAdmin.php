@@ -30,7 +30,7 @@ class IsAdmin
         }
         else
         {
-            return redirect('/login-auth')->with('message','Please login first');
+            return redirect('/login')->with('message','Please login first');
         }
     }
 }

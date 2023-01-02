@@ -40,15 +40,20 @@ Route::group(['middleware' => 'checklogin'], function () {
 
     Route::group(['middleware' => 'admin'], function () {
         Route::get('/dashboard', [AdminController::class, 'show_dashboard']);
+
+        Route::get('/all-user', [AuthenController::class, 'getAllUser']);
+        Route::post('/update-role-user', [AuthenController::class, 'updateRoleUser']);
+
+        
     });
+
+
    
 });
 
-Route::get('/all-user', [AuthenController::class, 'getAllUser']);
-Route::post('/update-role-user', [AuthenController::class, 'updateRoleUser']);
 
-Route::get('/login-auth', [AuthenController::class, 'getFormLogin'])->name('auth.formlogin');
-Route::post('/login-auth',[AuthenController::class, 'login'])->name('auth.login');
+Route::get('/login', [AuthenController::class, 'getFormLogin'])->name('auth.formlogin');
+Route::post('/login',[AuthenController::class, 'login'])->name('auth.login');
 
 Route::get('/register', [AuthenController::class, 'getFormRegister'])->name('auth.formregister');
 Route::post('/register-auth', [AuthenController::class, 'register_auth'])->name('auth.register');
@@ -259,11 +264,11 @@ Route::get('/active-slide/{slider_id}', [BannerController::class, 'active_slide'
 
 //Authentication roles
 
-Route::get('/login-auth', [AuthController::class, 'login_auth']);
+// Route::get('/login-auth', [AuthController::class, 'login_auth']);
 
-Route::get('/register-auth', [AuthController::class, 'register_auth']);
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
+// Route::get('/register-auth', [AuthController::class, 'register_auth']);
+// Route::post('/register', [AuthController::class, 'register']);
+// Route::post('/login', [AuthController::class, 'login']);
 
 //User
 Route::get('/users', [UserController::class, 'index'])->middleware('auth.roles');

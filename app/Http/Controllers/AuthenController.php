@@ -43,12 +43,14 @@ class AuthenController extends Controller
 
         try {
             $request['password'] = bcrypt($request['password']);
-            User::create($request->all());
+            $user = User::create(
+                $request->all()
+             );
 
-            return redirect('/login-auth');
+            return redirect('/login');
         } catch (Exception $e) {
-            Log::error($e);
-          
+            echo Log::error($e);
+    
         }
     }
     

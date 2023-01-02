@@ -14,7 +14,9 @@ class AddRolesAsToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->unsignedBigInteger('role_id')->default('2');
+            $table->unsignedBigInteger('role_id');
+            $table->string('google_id',255)->nullable();
+            $table->string('provider',255)->nullable();
             $table->foreign('role_id')->references('id')->on('roles');
           
         });
@@ -25,10 +27,13 @@ class AddRolesAsToUsersTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down()  
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('role_id');
+            $table->dropColumn('google_id');
+            $table->dropColumn('provider');
+            
         });
     }
 }

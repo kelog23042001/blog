@@ -100,13 +100,15 @@ bootstrap-css -->
                             </div>
                         </div>
                         <div class="form-group position-relative has-icon-left mb-4">
-                            <input type="text" name="name" id="name" class="form-control form-control-xl" placeholder="Username">
+                            <input type="hidden" name="role_id" id="role_id" class="form-control form-control-xl" value="2" placeholder="Username">
+
+                            <input type="text" name="name" id="name" class="form-control form-control-xl" placeholder="Username" >
                             <div class="form-control-icon">
                                 <i class="bi bi-person"></i>
                             </div>
                         </div>
                         <div class="form-group position-relative has-icon-left mb-4">
-                            <input type="password"  name="password" id="psw" class="form-control form-control-xl" placeholder="Password">
+                            <input type="password" id="password"  name="password" id="psw" class="form-control form-control-xl" placeholder="Password">
                             <div class="form-control-icon">
                                 <i class="bi bi-shield-lock"></i>
                             </div>
@@ -121,7 +123,7 @@ bootstrap-css -->
                         <button type="submit" class="btn btn-primary btn-block btn-lg shadow-lg mt-5">Sign Up</button>
                     </form>
                     <div class="text-center mt-5 text-lg fs-4">
-                        <p class='text-gray-600'>Already have an account? <a href="{{url('/login-auth')}}"
+                        <p class='text-gray-600'>Already have an account? <a href="{{url('/login')}}"
                                 class="font-bold">Log
                                 in</a>.</p>
                     </div>
