@@ -14,7 +14,7 @@
             <div class="col-md-12">
                 <ul class="breadcrumb-tree">
                     <li><a href="{{url('/trang-chu')}}">Trang chủ</a></li>
-                    <li><a href="{{url('danh-muc-san-pham/'.$category_id)}}">{{$product_cate}}</a></li>
+                <li><a href="{{url('danh-muc-san-pham/'.$category_id)}}">{{$detail_product->category->category_name}}</a></li>
                     <li class="breadcrumb-item active" aria-current="page">{{$meta_title}}</li>
                 </ul>
             </div>

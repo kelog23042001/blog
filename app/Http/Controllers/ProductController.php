@@ -287,6 +287,7 @@ class ProductController extends Controller
         $product_id = $detail_product->product_id;
         $category_id = $detail_product->category_id;
         $product_cate = $detail_product->category->category_name;
+        
         $meta_decs = $detail_product->product_desc;
         $meta_title =  $detail_product->product_name;
         $meta_keyword =  $detail_product->product_slug;

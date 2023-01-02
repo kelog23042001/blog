@@ -33,7 +33,7 @@ class Product extends Model
     }
     public function category()
     {
-        return $this->belongsTo('App\Models\CategoryProductModel', 'category_id');
+        return $this->belongsTo(CategoryProductModel::class, 'category_id');
     }
 
     public function brand()
