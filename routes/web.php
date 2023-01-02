@@ -52,9 +52,10 @@ Route::post('/update-info/{info_id}', [ContactController::class, 'update_info'])
 
 
 // //Danh muc san pham trang chu
-Route::get('/danh-muc-san-pham/{category_id}', [CategoryProductController::class, 'show_category_home']);
+Route::get('/danh-muc-san-pham/{category_id}', [CategoryProductController::class, 'show_category_home'])->name('category_products');
 Route::get('/thuong-hieu-san-pham/{brand_id}', [BrandController::class, 'show_brand_home']);
 Route::get('/chi-tiet-san-pham/{product_id}', [ProductController::class, 'details_product']);
+// {{URL::to('chi-tiet-san-pham/'.$product->product_id)}}
 Route::get('/tag/{product_tag}', [ProductController::class, 'tag']);
 
 Route::get('/admin', [AdminController::class, 'index']);
@@ -140,6 +141,8 @@ Route::post('/save-size-product', [SizeController::class, 'save_size_product']);
 
 //ProductController
 Route::get('/all-product', [ProductController::class, 'all_product']);
+Route::post('tab-new-product', [ProductController::class, 'tab_new_product']);
+
 Route::get('/unactive-product/{product_id}', [ProductController::class, 'unactive_product']);
 Route::get('/active-product/{product_id}', [ProductController::class, 'active_product']);
 Route::get('/delete-product/{product_id}', [ProductController::class, 'delete_product']);

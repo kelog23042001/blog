@@ -150,12 +150,12 @@
                 <div class="section-title">
                     <h3 class="title">bán nhiều nhất</h3>
                     <div class="section-nav">
-                        <ul class="section-tab-nav tab-nav">
+                        <!-- <ul class="section-tab-nav tab-nav">
                             <li class="active"><a data-toggle="tab" href="#tab2">Laptops</a></li>
                             <li><a data-toggle="tab" href="#tab1">Accessories</a></li>
                             <li><a data-toggle="tab" href="#tab2">Smartphones</a></li>
                             <li><a data-toggle="tab" href="#tab3">Cameras</a></li>
-                        </ul>
+                        </ul> -->
                     </div>
                 </div>
             </div>
@@ -171,17 +171,19 @@
                                 <!-- product -->
                                 @foreach ($sold_product as $key => $product)
                                 <div class="product">
-                                    <div class="product-img">
-                                        <img src="{{$product->product_image}}" alt="">
-                                        <div class="product-label">
-                                            <!-- <span class="sale">-30%</span> -->
-                                            <span class="new">TOP</span>
+                                    <a class="cart_product_url_{{$product->product_id}}" href="{{URL::to('chi-tiet-san-pham/'.$product->product_id)}}">
+                                        <div class="product-img">
+                                            <img src="{{$product->product_image}}" alt="">
+                                            <div class="product-label">
+                                                <!-- <span class="sale">-30%</span> -->
+                                                <span class="new">TOP</span>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </a>
                                     <div class="product-body">
-                                        <p class="product-category">Category</p>
-                                        <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                        <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
+                                        <p class="product-category">{{$product->category->category_name}}</p>
+                                        <h3 class="product-name"><a href="#">{{$product->product_name}}</a></h3>
+                                        <h4 class="product-price">{{number_format($product->product_price,0,',','.')}} <del class="product-old-price">{{number_format($product->product_price,0,',','.')}}</del></h4>
                                         <div class="product-rating">
                                             <i class="fa fa-star"></i>
                                             <i class="fa fa-star"></i>
@@ -190,14 +192,26 @@
                                             <i class="fa fa-star"></i>
                                         </div>
                                         <div class="product-btns">
-                                            <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-                                            <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-                                            <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+                                            <button class="add-to-wishlist" id="{{$product->product_id}}" onclick="add_wistlist(this.id)">
+                                                <i class=" fa fa-heart-o"></i>
+                                                <span class="tooltipp">add to wishlist</span>
+                                            </button>
+                                            <button class="add-to-compare" id="{{$product->product_id}}" data-toggle="modal" onclick="add_compare(this.id)" data-target="#compareModal">
+                                                <i class="fa fa-exchange"></i>
+                                                <span class="tooltipp">so sánh</span>
+                                            </button>
                                         </div>
                                     </div>
                                     <div class="add-to-cart">
-                                        <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                                        <button class="add-to-cart-btn" id="{{$product->product_id}}" onclick="Addtocart(this.id);"><i class="fa fa-shopping-cart"></i> add to cart</button>
                                     </div>
+                                    <input type="hidden" value="{{$product->product_id}}" class="cart_product_id_{{$product->product_id}}">
+                                    <input type="hidden" id="wishlist_productname{{$product->product_id}}" value="{{$product->product_name}}" class="cart_product_name_{{$product->product_id}}">
+                                    <input type="hidden" value="{{$product->product_image}}" class="cart_product_image_{{$product->product_id}}">
+                                    <input type="hidden" id="wishlist_productprice{{$product->product_id}}" value="{{$product->product_price}}" class="cart_product_price_{{$product->product_id}}">
+                                    <input type="hidden" value="1" class="cart_product_qty_{{$product->product_id}}">
+                                    <input type="hidden" value="{{$product->product_quantity}}" class="product_qty_{{$product->product_id}}">
+                                    <input type="hidden" id="wishlist_productdesc{{$product->product_id}}" value="{{$product->product_desc}}" class="cart_product_desc_{{$product->product_id}}">
                                 </div>
                                 @endforeach
                                 <!-- /product -->
@@ -233,62 +247,21 @@
                 <div class="products-widget-slick" data-nav="#slick-nav-3">
                     <div>
                         @foreach($products as $key=>$product)
-                        @if($key < 3) <!-- product widget -->
+                        @if($key <=3 && $product->category->category_id == 22)
+                            <!-- product widget -->
                             <div class="product-widget">
                                 <div class="product-img">
                                     <img src="{{$product->product_image}}" alt="">
                                 </div>
                                 <div class="product-body">
-                                    <p class="product-category">{{$key}}</p>
-                                    <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                    <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
+                                    <p class="product-category">{{$product->category->category_name}}</p>
+                                    <h3 class="product-name"><a href="{{URL::to('chi-tiet-san-pham/'.$product->product_id)}}">{{$product->product_name}}</a></h3>
+                                    <h4 class="product-price">{{number_format($product->product_price,0,',','.')}} <del class="product-old-price">{{number_format($product->product_price,0,',','.')}}</del></h4>
                                 </div>
                             </div>
-                            @else
-                            @break
+                            <!--  -->
                             @endif
-                            <!-- /product widget -->
                             @endforeach
-                    </div>
-                    <div>
-                        <!-- product widget -->
-                        <div class="product-widget">
-                            <div class="product-img">
-                                <img src="./img/product01.png" alt="">
-                            </div>
-                            <div class="product-body">
-                                <p class="product-category">Category</p>
-                                <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-                            </div>
-                        </div>
-                        <!-- /product widget -->
-
-                        <!-- product widget -->
-                        <div class="product-widget">
-                            <div class="product-img">
-                                <img src="./img/product02.png" alt="">
-                            </div>
-                            <div class="product-body">
-                                <p class="product-category">Category</p>
-                                <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-                            </div>
-                        </div>
-                        <!-- /product widget -->
-
-                        <!-- product widget -->
-                        <div class="product-widget">
-                            <div class="product-img">
-                                <img src="./img/product03.png" alt="">
-                            </div>
-                            <div class="product-body">
-                                <p class="product-category">Category</p>
-                                <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-                            </div>
-                        </div>
-                        <!-- product widget -->
                     </div>
                 </div>
             </div>

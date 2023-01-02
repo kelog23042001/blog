@@ -74,7 +74,6 @@
 
         function add_wistlist(clicked_id) {
             var id = clicked_id;
-
             var name = document.getElementById('wishlist_productname' + id).value;
             var price = document.getElementById('wishlist_productprice' + id).value;
             var image = $('.cart_product_image_' + id).val();
@@ -223,6 +222,20 @@
         });
 
         $(document).ready(function() {
+            $('.tabs_new_products').click(function() {
+                var category_id = $(this).data('id');
+                // alert(id)
+                $.ajax({
+                    url: "{{url('/tab-new-product')}}",
+                    method: 'POST',
+                    data: {
+                        'category_id': category_id,
+                    },
+                    success: function(data) {
+                        $('#new-products-tabs').html(data);
+                    }
+                });
+            });
             $('.check_coupon').click(function() {
                 getDataOrder();
             })
