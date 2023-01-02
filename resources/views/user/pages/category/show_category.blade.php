@@ -68,6 +68,7 @@ if ($maxRange == 0) {
                                 <span class="qty-down">-</span>
                             </div>
                         </div>
+                        <em>Lọc theo đơn vị chục ngàn(x.000) VNĐ</em>
                         <input type="hidden" value="{{$minRange}}" id="min-price">
                         <input type="hidden" value="{{$maxRange}}" id="max-price">
                         <input type="submit" value="Lọc theo giá" class="primary-btn" style="width: -webkit-fill-available; margin-top: 15px">
