@@ -12,21 +12,24 @@ use Illuminate\Support\Facades\Log;
 
 class AuthenController extends Controller
 {
-    public function getFormLogin(){
+    public function getFormLogin()
+    {
         return view('admin.custom_auth.login_auth');
     }
 
-    public function login(Request $request){
+    public function login(Request $request)
+    {
         $credentials = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);         
-        if (Auth::attempt($credentials)) {
+        if (Auth::attempt($credentials)) 
+        {
             $request->session()->regenerate();
-            // dd($request->all());
  
             return redirect('/dashboard');
-        }else{
+        } else
+        {
             return redirect('/login-auth')->with('message', 'Lỗi đăng nhập');
         }
         return back()->withErrors([
@@ -40,8 +43,8 @@ class AuthenController extends Controller
     }
 
     public function register_auth(Request $request){
-
-        try {
+        try 
+        {
             $request['password'] = bcrypt($request['password']);
             $user = User::create(
                 $request->all()
@@ -53,9 +56,15 @@ class AuthenController extends Controller
     
         }
     }
+
+    public function logout(){
+        Auth::logout();
+        return redirect('/login');
+
+    }
     
-    
-    public function getAllUser(){
+    public function getAllUser()
+    {
         $users = User::with('role')->orderBy('id','DESC')->get();
         $role = Role::orderBy('id', 'ASC')->get();
 
@@ -68,11 +77,8 @@ class AuthenController extends Controller
         $user = User::find($data['user_id']);
         $role_id = $data['role_id'];
         $user->role_id = $role_id;
-       // echo($user);
 
-        $user->save() ;
-        
-      // return view('welcome');
+        $user->save() ; 
     }
 
 }

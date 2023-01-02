@@ -49,11 +49,21 @@
                     <span>Người dùng</span>
                 </a>
             </li>
+
+            <li class="sidebar-item " style="padding-bottom: 0px;">
+                <a href="{{URL::to('/logout')}}" class='sidebar-link'>
+                    <i class="bi bi-grid-fill"></i>
+                    <span>Đăng xuất</span>
+                </a>
+            </li>
         </ul>
+        
     </div>
     <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
 </div>
+
 <header class="mb-3">
+    
     <a href="#" class="burger-btn d-block d-xl-none">
         <i class="bi bi-justify fs-3"></i>
     </a>
