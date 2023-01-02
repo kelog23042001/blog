@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AuthenController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryProductController;
@@ -34,6 +35,24 @@ use App\Http\Controllers\PayPalController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::group(['middleware' => 'auth'], function () {
+
+    Route::group(['middleware' => 'isadmin'], function () {
+        Route::get('/dashboard', [AdminController::class, 'show_dashboard']);
+    });
+   
+});
+
+Route::get('/all-user', [AuthenController::class, 'getAllUser']);
+Route::post('/update-role-user', [AuthenController::class, 'updateRoleUser']);
+
+Route::get('/login-auth', [AuthenController::class, 'getFormLogin'])->name('auth.formlogin');
+Route::post('/login-aut',[AuthenController::class, 'login'])->name('auth.login');
+
+Route::get('/register', [AuthenController::class, 'getFormRegister'])->name('auth.formregister');
+Route::post('/register-auth', [AuthenController::class, 'register_auth'])->name('auth.register');
+
 
 Route::post('/load-more-product', [HomeController::class, 'load_more_product']);
 Route::post('/load-more-selling-product', [HomeController::class, 'load_more_selling_product']);

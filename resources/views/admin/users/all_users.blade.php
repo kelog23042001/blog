@@ -1,109 +1,113 @@
 @extends('admin_layout')
 @section('admin_contend')
-    <div class="table-agile-info">
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      Liệt kê users
-    </div>
-    <div class="row w3-res-tb">
-      <div class="col-sm-5 m-b-xs">
-        <select class="input-sm form-control w-sm inline v-middle">
-          <option value="0">Bulk action</option>
-          <option value="1">Delete selected</option>
-          <option value="2">Bulk edit</option>
-          <option value="3">Export</option>
-        </select>
-        <button class="btn btn-sm btn-default">Apply</button>
-      </div>
-      <div class="col-sm-4">
-      </div>
-      <div class="col-sm-3">
-        <div class="input-group">
-          <input type="text" class="input-sm form-control" placeholder="Search">
-          <span class="input-group-btn">
-            <button class="btn btn-sm btn-default" type="button">Go!</button>
-          </span>
+<div class="page-title">
+    <div class="row">
+        <div class="col-12 col-md-6 order-md-1 order-last">
+            <h3>Danh Mục Sản Phẩm</h3>
+            <!-- <p class="text-subtitle text-muted">For user to check they list</p> -->
         </div>
-      </div>
-    </div>
-    <div class="table-responsive">
-                      <?php
-
-use Illuminate\Support\Facades\Session;
-
-                            $message = Session::get('message');
-                            if($message){
-                                echo '<span class="text-alert">'.$message.'</span>';
-                                Session::put('message',null);
-                            }
-                            ?>
-      <table class="table table-striped b-t b-light">
-        <thead>
-          <tr>
-            <th style="width:20px;">
-              <label class="i-checks m-b-none">
-                <input type="checkbox"><i></i>
-              </label>
-            </th>
-
-            <th>Tên user</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Password</th>
-            <th>Author</th>
-            <th>Admin</th>
-            <th>User</th>
-
-            <th style="width:30px;"></th>
-          </tr>
-        </thead>
-        <tbody>
-          @foreach($admin as $key => $user)
-            <form action="{{url('/assign-roles')}}" method="POST">
-              @csrf
-              <tr>
-
-                <td><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label></td>
-                <td>{{ $user->admin_name }}</td>
-                <td>{{ $user->admin_email }}
-                     <input type="hidden" name="admin_email" value="{{ $user->admin_email }}">
-                     <input type="hidden" name="admin_id" value="{{ $user->admin_id }}">
-
-                </td>
-                <td>{{ $user->admin_phone }}</td>
-                <td>{{ $user->admin_password }}</td>
-                <td><input type="checkbox" name="author_role" {{$user->hasRole('author') ? 'checked' : ''}}></td>
-                <td><input type="checkbox" name="admin_role"  {{$user->hasRole('admin') ? 'checked' : ''}}></td>
-                <td><input type="checkbox" name="user_role"  {{$user->hasRole('user') ? 'checked' : ''}}></td>
-
-              <td>
-
-
-                <input style=" width: 90px" type="submit" value="Phân quyền" class="btn btn-sm btn-default">
-                <a style="margin:5px 0; width: 90px" class="btn btn-sm btn-danger" href="{{url('/delete-user-roles/'.$user->admin_id)}}">Xoá User</a>
-                <a style="margin:5px 0; width: 90px" class="btn btn-sm btn-success" href="{{url('/impersonate/'.$user->admin_id)}}">Chuyển quyền</a>
-
-            </td>
-
-              </tr>
-            </form>
-          @endforeach
-        </tbody>
-      </table>
-    </div>
-    <footer class="panel-footer">
-      <div class="row">
-
-        <div class="col-sm-5 text-center">
-          <small class="text-muted inline m-t-sm m-b-sm">showing 20-30 of 50 items</small>
+        <div class="col-12 col-md-6 order-md-2 order-first">
+            <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                <a href="{{URL::to('/add-category-product')}}" class="btn btn-success">Thêm Danh Mục</a>
+                <ol class="breadcrumb">
+                    <!-- <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li> -->
+                    <!-- <li class="breadcrumb-item active" aria-current="page">DataTable</li> -->
+                </ol>
+            </nav>
         </div>
-        <div class="col-sm-7 text-right text-center-xs">
-          <ul class="pagination pagination-sm m-t-none m-b-none">
-            {!! $admin->links("pagination::bootstrap-4") !!}
-          </ul>
-        </div>
-      </div>
-    </footer>
-  </div>
+    </div>
+    <?php
+
+    use Illuminate\Support\Facades\Session;
+
+    $message = Session::get('message');
+    if ($message) {
+        echo $message;
+        Session::put('message', null);
+    }
+    ?>
 </div>
+<div class="page-heading">
+    <section class="section">
+        <div class="card">
+            <div class="card-body">
+                <table class="table table-striped" id="table-category">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Tên người dùng</th>
+                            <th>Email</th>
+                            <th>Chức vụ</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <form>
+                        
+                       @foreach($users as $key => $user)
+                       
+                       
+                        <tr>
+                            <td>{{ $key + 1 }}</td>
+                            <td>{{ $user->name }}</td>
+                            <td>{{ $user->email }}</td>
+                            <td>
+                                <input type="hidden" name="user_id_hidden" id="user_id_hidden" value="{{$user->id}}">
+
+                              <select class="dataTable form-select" name="role" id="role" onchange="update_role();">
+                                    
+                                    @foreach($role as $rol)
+                                      @if($rol->id == $user->role_id)
+                                       <option selected value="{{$user->role_id}}">{{$rol->name}}</option>
+                                      @else 
+                                       <option value="{{$rol->id}}">{{$rol->name}}</option>                                    
+                                      @endif
+                                  @endforeach  
+                          
+                              </select>
+                            </td>
+                            <td>
+                                <a href="" style="font-size: 20px;"><i class="bi bi-eyedropper"></i></a>
+                                <a onclick="return confirm('Bạn có chắc chắn muốn xoá?')" href="" style="font-size: 20px;" class="active styling-edit" ui-toggle-class=""><i class="bi bi-trash"></i></a>
+                            </td>
+                        </tr>
+                        </form>
+                      @endforeach
+                    </tbody>
+                    <script>
+       
+                          function update_role(){
+                              var role_id = $('#role').val();
+                              var user_id = $('#user_id_hidden').val();
+                              // alert(user_id);
+                              //  console.log(role_id);
+                            //alert(_token);
+                            //   alert(role_id);
+                              $.ajaxSetup({
+                                headers: {
+                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                    }
+                                });
+                                $.ajax({
+                                  url :'{{url('/update-role-user')}}',
+                                  method: 'POST',
+                                  data: {
+                                    user_id : user_id,
+                                      role_id : role_id,
+                                
+                                  },
+                                  success: function(data){
+                                        
+                                  }
+                              })
+                          }
+                        
+                    </script>
+                </table>
+            </div>
+        </div>
+    </section>
+</div>
+
+
 @endsection

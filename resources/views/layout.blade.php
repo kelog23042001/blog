@@ -111,7 +111,6 @@
             localStorage.setItem('data', JSON.stringify(old_data));
         }
 
-        // localStorage.clear();
 
         function add_compare(product_id) {
 
