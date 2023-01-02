@@ -115,18 +115,15 @@ class CategoryProductController extends Controller
         $meta_title = "LK - Shopping";
         $meta_keyword = "danh mục mô hình";
         $url_canonical = $request->url();
+        // get all category
         $categories  = CategoryProductModel::where('category_status', 1)->orderBy('category_name', 'asc')->get();
-
-        $category_name = DB::table('tbl_category_product')->where('tbl_category_product.category_id', $category_id)->limit(1)->get();
-        $category_id_cate = CategoryProductModel::where('category_id', $category_id)->get();
+        $category = CategoryProductModel::find($category_id);
+        // get category by id 
+        // dd($products);
         $min_price = Product::min('product_price');
         $max_price = Product::max('product_price');
         $min_price_range = $min_price - 100000;
         $max_price_range = $max_price + 100000;
-        foreach ($category_id_cate as $key => $cate) {
-            $category_id = $cate->category_id;
-        }
-
         if (isset($_GET['sort_by'])) {
             $sort_by = $_GET['sort_by'];
             if ($sort_by == 'giam_dan') {
@@ -170,14 +167,12 @@ class CategoryProductController extends Controller
                 'DESC'
             )->paginate(6);
         }
-        foreach ($category_name as $key => $value) {
-            $meta_decs = $value->category_desc;
-            $meta_title = $value->category_name;
-            $meta_keyword = $value->meta_keywords;
-            $url_canonical = $request->url();
-        }
+        $meta_decs = $category->category_desc;
+        $meta_title = $category->category_name;
+        $meta_keyword = $category->meta_keywords;
+        $url_canonical = $request->url();
 
-        return view('user.pages.category.show_category', compact('min_price', 'min_price_range', 'max_price_range', 'max_price', 'categories', 'category_by_id', 'category_name', 'category_post'))
+        return view('user.pages.category.show_category', compact('category', 'min_price', 'min_price_range', 'max_price_range', 'max_price', 'categories', 'category_by_id', 'category_post'))
             ->with('meta_decs', $meta_decs)->with('meta_title', $meta_title)->with('meta_keyword', $meta_keyword)->with('url_canonical', $url_canonical);
     }
 }

@@ -128,7 +128,9 @@
                 <!-- NAV -->
                 <ul class="main-nav nav navbar-nav">
                     @foreach($categories as $key=> $category )
-                    <li style="text-transform: uppercase;"><a href="{{route('category_products', $category->category_id)}}">{{$category->category_name}}</a></li>
+                    <li style="text-transform: uppercase;">
+                        <a href="{{route('category_products', $category->category_id)}}">{{$category->category_name}}</a>
+                    </li>
                     @endforeach
                 </ul>
                 <!-- /NAV -->
