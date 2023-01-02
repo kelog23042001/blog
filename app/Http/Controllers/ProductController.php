@@ -287,7 +287,7 @@ class ProductController extends Controller
         $product_id = $detail_product->product_id;
         $category_id = $detail_product->category_id;
         $product_cate = $detail_product->category->category_name;
-        
+
         $meta_decs = $detail_product->product_desc;
         $meta_title =  $detail_product->product_name;
         $meta_keyword =  $detail_product->product_slug;
@@ -310,7 +310,7 @@ class ProductController extends Controller
     {
         $category_post = CategoryPost::orderby('cate_post_id', 'DESC')->where('cate_post_status', "0")->get();
 
-        $category = CategoryProductModel::where('category_status', '1')->orderBy('category_id', 'desc')->get();
+        $categories = CategoryProductModel::where('category_status', '1')->orderBy('category_id', 'desc')->get();
         $brand = DB::table('tbl_brand_product')->where('brand_status', '1')->orderBy('brand_id', 'desc')->get();
         $tag = str_replace("-", "", $product_tag);
 
