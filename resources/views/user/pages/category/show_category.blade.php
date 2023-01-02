@@ -18,7 +18,7 @@ if ($maxRange == 0) {
             <div class="col-md-12">
                 <ul class="breadcrumb-tree">
                     <li><a href="{{url('/trang-chu')}}">Trang chủ</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">{{$meta_title}} ({{count($category->products)}} RESULTS)</li>
+                    <li class="breadcrumb-item active" aria-current="page">{{$meta_title}} ({{count($category->products)}} Sản phẩm)</li>
                 </ul>
             </div>
         </div>
@@ -36,7 +36,20 @@ if ($maxRange == 0) {
         <div class="row">
             <!-- ASIDE -->
             <div id="aside" class="col-md-3">
-                <!-- aside Widget -->
+                <div class="aside">
+                    <h3 class="aside">Sắp xếp</h3>
+                    <div class="store-sort">
+                        <label>
+                            <select class="input-select" name="sort" id="sort">
+                                <option value="{{Request::url()}}">Mặc định</option>
+                                <option value="{{Request::url()}}?sort_by=a_z" <?php if ($sort_by == 'a_z') echo 'selected' ?>>A-Z</option>
+                                <option value="{{Request::url()}}?sort_by=z_a" <?php if ($sort_by == 'z_a') echo 'selected' ?>>Z-A</option>
+                                <option value="{{Request::url()}}?sort_by=gia_giam_dan" <?php if ($sort_by == 'gia_giam_dan') echo 'selected' ?>>Giá giảm dần</option>
+                                <option value="{{Request::url()}}?sort_by=gia_tang_dan" <?php if ($sort_by == 'gia_tang_dan') echo 'selected' ?>>Giá tăng dần</option>
+                            </select>
+                        </label>
+                    </div>
+                </div>
                 <div class="aside">
                     <h3 class="aside">Khoảng giá (VNĐ)</h3>
                     <form>
@@ -57,45 +70,14 @@ if ($maxRange == 0) {
                         </div>
                         <input type="hidden" value="{{$minRange}}" id="min-price">
                         <input type="hidden" value="{{$maxRange}}" id="max-price">
-                        <input type="submit" value="Lọc">
+                        <input type="submit" value="Lọc theo giá" class="primary-btn" style="width: -webkit-fill-available; margin-top: 15px">
                     </form>
                 </div>
-
-                <!-- /aside Widget -->
             </div>
             <!-- /ASIDE -->
 
             <!-- STORE -->
             <div id="store" class="col-md-9">
-                <!-- store top filter -->
-                <div class="store-filter clearfix">
-                    <div class="store-sort">
-                        <label>
-                            Sắp Xếp:
-                            <select class="input-select" name="sort" id="sort">
-                                <option value="{{Request::url()}}">Mặc định</option>
-                                <option value="{{Request::url()}}?sort_by=a_z" <?php if ($sort_by == 'a_z') echo 'selected' ?>>A-Z</option>
-                                <option value="{{Request::url()}}?sort_by=z_a" <?php if ($sort_by == 'z_a') echo 'selected' ?>>Z-A</option>
-                                <option value="{{Request::url()}}?sort_by=gia_giam_dan" <?php if ($sort_by == 'gia_giam_dan') echo 'selected' ?>>Giá giảm dần</option>
-                                <option value="{{Request::url()}}?sort_by=gia_tang_dan" <?php if ($sort_by == 'gia_tang_dan') echo 'selected' ?>>Giá tăng dần</option>
-                            </select>
-                        </label>
-
-                        <label>
-                            Show:
-                            <select class="input-select">
-                                <option value="0">20</option>
-                                <option value="1">50</option>
-                            </select>
-                        </label>
-                    </div>
-                    <ul class="store-grid">
-                        <li class="active"><i class="fa fa-th"></i></li>
-                        <li><a href="#"><i class="fa fa-th-list"></i></a></li>
-                    </ul>
-                </div>
-                <!-- /store top filter -->
-
                 <!-- store products -->
                 <div class="row">
                     <!-- product -->
@@ -157,6 +139,4 @@ if ($maxRange == 0) {
         <!-- /container -->
     </div>
     <!-- /SECTION -->
-    <script>
-    </script>
     @endsection
