@@ -36,9 +36,9 @@ use App\Http\Controllers\PayPalController;
 |
 */
 
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => 'checklogin'], function () {
 
-    Route::group(['middleware' => 'isadmin'], function () {
+    Route::group(['middleware' => 'admin'], function () {
         Route::get('/dashboard', [AdminController::class, 'show_dashboard']);
     });
    
@@ -48,7 +48,7 @@ Route::get('/all-user', [AuthenController::class, 'getAllUser']);
 Route::post('/update-role-user', [AuthenController::class, 'updateRoleUser']);
 
 Route::get('/login-auth', [AuthenController::class, 'getFormLogin'])->name('auth.formlogin');
-Route::post('/login-aut',[AuthenController::class, 'login'])->name('auth.login');
+Route::post('/login-auth',[AuthenController::class, 'login'])->name('auth.login');
 
 Route::get('/register', [AuthenController::class, 'getFormRegister'])->name('auth.formregister');
 Route::post('/register-auth', [AuthenController::class, 'register_auth'])->name('auth.register');
@@ -78,7 +78,7 @@ Route::get('/chi-tiet-san-pham/{product_id}', [ProductController::class, 'detail
 Route::get('/tag/{product_tag}', [ProductController::class, 'tag']);
 
 Route::get('/admin', [AdminController::class, 'index']);
-Route::get('/dashboard', [AdminController::class, 'show_dashboard']);
+// Route::get('/dashboard', [AdminController::class, 'show_dashboard']);
 Route::get('/logout', [AdminController::class, 'logout']);
 
 Route::post('/admin-dashboard', [AdminController::class, 'dashboard']);
