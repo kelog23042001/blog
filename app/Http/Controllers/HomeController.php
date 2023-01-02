@@ -200,7 +200,7 @@ class HomeController extends Controller
         $meta_keyword = "quan ao nu, quần áo nữ";
         $url_canonical = $request->url();
 
-        $cate_product = CategoryProductModel::where('category_status', '1')->orderBy('category_name', 'asc')->get();
+        $cate_product = CategoryProductModel::where('category_status', 1)->orderBy('category_name', 'asc')->get();
 
         $brand_product = DB::table('tbl_brand_product')->where('brand_status', '1')->orderBy('brand_id', 'desc')->get();
 
@@ -216,14 +216,15 @@ class HomeController extends Controller
         $price_product = Product::where('product_status', 1)->where('deleted', 0)->where('product_price', '<', '500000')->orderBy('product_price', 'desc')
             ->limit(10)->get();
 
-        return view('user.pages.home')->with('categories', $cate_product)->with('brand', $brand_product)->with('products', $all_product)
+        $category_tabs = CategoryProductModel::where('category_status', 1)->orderBy('category_name', 'asc')->limit(4)->get();
+        return view('user.pages.home')->with('categories', $cate_product)->with('products', $all_product)
             ->with('meta_decs', $meta_decs)->with('meta_title', $meta_title)->with('meta_keyword', $meta_keyword)->with('url_canonical', $url_canonical)
             ->with('slider', $slider)->with('category_post', $category_post)
             ->with('view_product', $view_product)
+            ->with('category_tabs', $category_tabs)
             ->with('price_product', $price_product)
             ->with('sold_product', $sold_product);
         //return view('user.pages.home')->with(compact('cate_product', 'brand_product', 'all_product' ));
-
     }
 
     public function search(Request $request)

@@ -115,7 +115,7 @@ class CategoryProductController extends Controller
         $meta_title = "LK - Shopping";
         $meta_keyword = "danh mục mô hình";
         $url_canonical = $request->url();
-        $category  = DB::table('tbl_category_product')->where('category_status', '1')->orderBy('category_id', 'desc')->get();
+        $categories  = CategoryProductModel::where('category_status', 1)->orderBy('category_name', 'asc')->get();
 
         $category_name = DB::table('tbl_category_product')->where('tbl_category_product.category_id', $category_id)->limit(1)->get();
         $category_id_cate = CategoryProductModel::where('category_id', $category_id)->get();
@@ -177,7 +177,7 @@ class CategoryProductController extends Controller
             $url_canonical = $request->url();
         }
 
-        return view('user.pages.category.show_category', compact('min_price', 'min_price_range', 'max_price_range', 'max_price', 'category', 'category_by_id', 'category_name', 'category_post'))
+        return view('user.pages.category.show_category', compact('min_price', 'min_price_range', 'max_price_range', 'max_price', 'categories', 'category_by_id', 'category_name', 'category_post'))
             ->with('meta_decs', $meta_decs)->with('meta_title', $meta_title)->with('meta_keyword', $meta_keyword)->with('url_canonical', $url_canonical);
     }
 }

@@ -120,7 +120,58 @@ class ProductController extends Controller
             ->get();
         return view('admin.product.all_product', compact('all_product'));
     }
-
+    public function tab_new_product(Request $request)
+    {
+        $data = $request->all();
+        $products = Product::where('category_id', $data['category_id'])->get();
+        $output = '';
+        $product_count = $products->count();
+        if ($product_count > 0) {
+            $output .= '<div class="products-slick" data-nav="#slick-nav-1">';
+            foreach ($products as $key => $product) {
+                $output .= '
+                <div class="product">
+                    <a class="cart_product_url_{{$product->product_id}}" href="">
+                        <div class="product-img">
+                            <img src="{{$product->product_image}}" alt="">
+                            <div class="product-label">
+                                <span class="sale">-30%</span>
+                                <span class="new">NEW</span>
+                            </div>
+                        </div>
+                    </a>
+                    <div class="product-body">
+                        <p class="product-category">{{$product->category->category_name}}</p>
+                        <h3 class="product-name"><a href="#">{{$product->product_name}}</a></h3>
+                        <h4 class="product-price"></h4>
+                        <div class="product-rating">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                        </div>
+                        <div class="product-btns">
+                            <button class="add-to-wishlist" id="{{$product->product_id}}" onclick="add_wistlist(this.id)">
+                                <i class=" fa fa-heart-o"></i>
+                                <span class="tooltipp">add to wishlist</span>
+                            </button>
+                            <button class="add-to-compare" id="{{$product->product_id}}" data-toggle="modal" onclick="add_compare(this.id)" data-target="#compareModal">
+                                <i class="fa fa-exchange"></i>
+                                <span class="tooltipp">so sánh</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="add-to-cart">
+                        <button class="add-to-cart-btn" id="{{$product->product_id}}" onclick="Addtocart(this.id);"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                    </div>
+                </div>';
+            }
+            $output .= '</div>';
+            $output .= '<div id="slick-nav-1" class="products-slick-nav"></div>';
+        }
+        echo $output;
+    }
     public function save_product(Request $request)
     {
         // dd($request->all());

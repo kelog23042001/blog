@@ -51,15 +51,6 @@
                     <!-- ACCOUNT -->
                     <div class="col-md-3 clearfix">
                         <div class="header-ctn">
-                            <!-- Wishlist -->
-                            <!-- <div>
-                                <a href="#">
-                                    <i class="fa fa-heart-o"></i>
-                                    <span>Your Wishlist</span>
-                                    <div class="qty">2</div>
-                                </a>
-                            </div> -->
-                            <!-- /Wishlist -->
 
                             <!-- Wishlist -->
                             <div class="dropdown">
@@ -137,7 +128,7 @@
                 <!-- NAV -->
                 <ul class="main-nav nav navbar-nav">
                     @foreach($categories as $key=> $category )
-                    <li style="text-transform: uppercase;"><a href="#">{{$category->category_name}}</a></li>
+                    <li style="text-transform: uppercase;"><a href="{{route('category_products', $category->category_id)}}">{{$category->category_name}}</a></li>
                     @endforeach
                 </ul>
                 <!-- /NAV -->
