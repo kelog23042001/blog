@@ -126,9 +126,10 @@
             <!-- responsive-nav -->
             <div id="responsive-nav">
                 <!-- NAV -->
-                <ul class="main-nav nav navbar-nav">
+                <ul class="main-nav nav navbar-nav" id="category_tabs">
+                    <li style="text-transform: uppercase;" id="hometab"><a href="/">Trang chủ</a></li>
                     @foreach($categories as $key=> $category )
-                    <li style="text-transform: uppercase;">
+                    <li style="text-transform: uppercase;" id="{{$category->category_id}}">
                         <a href="{{route('category_products', $category->category_id)}}">{{$category->category_name}}</a>
                     </li>
                     @endforeach
@@ -141,6 +142,19 @@
     </nav>
     <!-- /NAVIGATION -->
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script>
+        const activePage = window.location.pathname.split('/danh-muc-san-pham/')[1];
+        if (!activePage) {
+            $('li#hometab').attr('class', 'active')
+        };
+
+        const navLinks = document.querySelectorAll('ul li a')
+        navLinks.forEach(link => {
+            if (link.href.split('/danh-muc-san-pham/').includes(`${activePage}`)) {
+                $('li#' + activePage).attr('class', 'active');
+            }
+        })
+    </script>
     <script>
         function view() {
             if (localStorage.getItem('data') != null) {
