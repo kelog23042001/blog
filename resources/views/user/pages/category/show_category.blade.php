@@ -1,5 +1,14 @@
 @extends('layout')
 @section('content')
+<?php
+$max_price = $products->max('product_price') / 1000;
+$min_price = $products->min('product_price') / 1000;
+$maxRange /= 1000;
+$minRange /= 1000;
+if ($maxRange == 0) {
+    $maxRange = $max_price;
+}
+?>
 <!-- BREADCRUMB -->
 <div id="breadcrumb" class="section">
     <!-- container -->
@@ -29,22 +38,29 @@
             <div id="aside" class="col-md-3">
                 <!-- aside Widget -->
                 <div class="aside">
-                    <h3 class="aside-title">Price</h3>
-                    <div class="price-filter">
-                        <div id="price-slider"></div>
-                        <div class="input-number price-min">
-                            <input id="price-min" type="number">
-                            <span class="qty-up">+</span>
-                            <span class="qty-down">-</span>
+                    <h3 class="aside">Khoảng giá (VNĐ)</h3>
+                    <form>
+                        <!-- @csrf -->
+                        <div class="price-filter">
+                            <div id="price-slider"></div>
+                            <div class="input-number price-min">
+                                <input id="price-min" type="number" name="price-min">
+                                <span class="qty-up">+</span>
+                                <span class="qty-down">-</span>
+                            </div>
+                            <span>-</span>
+                            <div class="input-number price-max">
+                                <input id="price-max" type="number" name="price-max">
+                                <span class="qty-up">+</span>
+                                <span class="qty-down">-</span>
+                            </div>
                         </div>
-                        <span>-</span>
-                        <div class="input-number price-max">
-                            <input id="price-max" type="number">
-                            <span class="qty-up">+</span>
-                            <span class="qty-down">-</span>
-                        </div>
-                    </div>
+                        <input type="hidden" value="{{$minRange}}" id="min-price">
+                        <input type="hidden" value="{{$maxRange}}" id="max-price">
+                        <input type="submit" value="Lọc">
+                    </form>
                 </div>
+
                 <!-- /aside Widget -->
             </div>
             <!-- /ASIDE -->
@@ -57,9 +73,11 @@
                         <label>
                             Sắp Xếp:
                             <select class="input-select" name="sort" id="sort">
-                                <option value="{{Request::url()}}?sort_by=none">Tất cả</option>
-                                <option value="{{Request::url()}}?sort_by=giam_dan">Giá giảm dần</option>
-                                <option value="{{Request::url()}}?sort_by=tang_dan">Giá tăng dần</option>
+                                <option value="{{Request::url()}}">Mặc định</option>
+                                <option value="{{Request::url()}}?sort_by=a_z" <?php if ($sort_by == 'a_z') echo 'selected' ?>>A-Z</option>
+                                <option value="{{Request::url()}}?sort_by=z_a" <?php if ($sort_by == 'z_a') echo 'selected' ?>>Z-A</option>
+                                <option value="{{Request::url()}}?sort_by=gia_giam_dan" <?php if ($sort_by == 'gia_giam_dan') echo 'selected' ?>>Giá giảm dần</option>
+                                <option value="{{Request::url()}}?sort_by=gia_tang_dan" <?php if ($sort_by == 'gia_tang_dan') echo 'selected' ?>>Giá tăng dần</option>
                             </select>
                         </label>
 
@@ -81,7 +99,7 @@
                 <!-- store products -->
                 <div class="row">
                     <!-- product -->
-                    @foreach ($category->products as $key => $product)
+                    @foreach ($products as $key => $product)
                     <div class="col-md-4 col-xs-6">
                         <div class="product">
                             <a class="cart_product_url_{{$product->product_id}}" href="{{URL::to('chi-tiet-san-pham/'.$product->product_id)}}">
@@ -139,4 +157,6 @@
         <!-- /container -->
     </div>
     <!-- /SECTION -->
+    <script>
+    </script>
     @endsection

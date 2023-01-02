@@ -72,6 +72,85 @@
             }
         });
 
+
+        $('#sort').on('change', function() {
+            var url = $(this).val();
+            // alert(url)
+            if (url) {
+                window.location = url;
+            }
+            // return false;
+        });
+
+        function delete_compare(id) {
+            if (localStorage.getItem('compare') != null) {
+                var data = JSON.parse(localStorage.getItem('compare'));
+                var index = data.findIndex(item => item.id === id);
+                data.splice(index, 1);
+                localStorage.setItem('compare', JSON.stringify(data));
+                document.getElementById('row_compare' + id).remove();
+            }
+        }
+        sosanh();
+
+        function sosanh() {
+            if (localStorage.getItem('compare') != null) {
+                var data = JSON.parse(localStorage.getItem('compare'));
+                for (i = 0; i < data.length; i++) {
+                    var name = data[i].name;
+                    var price = data[i].price;
+                    var image = data[i].image;
+                    var url = data[i].url;
+                    var desc = data[i].desc;
+                    var id = data[i].id;
+                    $('#row_compare').find('tbody').append(
+                        '<tr id= "row_compare' + id + '">' +
+                        '<td><img height="190px" src = "' + image + '"</td>' +
+                        '<td style="width: 150px;" >' + name + '</td>' +
+                        '<td style="width: 100px;" >' + price + '</td>' +
+                        // '<td></td>'+
+                        // '<td></td>'+
+                        '<td style="width: 300px;" > <div class ="product_desc">' + desc + '</div></td>' +
+                        '<td><a href = "' + url + '"><i class="fa fa-eye text-success text-active"></i></a></td>' +
+                        '<td onclick = "delete_compare(' + id + ')">' +
+                        '<a style = "cursor: pointer"><i class="fa fa-times text-danger text"></i></a>' +
+                        '</td>' +
+                        '</tr>'
+                    );
+                }
+            }
+        }
+
+        function view() {
+            if (localStorage.getItem('data') != null) {
+                var data = JSON.parse(localStorage.getItem('data'));
+                data.reverse();
+                document.getElementById('row_wishlist').style.overflowY = 'scroll';
+                document.getElementById('row_wishlist').style.overflowX = 'hidden';
+                document.getElementById('row_wishlist').style.height = '300px';
+                for (i = 0; i < data.length; i++) {
+                    var name = data[i].name;
+                    var price = data[i].price;
+                    var image = data[i].image;
+                    var url = data[i].url;
+                    $("#row_wishlist").append(
+                        '<a class= "item_viewed">' +
+                        '<div class = "row row_viewed" >' +
+                        '<div class ="col-md-4">' +
+                        '<img src = "' + image + '" width = "100%">' +
+                        '</div>' +
+                        '<div class ="col-md-8" info_wishlist >' +
+                        '<p style = "margin: 0;">' + name + '</p>' +
+                        '<p style = "margin: 0;color:#FE980F">' + price + '</p>' +
+                        '</div>' +
+                        '</div>' +
+                        '</a>'
+                    );
+                }
+            }
+        }
+        view();
+
         function add_wistlist(clicked_id) {
             var id = clicked_id;
             var name = document.getElementById('wishlist_productname' + id).value;
@@ -113,7 +192,6 @@
 
 
         function add_compare(product_id) {
-
             document.getElementById('title-compare').innerText = 'Bảng so sánh sản phẩm';
             var id = product_id;
             var name = document.getElementById('wishlist_productname' + id).value;
