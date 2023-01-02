@@ -18,8 +18,11 @@ use App\Models\Statistic;
 use App\Models\Product;
 use App\Models\Order;
 use App\Models\Post;
+use App\Models\User;
 use App\Models\Visitors;
 use Carbon\Carbon;
+use Facade\FlareClient\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
 // session_start();
 
@@ -174,66 +177,115 @@ class AdminController extends Controller
     }
     public function logout()
     {
-        Session::put('admin_name', null);
-        Session::put('admin_id', null);
+        Session::put('customer_email', null);
+        Session::put('customer_id', null);
         return Redirect::to('/login-auth');
     }
 
 
-    public function login_customer_google()
+    public function login_customer_google(Request $request)
     {
-
-        return Socialite::driver('google')->redirect();
+        Session::put('admin_name', null);
+        Session::put('admin_id', null);
+       // $request->session()->flush();
+        Auth::logout();
+        try {
+            return Socialite::driver('google')->redirect();
+           
+        } catch (\Exception $exception) {
+            return $exception;
+        }
     }
 
     public function callback_customer_google()
     {
 
+        // $users = Socialite::driver('google')->user();
 
-        $users = Socialite::driver('google')->stateless()->user();
+        // $authUser = $this->FindOrCreateCustomer($users, 'google');
+        // if ($authUser) {
+        //     $account_name = Customer::where('customer_id', $authUser->user)->first();
+        //     Session::put('customer_id', $account_name->customer_id);
+        //     Session::put('customer_name', $account_name->customer_name);
+        //     Session::put('customer_phone', $account_name->customer_phone);
+        //     Session::put('customer_email', $account_name->customer_email);
+        // } else {
+        //     $account_name = Customer::where('customer_id', $authUser->user)->first();
+        //     Session::put('customer_id', $account_name->customer_id);
+        //     Session::put('customer_name', $account_name->customer_name);
+        //     Session::put('customer_phone', $account_name->customer_phone);
+        //     Session::put('customer_email', $account_name->customer_email);
+        // }
+        // return redirect('/trang-chu')->with('message', 'Đăng nhập tài khoản google ' . $account_name->customer_email . ' thành công');
+
+        $users = Socialite::driver('google')->user();
 
         $authUser = $this->FindOrCreateCustomer($users, 'google');
         if ($authUser) {
-            $account_name = Customer::where('customer_id', $authUser->user)->first();
-            Session::put('customer_id', $account_name->customer_id);
-            Session::put('customer_name', $account_name->customer_name);
-            Session::put('customer_phone', $account_name->customer_phone);
-            Session::put('customer_email', $account_name->customer_email);
+            $account_name = User::where('id', $authUser->id)->first();
+            Session::put('id', $account_name->id);
+            Session::put('name', $account_name->name);
+            Session::put('email', $account_name->email);
         } else {
-            $account_name = Customer::where('customer_id', $authUser->user)->first();
-            Session::put('customer_id', $account_name->customer_id);
-            Session::put('customer_name', $account_name->customer_name);
-            Session::put('customer_phone', $account_name->customer_phone);
-            Session::put('customer_email', $account_name->customer_email);
+            $account_name = User::where('id', $authUser->user)->first();
+            Session::put('id', $account_name->id);
+            Session::put('name', $account_name->name);
+            Session::put('email', $account_name->email);
         }
-        return redirect('/trang-chu')->with('message', 'Đăng nhập tài khoản google ' . $account_name->customer_email . ' thành công');
+        return redirect('/')->with('message', 'Đăng nhập tài khoản google'. $account_name->email .'   thành công');
     }
 
     public function FindOrCreateCustomer($users, $provider)
     {
-        $authUser = SocialCustomer::where('provider_user_id', $users->id)->first();
+        // $authUser = SocialCustomer::where('provider_user_id', $users->id)->first();
+        // if ($authUser) {
+        //     return $authUser;
+        // } else {
+        //     $customer_new = new SocialCustomer([
+        //         'provider_user_id' => $users->id,
+        //         'provider_user_email' => $users->email,
+        //         'provider' => strtoupper($provider)
+        //     ]);
+
+        //     $customer = Customer::where('customer_email', $users->email)->first();
+
+        //     if (!$customer) {
+        //         $customer = Customer::create([
+        //             'customer_name' => $users->name,
+        //             'customer_email' => $users->email,
+        //             'customer_password' => '123456',
+        //             'customer_phone' => '01234567'
+        //         ]);
+        //     }
+        //     $customer_new->customer()->associate($customer);
+        //     $customer_new->save();
+        //     return $customer_new;
+        // }
+
+        $authUser = User::where('id', $users->id)->first();
         if ($authUser) {
             return $authUser;
         } else {
-            $customer_new = new SocialCustomer([
-                'provider_user_id' => $users->id,
-                'provider_user_email' => $users->email,
-                'provider' => strtoupper($provider)
-            ]);
+            // $customer_new = new SocialCustomer([
+            //     'provider_user_id' => $users->id,
+            //     'provider_user_email' => $users->email,
+            //     'provider' => strtoupper($provider)
+            // ]);
 
-            $customer = Customer::where('customer_email', $users->email)->first();
+            $customer = User::where('email', $users->email)->first();
 
             if (!$customer) {
-                $customer = Customer::create([
-                    'customer_name' => $users->name,
-                    'customer_email' => $users->email,
-                    'customer_password' => '123456',
-                    'customer_phone' => '01234567'
+                $customer = User::create([
+                    'name' => $users->name,
+                    'email' => $users->email,
+                    'password' =>  bcrypt('123456'),
+                    'provider' => strtoupper($provider),
+                    'google_id' => $users->id
                 ]);
             }
-            $customer_new->customer()->associate($customer);
-            $customer_new->save();
-            return $customer_new;
+          //  $customer_new->customer()->associate($customer);
+            // $customer_new->save();
+            return $customer;
         }
     }
 }
