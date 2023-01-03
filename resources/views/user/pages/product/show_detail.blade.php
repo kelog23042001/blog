@@ -309,9 +309,4 @@ function percentageStarsRate($stars, $rates)
     <!-- /container -->
 </div>
 <!-- /SECTION -->
-<style>
-    .node-inner ul li {
-        list-style-type: disc;
-    }
-</style>
 @endsection

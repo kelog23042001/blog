@@ -1971,6 +1971,14 @@ textarea.input {
     padding: 10px 0px;
 }
 
+.node-inner ol li {
+    list-style-type: auto;
+}
+
+.node-inner ul li {
+    list-style-type: disc;
+}
+
 .order-summary .order-col>div:first-child {
     width: calc(100% - 150px);
 }
