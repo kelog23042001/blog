@@ -23,7 +23,7 @@ class AuthenController extends Controller
     {
         // dd($request);
         $credentials = $request->validate([
-            'email' => ['required', 'email'],
+            'email' => 'required | email | max:255',
             'password' => ['required'],
         ]);
         if (Auth::attempt($credentials)) {
@@ -43,8 +43,13 @@ class AuthenController extends Controller
     }
 
     public function register_auth(Request $request)
-    {
+    { 
         try {
+            
+            $request->validate([
+                'email' => 'required|email|unique:users|max:255',
+                'pasword' => 'required'
+            ]);
             $request['password'] = bcrypt($request['password']);
             $user = User::create(
                 $request->all()
@@ -52,8 +57,8 @@ class AuthenController extends Controller
 
             return redirect('/login');
         } catch (Exception $e) {
-            // echo Log::error($e);
-            dd($e);
+            return redirect('/register')->with('message', 'Email đã tồn tại');
+
         }
     }
 
