@@ -20,7 +20,7 @@ use App\Models\OrderDetails;
 use App\Models\Order;
 use App\Models\Customer;
 use App\Models\Coupon;
-
+use App\Models\Product;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Mail;
@@ -168,6 +168,7 @@ class CheckoutController extends Controller
     public function confirm_order(Request $request)
     {
         $data = $request->all();
+        // dd($data);
         $this->validation($request);
         $coupon_mail = '';
         if (isset($data['coupon_code'])) {
@@ -206,8 +207,9 @@ class CheckoutController extends Controller
 
         $order->save();
         // dd($data);
-        if (Session::get('cart')) {
-            foreach (Session::get('cart') as $key => $cart) {
+        $carts = Session::get('cart');
+        if ($carts) {
+            foreach ($carts as $key => $cart) {
                 $order_details =  new OrderDetails;
                 $order_details->order_code = $checkout_code;
                 $order_details->product_id = $cart['product_id'];
@@ -222,6 +224,11 @@ class CheckoutController extends Controller
                 }
                 $order_details->product_feeship = $data['order_fee'];
                 $order_details->save();
+
+                // decrease quantity product 
+                $product = Product::find($cart['product_id']);
+                $product->product_quantity -= $cart['product_qty'];
+                $product->save();
             }
         }
         if (isset($data['order_coupon'])) {
