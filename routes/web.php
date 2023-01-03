@@ -141,7 +141,7 @@ Route::get('/chi-tiet-san-pham/{product_id}', [ProductController::class, 'detail
 // {{URL::to('chi-tiet-san-pham/'.$product->product_id)}}
 Route::get('/tag/{product_tag}', [ProductController::class, 'tag']);
 
-Route::get('/admin', [AdminController::class, 'index']);
+// Route::get('/admin', [AdminController::class, 'index']);
 // Route::get('/dashboard', [AdminController::class, 'show_dashboard']);
 //Route::get('/logout', [AdminController::class, 'logout']);
 
