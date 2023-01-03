@@ -16,6 +16,25 @@ function showRate($rating)
         }
     }
 }
+function countStarsRating($stars, $rates)
+{
+    $count = 0;
+    foreach ($rates as $key => $rate) {
+        if ($rate->rating == $stars) {
+            $count++;
+        }
+    }
+    return $count;
+}
+
+function percentageStarsRate($stars, $rates)
+{
+    $sum = $rates->count('rating_id');
+    $count = countStarsRating($stars, $rates);
+    return ($count / $sum) * 100;
+}
+
+// dd(percentageStarsRate(5, $rates))
 // if ($user) echo($user->email)
 ?>
 <input type="hidden" id="product_viewed_id" value="{{$detail_product->product_id}}">
@@ -157,7 +176,7 @@ function showRate($rating)
                     <!-- product tab nav -->
                     <ul class="tab-nav">
                         <li><a data-toggle="tab" href="#description">Mô tả sản phẩm</a></li>
-                        <li class="active"><a data-toggle="tab" href="#rating">Đánh giá & Bình luận ({{count($detail_product->rates)}})</a></li>
+                        <li class="active"><a data-toggle="tab" href="#rating">Đánh giá & Bình luận ({{count($rates)}})</a></li>
                     </ul>
                     <!-- /product tab nav -->
 
@@ -178,71 +197,17 @@ function showRate($rating)
                                             </div>
                                         </div>
                                         <ul class="rating">
+                                            @for($i = 5; $i > 0; $i--) <!-- -->
                                             <li>
                                                 <div class="rating-stars">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
+                                                    <?php echo showRate($i) ?>
                                                 </div>
                                                 <div class="rating-progress">
-                                                    <div style="width: 80%;"></div>
+                                                    <div style="width: <?php echo percentageStarsRate($i, $rates) ?>%"></div>
                                                 </div>
-                                                <span class="sum">3</span>
+                                                <span class="sum"><?php echo (countStarsRating($i, $rates)) ?></span>
                                             </li>
-                                            <li>
-                                                <div class="rating-stars">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                </div>
-                                                <div class="rating-progress">
-                                                    <div style="width: 60%;"></div>
-                                                </div>
-                                                <span class="sum">2</span>
-                                            </li>
-                                            <li>
-                                                <div class="rating-stars">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                </div>
-                                                <div class="rating-progress">
-                                                    <div></div>
-                                                </div>
-                                                <span class="sum">0</span>
-                                            </li>
-                                            <li>
-                                                <div class="rating-stars">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                </div>
-                                                <div class="rating-progress">
-                                                    <div></div>
-                                                </div>
-                                                <span class="sum">0</span>
-                                            </li>
-                                            <li>
-                                                <div class="rating-stars">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                </div>
-                                                <div class="rating-progress">
-                                                    <div></div>
-                                                </div>
-                                                <span class="sum">0</span>
-                                            </li>
+                                            @endfor
                                         </ul>
                                     </div>
                                 </div>
@@ -252,7 +217,7 @@ function showRate($rating)
                                 <div class="col-md-6">
                                     <div id="reviews">
                                         <ul class="reviews">
-                                            @foreach ($detail_product->rates as $key=> $review)
+                                            @foreach ($rates as $key=> $review)
                                             <li>
                                                 <div class="review-heading">
                                                     <h5 class="name">{{$review->user->name}}</h5>
@@ -272,13 +237,14 @@ function showRate($rating)
                                             </li>
                                             @endforeach
                                         </ul>
-                                        <ul class="reviews-pagination">
+                                        <!-- {{ $rates->links() }} -->
+                                        <!-- <ul class="reviews-pagination">
                                             <li class="active">1</li>
                                             <li><a href="#">2</a></li>
                                             <li><a href="#">3</a></li>
                                             <li><a href="#">4</a></li>
                                             <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
-                                        </ul>
+                                        </ul> -->
                                     </div>
                                 </div>
                                 <!-- /Reviews -->
@@ -307,7 +273,7 @@ function showRate($rating)
                                             @endif
                                             <textarea class="input comment_content" placeholder="Bình luận của bạn"></textarea>
 
-                                            <button class="primary-btn send-comment">Gửi đánh giá</button>
+                                            <button class="primary-btn send-comment" style="float:right">Gửi đánh giá</button>
                                         </div>
                                     </div>
                                 </div>
