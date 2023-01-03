@@ -24,6 +24,7 @@ use App\Http\Controllers\MailController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PayPalController;
+use App\Http\Controllers\RatingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -263,6 +264,11 @@ Route::post('/allow-comment', [ProductController::class, 'allow_comment']);
 Route::post('/reply-comment', [ProductController::class, 'reply_comment']);
 
 //rating
+Route::get('/all-rating', [RatingController::class, 'show_rating']);
+
+Route::get('/unactive-rating/{rating_id}', [RatingController::class, 'unactive_rating']);
+Route::get('/active-rating/{rating_id}', [RatingController::class, 'active_rating']);
+
 Route::post('/rating', [ProductController::class, 'rating']);
 
 Route::post('/filter-by-date', [AdminController::class, 'filter_by_date']);
