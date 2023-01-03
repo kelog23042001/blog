@@ -97,7 +97,7 @@
             function fetch_delivery() {
                 var _token = $('input[name="_token"]').val();
                 $.ajax({
-                    url: '{{url(' / select - feeship ')}}',
+                    url: '{{url('/select-feeship')}}',
                     method: 'POST',
                     data: {
                         _token: _token
@@ -116,7 +116,7 @@
                 // alert(fee_value);
                 // alert(feeship_id);
                 $.ajax({
-                    url: '{{url(' / update - delivery ')}}',
+                    url: '{{url('/update-delivery')}}',
                     method: 'POST',
                     data: {
                         feeship_id: feeship_id,
@@ -136,12 +136,12 @@
                 var fee_ship = $('.fee_ship').val();
                 var _token = $('input[name="_token"]').val();
 
-                // alert(city);
-                // alert(province);
+                //alert(city);
+                //alert(province);
                 // alert(wards);
                 // alert(fee_ship);
                 $.ajax({
-                    url: '{{url(' / insert - delivery ')}}',
+                    url: '{{url('/insert-delivery')}}',
                     method: 'POST',
                     data: {
                         city: city,
@@ -169,7 +169,7 @@
                     result = 'wards';
                 }
                 $.ajax({
-                    url: '{{url(' / select - delivery ')}}',
+                    url: '{{url('/select-delivery')}}',
                     method: 'POST',
                     data: {
                         action: action,
