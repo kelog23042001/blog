@@ -285,6 +285,9 @@ class ProductController extends Controller
         // dd($detail_product->rates[0]->comment);
         $rating = Rate::where('product_id', $product_id)->avg('rating');
         $rating = round($rating, 1);
+
+        $rates = Rate::where('product_id', $product_id)->paginate(5);
+
         // dd($rating);
         $product_image = $detail_product->product_image;
         $product_id = $detail_product->product_id;
@@ -304,7 +307,7 @@ class ProductController extends Controller
         $product->product_views = $product->product_views + 1;
         $product->save();
 
-        return view('user.pages.product.show_detail', compact('product', 'product_cate', 'categories', 'rating', 'category_id', 'detail_product', 'related_product', 'category_post'))
+        return view('user.pages.product.show_detail', compact('rates', 'product', 'product_cate', 'categories', 'rating', 'category_id', 'detail_product', 'related_product', 'category_post'))
             ->with('meta_decs', $meta_decs)->with('meta_title', $meta_title)->with('meta_keyword', $meta_keyword)
             ->with('url_canonical', $url_canonical);
     }
@@ -328,7 +331,8 @@ class ProductController extends Controller
             ->with('category_post', $category_post)
             ->with('categories', $categories)
             ->with('brand', $brand)
-            ->with('meta_decs', $meta_decs)->with('meta_title', $meta_title)
+            ->with('meta_decs', $meta_decs)
+            ->with('meta_title', $meta_title)
             ->with('meta_keyword', $meta_keyword)
             ->with('url_canonical', $url_canonical)
             ->with('product_tag', $product_tag)

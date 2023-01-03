@@ -11,54 +11,61 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Session;
+
 class CategoryPostController extends Controller
 {
-    public function add_category_post(){
+    public function add_category_post()
+    {
 
         return view('admin.category_post.add_category');
     }
 
-    public function all_category_post(){
+    public function all_category_post()
+    {
 
         $all_category_post = CategoryPost::orderby('cate_post_id', 'DESC')->paginate(5);
         return view('admin.category_post.list_category', compact('all_category_post'));
     }
 
-    public function save_category_post(Request $request){
+    public function save_category_post(Request $request)
+    {
         $data = array();
-        $data= $request->all();
+        $data = $request->all();
         $category_post = new CategoryPost();
         $category_post->cate_post_name = $data['cate_post_name'];
-        $category_post->cate_post_slug =$data['cate_post_slug'];
-        $category_post->cate_post_desc =$data['cate_post_desc'];
-        $category_post->cate_post_status =$data['cate_post_status'] ;
+        $category_post->cate_post_slug = $data['cate_post_slug'];
+        $category_post->cate_post_desc = $data['cate_post_desc'];
+        $category_post->cate_post_status = $data['cate_post_status'];
 
         $category_post->save();
 
         return redirect()->back()->with('message', 'Thêm danh mục bài viết thành công');
     }
-    public function danh_muc_bai_viet($cate_post_slug){
-
+    public function danh_muc_bai_viet($cate_post_slug)
+    {
     }
-     public function edit_category_post($cate_post_id){
+    public function edit_category_post($cate_post_id)
+    {
 
         $category_post = CategoryPost::find($cate_post_id);
 
         $edit_category_product = DB::table('tbl_category_product')->where('category_id', $cate_post_id)->get();
         return view('admin.category_post.edit_category', compact('edit_category_product', 'category_post'));
     }
-      public function update_category_post(Request $request,$cate_post_id){
-        $data= $request->all();
+    public function update_category_post(Request $request, $cate_post_id)
+    {
+        $data = $request->all();
         $category_post = CategoryPost::find($cate_post_id);
 
         $category_post->cate_post_name = $data['cate_post_name'];
-        $category_post->cate_post_slug =$data['cate_post_slug'];
-        $category_post->cate_post_desc =$data['cate_post_desc'];
-        $category_post->cate_post_status =$data['cate_post_status'] ;
+        $category_post->cate_post_slug = $data['cate_post_slug'];
+        $category_post->cate_post_desc = $data['cate_post_desc'];
+        $category_post->cate_post_status = $data['cate_post_status'];
         $category_post->save();
         return redirect('/all-category-post')->with('message', 'Cập nhập danh mục bài viết thành công');
     }
-     public function delete_category_post($cate_post_id){
+    public function delete_category_post($cate_post_id)
+    {
         $category_post = CategoryPost::find($cate_post_id);
         $category_post->delete();
         return Redirect::to('/all-category-post')->with('message', 'Xoá danh mục bài viết thành công');
