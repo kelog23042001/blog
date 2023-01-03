@@ -31,12 +31,13 @@ function percentageStarsRate($stars, $rates)
 {
     $sum = $rates->count('rating_id');
     $count = countStarsRating($stars, $rates);
-    return ($count / $sum) * 100;
+    if ($count != 0)
+        return ($count / $sum) * 100;
+    return 0;
 }
 
-// dd(percentageStarsRate(5, $rates))
-// if ($user) echo($user->email)
 ?>
+
 <input type="hidden" id="product_viewed_id" value="{{$detail_product->product_id}}">
 <input type="hidden" id="viewed_productname{{$detail_product->product_id}}" value="{{$detail_product->product_name}}">
 <input type="hidden" id="viewed_productprice{{$detail_product->product_id}}" value="{{$detail_product->product_price}}">
@@ -175,15 +176,15 @@ function percentageStarsRate($stars, $rates)
                 <div id="product-tab">
                     <!-- product tab nav -->
                     <ul class="tab-nav">
-                        <li><a data-toggle="tab" href="#description">Mô tả sản phẩm</a></li>
-                        <li class="active"><a data-toggle="tab" href="#rating">Đánh giá & Bình luận ({{count($rates)}})</a></li>
+                        <li class="active"><a data-toggle="tab" href="#description">Mô tả sản phẩm</a></li>
+                        <li><a data-toggle="tab" href="#rating">Đánh giá & Bình luận ({{count($rates)}})</a></li>
                     </ul>
                     <!-- /product tab nav -->
 
                     <!-- product tab content -->
                     <div class="tab-content">
                         <!-- tab2  -->
-                        <div id="rating" class="tab-pane fade in active">
+                        <div id="rating" class="tab-pane fade in">
                             <div class="row">
                                 <!-- Rating -->
                                 <div class="col-md-3">
@@ -231,7 +232,13 @@ function percentageStarsRate($stars, $rates)
                                                 </div>
                                                 <div class="review-body">
                                                     <p>
-                                                        {{$review->comment}}
+                                                        <?php
+                                                        if (empty($review->comment)) {
+                                                            echo 'Người dùng không bình luận gì!';
+                                                        } else {
+                                                            echo $review->comment;
+                                                        }
+                                                        ?>
                                                     </p>
                                                 </div>
                                             </li>
@@ -281,10 +288,12 @@ function percentageStarsRate($stars, $rates)
                             </div>
                         </div>
                         <!-- tab1  -->
-                        <div id="description" class="tab-pane fade in ">
+                        <div id="description" class="tab-pane fade in active">
                             <div class="row">
                                 <div class="col-md-12">
-                                    {!!$detail_product->product_desc!!}
+                                    <div class="node-inner">
+                                        {!!$detail_product->product_desc!!}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -300,5 +309,9 @@ function percentageStarsRate($stars, $rates)
     <!-- /container -->
 </div>
 <!-- /SECTION -->
-
+<style>
+    .node-inner ul li {
+        list-style-type: disc;
+    }
+</style>
 @endsection

@@ -59,7 +59,7 @@
             <input type="text" name="price_cost" class="form-control price_format" id="exampleInputEmail1" placeholder="Nhập giá sản phẩm">
         </div>
         <div class="form-group">
-            <label for="exampleInputPassword1">Mô tả sản phẩm</label>
+            <label for="editor">Mô tả sản phẩm</label>
             <textarea name="description" id="editor" cols="30" rows="5" class="form-control" placeholder="Enter Description..."></textarea>
         </div>
         <div class="form-group">
@@ -74,7 +74,7 @@
             <label for="exampleInputPassword1">Tags sản phẩm</label>
             <input type="text" data-role="tagsinput" name="product_tags" class="form-control" placeholder="Nhập giá sản phẩm">
         </div> -->
-        <button type="submit"  class="btn btn-info">Thêm sản phẩm</button>
+        <button type="submit" class="btn btn-info">Thêm sản phẩm</button>
     </form>
 </div>
 <script src="{{asset('Backend/vendors/choices.js/choices.min.js')}}"></script>

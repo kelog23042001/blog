@@ -64,7 +64,7 @@
         </div>
         <div class="form-group">
             <label for="exampleInputPassword1">Mô tả sản phẩm</label>
-            <textarea name="description" id="editor" cols="30" rows="5" class="form-control" placeholder="Enter Description...">{!! $product->product_desc !!}</textarea>
+            <textarea name="description" id="ckeditor_product" cols="30" rows="5" class="form-control" placeholder="Enter Description...">{!! $product->product_desc !!}</textarea>
         </div>
         <div class="form-group">
             <label for="product_cate">Danh mục sản phẩm</label>

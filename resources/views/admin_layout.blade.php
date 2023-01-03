@@ -36,19 +36,13 @@
 
 
     <script src="{{asset('Backend/vendors/choices.js/choices.min.js')}}"></script>
-
     <script src="{{asset('Backend/js/bootstrap.bundle.min.js')}}"></script>
     <script src="{{asset('Backend/js/main.js')}}"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="{{asset('Backend/vendors/simple-datatables/simple-datatables.js')}}"></script>
-    <script src="https://cdn.ckeditor.com/ckeditor5/35.4.0/classic/ckeditor.js"></script>
-
+    <!-- <script src="https://cdn.ckeditor.com/ckeditor5/35.4.0/classic/ckeditor.js"></script> -->
+    <script src="{{asset('/backend/ckeditor/ckeditor.js')}}"></script>
     <script>
-        ClassicEditor
-            .create(document.querySelector('#editor'))
-            .catch(error => {
-                console.error(error);
-            });
         const table_category = document.querySelector('#table-category');
         const data_category = new simpleDatatables.DataTable(table_category);
     </script>
@@ -60,9 +54,7 @@
     <script src="{{asset('/backend/js/scripts.js')}}"></script>
     <script src="{{asset('/backend/js/jquery.slimscroll.js')}}"></script>
     <script src="{{asset('/backend/js/jquery.nicescroll.js')}}"></script>
-    <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="js/flot-chart/excanvas.min.js"></script><![endif]-->
     <script src="{{asset('/backend/js/jquery.scrollTo.js')}}"></script>
-    <script src="{{asset('/backend/ckeditor/ckeditor.js')}}"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
     <script src="//cdn.datatables.net/1.12.0/js/jquery.dataTables.min.js"></script>
     <script type="application/x-javascript">
@@ -97,7 +89,7 @@
             function fetch_delivery() {
                 var _token = $('input[name="_token"]').val();
                 $.ajax({
-                    url: '{{url('/select-feeship')}}',
+                    url: "{{url('/select-feeship')}}",
                     method: 'POST',
                     data: {
                         _token: _token
@@ -116,7 +108,7 @@
                 // alert(fee_value);
                 // alert(feeship_id);
                 $.ajax({
-                    url: '{{url('/update-delivery')}}',
+                    url: "{{url('/update-delivery')}}",
                     method: 'POST',
                     data: {
                         feeship_id: feeship_id,
@@ -141,7 +133,7 @@
                 // alert(wards);
                 // alert(fee_ship);
                 $.ajax({
-                    url: '{{url('/insert-delivery')}}',
+                    url: "{{url('/inser -delivery')}}",
                     method: 'POST',
                     data: {
                         city: city,
@@ -169,7 +161,7 @@
                     result = 'wards';
                 }
                 $.ajax({
-                    url: '{{url('/select-delivery')}}',
+                    url: "{{url('/select-delivery')}}",
                     method: 'POST',
                     data: {
                         action: action,
@@ -189,7 +181,7 @@
         });
     </script>
     <script>
-        CKEDITOR.replace('ckeditor');
+        CKEDITOR.replace('ckeditor_product');
         CKEDITOR.replace('ckeditor1');
     </script>
 
@@ -537,7 +529,7 @@
                 alert("Số lượng trong kho không đủ");
             } else {
                 $.ajax({
-                    url: '{{url(' / update - qty ')}}',
+                    url: "{{url('/update-qty')}}",
                     method: 'POST',
                     data: {
                         _token: _token,
@@ -590,7 +582,7 @@
                 alert('Cập nhật trạng thái đơn hàng thành công');
                 location.reload();
                 $.ajax({
-                    url: '{{url(' / update - order - quantity ')}}",
+                    url: "{{url('/update-order-quantity')}}",
                     method: 'POST',
                     data: {
                         _token: _token,
