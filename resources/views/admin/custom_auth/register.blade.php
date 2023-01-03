@@ -30,16 +30,7 @@ bootstrap-css -->
 <!-- <div class="log-w3"> -->
 <!-- <div class="w3layouts-main"> -->
 	<!-- <h2>Đăng ký Authentication</h2> -->
-     <?php
-
-         use Illuminate\Support\Facades\Session;
-
-                $message = Session::get('message');
-                if($message){
-                    echo $message;
-                    Session::put('message',null);
-                }
-    ?>
+    
 		<!-- <form action="{{URL::to('/register')}}" method="post"> -->
             <!-- {{ csrf_field() }} -->
 			<!-- <input type="text" class="ggg" name="admin_name" value="{{old('admin_name')}}" placeholder="Điền Họ và tên" required=""> -->
@@ -80,6 +71,10 @@ bootstrap-css -->
 </head>
 
 <body>
+@php
+    use Illuminate\Support\Facades\Session;
+    $message = Session::get('message');
+    @endphp
     <div id="auth">
 
         <div class="row h-100">
@@ -90,7 +85,17 @@ bootstrap-css -->
                     </div>
                     <h1 class="auth-title">Sign Up</h1>
                     <p class=" mb-5">Input your data to register to our website.</p>
-
+                    <p style="color:red">
+                        @if($message)
+                        {{$message}}
+                        @php Session::put('message', null); @endphp
+                        @endif
+                        @if ($errors->any())      
+                                @foreach ($errors->all() as $error)
+                                    <p style="color:red">{{ $error }}</p>
+                                @endforeach           
+                        @endif
+                    </p>
                     <form action="{{URL::to('/register-auth')}}" method="post">
 						@csrf
                         <div class="form-group position-relative has-icon-left mb-4">

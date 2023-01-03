@@ -91,6 +91,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         @php Session::put('message', null); @endphp
                         @endif
                     </p>
+                    @if ($errors->any())      
+                                    @foreach ($errors->all() as $error)
+                                         <p style="color:red">{{ $error }}</p>
+                                    @endforeach           
+                        @endif
                     <form action="{{URL::to('/login')}}" method="post">
                         @csrf
                         <div class="form-group position-relative has-icon-left mb-4">
@@ -99,6 +104,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                 <i class="bi bi-person"></i>
                             </div>
                         </div>
+                       
                         <div class="form-group position-relative has-icon-left mb-4">
                             <input name="password" id="password" type="password" class="form-control form-control-xl" placeholder="Password">
                             <div class="form-control-icon">
