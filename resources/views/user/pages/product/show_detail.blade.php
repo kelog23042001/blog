@@ -1,5 +1,23 @@
 @extends('layout')
 @section('content')
+<?php
+
+use Illuminate\Support\Facades\Auth;
+
+$user = Auth::user();
+
+function showRate($rating)
+{
+    for ($i = 0; $i < 5; $i++) {
+        if ($i < $rating) {
+            echo '<i class="fa fa-star"></i>';
+        } else {
+            echo '<i class="fa fa-star-o"></i>';
+        }
+    }
+}
+// if ($user) echo($user->email)
+?>
 <input type="hidden" id="product_viewed_id" value="{{$detail_product->product_id}}">
 <input type="hidden" id="viewed_productname{{$detail_product->product_id}}" value="{{$detail_product->product_name}}">
 <input type="hidden" id="viewed_productprice{{$detail_product->product_id}}" value="{{$detail_product->product_price}}">
@@ -73,11 +91,9 @@
                     <h2 class="product-name">{{$detail_product->product_name}}</h2>
                     <div>
                         <div class="product-rating">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star-o"></i>
+                            @php
+                            showRate(round($rating, 0, PHP_ROUND_HALF_DOWN))
+                            @endphp
                         </div>
                         <a class="review-link" href="#">10 Review(s) | Add your review</a>
                     </div>
@@ -140,48 +156,25 @@
                 <div id="product-tab">
                     <!-- product tab nav -->
                     <ul class="tab-nav">
-                        <li class="active"><a data-toggle="tab" href="#tab1">Description</a></li>
-                        <li><a data-toggle="tab" href="#tab2">Details</a></li>
-                        <li><a data-toggle="tab" href="#tab3">Reviews (3)</a></li>
+                        <li><a data-toggle="tab" href="#description">Mô tả sản phẩm</a></li>
+                        <li class="active"><a data-toggle="tab" href="#rating">Đánh giá & Bình luận ({{count($detail_product->rates)}})</a></li>
                     </ul>
                     <!-- /product tab nav -->
 
                     <!-- product tab content -->
                     <div class="tab-content">
-                        <!-- tab1  -->
-                        <div id="tab1" class="tab-pane fade in active">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /tab1  -->
-
                         <!-- tab2  -->
-                        <div id="tab2" class="tab-pane fade in">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /tab2  -->
-
-                        <!-- tab3  -->
-                        <div id="tab3" class="tab-pane fade in">
+                        <div id="rating" class="tab-pane fade in active">
                             <div class="row">
                                 <!-- Rating -->
                                 <div class="col-md-3">
                                     <div id="rating">
                                         <div class="rating-avg">
-                                            <span>4.5</span>
+                                            <span>{{$rating}}</span>
                                             <div class="rating-stars">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star-o"></i>
+                                                @php
+                                                showRate(round($rating, 0, PHP_ROUND_HALF_DOWN))
+                                                @endphp
                                             </div>
                                         </div>
                                         <ul class="rating">
@@ -259,54 +252,25 @@
                                 <div class="col-md-6">
                                     <div id="reviews">
                                         <ul class="reviews">
+                                            @foreach ($detail_product->rates as $key=> $review)
                                             <li>
                                                 <div class="review-heading">
-                                                    <h5 class="name">John</h5>
-                                                    <p class="date">27 DEC 2018, 8:0 PM</p>
+                                                    <h5 class="name">{{$review->user->name}}</h5>
+                                                    <p class="date">{{$review->created_at}}</p>
                                                     <div class="review-rating">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star-o empty"></i>
+                                                        @for ($i = 0; $i < $review->rating; $i++) <!-- -->
+                                                            <i class="fa fa-star"></i>
+                                                            @endfor
+                                                            <!-- <i class="fa fa-star-o empty"></i> -->
                                                     </div>
                                                 </div>
                                                 <div class="review-body">
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
+                                                    <p>
+                                                        {{$review->comment}}
+                                                    </p>
                                                 </div>
                                             </li>
-                                            <li>
-                                                <div class="review-heading">
-                                                    <h5 class="name">John</h5>
-                                                    <p class="date">27 DEC 2018, 8:0 PM</p>
-                                                    <div class="review-rating">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star-o empty"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="review-body">
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="review-heading">
-                                                    <h5 class="name">John</h5>
-                                                    <p class="date">27 DEC 2018, 8:0 PM</p>
-                                                    <div class="review-rating">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star-o empty"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="review-body">
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
-                                                </div>
-                                            </li>
+                                            @endforeach
                                         </ul>
                                         <ul class="reviews-pagination">
                                             <li class="active">1</li>
@@ -322,28 +286,43 @@
                                 <!-- Review Form -->
                                 <div class="col-md-3">
                                     <div id="review-form">
-                                        <form class="review-form">
-                                            <input class="input" type="text" placeholder="Your Name">
-                                            <input class="input" type="email" placeholder="Your Email">
-                                            <textarea class="input" placeholder="Your Review"></textarea>
+                                        <div class="review-form">
+                                            @if (!$user)
+                                            <input class="input user_name" type="text" placeholder="Tên">
+                                            <input class="input user_email" type="email" placeholder="Email">
+                                            @else
+                                            <input class="input user_id" type="hidden" value="{{$user->id}}">
+                                            <input class="input user_name" type="hidden" value="{{$user->name}}">
+                                            <input class="input user_email" type="hidden" value="{{$user->email}}">
                                             <div class="input-rating">
-                                                <span>Your Rating: </span>
-                                                <div class="stars">
-                                                    <input id="star5" name="rating" value="5" type="radio"><label for="star5"></label>
+                                                <span>Đánh giá của bạn: </span>
+                                                <div class="stars" id="stars">
+                                                    <input id="star5" name="rating" value="5" type="radio" checked><label for="star5"></label>
                                                     <input id="star4" name="rating" value="4" type="radio"><label for="star4"></label>
                                                     <input id="star3" name="rating" value="3" type="radio"><label for="star3"></label>
                                                     <input id="star2" name="rating" value="2" type="radio"><label for="star2"></label>
                                                     <input id="star1" name="rating" value="1" type="radio"><label for="star1"></label>
                                                 </div>
                                             </div>
-                                            <button class="primary-btn">Submit</button>
-                                        </form>
+                                            @endif
+                                            <textarea class="input comment_content" placeholder="Bình luận của bạn"></textarea>
+
+                                            <button class="primary-btn send-comment">Gửi đánh giá</button>
+                                        </div>
                                     </div>
                                 </div>
                                 <!-- /Review Form -->
                             </div>
                         </div>
-                        <!-- /tab3  -->
+                        <!-- tab1  -->
+                        <div id="description" class="tab-pane fade in ">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    {!!$detail_product->product_desc!!}
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /tab1  -->
                     </div>
                     <!-- /product tab content  -->
                 </div>
@@ -355,4 +334,5 @@
     <!-- /container -->
 </div>
 <!-- /SECTION -->
+
 @endsection

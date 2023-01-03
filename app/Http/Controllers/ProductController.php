@@ -48,12 +48,15 @@ class ProductController extends Controller
 
     public function send_comment(Request $request)
     {
+        // dd($request->all());
         $product_id = $request->product_id;
         $comment_name = $request->comment_name;
+        $comment_email = $request->comment_email;
         $comment_content = $request->comment_content;
         $comment = new Comment();
         $comment->comment = $comment_content;
         $comment->comment_name = $comment_name;
+        $comment->comment_email = $comment_email;
         $comment->comment_product_id = $product_id;
         $comment->comment_status = 1;
         $comment->save();
@@ -278,11 +281,11 @@ class ProductController extends Controller
         $brand = DB::table('tbl_brand_product')->where('brand_status', '0')->orderBy('brand_id', 'desc')->get();
 
         $detail_product = Product::find($product_id);
-        // dd($detail_product);
 
+        // dd($detail_product->rates[0]->comment);
         $rating = Rate::where('product_id', $product_id)->avg('rating');
-        $rating = round($rating);
-
+        $rating = round($rating, 1);
+        // dd($rating);
         $product_image = $detail_product->product_image;
         $product_id = $detail_product->product_id;
         $category_id = $detail_product->category_id;
@@ -295,8 +298,7 @@ class ProductController extends Controller
 
         $related_product = DB::table('tbl_product')
             ->join('tbl_category_product', 'tbl_category_product.category_id', '=', 'tbl_product.category_id')
-            ->where('tbl_category_product.category_id', $category_id)->whereNotIn('tbl_product.product_id', [$product_id])->limit(3)
-            ->get();
+            ->where('tbl_category_product.category_id', $category_id)->whereNotIn('tbl_product.product_id', [$product_id])->get();
 
         $product = Product::find($product_id);
         $product->product_views = $product->product_views + 1;
@@ -333,13 +335,15 @@ class ProductController extends Controller
             ->with('pro_tag', $pro_tag);
     }
 
-    public function insert_rating(Request $request)
+    public function rating(Request $request)
     {
         $data = $request->all();
+        // dd($data);
         $rating = new Rate();
         $rating->product_id = $data['product_id'];
-        $rating->rating = $data['index'];
+        $rating->rating = $data['rating'];
+        $rating->user_id = $data['user_id'];
+        $rating->comment = $data['comment_content'];
         $rating->save();
-        echo 'done';
     }
 }

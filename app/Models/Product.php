@@ -40,7 +40,10 @@ class Product extends Model
     {
         return $this->belongsTo('App\Models\Brand', 'brand_id');
     }
-
+    public function rates()
+    {
+        return $this->hasMany(Rate::class, 'product_id');
+    }
     public function comment()
     {
         return $this->hasMany(Comment::class)->orderBy('product_id', 'DESC');

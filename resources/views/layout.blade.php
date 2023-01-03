@@ -305,6 +305,34 @@
         });
 
         $(document).ready(function() {
+            $('.send-comment').click(function() {
+                var product_id = $('#product_viewed_id').val();
+                var user_id = $('.user_id').val();
+                // var comment_name = $('.user_name').val();
+                // var comment_email = $('.user_email').val();
+                var comment_content = $('.comment_content').val();
+                var rating = $('input[name=rating]:checked', '#stars').val();
+                // alert(rating)
+                $.ajax({
+                    url: "{{('/rating')}}",
+                    method: "POST",
+                    data: {
+                        product_id: product_id,
+                        user_id: user_id,
+                        // comment_name: comment_name,
+                        // comment_email: comment_email,
+                        comment_content: comment_content,
+                        rating: rating,
+                    },
+                    success: function(data) {
+                        // $('#notify_comment').html('<span class="text text-success">Thêm bình luận thành công</span>');
+                        // load_comment();
+                        swal("Gửi bình luận", "Bình luận đang chờ duyệt! Xin cảm ơn", "success");
+                        $('.comment_name').val('');
+                        $('.comment_content').val('');
+                    }
+                });
+            })
             $('.tabs_new_products').click(function() {
                 var category_id = $(this).data('id');
                 // alert(id)

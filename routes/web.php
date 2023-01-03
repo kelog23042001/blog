@@ -263,7 +263,7 @@ Route::post('/allow-comment', [ProductController::class, 'allow_comment']);
 Route::post('/reply-comment', [ProductController::class, 'reply_comment']);
 
 //rating
-Route::post('/insert-rating', [ProductController::class, 'insert_rating']);
+Route::post('/rating', [ProductController::class, 'rating']);
 
 Route::post('/filter-by-date', [AdminController::class, 'filter_by_date']);
 Route::post('/dashboard-filter', [AdminController::class, 'dashboard_filter']);
