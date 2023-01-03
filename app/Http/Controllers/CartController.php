@@ -65,7 +65,7 @@ class CartController extends Controller
     public function delete_product($session_id)
     {
         $cart = Session::get('cart');
-        if ($cart == true) {
+        if ($cart) {
             foreach ($cart as $key => $value) {
                 if ($value['session_id'] == $session_id)
                     unset($cart[$key]);
@@ -76,10 +76,35 @@ class CartController extends Controller
             return Redirect()->back()->with('message', 'Xoá sản phẩm thất bại');
         }
     }
+    public function update_cart_qty(Request $request)
+    {
+        $data = $request->all();
+        $cart = Session::get('cart');
+        $total = 0;
+        // dd($cart);
+        foreach ($cart as $session => $val) {
 
+            if ($val['session_id']  == $data['id']) {
+                if ($cart[$session]['remain_qty'] - $data['qty'] < 0) {
+                    // dd('khong du');
+                    return response()->json(['status' => false, 'message' => 'Số lượng thất bại cho sản phẩm ' . $cart[$session]['product_name'] . ' không đủ!']);
+                } else {
+                    $cart[$session]['product_qty'] = $data['qty'];
+                    Session::put('cart', $cart);
+                }
+            }
+        }
+        $total = 0;
+        foreach (Session::get('cart') as $key => $cart) {
+            $subtotal = $cart['product_price'] * $cart['product_qty'];
+            $total += $subtotal;
+        }
+        return response()->json(['card' => $cart, 'total' => $total, 'status' => true, 'message' => 'Cập nhập số lượng thành công']);
+    }
     public function update_cart(Request $request)
     {
         $data = $request->all();
+        // dd($data);
         $cart = Session::get('cart');
         if ($cart) {
             foreach ($data['cart_qty'] as $key => $qty) {
@@ -136,13 +161,13 @@ class CartController extends Controller
                 if ($val['product_id'] == $data['cart_product_id']) {
                     $is_avaiable++;
                     $i = $key;
+                    // dd($val);
                 }
             }
+            // dd($is_avaiable);
             if ($is_avaiable != 0) {
-                // $cart[$i]['product_qty'] = $data['cart_product_qty'] + $val['product_qty'];
-                // $cart[$i]['product_qty'] = 100;
-                // Session::put('cart', $cart);
-                // dd($cart[$i]['product_qty']);
+                $cart[$i]['product_qty'] += $data['cart_product_qty'];
+                Session::put('cart', $cart);
             } else {
                 $cart[] = array(
                     'session_id' => $session_id,
@@ -175,7 +200,6 @@ class CartController extends Controller
 
     public function gio_hang(Request $request)
     {
-
         $cart = Session::get('cart');
         $total = 0;
         if ($cart) {

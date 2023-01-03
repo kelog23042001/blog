@@ -14,7 +14,7 @@
             <div class="col-md-12">
                 <ul class="breadcrumb-tree">
                     <li><a href="{{url('/trang-chu')}}">Trang chủ</a></li>
-                <li><a href="{{url('danh-muc-san-pham/'.$category_id)}}">{{$detail_product->category->category_name}}</a></li>
+                    <li><a href="{{url('danh-muc-san-pham/'.$category_id)}}">{{$detail_product->category->category_name}}</a></li>
                     <li class="breadcrumb-item active" aria-current="page">{{$meta_title}}</li>
                 </ul>
             </div>
@@ -105,7 +105,12 @@
                             <span>Mua</span>
                             <input oninput="checkQty()" style="width: 100px;" name="qty" id="qty_product" class="quantity_cart" type="number" value="1" min="1" max="{{$detail_product->product_quantity}}" />
                         </div>
-                        <button class="add-to-cart-btn " id="add-to-cart" data-id_product="{{$detail_product->product_id}}" name="add-to-cart"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                        <!--  onclick="Addtocart(this.id);" -->
+                        <button class="add-to-cart-btn" id="{{$product->product_id}}" onclick="Addtocart(this.id)" data-id="{{$product->product_id}}"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                        <!-- <button class="add-to-cart-btn " id="add-to-cart" data-id_product="{{$detail_product->product_id}}" name="add-to-cart">
+                            <i class="fa fa-shopping-cart"></i>
+                            <span>add to cart </span>
+                        </button> -->
                     </div>
 
                     <ul class="product-btns">

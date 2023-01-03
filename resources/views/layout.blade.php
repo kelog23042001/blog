@@ -38,15 +38,11 @@
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css" />
     <!-- Bootstrap theme -->
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css" />
-
-    <!-- RTL version -->
+    <!-- 
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.rtl.min.css" />
-    <!-- Default theme -->
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.rtl.min.css" />
-    <!-- Semantic UI theme -->
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.rtl.min.css" />
-    <!-- Bootstrap theme -->
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.rtl.min.css" />
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.rtl.min.css" /> -->
 </head>
 
 <body>
@@ -244,13 +240,24 @@
 
         }
 
+        function formatMoney(x) {
+            x = x.toLocaleString('it-IT', {
+                style: 'currency',
+                currency: 'VND'
+            })
+            return x;
+        }
+
         function Addtocart($product_id) {
             var id = $product_id;
+            // alert(id)
             var cart_product_id = $('.cart_product_id_' + id).val();
             var cart_product_name = $('.cart_product_name_' + id).val();
             var cart_product_image = $('.cart_product_image_' + id).val();
             var cart_product_price = $('.cart_product_price_' + id).val();
-            var cart_product_qty = $('.cart_product_qty_' + id).val();
+            var cart_product_qty = $('.quantity_cart').val();
+            if (!cart_product_qty)
+                cart_product_qty = 1
             var remain_qty = $('.product_qty_' + id).val();
             $.ajax({
                 url: "{{url('/add-cart-ajax')}}",
@@ -264,7 +271,6 @@
                     remain_qty: remain_qty,
                 },
                 success: function(response) {
-                    console.log(response.cartLength);
                     // show_quick_cart();
                     swal({
                             title: "Đã thêm sản phẩm vào giỏ hàng",
@@ -315,6 +321,7 @@
             });
             $('.check_coupon').click(function() {
                 getDataOrder();
+                // alert('Please select')
             })
 
             function getDataOrder() {
@@ -331,11 +338,11 @@
                     coupon_code: $('.coupon_code').val(),
                     total_order: $('#order_total').val()
                 }
-                window.localStorage.setItem("data", JSON.stringify(data));
+                window.localStorage.setItem("data-checkout", JSON.stringify(data));
             }
 
             function sendOrder() {
-                data = JSON.parse(window.localStorage.getItem("data"));
+                data = JSON.parse(window.localStorage.getItem("data-checkout"));
                 $.ajax({
                     url: "{{url('/confirm-order')}}",
                     method: 'POST',
@@ -499,14 +506,16 @@
             }
 
             $('#add-to-cart').click(function() {
-                var id = $(this).data('id_product');
-                Addtocart(id);
+                var id = $(this).data('id');
+                // alert('Add to cart')
+                // Addtocart(id);
                 // var cart_product_id = $('.cart_product_id_' + id).val();
                 // var cart_product_name = $('.cart_product_name_' + id).val();
                 // var cart_product_image = $('.cart_product_image_' + id).val();
                 // var cart_product_price = $('.cart_product_price_' + id).val();
                 // var cart_product_qty = $('.quantity_cart').val();
                 // var remain_qty = $('.product_qty_' + id).val();
+                // console.log(cart_product_qty)
                 // var _token = $('input[name="_token"]').val();
                 // // console.log(cart_product_id);
                 // // alert();
@@ -541,6 +550,16 @@
                 // });
             });
         });
+
+        function checkQty() {
+            var product_quantity = document.getElementById('soluongcon');
+            // alert(product_quantity.value)
+            ele = document.getElementById('qty_product')
+            var quantity = product_quantity.value - ele.value
+            if (quantity < 0) {
+                ele.value = product_quantity.value;
+            }
+        }
     </script>
     <!-- JavaScript -->
     <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>

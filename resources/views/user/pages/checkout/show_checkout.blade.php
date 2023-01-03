@@ -135,7 +135,7 @@ use Illuminate\Support\Facades\Session;
                             <?php
                             $subtotal = $item['product_price'] * $item['product_qty'];
                             ?>
-                            <div><strong>{{number_format($subtotal,0,',','.')}} <span style="text-decoration: underline;">đ</span></strong></div>
+                            <div><strong>{{number_format($subtotal,0,',','.')}} VNĐ</strong></div>
                         </div>
                         @endforeach
                         <!-- end product cart -->
@@ -174,7 +174,7 @@ use Illuminate\Support\Facades\Session;
                     <div class="order-col">
                         <div><strong>THÀNH TIỀN</strong></div>
                         <input type="hidden" id="order_total" value="{{$total}}">
-                        <div><strong><span class="order-total">{{number_format($total,0,',','.')}} </span><span style="text-decoration: underline;">đ</span></strong></div>
+                        <div><strong><span class="order-total">{{number_format($total,0,',','.')}} </span> VNĐ</strong></div>
                     </div>
                 </div>
                 <div class="payment-method" id="payment-method">
@@ -244,7 +244,7 @@ use Illuminate\Support\Facades\Session;
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script>
     $(document).ready(function() {
-        data = JSON.parse(window.localStorage.getItem("data"))
+        data = JSON.parse(window.localStorage.getItem("data-checkout"))
         fetchDataOrder(data)
         pay_success = $('#pay_success').val()
         if (pay_success) {
@@ -283,7 +283,7 @@ use Illuminate\Support\Facades\Session;
             $('.shipping_phone').val(data['shipping_phone'])
             $('.shipping_notes').val(data['shipping_notes'])
             $('.shipping_address').val(data['shipping_address'])
-            window.localStorage.clear();
+            window.localStorage.getItem('data-checkout', null);
         }
     })
 </script>

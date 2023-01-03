@@ -472,7 +472,7 @@ class CheckoutController extends Controller
                 ->with('meta_decs', $meta_decs)->with('meta_title', $meta_title)->with('meta_keyword', $meta_keyword)->with('url_canonical', $url_canonical)
                 ->with(compact('citys', 'city', 'province', 'ward'));
         } {
-            return back();
+            return redirect()->to(url('/gio-hang'));
         }
     }
 
