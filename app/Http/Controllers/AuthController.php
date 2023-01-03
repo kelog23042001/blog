@@ -8,31 +8,35 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    public function logout_auth(){
+    public function logout_auth()
+    {
         Auth::logout();
         return redirect('/login-auth')->with('message', 'Đăng xuất thành công');
-
     }
-    public function login_auth(){
+    public function login_auth()
+    {
         return view('admin.custom_auth.login_auth');
     }
-    public function register_auth(){
+    public function register_auth()
+    {
         return view('admin.custom_auth.register');
     }
-    public function login(Request $request){
-        $this->validate($request,[
+    public function login(Request $request)
+    {
+        $this->validate($request, [
             'admin_email' => 'required|email|max:255',
             'admin_password' => 'required|max:255',
         ]);
         $data = $request->all();
-        if (Auth::attempt(['admin_email' => $request->admin_email,'admin_password' => $request->admin_password])){
+        if (Auth::attempt(['admin_email' => $request->admin_email, 'admin_password' => $request->admin_password])) {
             return redirect('/dashboard');
-        }else{
-            return redirect('/login-auth')->with('message', 'Lỗi đăng nhập');
+        } else {
+            return redirect('/login-auth')->with('message', 'Email hoặc mật khẩu không chính xác');
         }
     }
-    
-    public function register(Request $request){
+
+    public function register(Request $request)
+    {
         $this->validation($request);
         $data = $request->all();
 
@@ -45,8 +49,9 @@ class AuthController extends Controller
         return redirect('/register-auth')->with('message', 'Đăng ký thành công');
     }
 
-    public function validation($request){
-        return $this->validate($request,[
+    public function validation($request)
+    {
+        return $this->validate($request, [
             'admin_name' => 'required|max:255',
             'admin_phone' => 'required|max:255',
             'admin_email' => 'required|email|max:255',

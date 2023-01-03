@@ -41,14 +41,14 @@ Route::group(['middleware' => 'checklogin'], function () {
     Route::group(['middleware' => 'admin'], function () {
 
         //Admin Dashboard
-        Route::get('/dashboard', [AdminController::class, 'show_dashboard']);
+        Route::get('/dashboard', [AdminController::class, 'show_dashboard'])->name('dashboard');
 
         //User
         Route::get('/all-user', [AuthenController::class, 'getAllUser']);
         Route::post('/update-role-user', [AuthenController::class, 'updateRoleUser']);
 
         //CategoryProductController
-        
+
         Route::get('/add-category-product', [CategoryProductController::class, 'add_category_product']);
         Route::get('/all-category-product', [CategoryProductController::class, 'all_category_product']);
         Route::get('/unactive-category-product/{categoryproduct_id}', [CategoryProductController::class, 'unactive_category_product']);
@@ -89,7 +89,7 @@ Route::group(['middleware' => 'checklogin'], function () {
         Route::post('/save-category-post', [CategoryPostController::class, 'save_category_post']);
         Route::post('/update-category-post/{cate_post_id}', [CategoryPostController::class, 'update_category_post']);
 
-                
+
         //ProductController
         Route::get('/all-product', [ProductController::class, 'all_product']);
         Route::post('tab-new-product', [ProductController::class, 'tab_new_product']);
@@ -102,18 +102,15 @@ Route::group(['middleware' => 'checklogin'], function () {
         Route::post('/save-product', [ProductController::class, 'save_product']);
         Route::get('/add-product', [ProductController::class, 'add_product']);
         Route::get('/edit-product/{product_id}', [ProductController::class, 'edit_product']);
-        
     });
-
-   
 });
 
 Route::get('/trang-chu', [HomeController::class, 'index']);
 
-Route::get('/logout', [AuthenController::class, 'logout']);
+Route::get('/logout', [AuthenController::class, 'logout'])->name('logout');
 
-Route::get('/login', [AuthenController::class, 'getFormLogin'])->name('auth.formlogin');
-Route::post('/login',[AuthenController::class, 'login'])->name('auth.login');
+Route::get('/login', [AuthenController::class, 'getFormLogin'])->name('login');
+Route::post('/login', [AuthenController::class, 'login'])->name('auth.login');
 
 Route::get('/register', [AuthenController::class, 'getFormRegister'])->name('auth.formregister');
 Route::post('/register-auth', [AuthenController::class, 'register_auth'])->name('auth.register');

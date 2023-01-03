@@ -1,3 +1,17 @@
+    <?php
+
+    use Illuminate\Support\Facades\Auth;
+    use Illuminate\Support\Facades\Session;
+
+    $message = Session::get('message');
+    // if ($message) {
+    //     dd($message);
+    //     Session::put('message', null);
+    // }
+    // if (Auth::user()) {
+    //     dd(Auth::user()->role_id);
+    // }
+    ?>
     <!-- HEADER -->
     <header>
         <!-- TOP HEADER -->
@@ -10,7 +24,28 @@
                 </ul>
                 <ul class="header-links pull-right">
                     <li><a href="#"><i class="fa fa-dollar"></i> USD</a></li>
-                    <li><a href="#"><i class="fa fa-user-o"></i> My Account</a></li>
+                    @if (Auth::user()) {
+                    <li class="dropdown">
+                        <a href="#" data-toggle="dropdown" class="text-uppercase">
+                            <i class="fa fa-user-o"></i>
+                            <span>{{Auth::user()->name}}</span>
+                        </a>
+                        <div class="cart-dropdown " style="width: max-content">
+                            <div class="wish-list ">
+                                <a href="{{route('logout')}}" style="color: black; display:block; margin-bottom:15px">Đăng xuất</a>
+                                @if (Auth::user()->role_id == 1)
+                                <a href="{{route('dashboard')}}" style="color: black;">Dashboard</a>
+                                @endif
+                            </div>
+                        </div>
+                    </li>
+                    @else
+                    <li>
+                        <i class="fa fa-user-o"></i>
+                        <a href="{{route('login')}}">Đăng nhập</a>
+                    </li>
+                    @endif
+
                 </ul>
             </div>
         </div>
