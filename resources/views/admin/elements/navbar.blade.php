@@ -43,6 +43,12 @@
                     <span>Danh Mục</span>
                 </a>
             </li>
+            <li class="sidebar-item ">
+                <a href="{{URL::to('/all-rating')}}" class='sidebar-link'>
+                    <i class="bi bi-grid-fill"></i>
+                    <span>Đánh giá</span>
+                </a>
+            </li>
              <li class="sidebar-item " style="padding-bottom: 0px;">
                 <a href="{{URL::to('/delivery')}}" class='sidebar-link'>
                     <i class="bi bi-grid-fill"></i>
