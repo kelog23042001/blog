@@ -12,8 +12,10 @@ class DeliveryController extends Controller
 {
     public function delivery(Request $request){
         $city = City::orderby('matp', 'ASC')->get();
+        $Province = Province::orderby('maqh', 'ASC')->get();
+        $ward = Wards::orderby('xaid', 'ASC')->get();
 
-        return view('admin.delivery.add_delivery', compact('city'));
+        return view('admin.delivery.add_delivery', compact('city', 'Province', 'ward'));
     }
 
     public function select_delivery(Request $request){
@@ -44,6 +46,7 @@ class DeliveryController extends Controller
         $fee_ship->fee_maqh = $data['province'];
         $fee_ship->fee_xaid = $data['wards'];
         $fee_ship->fee_feeship = $data['fee_ship'];
+       // dd($fee_ship);
         $fee_ship->save();
 
     }
@@ -51,32 +54,41 @@ class DeliveryController extends Controller
     public function select_feeship(){
         $feeship = Feeship::orderby('fee_id', 'ASC')->get();
         $output = '';
-        $output.='<div class = "table-responsive">
-            <table class = "table table-bordered">
-                <thread>
-                    <tr>
-                        <td>Tên thành phố</td>
-                        <td>Tên quận huyện</td>
-                        <td>Tên xã phường</td>
-                        <td>Phí ship</td>
-                    </tr>
-                </thread>
-                <tbody>';
-            foreach($feeship as $key =>$fee){
-                $output.='
-                        <tr>
-                            <td>'.$fee->city->name_city.'</td>
-                            <td>'.$fee->province->name_quanhuyen.'</td>
-                            <td>'.$fee->wards->name_xaphuong.'</td>
-                            <td  class = "fee_feeship_edit" contenteditable data-feeship_id="'.$fee->fee_id.'" >'.number_format($fee->fee_feeship,0,',','.').'</td>
+        $output.='
+        <div class="page-heading">
+        <section class="section">
+            <div class="card">
+                    <div class="card-body">
+                        <table class="table table-striped" id="table-category">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Tên thành phố</th>
+                                    <th>Tên quận huyện</th>
+                                    <th>Tên xã phường</th>
+                                    <th>Phí ship</th>
+                                </tr>
+                            </thread>
+                            <tbody>';
+                        foreach($feeship as $key =>$fee){
+                            $output.='
+                                    <tr>
+                                        <td>'. $key + 1 .'</td>
+                                        <td>'.$fee->city->name_city.'</td>
+                                        <td>'.$fee->province->name_quanhuyen.'</td>
+                                        <td>'.$fee->wards->name_xaphuong.'</td>
+                                        <td  class = "fee_feeship_edit" contenteditable data-feeship_id="'.$fee->fee_id.'" >'.number_format($fee->fee_feeship,0,',','.').'</td>
 
-                        </tr>';
-            }
+                                    </tr>';
+                        }
 
         $output.='
-                </tbody>
-            </table>
-        </div>';
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </div>   ';
         echo $output;
     }
 

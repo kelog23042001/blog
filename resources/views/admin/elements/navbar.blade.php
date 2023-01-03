@@ -43,6 +43,12 @@
                     <span>Danh Mục</span>
                 </a>
             </li>
+             <li class="sidebar-item " style="padding-bottom: 0px;">
+                <a href="{{URL::to('/delivery')}}" class='sidebar-link'>
+                    <i class="bi bi-grid-fill"></i>
+                    <span>Vận chuyển</span>
+                </a>
+            </li>
             <li class="sidebar-item ">
                 <a href="{{URL::to('/all-user')}}" class='sidebar-link'>
                     <i class="bi bi-grid-fill"></i>
@@ -56,6 +62,8 @@
                     <span>Đăng xuất</span>
                 </a>
             </li>
+
+            
         </ul>
         
     </div>
