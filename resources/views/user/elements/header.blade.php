@@ -70,14 +70,18 @@
                     <!-- SEARCH BAR -->
                     <div class="col-md-6">
                         <div class="header-search">
-                            <form>
-                                <select class="input-select">
+                            <form action="{{URL::to('/tim-kiem')}}" autocomplete="off" method="POST">
+                                @csrf
+                                <!-- <select class="input-select">
                                     <option value="0">All Categories</option>
                                     <option value="1">Category 01</option>
                                     <option value="1">Category 02</option>
-                                </select>
-                                <input class="input" placeholder="Search here">
-                                <button class="search-btn">Search</button>
+                                </select> -->
+                                
+                                <input  type="text" name="keywords_submit" id="keywords"  class="input" placeholder="Tìm kiếm sản phẩm">
+                                <div id="search_ajax" style="display: none; position: absolute; z-index: 2; "></div>
+
+                                <!-- <button class="search-btn">Search</button> -->
                             </form>
                         </div>
                     </div>
