@@ -20,12 +20,6 @@
 <!-- /BREADCRUMB -->
 <section id="cart_items">
     <div class="container">
-        <div class="alert alert-success d-none" id="alert-success">
-            <span class="alert-update-success"></span>
-        </div>
-        <div class="alert alert-danger d-none" id="alert-danger">
-            <!-- <p>abcsao</p> -->
-        </div>
         <div class="table-responsive cart_info">
             <!-- <form action="{{URL::to('/update-cart')}}" method="POST"> -->
             @csrf
