@@ -21,7 +21,7 @@
                                 <tr>
                                     <td style="padding: 0;">
                                         <a href="http://127.0.0.1:8000/" style="color: #348eda;" target="_blank">
-                                            <img src="https://www.creativefabrica.com/wp-content/uploads/2019/03/Monogram-LK-Logo-Design-by-Greenlines-Studios-580x387.jpg" alt="Bootdey.com" style="height: 157px; max-width: 100%; width: 157px;" height="50" width="157" />
+                                            <img src="https://res.cloudinary.com/ddnvoenef/image/upload/v1672815961/lk2_wcnpsu.jpg" alt="Bootdey.com" height="100px" width="100px" />
                                         </a>
                                     </td>
                                 </tr>
@@ -78,7 +78,7 @@
                                                         @if($coupon['coupon_condition']=='1')
                                                         {{$coupon['coupon_number']}}%
                                                         @else
-                                                        
+
                                                         {{number_format($coupon['coupon_number'],0,',','.')}}VNĐ
                                                         @endif
                                                     </td>

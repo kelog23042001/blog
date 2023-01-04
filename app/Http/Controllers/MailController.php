@@ -12,7 +12,7 @@ use Exception;
 
 class MailController extends Controller
 {
-    //
+
     public function send_coupon($coupon_code)
     {
         $customer = Customer::orderBy('customer_id')->get();
@@ -57,13 +57,6 @@ class MailController extends Controller
     }
     public function send_example()
     {
-        // 0 => "coupon_name"
-        // 1 => "coupon_code"
-        // 2 => "coupon_time"
-        // 3 => "coupon_number"
-        // 4 => "coupon_condition"
-        // 5 => "coupon_date_start"
-        // 6 => "coupon_date_end"
         $coupon = Coupon::first();
         $start_date = $coupon->coupon_date_start; //ngày kết thúc
         $end_date = $coupon->coupon_date_end; // ngày bắt đầu
@@ -101,8 +94,7 @@ class MailController extends Controller
         } catch (Exception $e) {
             dd($e);
         }
-
         // dd($coupon);
-        return view('admin.mail.mail_coupon', compact('coupon'));
+        // return view('admin.mail.mail_coupon', compact('coupon'));
     }
 }

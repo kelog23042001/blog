@@ -1,0 +1,26 @@
+body {
+    margin-top: 20px;
+}
+
+.container {
+    border-collapse: collapse;
+    padding: 40px;
+    width: 100%;
+}
+
+p.header-title {
+    font-size: 24px;
+    color: #0f146d;
+}
+
+h3 {
+    border-bottom: 1px solid #000;
+    color: #000;
+    font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 1.2;
+    margin: 0;
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+}

@@ -23,6 +23,7 @@ use App\Models\Coupon;
 use App\Models\Product;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
 
@@ -168,14 +169,7 @@ class CheckoutController extends Controller
     public function confirm_order(Request $request)
     {
         $data = $request->all();
-        // dd($data);
         $this->validation($request);
-        $coupon_mail = '';
-        if (isset($data['coupon_code'])) {
-            $coupon = Coupon::where('coupon_code', $data['coupon_code'])->first();
-            $coupon_number = $coupon->coupon_number;
-            $coupon_condition = $coupon->coupon_condition;
-        }
 
         $shipping = new Shipping();
         $shipping->shipping_name = $data['shipping_name'];
@@ -231,30 +225,52 @@ class CheckoutController extends Controller
                 $product->save();
             }
         }
-        if (isset($data['order_coupon'])) {
-            $ordercode_mail = array(
-                'coupon_number' => $coupon_number,
-                'coupon_condition' => $coupon_condition,
-                'coupon_code' => $coupon_mail,
-                'order_code' => $data['order_coupon']
-            );
-        } else {
-            $ordercode_mail = array(
-                'coupon_number' => '',
-                'coupon_condition' => '',
-                'coupon_code' => '',
-                'order_code' => $checkout_code
-            );
-        }
-
-
+        $coupon = 0;
+        if (isset($data['order_discount']))
+            $coupon = $data['order_discount'];
+        // 'code' => $ordercode_mail
 
         $now = Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d H:i:s');
         $title_mail = "Đơn hàng xác nhận ngày " . $now;
-        $customer = Customer::find(Session::get('customer_id'));
+        $customer = Auth::user();
+        // dd($customer);
         if ($customer != null) {
-            $data['email'][] = $customer->customer_email;
+            $data['email'][] = $customer->email;
         }
+
+        if (session::get('cart')) {
+            foreach (session::get('cart') as $key => $cart_mail) {
+                $cart_array[] = array(
+                    'product_image' => $cart_mail['product_image'],
+                    'product_name' => $cart_mail['product_name'],
+                    'product_price' => $cart_mail['product_price'],
+                    'product_qty' => $cart_mail['product_qty']
+                );
+            }
+        }
+        $shipping_array = array(
+            'customer_name' => $customer->name,
+            'shipping_name' => $data['shipping_name'],
+            'shipping_email' => $data['shipping_email'],
+            'shipping_phone' => $data['shipping_phone'],
+            'shipping_address' => $data['shipping_address'],
+            'shipping_notes' => $data['shipping_notes'],
+            'shipping_method' => $data['shipping_method'],
+            'shipping_feeShip' => $data['order_fee']
+        );
+        try {
+            Mail::send(
+                'user.mail.mail_order',
+                ['data' => $data, 'checkout_code' => $checkout_code, 'cart_array' => $cart_array, 'shipping_array' => $shipping_array, 'coupon' => $coupon, 'now' => $now],
+                function ($message) use ($title_mail, $data) {
+                    $message->to($data['email'])->subject($title_mail);
+                    $message->from($data['email'], $title_mail);
+                }
+            );
+        } catch (Exception $e) {
+            dd($e);
+        }
+
         session::forget('cart');
         session::forget('pay_success');
         session::forget('fee');
@@ -262,37 +278,51 @@ class CheckoutController extends Controller
         return response()->json([
             'order_code' => $checkout_code
         ]);
-        // if (session::get('cart')) {
-        //     foreach (session::get('cart') as $key => $cart_mail) {
-        //         $cart_array[] = array(
-        //             'product_name' => $cart_mail['product_name'],
-        //             'product_price' => $cart_mail['product_price'],
-        //             'product_qty' => $cart_mail['product_qty']
-        //         );
-        //     }
-        // }
-
-        // $shipping_array = array(
-        //     'customer_name' => $customer->customer_name,
-        //     'shipping_name' => $data['shipping_name'],
-        //     'shipping_email' => $data['shipping_email'],
-        //     'shipping_phone' => $data['shipping_phone'],
-        //     'shipping_address' => $data['shipping_address'],
-        //     'shipping_notes' => $data['shipping_notes'],
-        //     'shipping_method' => $data['shipping_method'],
-        //     'shipping_feeShip' => $data['order_fee']
-        // );
-
-        // Mail::send(
-        //     'user.mail.mail_order',
-        //     ['data' => $data, 'cart_array' => $cart_array, 'shipping_array' => $shipping_array, 'code' => $ordercode_mail],
-        //     function ($message) use ($title_mail, $data) {
-        //         $message->to($data['email'])->subject($title_mail);
-        //         $message->from($data['email'], $title_mail);
-        //     }
-        // );
-
     }
+
+    public function send_example()
+    {
+        $coupon = Coupon::first();
+        $start_date = $coupon->coupon_date_start; //ngày kết thúc
+        $end_date = $coupon->coupon_date_end; // ngày bắt đầu
+        $coupon_time = $coupon->coupon_time; // số lần nhập coupon
+        $coupon_condition = $coupon->coupon_condition; //% or money
+        $coupon_number = $coupon->coupon_number; //số tiền giảm or % giảm
+        $coupon_name = $coupon->coupon_name; // tên coupon
+        $coupon_code = $coupon->coupon_code; // tên coupon
+        $coupon = array(
+            'start_coupon' => $start_date,
+            'end_coupon' => $end_date,
+            'coupon_time' => $coupon_time,
+            'coupon_condition' => $coupon_condition,
+            'coupon_number' => $coupon_number,
+            'coupon_name' => $coupon_name,
+            'coupon_code' => $coupon_code,
+        );
+
+        $customer = Customer::orderBy('customer_id')->get();
+        $data = [];
+        foreach ($customer as $cus) {
+            $data['email'][] = $cus->customer_email;
+        }
+        // dd($data);
+        $to_name = "LKShop";
+        $to_email = $data['email'];
+
+        $data = array("name" => "LKShop", "body" => "Mail mã khuyến mãi");
+
+        try {
+            Mail::send('admin.mail.mail_coupon', ['coupon' => $coupon], function ($message) use ($to_name, $to_email) {
+                $message->to($to_email)->subject('Nhận mã khuyến mãi');
+                $message->from($to_email, $to_name);
+            });
+        } catch (Exception $e) {
+            dd($e);
+        }
+        // dd($coupon);
+        // return view('admin.mail.mail_coupon', compact('coupon'));
+    }
+
     public function del_fee()
     {
         Session::forget('fee');

@@ -130,22 +130,9 @@
 </style>
 
 <script>
-
-
     $('.cart_quantity_').change(function() {
         id = $(this).data('id')
         qty = $(this).val()
-        if (qty <= 0) {
-            // alert(qty)
-            $.ajax({
-                type: "GET",
-                url: "{{url('/del-product/'.$cart['session_id'])}}",
-                dataType: "json",
-                success: function() {
-                    console.log('xoa thanh cong')
-                }
-            })
-        }
         data = {
             'id': id,
             'qty': qty

@@ -13,178 +13,62 @@
 </head>
 
 <body>
-    <div>
-        <table class="container" bgcolor="#f6f6f6" cellspacing="0" style="border-collapse: collapse; padding: 40px; width: 100%;" width="100%">
+    <center>
+        <table bgcolor="#f6f6f6">
             <tbody>
                 <tr>
                     <td width="5px" style="padding: 0;"></td>
-                    <td style="clear: both; display: block; margin: 0 auto;  padding: 10px 0;">
-                        <table width="100%" cellspacing="0" style="border-collapse: collapse;">
-                            <tbody>
-                                <tr>
-                                    <td style="padding: 0;">
-                                        <a href="#" style="color: #348eda;" target="_blank">
-                                            <img src="//ssl.gstatic.com/accounts/ui/logo_2x.png" alt="LKShop.com" style="height: 50px; max-width: 100%; width: 157px;" height="50" width="157" />
-                                        </a>
-                                    </td>
-                                    <td style="color: #999; font-size: 12px; padding: 0; text-align: right;" align="right">
-                                        Đà Nẵng<br />
-                                        <?php
-
-                                        use Carbon\Carbon;
-
-                                        echo $now = Carbon::now('Asia/Ho_Chi_Minh')->format('H:i:s d-m-Y ');
-                                        ?>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </td>
-                    <td width="5px" style="padding: 0;"></td>
-                </tr>
-
-                <tr>
-                    <td width="5px" style="padding: 0;"></td>
                     <td bgcolor="#FFFFFF" style="border: 1px solid #000; clear: both; display: block; margin: 0 auto;  padding: 0;">
-                        <table width="100%" style="background: #f9f9f9; border-bottom: 1px solid #eee; border-collapse: collapse; color: #999;">
-                            <tbody>
-                                <tr>
-                                    <td style="padding: 20px;"><strong style="color: #333; font-size: 24px;">LKShop</strong></td>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 20px;">Chào {{$shipping_array['customer_name']}}, Cảm ơn bạn đã mua hàng tại shop <span class="il"></span></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <center>
+                            <table style="border-bottom: 1px solid #eee; border-collapse: collapse; color: #999;">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <center>
+                                                <a href="http://127.0.0.1:8000/" target="_blank">
+                                                    <img src="https://res.cloudinary.com/ddnvoenef/image/upload/v1672832706/logo_kdn5z0.png" alt="LKShop.com" height="100" width="100" style="background: black;" />
+                                                </a>
+                                            </center>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <center>
+                                                <p style="font-size: 24px;color: #0f146d">Chào <strong>{{$shipping_array['customer_name']}}</strong>, Cảm ơn bạn đặt hàng tại LKShop</p>
+                                            </center>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </center>
+
                     </td>
                 </tr>
 
                 <tr>
                     <td width="5px" style="padding: 0;"></td>
                     <td style="border: 1px solid #000; border-top: 0; clear: both; display: block; margin: 0 auto;  padding: 0;">
-                        <table cellspacing="0" style="border-collapse: collapse; border-left: 1px solid #000; margin: 0 auto; ">
+                        <table style="border-collapse: collapse;">
                             <tbody>
-                                <tr>
-                                    <td valign="top" style="padding: 0  20px;">
-                                        <h3>
-                                            Thông tin đơn hàng
-                                        </h3>
+                                <tr style="border-bottom: 1px solid #000;">
+                                    <td style="padding: 0  20px;">
+                                        <h3>Thông tin đơn hàng</h3>
                                         <table cellspacing="0" style="border-collapse: collapse;">
                                             <tbody>
                                                 <tr>
                                                     <td style="padding: 5px 0;">Mã đơn hàng: </td>
-                                                    <td align="right" style="padding: 5px 0;">{{$code['order_code']}}</td>
+                                                    <td align="right" style="padding: 5px 0;">
+                                                        <a href="http://127.0.0.1:8000/view-history-order/{{$checkout_code}}">{{$checkout_code}}</a>
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td style="padding: 5px 0;">Ngày đặt: </td>
                                                     <td align="right" style="padding: 5px 0;">{{$now}}</td>
                                                 </tr>
-                                                <tr>
-                                                    <td colspan="4" style="border-bottom: 2px solid #000; width: 100%; padding: 5px 0;"></td>
-                                                </tr>
                                             </tbody>
                                         </table>
                                     </td>
-                                </tr>
-                                <tr>
-                                    <td valign="top" style="padding:0  20px;">
-                                        <h3>
-                                            Sản phẩm đã đặt
-                                        </h3>
-                                        <table cellspacing="0" style="border-collapse: collapse; text-align: center;">
-                                            <thead>
-                                                <tr>
-                                                    <th>Sản phẩm</th>
-                                                    <th>&nbsp;</th>
-                                                    <th>Giá tiền</th>
-                                                    <th>&nbsp;</th>
-                                                    <th>Số lượng</th>
-                                                    <th>&nbsp;</th>
-                                                    <th>Thành tiền</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @php
-                                                $subTotal = 0;
-                                                $total = 0;
-                                                @endphp
-                                                @foreach($cart_array as $cart)
-                                                @php
-                                                $subTotal = $cart['product_qty'] * $cart['product_price'];
-                                                $total += $subTotal;
-                                                @endphp
-                                                <tr>
-                                                    <td style="margin-right: 10px;">{{$cart['product_name']}}</td>
-                                                    <td></td>
-                                                    <td style="padding: 5px 0;">{{number_format($cart['product_price'],0,',','.')}} VND</td>
-                                                    <td></td>
-                                                    <td style="padding: 5px 0;">{{$cart['product_qty']}}</td>
-                                                    <td></td>
-                                                    <td style="padding: 5px 0; ">{{number_format($subTotal,0,',','.')}} VND</td>
-                                                </tr>
-                                                @endforeach
-                                                <tr>
-                                                <tr>
-                                                    <td colspan="4"></td>
-                                                    <td>Tổng Cộng :</td>
-                                                    <td></td>
-                                                    <td>{{number_format($total,0,',','.')}} VND</td>
-                                                </tr>
-
-                                                <tr>
-                                                    <td colspan="4"></td>
-                                                    <!-- <td></td>
-                                                    <td></td>
-                                                    <td></td> -->
-                                                    <td>Phí giao hàng :</td>
-                                                    <td></td>
-                                                    <td>{{number_format($shipping_array['shipping_feeShip'],0,',','.')}} VND</td>
-                                                </tr>
-                                                @if($code['coupon_code']!='')
-                                                <tr>
-                                                    <td colspan="4"></td>
-                                                    <!-- <td></td>
-                                                    <td></td>
-                                                    <td></td> -->
-                                                    <td>Giảm giá :</td>
-                                                    <td></td>
-                                                    @if($code['coupon_condition'] == 1)
-                                                    @php
-                                                    $total_coupon = ($total*$code['coupon_number']) / 100;
-                                                    @endphp
-                                                    @else
-                                                    @php
-                                                    $total_coupon = $code['coupon_number'];
-                                                    @endphp
-                                                    @endif
-                                                    <td>{{number_format($total_coupon,0,',','.')}} VND</td>
-                                                </tr>
-                                                @else
-                                                @php
-                                                $total_coupon = 0
-                                                @endphp
-                                                @endif
-                                                <tr>
-                                                    <td colspan="4"></td>
-                                                    <!-- <td></td>
-                                                    <td></td>
-                                                    <td></td> -->
-                                                    <td>Tổng Cộng</td>
-                                                    <td></td>
-                                                    <td>{{number_format( $total - $total_coupon +$shipping_array['shipping_feeShip'],0,',','.')}} VND</td>
-                                                </tr>
-
-                                                <tr>
-                                                    <td colspan="7" style="border-bottom: 2px solid #000; width: 100%; padding: 5px 0;"></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </td>
-                                </tr>
-
-
-                                <tr>
-                                    <td valign="top" style="padding: 0 20px;">
+                                    <td style="padding: 0 20px;">
                                         <h3>
                                             Thông tin người nhận
                                         </h3>
@@ -202,12 +86,75 @@
                                                     <td style="padding: 5px 0;">Địa chỉ: </td>
                                                     <td align="right" style="padding: 5px 0;">{{$shipping_array['shipping_address']}}, Cẩm Lệ, Đà Nẵng</td>
                                                 </tr>
-
                                             </tbody>
-
-                                            <tr>
-                                                <td colspan="2" style="border-bottom: 2px solid #000; width: 100%"></td>
-                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr align="center">
+                                    <td style="margin-left: 200px; display:block">
+                                        <h3>Sản phẩm đã đặt</h3>
+                                        <table cellspacing="0" style="border-collapse: collapse;">
+                                            <thead style="text-align: center;">
+                                                <th>#</th>
+                                                <th>Sản phẩm</th>
+                                                <th>Giá tiền</th>
+                                                <th>Số lượng</th>
+                                                <th>Thành tiền</th>
+                                            </thead>
+                                            <tbody>
+                                                @php
+                                                $subTotal = 0;
+                                                $total = 0;
+                                                @endphp
+                                                @foreach($cart_array as $cart)
+                                                @php
+                                                $subTotal = $cart['product_qty'] * $cart['product_price'];
+                                                $total += $subTotal;
+                                                @endphp
+                                                <tr>
+                                                    <td><img src="{{$cart['product_image']}}" alt="{{$cart['product_name']}}" height="100" width="100"></td>
+                                                    <td style="width:max-content"><span>{{$cart['product_name']}}</span></td>
+                                                    <td style="width: 100px">
+                                                        <span style="float:right; color: #f27c24"> {{number_format($cart['product_price'],0,',','.')}} VNĐ</span>
+                                                    </td>
+                                                    <td style="width: 100px; text-align:center">
+                                                        {{$cart['product_qty']}}
+                                                    </td>
+                                                    <td style="width: 100px">
+                                                        <span style="float:right">{{number_format($subTotal,0,',','.')}} VNĐ</span>
+                                                    </td>
+                                                </tr>
+                                                @endforeach
+                                                <tr>
+                                                    <td colspan="3"></td>
+                                                    <td style="float:left">Tổng Cộng :</td>
+                                                    <td>
+                                                        <span style="float:right">{{number_format($total,0,',','.')}} VNĐ</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="3"></td>
+                                                    <td style="float:left">Phí giao hàng :</td>
+                                                    <td>
+                                                        <span style="float:right">
+                                                            {{number_format($shipping_array['shipping_feeShip'],0,',','.')}} VNĐ</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="3"></td>
+                                                    <td style="float:left">Giảm giá :</td>
+                                                    <td>
+                                                        <span style="float:right">
+                                                            {{number_format($coupon,0,',','.') }} VNĐ
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="3"></td>
+                                                    <td style="float:left; width: max-content;">Tổng tiền đơn hàng: </td>
+                                                    <td><span style="float:right; color: #f27c24; font-weight: bold">{{number_format( $total - $coupon +$shipping_array['shipping_feeShip'],0,',','.')}} VNĐ</span></td>
+                                                </tr>
+                                            </tbody>
                                         </table>
                                     </td>
                                 </tr>
@@ -216,59 +163,9 @@
                     </td>
                     <td width="5px" style="padding: 0;"></td>
                 </tr>
-                <!-- 
-                <tr style="color: #666; font-size: 12px;">
-                    <td width="5px"></td>
-                    <td style="clear: both; display: block; margin: 0 auto;  padding: 10px 0;">
-                        <table width="100%" cellspacing="0" style="border-collapse: collapse;">
-                            <tbody>
-                                <tr>
-                                    <td width="40%" valign="top">
-                                        <h4 style="margin: 0;">Questions?</h4>
-                                        <p style="color: #666; font-size: 12px; font-weight: normal;">
-                                            Please visit our
-                                            <a href="#" style="color: #666;" target="_blank">
-                                                Support Center
-                                            </a>
-                                            with any questions.
-                                        </p>
-                                    </td>
-                                    <td width="10%">&nbsp;</td>
-                                    <td width="40%" valign="top">
-                                        <h4 style="margin: 0;"><span class="il">Bootdey</span> Technologies</h4>
-                                        <p style="color: #666; font-size: 12px; font-weight: normal;">
-                                            <a href="#">535 Mission St., 14th Floor San Francisco, CA 94105</a>
-                                        </p>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </td>
-                    <td width="5px" style="padding: 10px 0;"></td>
-                </tr> -->
             </tbody>
         </table>
-    </div>
-
-
-    <style type="text/css">
-        body {
-            margin-top: 20px;
-        }
-
-        h3 {
-            border-bottom: 1px solid #000;
-            color: #000;
-            font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
-            font-size: 20px;
-            font-weight: bold;
-            line-height: 1.2;
-            margin: 0;
-            margin-bottom: 15px;
-            padding-bottom: 5px;
-            text-align: center;
-        }
-    </style>
+    </center>
 
     <script type="text/javascript">
 

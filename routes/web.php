@@ -119,7 +119,7 @@ Route::post('/register-auth', [AuthenController::class, 'register_auth'])->name(
 
 Route::post('/load-more-product', [HomeController::class, 'load_more_product']);
 Route::post('/load-more-selling-product', [HomeController::class, 'load_more_selling_product']);
-Route::get('/', [HomeController::class, 'index']);
+Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::post('/tim-kiem', [HomeController::class, 'search']);
 Route::post('/autocomplete-ajax', [HomeController::class, 'autocomplete_ajax']);
 

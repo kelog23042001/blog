@@ -13,6 +13,7 @@ class CouponController extends Controller
     public function check_coupon(Request $request)
     {
         // $now = Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d');
+        // "coupon" => "tet2023"
         $data = $request->all();
         // dd($data);
         $now =  date("Y-m-d");
@@ -21,7 +22,6 @@ class CouponController extends Controller
             ->whereDate('coupon_date_end', '>=', $now)
             ->first();
 
-        // dd($coupon);
         if ($coupon) {
             $count_coupon = $coupon->count();
             if ($count_coupon > 0) {
@@ -34,28 +34,9 @@ class CouponController extends Controller
                 Session::put('coupon', $cou);
 
                 Session::save();
-                // return redirect()->back()->with('message', $coupon->coupon_date_start."///".$now."////".$coupon->coupon_date_end);
                 $coupon->coupon_time = $coupon->coupon_time - 1;
                 $coupon->save();
                 return redirect()->back()->with('message', 'Áp dụng mã giảm giá thành công');
-                // if ($coupon_session == true) {
-                //     $is_avaiable = 0;
-                //     if ($is_avaiable == 0) {
-                //         $cou[] = array(
-                //             'coupon_code' => $coupon->coupon_code,
-                //             'coupon_condition' => $coupon->coupon_condition,
-                //             'coupon_number' => $coupon->coupon_number,
-                //         );
-                //         Session::put('coupon', $cou);
-                //     }
-                // } else {
-                //     $cou[] = array(
-                //         'coupon_code' => $coupon->coupon_code,
-                //         'coupon_condition' => $coupon->coupon_condition,
-                //         'coupon_number' => $coupon->coupon_number,
-                //     );
-                //     Session::put('coupon', $cou);
-                // }
             }
         } else {
             return redirect()->back()->with('error', 'Mã giảm giá không đúng hoặc đã hết hạn');

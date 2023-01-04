@@ -153,6 +153,15 @@ use Illuminate\Support\Facades\Session;
                         </div>
                     </div>
                     @else
+                    @if(session()->has('message'))
+                    <div class="alert alert-success">
+                        {{ session()->get('message') }}
+                    </div>
+                    @elseif (session()->has('error'))
+                    <div class="alert alert-danger">
+                        {{ session()->get('error') }}
+                    </div>
+                    @endif
                     <div class="order-col">
                         <div>Voucher</div>
                         <form method="POST" action="{{URL::to('/check-coupon')}}" class="form-inline float-right">
