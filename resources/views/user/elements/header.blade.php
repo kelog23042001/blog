@@ -79,7 +79,7 @@
                                 </select>
                                 
                                 <input  type="text" name="keywords_submit" id="keywords"  class="input" placeholder="Tìm kiếm sản phẩm">
-                                <div id="search_ajax" style="display: none; position: absolute; z-index: 2; "></div>
+                                <div id="search_ajax" style="display: none; position: absolute; z-index: 9999; "></div>
 
                                 <button class="search-btn">Search</button>
                             </form>
