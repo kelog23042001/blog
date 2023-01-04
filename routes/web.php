@@ -279,7 +279,6 @@ Route::post('/day-order', [AdminController::class, 'day_order']);
 //send mail
 Route::get('/send-example', [MailController::class, 'send_example']);
 Route::get('/send-coupon/{coupon_code}', [MailController::class, 'send_coupon']);
-// Route::get('/send-coupon/{coupon_time}/{coupon_condition}/{coupon_number}/{coupon_name}/{coupon_code}',[MailController::class, 'send_coupon']);
 
 Route::get('/mail-order', [MailController::class, 'mail_order']);
 
@@ -297,4 +296,5 @@ Route::get('cancel-transaction', [PayPalController::class, 'cancelTransaction'])
 Route::post('/vnpay_payment', [CheckoutController::class, 'vnpay_payment']);
 Route::post('/momo_payment', [CheckoutController::class, 'momo_payment']);
 
-Route::get('/test', [HomeController::class, 'test']);
+// Route::get('/test', [HomeController::class, 'test']);
+// Route::get('/test-mail', [HomeController::class, 'test']);

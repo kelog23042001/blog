@@ -36,14 +36,17 @@ return [
     'mailers' => [
         'smtp' => [
             'transport' => 'smtp',
-            'host' => env('MAIL_HOST', 'smtp.gmail.com'),
-            'port' => env('MAIL_PORT', 587),
-            // 'port' => env('MAIL_PORT', 465),
-            'encryption' => env('MAIL_ENCRYPTION', 'ssl'),
-            'username' => env('MAIL_USERNAME'),
-            'password' => env('MAIL_PASSWORD'),
+            'host' => 'smtp.gmail.com',
+            'port' => 465,
+            'encryption' => 'ssl',
+            'username' => 'trankhanh1230123@gmail.com',
+            'password' => 'snktklemebtwsloq',
             'timeout' => null,
             'auth_mode' => null,
+            // 'host' => env('MAIL_HOST', 'smtp.gmail.com'),
+            // 'port' => env('MAIL_PORT', 465),
+            // 'encryption' => env('MAIL_ENCRYPTION', 'ssl'),
+
         ],
 
         'ses' => [
@@ -100,9 +103,14 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'khanhtran1230123@gmail.com'),
-        'name' => env('MAIL_FROM_NAME', 'LKShop'),
+        'address' => 'trankhanh1230123@gmail.com',
+        'name' => env('MAIL_FROM_NAME', 'LK Shop'),
     ],
+
+    // 'from' => [
+    //     'address' => env('MAIL_FROM_ADDRESS', 'trankhanh1230123@gmail.com'),
+    //     'name' => env('MAIL_FROM_NAME', 'LKShopping'),
+    // ],
 
     /*
     |--------------------------------------------------------------------------
