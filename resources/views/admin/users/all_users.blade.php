@@ -3,12 +3,12 @@
 <div class="page-title">
     <div class="row">
         <div class="col-12 col-md-6 order-md-1 order-last">
-            <h3>Danh Mục Sản Phẩm</h3>
+            <h3>Người Dùng</h3>
             <!-- <p class="text-subtitle text-muted">For user to check they list</p> -->
         </div>
         <div class="col-12 col-md-6 order-md-2 order-first">
             <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
-                <a href="{{URL::to('/add-category-product')}}" class="btn btn-success">Thêm Danh Mục</a>
+                <!-- <a href="{{URL::to('/add-category-product')}}" class="btn btn-success">Thêm Danh Mục</a> -->
                 <ol class="breadcrumb">
                     <!-- <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li> -->
                     <!-- <li class="breadcrumb-item active" aria-current="page">DataTable</li> -->

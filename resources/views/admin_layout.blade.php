@@ -208,14 +208,14 @@
             $("#datepicker3").datepicker({
                 prevText: "Tháng trước",
                 nextText: "Tháng sau",
-                dateFormat: "dd-mm-yy",
+                dateFormat:"yy-mm-dd",
                 dayNamesMin: ["Thứ2", "Thứ3", "Thứ4", "Thứ5", "Thứ6", "Thứ7", "Chủ nhật"],
                 duration: "slow"
             });
             $("#datepicker4").datepicker({
                 prevText: "Tháng trước",
                 nextText: "Tháng sau",
-                dateFormat: "dd-mm-yy",
+                dateFormat:"yy-mm-dd",
                 dayNamesMin: ["Thứ2", "Thứ3", "Thứ4", "Thứ5", "Thứ6", "Thứ7", "Chủ nhật"],
                 duration: "slow"
             });

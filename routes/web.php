@@ -179,6 +179,8 @@ Route::get('/trang-chu', [HomeController::class, 'index']);
 Route::post('/check-coupon', [CouponController::class, 'check_coupon']);
 Route::post('/insert-coupon-code', [CouponController::class, 'insert_coupon_code']);
 Route::get('/insert-coupon', [CouponController::class, 'insert_coupon']);
+Route::get('/edit-coupon/{coupon_id}', [CouponController::class, 'getFormEdit_coupon']);
+Route::post('/update-coupon/{coupon_id}', [CouponController::class, 'update_coupon']);
 Route::get('/list-coupon', [CouponController::class, 'list_coupon']);
 Route::get('/delete-coupon/{coupon_id}', [CouponController::class, 'delete_coupon']);
 Route::get('/unset-coupon', [CouponController::class, 'unset_coupon']);

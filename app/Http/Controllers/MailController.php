@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Coupon;
 use App\Models\Customer;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
@@ -15,10 +16,10 @@ class MailController extends Controller
 
     public function send_coupon($coupon_code)
     {
-        $customer = Customer::orderBy('customer_id')->get();
+        $customer = User::orderBy('id')->get();
         $data = [];
         foreach ($customer as $cus) {
-            $data['email'][] = $cus->customer_email;
+            $data['email'][] = $cus->email;
         }
         $coupon = Coupon::where('coupon_code', $coupon_code)->first();
         $start_date = $coupon->coupon_date_start;

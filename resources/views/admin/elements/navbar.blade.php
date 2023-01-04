@@ -55,6 +55,12 @@
                     <span>Vận chuyển</span>
                 </a>
             </li>
+            <li class="sidebar-item " style="padding-bottom: 0px;">
+                <a href="{{URL::to('/list-coupon')}}" class='sidebar-link'>
+                    <i class="bi bi-grid-fill"></i>
+                    <span>Mã giảm giá</span>
+                </a>
+            </li>
             <li class="sidebar-item ">
                 <a href="{{URL::to('/all-user')}}" class='sidebar-link'>
                     <i class="bi bi-grid-fill"></i>
