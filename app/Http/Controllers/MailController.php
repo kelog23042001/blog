@@ -95,8 +95,7 @@ class MailController extends Controller
 
         try {
             Mail::send('admin.mail.mail_coupon', ['coupon' => $coupon], function ($message) use ($to_name, $to_email) {
-                // $message->to($to_email)->subject('Nhận mã khuyến mãi');
-                $message->to('phanthanhthao.2704@gmail.com')->subject('Nhận mã khuyến mãi');
+                $message->to($to_email)->subject('Nhận mã khuyến mãi');
                 $message->from($to_email, $to_name);
             });
         } catch (Exception $e) {
@@ -104,6 +103,6 @@ class MailController extends Controller
         }
 
         // dd($coupon);
-        // return view('admin.mail.mail_coupon', compact('coupon'));
+        return view('admin.mail.mail_coupon', compact('coupon'));
     }
 }
