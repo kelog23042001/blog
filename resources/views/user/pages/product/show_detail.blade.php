@@ -217,7 +217,10 @@ function percentageStarsRate($stars, $rates)
                                 <!-- Reviews -->
                                 <div class="col-md-6">
                                     <div id="reviews">
-                                        <ul class="reviews">
+                                        <ul class="reviews"> 
+                                            @if (count($rates) == 0)
+                                            <center>Chưa có đánh giá nào cho sản phẩm này</center>
+                                            @endif
                                             @foreach ($rates as $key=> $review)
                                             <li>
                                                 <div class="review-heading">
@@ -244,14 +247,6 @@ function percentageStarsRate($stars, $rates)
                                             </li>
                                             @endforeach
                                         </ul>
-                                        <!-- {{ $rates->links() }} -->
-                                        <!-- <ul class="reviews-pagination">
-                                            <li class="active">1</li>
-                                            <li><a href="#">2</a></li>
-                                            <li><a href="#">3</a></li>
-                                            <li><a href="#">4</a></li>
-                                            <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
-                                        </ul> -->
                                     </div>
                                 </div>
                                 <!-- /Reviews -->

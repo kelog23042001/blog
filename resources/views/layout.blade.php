@@ -418,7 +418,8 @@
                     window.location.href = "{{route('processTransaction')}}";
                 } else if (paymentMethod == 'momo') {
                     // payment by momo
-                    order_total = $('#order-total').val()
+                    order_total = $('#order_total').val()
+                    alert(order_total);
                     if (order_total < 10000) {
                         // alert(order_total)
                         swal({
