@@ -252,7 +252,7 @@ class HomeController extends Controller
         $data = $request->all();
         if ($data['query']) {
             $product = Product::where('product_status', 1)->where('product_name', 'LIKE', '%' . $data['query'] . '%')->get();
-            $output = '<ul class= "dropdown-menu" style="display:block; position:relative">';
+            $output = '<ul class= "dropdown-menu" style="display:block; position:relative; height: 400px; overflow: scroll">';
             if (count($product)) {
                 foreach ($product as $key => $val) {
                     $output .= '
