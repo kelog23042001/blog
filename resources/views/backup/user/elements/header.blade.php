@@ -150,7 +150,7 @@
             <div class="col-sm-4">
                 <form action="{{URL::to('/tim-kiem')}}" autocomplete="off" method="POST">
                     {{ csrf_field() }}
-                    <div class="">
+                        <div class="">
                         <input type="text" style="width: 100%; " name="keywords_submit" id="keywords" placeholder="Tìm kiếm sản phẩm" />
                         <div id="search_ajax" style="display: none; position: absolute; z-index: 2;"></div>
                     </div>

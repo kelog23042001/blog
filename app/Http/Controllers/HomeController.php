@@ -256,7 +256,7 @@ class HomeController extends Controller
             if (count($product)) {
                 foreach ($product as $key => $val) {
                     $output .= '
-                    <li class="li_search_ajax"><a  href="' . url('chi-tiet-san-pham/' . $val->product_id) . '">' . $val->product_name . '</a></li>';
+                    <li class="li_search_ajax"><a  href="' . url('chi-tiet-san-pham/' . $val->product_id) . '">'.'<img width="50px" style = "margin-right: 20px" src="'.$val->product_image .'">'.$val->product_name . '</a></li>';
                 }
             } else {
                 $output .= '
