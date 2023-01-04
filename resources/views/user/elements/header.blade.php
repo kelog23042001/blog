@@ -72,16 +72,16 @@
                         <div class="header-search">
                             <form action="{{URL::to('/tim-kiem')}}" autocomplete="off" method="POST">
                                 @csrf
-                                <!-- <select class="input-select">
+                                <select class="input-select">
                                     <option value="0">All Categories</option>
                                     <option value="1">Category 01</option>
                                     <option value="1">Category 02</option>
-                                </select> -->
+                                </select>
                                 
                                 <input  type="text" name="keywords_submit" id="keywords"  class="input" placeholder="Tìm kiếm sản phẩm">
                                 <div id="search_ajax" style="display: none; position: absolute; z-index: 2; "></div>
 
-                                <!-- <button class="search-btn">Search</button> -->
+                                <button class="search-btn">Search</button>
                             </form>
                         </div>
                     </div>

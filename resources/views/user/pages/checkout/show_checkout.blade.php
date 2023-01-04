@@ -147,7 +147,7 @@ use Illuminate\Support\Facades\Session;
                             <input type="hidden" class="coupon_code" value="{{$coupon['coupon_code']}}">
                             <input type="hidden" class="order_coupon" value="{{$total_coupon}}">
                             <strong>{{number_format($total_coupon,0,',','.')}} </strong>
-                            <a class="check_out check_coupon" href="{{url('/unset-coupon')}}">
+                            <a class="check_out check_coupon" href="{{url('/unset-coupon/'.$coupon['coupon_code'])}}">
                                 <i style="font-size: 20px;" class="fa fa-times text-danger text"></i>
                             </a>
                         </div>

@@ -183,7 +183,8 @@ Route::get('/edit-coupon/{coupon_id}', [CouponController::class, 'getFormEdit_co
 Route::post('/update-coupon/{coupon_id}', [CouponController::class, 'update_coupon']);
 Route::get('/list-coupon', [CouponController::class, 'list_coupon']);
 Route::get('/delete-coupon/{coupon_id}', [CouponController::class, 'delete_coupon']);
-Route::get('/unset-coupon', [CouponController::class, 'unset_coupon']);
+
+Route::post('/unset-coupon/{coupon_id}', [CouponController::class, 'unset_coupon']);
 
 //Login google
 Route::get('/login-customer-google', [AdminController::class, 'login_customer_google']);

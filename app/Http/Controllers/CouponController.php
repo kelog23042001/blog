@@ -78,23 +78,32 @@ class CouponController extends Controller
 
     public function delete_coupon($coupon_id)
     {
-        $coupon = Coupon::find($coupon_id);
-        $coupon->delete();
-        Session::put('message', 'Xoá mã giảm giá thành công');
-        return Redirect::to('/list-coupon');
+        dd(2);
+        // $coupon = Coupon::find($coupon_id);
+        // $coupon->delete();
+        // Session::put('message', 'Xoá mã giảm giá thành công');
+        // return Redirect::to('/list-coupon');
     }
 
-    public function unset_coupon()
+    public function unset_coupon($code)
     {
+        // dd(2);
+        $now =  date("Y-m-d");
+        $coupon_id = Coupon::where('coupon_code', $code)->where('coupon_time', '>', 0)
+            ->whereDate('coupon_date_start', '<=', $now)
+            ->whereDate('coupon_date_end', '>=', $now)
+            ->first();
         $coupon = Session::get('coupon');
+        // dd($coupon_id->coupon_time);
         if ($coupon == true) {
-
             Session::forget('coupon');
+            $coupon_id->coupon_time = $coupon_id->coupon_time + 1;
+            $coupon_id->save();
             return Redirect()->back()->with('message', 'Xoá mã giảm giá thành công');
         }
     }
 
-    public function getFormEdit_coupon($coupon_id){
+     public function getFormEdit_coupon($coupon_id){
         $coupon = Coupon::find($coupon_id);
         return view('admin.coupon.edit_coupon', compact('coupon'));
 
