@@ -272,6 +272,10 @@
             })
             return x;
         }
+        <?php
+
+        use Illuminate\Support\Facades\Session;
+        ?>
 
         function Addtocart($product_id) {
             var id = $product_id;
@@ -297,6 +301,8 @@
                 },
                 success: function(response) {
                     // show_quick_cart();
+                    $('.qty_cart_list').text(response.cartLength)
+                    console.log(response.cartLength);
                     swal({
                             title: "Đã thêm sản phẩm vào giỏ hàng",
                             text: "Bạn có thể mua hàng tiếp hoặc tới giỏ hàng để tiến hành đặt hàng",

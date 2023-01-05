@@ -101,10 +101,18 @@
 
                             <!-- Cart -->
                             <div class="dropdown">
-                                <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                                <!-- <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true"> -->
+                                <a href="{{route('cart')}}">
                                     <i class="fa fa-shopping-cart"></i>
                                     <span>Giỏ hàng</span>
-                                    <div class="qty qty_cart_list">3</div>
+                                    <div class="qty qty_cart_list">
+                                        @php
+                                        if(Session::get('cart'))
+                                        echo count(Session::get('cart'));
+                                        else
+                                        echo 0;
+                                        @endphp
+                                    </div>
                                 </a>
                                 <div class="cart-dropdown">
                                     <div class="cart-list">
