@@ -124,6 +124,14 @@ Route::group(['middleware' => 'checklogin'], function () {
         Route::post('/update-coupon/{coupon_id}', [CouponController::class, 'update_coupon']);
         Route::get('/list-coupon', [CouponController::class, 'list_coupon']);
         Route::get('/delete-coupon/{coupon_id}', [CouponController::class, 'delete_coupon']);
+
+                
+        //Delivery
+        Route::get('/delivery', [DeliveryController::class, 'delivery']);
+        Route::post('/select-delivery', [DeliveryController::class, 'select_delivery']);
+        Route::post('/insert-delivery', [DeliveryController::class, 'insert_delivery']);
+        Route::post('/select-feeship', [DeliveryController::class, 'select_feeship']);
+        Route::post('/update-delivery', [DeliveryController::class, 'update_delivery']);
     });
 });
 
@@ -246,12 +254,6 @@ Route::get('/customer/google/callback', [AdminController::class, 'callback_custo
 //send mail
 Route::get('/send-mail', [HomeController::class, 'send_mail']);
 
-//Delivery
-Route::get('/delivery', [DeliveryController::class, 'delivery']);
-Route::post('/select-delivery', [DeliveryController::class, 'select_delivery']);
-Route::post('/insert-delivery', [DeliveryController::class, 'insert_delivery']);
-Route::post('/select-feeship', [DeliveryController::class, 'select_feeship']);
-Route::post('/update-delivery', [DeliveryController::class, 'update_delivery']);
 
 
 

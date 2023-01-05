@@ -28,7 +28,7 @@ class AuthenController extends Controller
         ]);
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect('/dashboard');
+            return redirect('/');
         } else {
             return redirect('/login')->with('message', 'Email hoặc mật khẩu không chính xác');
         }
