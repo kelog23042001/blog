@@ -43,6 +43,12 @@
                     <span>Danh Mục</span>
                 </a>
             </li>
+            <a href="{{URL::to('/manage-banner')}}" class='sidebar-link'>
+                    <i class="bi bi-grid-fill"></i>
+                    <span>Banner</span>
+                </a>
+            </li>
+            <li class="sidebar-item ">
             <li class="sidebar-item ">
                 <a href="{{URL::to('/all-rating')}}" class='sidebar-link'>
                     <i class="bi bi-grid-fill"></i>

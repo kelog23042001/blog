@@ -6,10 +6,13 @@
 					<?php $i = 0; ?>
 
 					@foreach($slider as $key=> $slide)
+				
 					<?php $i++; ?>
 					<div class="item {{$i==1 ? 'active':''}}">
 						<div class="col-sm-12" style="padding: 0;">
-							<img width="100%" src="{{asset('public/uploads/slider/'.$slide->slider_image) }}">
+						@if($slide->slider_status == '1')
+							<img width="100%" height ="700px" src="{{$slide->slider_image }}">
+						@endif
 						</div>
 					</div>
 					@endforeach
