@@ -8,7 +8,7 @@
         </div>
         <div class="col-12 col-md-6 order-md-2 order-first">
             <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
-                <!-- <a href="{{URL::to('/add-category-slider')}}" class="btn btn-success">Add Category</a> -->
+            <a href="{{URL::to('/manage-banner')}}" class="btn btn-success">Quay lại</a>
                 <ol class="breadcrumb">
                     <!-- <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li> -->
                     <!-- <li class="breadcrumb-item active" aria-current="page">DataTable</li> -->
