@@ -15,7 +15,6 @@ class AddVisibleToTblRatingTable extends Migration
     {
         Schema::table('tbl_rating', function (Blueprint $table) {
             $table->integer('visible')->default('1');
-            
         });
     }
 

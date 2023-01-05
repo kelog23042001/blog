@@ -217,7 +217,7 @@ function percentageStarsRate($stars, $rates)
                                 <!-- Reviews -->
                                 <div class="col-md-6">
                                     <div id="reviews">
-                                        <ul class="reviews"> 
+                                        <ul class="reviews">
                                             @if (count($rates) == 0)
                                             <center>Chưa có đánh giá nào cho sản phẩm này</center>
                                             @endif
@@ -238,6 +238,8 @@ function percentageStarsRate($stars, $rates)
                                                         <?php
                                                         if (empty($review->comment)) {
                                                             echo 'Người dùng không bình luận gì!';
+                                                        } else if ($review->visible == 0) {
+                                                            echo 'Nội dung bình luận đã bị ẩn!';
                                                         } else {
                                                             echo $review->comment;
                                                         }

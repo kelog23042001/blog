@@ -11,12 +11,13 @@ class Rate extends Model
     use HasFactory;
     // public $timestamps = false;
     protected $fillable = [
-        'product_id', 'rating', 'user_id', 'comment', 'created_at', 'updated_at'
+        'product_id', 'rating', 'user_id', 'comment', 'created_at', 'updated_at', 'visible'
     ];
     protected $primaryKey = 'rating_id';
     protected $table = "tbl_rating";
 
-    public function user(){
+    public function user()
+    {
         return $this->BelongsTo(User::class);
     }
     public function product()
