@@ -87,7 +87,7 @@ if ($maxRange == 0) {
                         <div class="product">
                             <a class="cart_product_url_{{$product->product_id}}" href="{{URL::to('chi-tiet-san-pham/'.$product->product_id)}}">
                                 <div class="product-img">
-                                    <img src="{{$product->product_image}}" alt="">
+                                    <img src="{{$product->product_image}}" alt="{{$product->product_name}}" height="">
                                     <div class="product-label">
                                         <!-- <span class="sale">-30%</span>
                                         <span class="new">NEW</span> -->

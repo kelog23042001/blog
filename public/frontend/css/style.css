@@ -920,6 +920,7 @@ textarea.input {
 
 .product .product-img>img {
     width: 100%;
+    height: 350px;
 }
 
 .product .product-img .product-label {
