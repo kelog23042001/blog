@@ -174,6 +174,7 @@
 
         function add_wistlist(clicked_id) {
             var id = clicked_id;
+            // alert(id);
             var name = document.getElementById('wishlist_productname' + id).value;
             var price = document.getElementById('wishlist_productprice' + id).value;
             var image = $('.cart_product_image_' + id).val();
