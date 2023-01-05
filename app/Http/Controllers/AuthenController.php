@@ -44,12 +44,14 @@ class AuthenController extends Controller
 
     public function register_auth(Request $request)
     { 
+        $request->validate([
+          'email' => 'required|email|unique:users|max:255',
+           
+        ]);
+
         try {
             
-            $request->validate([
-                'email' => 'required|email|unique:users|max:255',
-                'pasword' => 'required'
-            ]);
+           
             $request['password'] = bcrypt($request['password']);
             $user = User::create(
                 $request->all()
@@ -86,4 +88,11 @@ class AuthenController extends Controller
 
         $user->save();
     }
+
+    public function delete_User(Request $request){
+        //dd($request->all());
+        $user = User::find($request['id']);
+        $user->delete();
+        // return response()->json(['success' =>'Xoá tài khoản thành công.']);
+}
 }

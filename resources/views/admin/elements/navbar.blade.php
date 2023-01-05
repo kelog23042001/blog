@@ -44,44 +44,47 @@
                 </a>
             </li>
             <a href="{{URL::to('/manage-banner')}}" class='sidebar-link'>
-                    <i class="bi bi-grid-fill"></i>
+                    <i class="bi bi-file-earmark-slides-fill"></i>
                     <span>Banner</span>
                 </a>
             </li>
             <li class="sidebar-item ">
             <li class="sidebar-item ">
                 <a href="{{URL::to('/all-rating')}}" class='sidebar-link'>
-                    <i class="bi bi-grid-fill"></i>
+                    <i class="bi bi-star-fill"></i>
                     <span>Đánh giá</span>
                 </a>
             </li>
              <li class="sidebar-item " style="padding-bottom: 0px;">
                 <a href="{{URL::to('/delivery')}}" class='sidebar-link'>
-                    <i class="bi bi-grid-fill"></i>
+                    <i class="bi bi-truck"></i>
                     <span>Vận chuyển</span>
                 </a>
             </li>
             <li class="sidebar-item " style="padding-bottom: 0px;">
                 <a href="{{URL::to('/list-coupon')}}" class='sidebar-link'>
-                    <i class="bi bi-grid-fill"></i>
+                    <i class="bi bi-cash"></i>
                     <span>Mã giảm giá</span>
                 </a>
             </li>
             <li class="sidebar-item ">
                 <a href="{{URL::to('/all-user')}}" class='sidebar-link'>
-                    <i class="bi bi-grid-fill"></i>
+                    <i class="bi bi-people-fill"></i>
                     <span>Người dùng</span>
                 </a>
             </li>
 
-            <li class="sidebar-item " style="padding-bottom: 0px;">
+           
+
+            
+        </ul>
+        <ul style="padding-bottom: 0px;"  class="menu">
+        <li class="sidebar-item " style="padding-bottom: 0px;">
                 <a href="{{URL::to('/logout')}}" class='sidebar-link'>
-                    <i class="bi bi-grid-fill"></i>
+                    <i class="bi bi-x-octagon-fill"></i>
                     <span>Đăng xuất</span>
                 </a>
             </li>
-
-            
         </ul>
         
     </div>

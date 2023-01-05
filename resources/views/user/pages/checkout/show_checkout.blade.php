@@ -146,9 +146,13 @@ use Illuminate\Support\Facades\Session;
                         <div>
                             <input type="hidden" class="coupon_code" value="{{$coupon['coupon_code']}}">
                             <input type="hidden" class="order_coupon" value="{{$total_coupon}}">
-                            <strong>{{number_format($total_coupon,0,',','.')}} </strong>
-                            <a class="check_out check_coupon" href="{{url('/unset-coupon/'.$coupon['coupon_code'])}}">
-                                <i style="font-size: 20px;" class="fa fa-times text-danger text"></i>
+                            <form method="post" action="{{url('/unset-coupon/'.$coupon['coupon_code'])}}">
+                                @csrf
+                                <strong>{{number_format($total_coupon,0,',','.')}} </strong>
+                                <button style="background: none; border: none;" type="submit" class="check_out check_coupon"> <i style="font-size: 20px;" class="fa fa-times text-danger text"></i></button>
+                            </form>
+                                <!-- <a class="check_out check_coupon" href="{{url('/unset-coupon/'.$coupon['coupon_code'])}}">
+                                <i style="font-size: 20px;" class="fa fa-times text-danger text"></i> -->
                             </a>
                         </div>
                     </div>
