@@ -50,7 +50,7 @@
                             <img src="{{$cart['product_image']}}" width="90" alt="{{$cart['product_name']}}" />
                         </td>
                         <td class="cart_description">
-                            <a href="">{{$cart['product_name']}}</a>
+                            <a href="{{URL::to('chi-tiet-san-pham/'.$cart['product_id'])}}">{{$cart['product_name']}}</a>
                         </td>
                         <td class="cart_price">
                             <span id="cart_price_{{$cart['session_id']}}" data-id="{{$cart['session_id']}}" data-price="{{$cart['product_price']}}">
