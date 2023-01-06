@@ -49,7 +49,6 @@
 <body>
     @include('user.elements.header')
     @yield('content')
-    @include('user.elements.snipping_loading')
     @include('user.elements.footer')
     <!-- jQuery Plugins -->
     <script src="{{asset('Frontend/js/bootstrap.min.js')}}"></script>
