@@ -163,42 +163,50 @@
                                     <td>Thành tiền</td>
                                     <td>{{number_format($order->total,0,',','.')}} VND</td>
                                 </tr>
-                                <tr>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="6">
-                                        @if($order->order_status == 1)
-                                        <form>
-                                            @csrf
-                                            <select class="form-control order_details" id="order_details">
-                                                <option id="{{$order->order_id}}" value="1" selected>Chờ xử lý</option>
-                                                <option id="{{$order->order_id}}" value="3">Huỷ đơn hàng</option>
-                                            </select>
-                                        </form>
-                                        @elseif($order->order_status == 2)
-                                        <form>
-                                            @csrf
-                                            <select class="form-control order_details" disabled>
-                                                <option id="{{$order->order_id}}" value="2" selected>Đã xử lý-Đã giao hàng</option>
-                                            </select>
-                                        </form>
-                                        @elseif($order->order_status == 3)
-                                        <select class="form-control order_details" disabled>
-                                            <option id="{{$order->order_id}}" value="3" selected>Huỷ đơn hàng</option>
-                                        </select>
-                                        @endif
-                                    </td>
-                                </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
+
+            <div class="table-agile-info">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Trạng thái đơn hàng
+                    </div>
+                    <table class="table table-striped b-t b-light">
+                        <tbody>
+                            <tr>
+                                @if($order->order_status == 1)
+                                <form>
+                                    @csrf
+                                    <select class="form-control order_details" id="order_details">
+                                        <option id="{{$order->order_id}}" value="1" selected>Chờ xử lý</option>
+                                        <option id="{{$order->order_id}}" value="3">Huỷ đơn hàng</option>
+                                    </select>
+                                </form>
+                                @elseif($order->order_status == 2)
+                                <form>
+                                    @csrf
+                                    <select class="form-control order_details" disabled>
+                                        <option id="{{$order->order_id}}" value="2" selected>Đã xử lý-Đã giao hàng</option>
+                                    </select>
+                                </form>
+                                @elseif($order->order_status == 3)
+                                <select class="form-control order_details" disabled>
+                                    <option id="{{$order->order_id}}" value="3" selected>Huỷ đơn hàng</option>
+                                </select>
+                                @endif
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-        <!-- /row -->
     </div>
-    <!-- /container -->
+    <!-- /row -->
+</div>
+<!-- /container -->
 </div>
 <!-- /SECTION -->
 
