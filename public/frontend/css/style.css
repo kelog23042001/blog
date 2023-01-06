@@ -988,6 +988,7 @@ textarea.input {
 .product .product-body .product-name {
     text-transform: uppercase;
     font-size: 14px;
+    height: 50px;
 }
 
 .product .product-body .product-name>a {
