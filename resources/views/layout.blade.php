@@ -331,7 +331,7 @@
                     order_id: order_code,
                 },
                 success: function(data) {
-                    alert("Order");
+                    // alert(data);
                 }
             });
         });

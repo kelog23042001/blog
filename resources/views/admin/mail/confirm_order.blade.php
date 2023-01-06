@@ -110,7 +110,7 @@
                                                 @endphp
                                                 @foreach($cart_array as $cart)
                                                 @php
-                                                $subTotal = $cart['product_qty'] * $cart['product_price'];
+                                                $subTotal = $cart['product_sale_quantity'] * $cart['product_price'];
                                                 $total += $subTotal;
                                                 @endphp
                                                 <tr>
@@ -118,7 +118,7 @@
                                                     <td></td>
                                                     <td style="padding: 5px 0;">{{number_format($cart['product_price'],0,',','.')}} VND</td>
                                                     <td></td>
-                                                    <td style="padding: 5px 0;">{{$cart['product_qty']}}</td>
+                                                    <td style="padding: 5px 0;">{{$cart['product_sale_quantity']}}</td>
                                                     <td></td>
                                                     <td style="padding: 5px 0; ">{{number_format($subTotal,0,',','.')}} VND</td>
                                                 </tr>
@@ -131,26 +131,12 @@
                                                     <td>{{number_format($total,0,',','.')}} VND</td>
                                                 </tr>
 
-                                                @if($code['coupon_code'])
                                                 <tr>
                                                     <td colspan="4"></td>
-                                                    <!-- <td></td>
-                                                    <td></td>
-                                                    <td></td> -->
                                                     <td>Giảm giá :</td>
                                                     <td></td>
-                                                    @if($code['coupon_condition'] == 1)
-                                                    @php
-                                                    $total_coupon = ($total*$code['coupon_number']) / 100;
-                                                    @endphp
-                                                    @else
-                                                    @php
-                                                    $total_coupon = $code['coupon_number'];
-                                                    @endphp
-                                                    @endif
-                                                    <td>{{number_format($total_coupon,0,',','.')}} VND</td>
+                                                    <td>- {{number_format($code['coupon_number'],0,',','.')}} VND</td>
                                                 </tr>
-                                                @endif
                                                 <tr>
                                                     <td colspan="4"></td>
                                                     <!-- <td></td>
@@ -167,11 +153,11 @@
                                                     <td></td> -->
                                                     <td>Tổng Cộng</td>
                                                     <td></td>
-                                                    <td>{{number_format($total - $total_coupon +$shipping_array['feeShip'] ,0,',','.')}} VND</td>
+                                                    <td>{{number_format($total - $code['coupon_number'] +$shipping_array['feeShip'] ,0,',','.')}} VND</td>
                                                 </tr>
 
                                                 <tr>
-                                                    <td  colspan="7" style="border-bottom: 2px solid #000; width: 100%; padding: 5px 0;"></td>
+                                                    <td colspan="7" style="border-bottom: 2px solid #000; width: 100%; padding: 5px 0;"></td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -222,7 +208,7 @@
                                     <td width="40%" valign="top">
                                         <h4 style="margin: 0;"></h4>
                                         <p style="color: #666; font-size: 12px; font-weight: normal;">
-                                            Xem lại lịch sử mua hàng 
+                                            Xem lại lịch sử mua hàng
                                             <a style="color: red;" target="_blank" href="{{URL::to('/history-order')}}">
                                                 Tại đây
                                             </a>
