@@ -208,14 +208,14 @@
             $("#datepicker3").datepicker({
                 prevText: "Tháng trước",
                 nextText: "Tháng sau",
-                dateFormat:"yy-mm-dd",
+                dateFormat: "yy-mm-dd",
                 dayNamesMin: ["Thứ2", "Thứ3", "Thứ4", "Thứ5", "Thứ6", "Thứ7", "Chủ nhật"],
                 duration: "slow"
             });
             $("#datepicker4").datepicker({
                 prevText: "Tháng trước",
                 nextText: "Tháng sau",
-                dateFormat:"yy-mm-dd",
+                dateFormat: "yy-mm-dd",
                 dayNamesMin: ["Thứ2", "Thứ3", "Thứ4", "Thứ5", "Thứ6", "Thứ7", "Chủ nhật"],
                 duration: "slow"
             });
@@ -572,52 +572,12 @@
                     quantity: quantity,
                     order_product_id: order_product_id
                 },
+                success: function(data) {
+                    $(this).attr('disabled', 'disabled');
+                    alertify.success('Thay đổi trạng thái đơn hàng thành công!');
+                }
             });
         });
-        // $('.order_details').on('change', function() {
-        //     var order_status = $(this).val();
-        //     var order_id = $(this).children(":selected").attr("id")
-        //     var _token = $('input[name="_token"]').val();
-        //     quantity = [];
-        //     $("input[name='product_sales_quantity']").each(function() {
-        //         quantity.push($(this).val());
-        //     });
-        //     // lay ra product id
-        //     order_product_id = [];
-        //     $("input[name='order_product_id']").each(function() {
-        //         order_product_id.push($(this).val());
-        //     });
-        //     alert(order_product_id);
-        //     // j = 0;
-        //     // for (i = 0; i < order_product_id.length; i++) {
-        //     //     var order_qty = $('.order_qty_' + order_product_id[i]).val();
-        //     //     var order_qty_storage = $('.order_qty_storage_' + order_product_id[i]).val();
-
-        //     //     if (parseInt(order_qty) > parseInt(order_qty_storage)) {
-        //     //         j++;
-        //     //         if (j == 1) {
-        //     //             alert('Số lượng trong kho không đủ');
-        //     //         }
-        //     //         $('.color_qty_' + order_product_id[i]).css('background', '#000');
-        //     //     }
-        //     // }
-
-        //     // if (j == 0) {
-        //     //     alert('Cập nhật trạng thái đơn hàng thành công');
-        //     //     location.reload();
-        //     //     $.ajax({
-        //     //         url: "{{url('/update-order-quantity')}}",
-        //     //         method: 'POST',
-        //     //         data: {
-        //     //             _token: _token,
-        //     //             order_status: order_status,
-        //     //             order_id: order_id,
-        //     //             quantity: quantity,
-        //     //             order_product_id: order_product_id
-        //     //         },
-        //     //     });
-        //     // }
-        // });
     </script>
     <script>
         $(document).ready(function() {

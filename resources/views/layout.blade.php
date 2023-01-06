@@ -325,6 +325,7 @@
         $('.order_details').on('change', function() {
             var order_status = $(this).val();
             var order_code = $(this).children(":selected").attr("id")
+            // alert(order_code)
             $.ajax({
                 url: "{{url('/destroy-order')}}",
                 method: 'POST',

@@ -16,17 +16,17 @@
             </nav>
         </div>
     </div>
-    <?php
-
-    use Illuminate\Support\Facades\Session;
-
-    $message = Session::get('message');
-    if ($message) {
-        echo $message;
-        Session::put('message', null);
-    }
-    ?>
 </div>
+<?php
+
+use Illuminate\Support\Facades\Session;
+
+$message = Session::get('message');
+if ($message) {
+    echo $message;
+    Session::put('message', null);
+}
+?>
 <div class="page-heading">
     <section class="section">
         <div class="card">

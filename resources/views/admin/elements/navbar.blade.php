@@ -19,23 +19,11 @@
                     <span>Dashboard</span>
                 </a>
             </li>
-
-            <li class="sidebar-item  has-sub">
-                <a href="" class='sidebar-link'>
-                    <i class="bi bi-stack"></i>
-                    <span>Sản Phẩm</span>
+            <li class="sidebar-item ">
+                <a href="{{URL::to('/manage-order')}}" class='sidebar-link'>
+                    <i class="bi bi-grid-fill"></i>
+                    <span>Đặt Hàng</span>
                 </a>
-                <ul class="submenu ">
-                    <li class="submenu-item ">
-                        <a href="{{URL::to('/all-product')}}">Sản Phẩm</a>
-                    </li>
-                    <li class="submenu-item ">
-                        <a href="component-badge.html">Sizes</a>
-                    </li>
-                    <li class="submenu-item ">
-                        <a href="#">Colors</a>
-                    </li>
-                </ul>
             </li>
             <li class="sidebar-item ">
                 <a href="{{URL::to('/all-category-product')}}" class='sidebar-link'>
@@ -43,10 +31,16 @@
                     <span>Danh Mục</span>
                 </a>
             </li>
-            <a href="{{URL::to('/manage-banner')}}" class='sidebar-link'>
-                    <i class="bi bi-file-earmark-slides-fill"></i>
-                    <span>Banner</span>
+            <li class="sidebar-item ">
+                <a href="{{URL::to('/all-product')}}" class='sidebar-link'>
+                    <i class="bi bi-stack"></i>
+                    <span>Sản Phẩm</span>
                 </a>
+            </li>
+            <a href="{{URL::to('/manage-banner')}}" class='sidebar-link'>
+                <i class="bi bi-file-earmark-slides-fill"></i>
+                <span>Banner</span>
+            </a>
             </li>
             <li class="sidebar-item ">
             <li class="sidebar-item ">
@@ -55,7 +49,7 @@
                     <span>Đánh giá</span>
                 </a>
             </li>
-             <li class="sidebar-item " style="padding-bottom: 0px;">
+            <li class="sidebar-item " style="padding-bottom: 0px;">
                 <a href="{{URL::to('/delivery')}}" class='sidebar-link'>
                     <i class="bi bi-truck"></i>
                     <span>Vận chuyển</span>
@@ -73,26 +67,22 @@
                     <span>Người dùng</span>
                 </a>
             </li>
-
-           
-
-            
         </ul>
-        <ul style="padding-bottom: 0px;"  class="menu">
-        <li class="sidebar-item " style="padding-bottom: 0px;">
+        <ul style="padding-bottom: 0px;" class="menu">
+            <li class="sidebar-item " style="padding-bottom: 0px;">
                 <a href="{{URL::to('/logout')}}" class='sidebar-link'>
                     <i class="bi bi-x-octagon-fill"></i>
                     <span>Đăng xuất</span>
                 </a>
             </li>
         </ul>
-        
+
     </div>
     <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
 </div>
 
 <header class="mb-3">
-    
+
     <a href="#" class="burger-btn d-block d-xl-none">
         <i class="bi bi-justify fs-3"></i>
     </a>

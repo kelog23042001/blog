@@ -44,14 +44,6 @@ class OrderController extends Controller
         foreach ($order_details as $key => $order_d) {
             $product_coupon = $order_d->product_coupon;
         }
-        $coupon_condition = 2;
-        $coupon_number =  0;
-        if ($product_coupon != 'non') {
-            $coupon = Coupon::where('coupon_code', $product_coupon)->first();
-            $coupon_condition = $coupon->coupon_condition;
-            $coupon_number =  $coupon->coupon_number;
-        }
-
         $output = '';
         $output = '
         <style>
@@ -63,7 +55,7 @@ class OrderController extends Controller
             margin: o auto;
             padding: 10px 20px;
             border-collapse: collapse;
-          }
+        }
         </style>
         <div class="table-agile-info">
             <div class="panel panel-default">
@@ -120,13 +112,8 @@ class OrderController extends Controller
                 . '<td>' . number_format($details->product_price, 0, ',', '.') . ' VND</td>' .
                 '</tr>';
         }
-
-        if ($coupon_condition == 1) {
-            $total_coupon = $total * $coupon_number / 100;
-        } else {
-            $total_coupon = $coupon_number;
-        }
-
+        $total_coupon = $product_coupon;
+        // dd($total_coupon);
         $output .= '  <tr>
                                 <td colspan="2" style="text-align:right">Thành tiền</td>
                                 <td>' . number_format($total, 0, ',', '.') . ' VND</td>
@@ -134,6 +121,10 @@ class OrderController extends Controller
                             <tr>
                                 <td colspan="2" style="text-align:right">Phí vận chuyển</td>
                                 <td>' . number_format($details->product_feeship, 0, ',', '.') . ' VND</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" style="text-align:right">Giảm giá</td>
+                                <td>' . number_format($product_coupon, 0, ',', '.') . ' VND</td>
                             </tr>
                             <tr>
                                 <td colspan="2" style="text-align:right">Tổng tiền thanh toán</td>
@@ -145,7 +136,6 @@ class OrderController extends Controller
             </div>
         </div>
         ';
-
         return ($output);
     }
     public function manage_order()
@@ -185,7 +175,7 @@ class OrderController extends Controller
     public function destroy_order(Request $request)
     {
         $data = $request->all();
-        // dd($data);
+        dd($data);
         $order = Order::find($data['order_id']);
         $order->order_status = $data['order_status'];
         $order->save();

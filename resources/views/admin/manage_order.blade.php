@@ -1,41 +1,44 @@
 @extends('admin_layout')
 @section('admin_contend')
-<div class="table-agile-info">
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            Liệt kê đơn hàng
-        </div>
+<?php
 
-        <div class="row w3-res-tb">
+use Illuminate\Support\Facades\Session;
+
+$message = Session::get('message');
+if ($message) {
+    echo $message;
+    Session::put('message', null);
+}
+?>
+<div class="page-title">
+    <div class="row">
+        <div class="col-12 col-md-6 order-md-1 order-last">
+            <h3>Danh sách đơn đặt hàng</h3>
+            <!-- <p class="text-subtitle text-muted">For user to check they list</p> -->
         </div>
-        <div class="table-responsive">
-            <table class="table table-striped b-t b-light">
-                <thead>
-                    <tr>
-                        <th style="width:20px;">
-                            <label class="i-checks m-b-none">
-                                <input type="checkbox"><i></i>
-                            </label>
-                        </th>
-                        <th>STT</th>
-                        <th>Ngày đặt hàng</th>
-                        <th>Mã đơn hàng</th>
-                        <th>Tình trạng đơn hàng</th>
-                        <th colspan="2"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    $i = 1;
-                    ?>
-                    <?php foreach ($order as $key => $ord) { ?>
+    </div>
+</div>
+<div class="page-heading">
+    <section class="section">
+        <div class="card">
+            <div class="card-body">
+                <table class="table table-striped" id="table-category">
+                    <thead>
                         <tr>
-                            <td><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label></td>
+                            <th>STT</th>
+                            <th>Ngày đặt hàng</th>
+                            <th>Mã đơn hàng</th>
+                            <th>Tình trạng đơn hàng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($order as $key => $ord)
+                        <tr>
 
-                            <td>{{$i}}</td>
+
+                            <td>{{$key+1}}</td>
                             <td>{{ $ord->created_at }}</td>
                             <td>{{ $ord->order_code }}</td>
-
                             <td>@if($ord->order_status == 1)
                                 Chờ xử lý
                                 @elseif($ord->order_status == 3)
@@ -46,19 +49,15 @@
                             </td>
                             <td>
                                 <a style="font-size: 20px;" href="{{URL::to('/view-order/'.$ord->order_code)}}" class="active style-edit" ui-toggle-class="">
-                                    <!-- <i class="fa fa-eye text-success text-active"></i> -->
                                     Xem
                                 </a>
-                                <!-- <a onclick="return confirm('Bạn có chắc chắn muốn xoá?')" style="font-size: 20px;" href="{{URL::to('/delete-order/'.$ord->order_code)}}"><i class="fa fa-times text-danger text"></i>Xoá</a> -->
                             </td>
                         </tr>
-
-                    <?php $i++;
-                    } ?>
-
-                </tbody>
-            </table>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
+    </section>
 </div>
 @endsection

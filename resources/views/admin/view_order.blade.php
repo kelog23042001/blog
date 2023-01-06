@@ -168,5 +168,5 @@
         </div>
     </div>
 </div>
-<a href="{{URL::to('/print-order/'.$details->order_code)}}">In hoá đơn</a>
+<a href="{{URL::to('/print-order/'.$details->order_code)}}" class="btn btn-danger">In hoá đơn</a>
 @endsection
