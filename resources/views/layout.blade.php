@@ -15,6 +15,7 @@
     <!-- Bootstrap -->
     <link type="text/css" rel="stylesheet" href="{{asset('Frontend/css/bootstrap.min.css')}}" />
 
+
     <!-- Slick -->
     <link type="text/css" rel="stylesheet" href="{{asset('Frontend/css/slick.css')}}" />
     <link type="text/css" rel="stylesheet" href="{{asset('Frontend/css/slick-theme.css')}}" />
@@ -48,25 +49,24 @@
 <body>
     @include('user.elements.header')
     @yield('content')
+    @include('user.elements.snipping_loading')
     @include('user.elements.footer')
     <!-- jQuery Plugins -->
-    <script src="{{asset('Frontend/js/jquery.min.js')}}"></script>
     <script src="{{asset('Frontend/js/bootstrap.min.js')}}"></script>
     <script src="{{asset('Frontend/js/slick.min.js')}}"></script>
     <script src="{{asset('Frontend/js/nouislider.min.js')}}"></script>
     <script src="{{asset('Frontend/js/jquery.zoom.min.js')}}"></script>
     <script src="{{asset('Frontend/js/main.js')}}"></script>
     <script src="{{asset('Frontend/js/sweetalert.min.js')}}"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="{{asset('Backend/vendors/choices.js/choices.min.js')}}"></script>
-    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-
     <script>
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+
 
         $('#keywords').keyup(function() {
             var query = $(this).val();
@@ -318,10 +318,12 @@
                 }
             });
         }
+        var spinner = '<div class="lds-dual-ring"></div>';
 
         $('.order_details').on('change', function() {
             var order_status = $(this).val();
-            var order_code = $(this).children(":selected").attr("id")
+            var order_code = $(this).children(":selected").attr("id");
+            // $('#loading').removeAttr('class');
             // alert(order_code)
             $.ajax({
                 url: "{{url('/destroy-order')}}",
@@ -330,10 +332,10 @@
                     order_status: order_status,
                     order_id: order_code,
                 },
-                success: function(data) {
-                    // alert(data);
-                }
-            });
+            }).done(
+                document.getElementById("order_details").disabled = true,
+                alertify.success("Trạng thái đơn hàng đã được cập nhật!")
+            );
         });
 
         $(document).ready(function() {
