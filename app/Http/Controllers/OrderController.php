@@ -175,7 +175,7 @@ class OrderController extends Controller
     public function destroy_order(Request $request)
     {
         $data = $request->all();
-        dd($data);
+        // dd($data);
         $order = Order::find($data['order_id']);
         $order->order_status = $data['order_status'];
         $order->save();

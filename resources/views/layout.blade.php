@@ -146,9 +146,6 @@
             if (localStorage.getItem('data') != null) {
                 var data = JSON.parse(localStorage.getItem('data'));
                 data.reverse();
-                document.getElementById('row_wishlist').style.overflowY = 'scroll';
-                document.getElementById('row_wishlist').style.overflowX = 'hidden';
-                document.getElementById('row_wishlist').style.height = '300px';
                 for (i = 0; i < data.length; i++) {
                     var name = data[i].name;
                     var price = data[i].price;
@@ -333,6 +330,9 @@
                     order_status: order_status,
                     order_id: order_code,
                 },
+                success: function(data) {
+                    alert("Order");
+                }
             });
         });
 

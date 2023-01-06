@@ -46,7 +46,6 @@
                                 <th>Ngày đặt hàng</th>
                                 <th>Mã đơn hàng</th>
                                 <th>Tình trạng đơn hàng</th>
-
                                 <th style="width:30px;"></th>
                             </tr>
                         </thead>
