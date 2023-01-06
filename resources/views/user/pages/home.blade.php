@@ -3,105 +3,13 @@
 <!-- <div id="row_wishlist"></div> -->
 <!-- SECTION -->
 <div class="section">
-<section id="slider">
-    <!--slider-->
-    @include('user.elements.slider')
-</section>
+    <?php
 
-
-<?php 
     use Illuminate\Support\Facades\Session;
     // session::forget('cart');
     // session::forget('cart');
-?>
-<!-- <style>
-    .slick-slide {
-        width: 250px !important;
-    }
+    ?>
 
-    .slick-arrow {
-        z-index: 100;
-    }
-
-    .product-image-wrappe {
-        margin-bottom: 0;
-    }
-
-    .slick-next {
-        position: absolute;
-        top: none !important;
-    }
-
-    /* 
-    .slick-next {
-        right: 0;
-    } */
-
-    /* .product-image-wrapper{
-        margin-bottom: 20px;
-    } */
-    .new_top .slick-next {
-        top: 48px;
-        right: 0px;
-    }
-
-    .new_top .slick-prev {
-        float: right;
-        position: relative;
-        top: 0;
-        right: 58px;
-    }
-
-    .favorites-slider .slick-arrow i {
-        width: 40px;
-        height: 40px;
-        background: #ff000000;
-        border: 2px solid #8b1fc0;
-        border-radius: 20px 20px;
-    }
-
-    .sold_top .slick-next {
-        /* background-color: #ba1f24; */
-        /* background: red; */
-        top: 577px;
-        right: 0px;
-    }
-
-    .sold_top .slick-prev {
-        float: right;
-        position: relative;
-        top: 0;
-        right: 58px;
-    }
-    
-    .price_top .slick-next {
-        /* background-color: #ba1f24; */
-        /* background: red; */
-        top: 1108px;
-        right: 0px;
-    }
-
-    .price_top .slick-prev {
-        float: right;
-        position: relative;
-        top: 0;
-        right: 58px;
-    }
-
-    .view_top .slick-next {
-        /* background-color: #ba1f24; */
-        /* background: red; */
-        top: 1637px;
-        right: 0px;
-    }
-
-    .view_top .slick-prev {
-        float: right;
-        position: relative;
-        top: 0;
-        right: 58px;
-    } -->
-</style>
     <!-- container -->
     <div class="container">
         <!-- row -->
@@ -112,10 +20,6 @@
                     <h3 class="title">hàng mới về</h3>
                     <div class="section-nav">
                         <ul class="section-tab-nav tab-nav">
-                            <!-- <li class="active"><a data-toggle="tab" href="#tab1">Laptops</a></li>
-                            <li><a data-toggle="tab" href="#tab1">Smartphones</a></li>
-                            <li><a data-toggle="tab" href="#tab1">Cameras</a></li>
-                            <li><a data-toggle="tab" href="#tab1">Accessories</a></li> -->
                         </ul>
                     </div>
                 </div>
@@ -198,37 +102,7 @@
         <!-- row -->
         <div class="row">
             <div class="col-md-12">
-                <div class="hot-deal">
-                    <ul class="hot-deal-countdown">
-                        <li>
-                            <div>
-                                <h3>02</h3>
-                                <span>Days</span>
-                            </div>
-                        </li>
-                        <li>
-                            <div>
-                                <h3>10</h3>
-                                <span>Hours</span>
-                            </div>
-                        </li>
-                        <li>
-                            <div>
-                                <h3>34</h3>
-                                <span>Mins</span>
-                            </div>
-                        </li>
-                        <li>
-                            <div>
-                                <h3>60</h3>
-                                <span>Secs</span>
-                            </div>
-                        </li>
-                    </ul>
-                    <h2 class="text-uppercase">hot deal this week</h2>
-                    <p>New Collection Up to 50% OFF</p>
-                    <a class="primary-btn cta-btn" href="#">Shop now</a>
-                </div>
+                @include('user.elements.slider')
             </div>
         </div>
         <!-- /row -->
