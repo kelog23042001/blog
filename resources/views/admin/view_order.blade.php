@@ -143,7 +143,7 @@
                             @if($order->order_status == 1)
                             <form>
                                 @csrf
-                                <select class="form-control order_details">
+                                <select class="form-control order_details" id="order_details_admin">
                                     <option id="{{$order->order_id}}" value="1" selected>Chờ xử lý</option>
                                     <option id="{{$order->order_id}}" value="2">Đã xử lý-Đang giao hàng</option>
                                     <option id="{{$order->order_id}}" value="3">Huỷ đơn hàng</option>

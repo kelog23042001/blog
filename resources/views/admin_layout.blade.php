@@ -16,6 +16,15 @@
     <link rel="stylesheet" href="{{asset('/Backend/vendors/toastify/toastify.css')}}">
     <link rel="stylesheet" href="{{asset('/Backend/vendors/choices.js/choices.min.css')}}">
     <link rel="shortcut icon" href="{{asset('/Backend/images/favicon.svg')}}" type="image/x-icon">
+    <!-- CSS -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
+    <!-- Default theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css" />
+    <!-- Semantic UI theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css" />
+    <!-- Bootstrap theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css" />
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
 </head>
 
 <body>
@@ -572,11 +581,10 @@
                     quantity: quantity,
                     order_product_id: order_product_id
                 },
-                success: function(data) {
-                    $(this).attr('disabled', 'disabled');
-                    alertify.success('Thay đổi trạng thái đơn hàng thành công!');
-                }
-            });
+            }).done(
+                document.getElementById("order_details_admin").disabled = true,
+                alertify.success("Trạng thái đơn hàng đã được cập nhật!")
+            );
         });
     </script>
     <script>
