@@ -131,6 +131,8 @@ if ($maxRange == 0) {
                         </div>
                     </div>
                     @endforeach
+                    <br>
+                    {!! $products->links() !!}
                     <!-- /product -->
                 </div>
                 <!-- /STORE -->

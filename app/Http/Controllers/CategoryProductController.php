@@ -120,7 +120,8 @@ class CategoryProductController extends Controller
         $category = CategoryProductModel::find($category_id);
         // get category by id 
         // dd($products);
-        $products = $category->products;
+        // $products = $category->products;
+        $products = Product::with('category')->where('category_id', $category_id)->paginate(6);
         $sort_by = null;
         $minRange = null;
         $maxRange = null;
