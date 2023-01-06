@@ -132,10 +132,10 @@ if ($maxRange == 0) {
                     </div>
                     @endforeach
                     <br>
-                    {!! $products->links() !!}
                     <!-- /product -->
                 </div>
                 <!-- /STORE -->
+                {!! $products->links() !!}
             </div>
             <!-- /row -->
         </div>
