@@ -71,8 +71,10 @@
         });
 
         load_comment();
-        const table_category = document.querySelector('#table-orders');
-        const data_category = new simpleDatatables.DataTable(table_category);
+        try {
+            const table_category = document.querySelector('#table-orders');
+            const data_category = new simpleDatatables.DataTable(table_category);
+        } catch (e) {}
 
         function load_comment() {
             var product_id = $('#product_viewed_id').val();
@@ -513,45 +515,47 @@
             }
 
             $('.send_order').click(function() {
-                getDataOrder()
-                var paymentMethod = $('input[name=payment]:checked', '#payment-method').val()
-
-                if (paymentMethod == 'paypal') {
-                    window.location.href = "{{route('processTransaction')}}";
-                } else if (paymentMethod == 'momo') {
-                    // payment by momo
-                    order_total = $('#order_total').val()
-                    alert(order_total);
-                    if (order_total < 10000) {
-                        // alert(order_total)
-                        swal({
-                            title: "Cảnh Báo",
-                            text: "Yêu cầu bị từ chối vì số tiền giao dịch nhỏ hơn số tiền tối thiểu cho phép là 10.000 VND hoặc lớn hơn số tiền tối đa cho phép là 50.000.000 VND",
-                            type: "warning",
-                            showCancelButton: false,
-                            confirmButtonClass: "btn-danger",
-                            confirmButtonText: "Đóng",
-                            // cancelButtonText: "Không",
-                            closeOnConfirm: false,
-                            closeOnCancel: false,
-                            showLoaderOnConfirm: true
-                        })
-                    } else {
-                        $.ajax({
-                            url: "{{url('/momo_payment')}}",
-                            method: 'POST',
-                            data: {
-                                // 'total_momopay': 99999
-                                'total_momopay': order_total
-                            },
-                            success: function(response) {
-                                window.location.href = response
-                            }
-                        })
-                    }
+                if (!$('.order_fee').val()) {
+                    alertify.error('Hãy chọn địa chỉ nhận hàng');
                 } else {
-                    sendOrder();
+                    getDataOrder()
+                    var paymentMethod = $('input[name=payment]:checked', '#payment-method').val()
+                    if (paymentMethod == 'paypal') {
+                        window.location.href = "{{route('processTransaction')}}";
+                    } else if (paymentMethod == 'momo') {
+                        // payment by momo
+                        order_total = $('#order_total').val()
+                        if (order_total < 10000) {
+                            // alert(order_total)
+                            swal({
+                                title: "Cảnh Báo",
+                                text: "Yêu cầu bị từ chối vì số tiền giao dịch nhỏ hơn số tiền tối thiểu cho phép là 10.000 VND hoặc lớn hơn số tiền tối đa cho phép là 50.000.000 VND",
+                                type: "warning",
+                                showCancelButton: false,
+                                confirmButtonClass: "btn-danger",
+                                confirmButtonText: "Đóng",
+                                closeOnConfirm: false,
+                                closeOnCancel: false,
+                                showLoaderOnConfirm: true
+                            })
+                        } else {
+                            $.ajax({
+                                url: "{{url('/momo_payment')}}",
+                                method: 'POST',
+                                data: {
+                                    // 'total_momopay': 99999
+                                    'total_momopay': order_total
+                                },
+                                success: function(response) {
+                                    window.location.href = response
+                                }
+                            })
+                        }
+                    } else {
+                        sendOrder();
+                    }
                 }
+
             });
 
             $('.choose').on('change', function() {
