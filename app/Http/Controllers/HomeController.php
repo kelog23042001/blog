@@ -204,8 +204,7 @@ class HomeController extends Controller
 
         $brand_product = DB::table('tbl_brand_product')->where('brand_status', '1')->orderBy('brand_id', 'desc')->get();
 
-        $all_product = Product::where('product_status', 1)->where('deleted', 0)->orderBy('product_id', 'desc')
-            ->limit(10)->get();
+        $all_product = Product::where('product_status', 1)->where('deleted', 0)->orderBy('product_id', 'desc')->get();
 
         $sold_product = Product::where('product_status', 1)->where('deleted', 0)->orderBy('product_sold', 'desc')
             ->limit(10)->get();
