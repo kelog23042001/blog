@@ -226,37 +226,8 @@ function percentageStarsRate($stars, $rates)
                                 <!-- Reviews -->
                                 <div class="col-md-6">
                                     <div id="reviews">
-                                        <ul class="reviews">
-                                            @if (count($rates) == 0)
-                                            <center>Chưa có đánh giá nào cho sản phẩm này</center>
-                                            @endif
-                                            @foreach ($rates as $key=> $review)
-                                            <li>
-                                                <div class="review-heading">
-                                                    <h5 class="name">{{$review->user->name}}</h5>
-                                                    <p class="date">{{$review->created_at}}</p>
-                                                    <div class="review-rating">
-                                                        @for ($i = 0; $i < $review->rating; $i++) <!-- -->
-                                                            <i class="fa fa-star"></i>
-                                                            @endfor
-                                                            <!-- <i class="fa fa-star-o empty"></i> -->
-                                                    </div>
-                                                </div>
-                                                <div class="review-body">
-                                                    <p>
-                                                        <?php
-                                                        if (empty($review->comment)) {
-                                                            echo 'Người dùng không bình luận gì!';
-                                                        } else if ($review->visible == 0) {
-                                                            echo 'Nội dung bình luận đã bị ẩn!';
-                                                        } else {
-                                                            echo $review->comment;
-                                                        }
-                                                        ?>
-                                                    </p>
-                                                </div>
-                                            </li>
-                                            @endforeach
+                                        <ul class="reviews rate_content">
+
                                         </ul>
                                     </div>
                                 </div>

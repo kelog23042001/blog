@@ -336,7 +336,21 @@
                 alertify.success("Trạng thái đơn hàng đã được cập nhật!")
             );
         });
+        load_comment();
 
+        function load_comment() {
+            var product_id = $('#product_viewed_id').val();
+            $.ajax({
+                url: "{{('/load-comment')}}",
+                method: "POST",
+                data: {
+                    product_id: product_id,
+                },
+                success: function(data) {
+                    $('.rate_content').html(data);
+                }
+            });
+        }
         $(document).ready(function() {
             $('.send-comment').click(function() {
                 var product_id = $('#product_viewed_id').val();
@@ -359,8 +373,7 @@
                     },
                     success: function(data) {
                         // $('#notify_comment').html('<span class="text text-success">Thêm bình luận thành công</span>');
-                        // load_comment();
-                        swal("Gửi bình luận", "Bình luận đang chờ duyệt! Xin cảm ơn", "success");
+                        load_comment()
                         $('.comment_name').val('');
                         $('.comment_content').val('');
                     }

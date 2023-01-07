@@ -65,47 +65,31 @@ class ProductController extends Controller
     public function load_comment(Request $request)
     {
         $product_id = $request->product_id;
-        $comment = Comment::where('comment_product_id', $product_id)
-            ->where('comment_status', '=', 0)
-            ->where('comment_parent_comment', 0)
-            ->orderBy('comment_id', 'desc')
-            ->get();
-        $comment_rep = Comment::with('product')->where('comment_parent_comment', '>', 0)->get();
-
+        $rates = Rate::where('product_id', $product_id)->get();
         $output = '';
-        foreach ($comment as $key => $comm) {
-
-            $output .= '
-            <li class="media">
-                <a class="pull-left" href="#">
-                    <img class="media-object" src="' . url('frontend/images/shop/user.png') . '" style:"margin-left:5px"  width = 20px height=20px alt="">
-                </a>
-                <div class="media-body">
-                    <ul class="sinlge-post-meta" style="background:none; border-bottom:none; margin:0 0 5px">
-                        <li><i class="fa fa-user"></i>' . $comm->comment_name . '</li>
-                        <li><i class="fa fa-clock-o"></i>' . $comm->comment_date . '</li>
-                    </ul>
-                    <p>' . $comm->comment . '</p>
-                </div>
-            </li>
-            ';
-            foreach ($comment_rep as $key => $rep_comment) {
-                if ($rep_comment->comment_parent_comment == $comm->comment_id) {
-                    $output .= '
-                    <li class="media second-media"  style="margin-left:40px;">
-                        <a class="pull-left" href="#">
-                            <img class="media-object" src="' . url('frontend/images/shop/lk2.jpg') . '" width = 20px height=20px alt="">
-                        </a>
-                        <div class="media-body">
-                            <ul class="sinlge-post-meta" style="background:none; border-bottom:none; margin-bottom: 0">
-                                <li><i class="fa fa-user"></i>LKShop</li>
-                                <li><i class="fa fa-clock-o"></i>' . $rep_comment->comment_date . '</li>
-                            </ul>
-                            <p>' . $rep_comment->comment . '</p>
-                        </div>
-                    </li>';
-                }
+        foreach ($rates as $key => $review) {
+            $output .= '<li>
+            <div class="review-heading">
+                <h5 class="name">' . $review->user->name . '</h5>
+                <p class="date">' . $review->created_at . '</p>
+                <div class="review-rating">';
+            for ($i = 0; $i < $review->rating; $i++) {
+                $output .= '<i class="fa fa-star"></i>';
             }
+            $output .= '</div>
+            </div>
+            <div class="review-body">
+                <p>';
+            if (empty($review->comment)) {
+                $output .= 'Người dùng không bình luận gì!';
+            } else if ($review->visible == 0) {
+                $output .= 'Nội dung bình luận đã bị ẩn!';
+            } else {
+                $output .= $review->comment;
+            }
+            $output .= '</p>
+            </div>
+        </li>';
         }
         echo $output;
     }
