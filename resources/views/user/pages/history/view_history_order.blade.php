@@ -9,6 +9,7 @@
             <div class="col-md-12">
                 <ul class="breadcrumb-tree">
                     <li><a href="{{url('/trang-chu')}}">Trang chủ</a></li>
+                    <li><a href="{{route('view_his_orders')}}">Lịch sử mua hàng</a></li>
                     <li class="breadcrumb-item active" aria-current="page">{{$meta_title}}</li>
                 </ul>
             </div>

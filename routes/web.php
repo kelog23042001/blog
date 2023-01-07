@@ -38,6 +38,7 @@ use App\Http\Controllers\RatingController;
 */
 
 Route::group(['middleware' => 'checklogin'], function () {
+    Route::get('/history-order', [OrderController::class, 'history_order'])->name('view_his_orders');
 
     Route::group(['middleware' => 'admin'], function () {
 
@@ -296,7 +297,6 @@ Route::get('/send-coupon/{coupon_code}', [MailController::class, 'send_coupon'])
 Route::get('/mail-order', [MailController::class, 'mail_order']);
 
 ///history-order
-Route::get('/history-order', [OrderController::class, 'history_order'])->name('view_his_orders');
 Route::get('/view-history-order/{order_code}', [OrderController::class, 'view_history_order']);
 
 //PayPal
