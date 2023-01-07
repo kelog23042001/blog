@@ -336,14 +336,15 @@ class OrderController extends Controller
 
         $order = Order::where('order_code', $order_code)->first();
         // dd($order);
-        $customer_id = $order->customer_id;
+
         $shipping_id = $order->shipping_id;
         $order_status = $order->order_status;
         $shipping = Shipping::where('shipping_id', $shipping_id)->first();
         $order_details_products = OrderDetails::with('product')->where('order_code', $order_code)->first();
         $coupon = $order_details_products->product_coupon;
         // dd($order_details_products);
-        $customer = Customer::where('customer_id', $customer_id)->first();
+
+
         return view('user.pages.history.view_history_order')
             ->with('order', $order)
             ->with('categories', $cate_product)
@@ -352,7 +353,6 @@ class OrderController extends Controller
             ->with('meta_keyword', $meta_keyword)
             ->with('url_canonical', $url_canonical)
             ->with('order_details', $order_details)
-            ->with('customer', $customer)
             ->with('coupon', $coupon)
             ->with('shipping', $shipping)
             ->with('order_status', $order_status);

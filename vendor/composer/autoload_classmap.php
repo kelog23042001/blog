@@ -30,6 +30,7 @@ return array(
     'App\\Http\\Controllers\\PayPalController' => $baseDir . '/app/Http/Controllers/PayPalController.php',
     'App\\Http\\Controllers\\PostController' => $baseDir . '/app/Http/Controllers/PostController.php',
     'App\\Http\\Controllers\\ProductController' => $baseDir . '/app/Http/Controllers/ProductController.php',
+    'App\\Http\\Controllers\\RatingController' => $baseDir . '/app/Http/Controllers/RatingController.php',
     'App\\Http\\Controllers\\SizeController' => $baseDir . '/app/Http/Controllers/SizeController.php',
     'App\\Http\\Controllers\\UserController' => $baseDir . '/app/Http/Controllers/UserController.php',
     'App\\Http\\Kernel' => $baseDir . '/app/Http/Kernel.php',

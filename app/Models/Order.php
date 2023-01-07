@@ -10,7 +10,7 @@ class Order extends Model
     use HasFactory;
     public $timestamps = false;
     protected $fillable = [
-        'customer_id', 'shipping_id', 'order_date', 'order_status', 'created_at', 'total'
+        'user_id', 'shipping_id', 'order_date', 'order_status', 'created_at', 'total'
     ];
     protected $primaryKey = 'order_id';
     protected $table = 'tbl_order';

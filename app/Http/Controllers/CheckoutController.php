@@ -169,6 +169,7 @@ class CheckoutController extends Controller
     public function confirm_order(Request $request)
     {
         $data = $request->all();
+        // dd($data);
         $this->validation($request);
 
         $shipping = new Shipping();
@@ -178,14 +179,14 @@ class CheckoutController extends Controller
         $shipping->shipping_address = $data['shipping_address'];
         $shipping->shipping_notes = $data['shipping_notes'];
         $shipping->shipping_method = $data['shipping_method'];
-
         $shipping->save();
-        $shipping_id = $shipping->shipping_id;
 
+        $shipping_id = $shipping->shipping_id;
+        // dd(Auth::user()->id);
         $checkout_code = substr(md5(microtime()), rand(0, 26), 5);
         $order = new Order;
-        if (Session::get('customer_id')) {
-            $order->customer_id = Session::get('customer_id');
+        if (Auth::user()) {
+            $order->user_id = Auth::user()->id;
         }
         $order->shipping_id = $shipping_id;
         $order->order_status = 1;
@@ -232,43 +233,43 @@ class CheckoutController extends Controller
 
         $now = Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d H:i:s');
         $title_mail = "Đơn hàng xác nhận ngày " . $now;
-        $customer = Auth::user();
-        // dd($customer);
-        if ($customer != null) {
-            $data['email'][] = $customer->email;
-        }
 
-        if (session::get('cart')) {
-            foreach (session::get('cart') as $key => $cart_mail) {
-                $cart_array[] = array(
-                    'product_image' => $cart_mail['product_image'],
-                    'product_name' => $cart_mail['product_name'],
-                    'product_price' => $cart_mail['product_price'],
-                    'product_qty' => $cart_mail['product_qty']
-                );
-            }
-        }
-        $shipping_array = array(
-            'customer_name' => $customer->name,
-            'shipping_name' => $data['shipping_name'],
-            'shipping_email' => $data['shipping_email'],
-            'shipping_phone' => $data['shipping_phone'],
-            'shipping_address' => $data['shipping_address'],
-            'shipping_notes' => $data['shipping_notes'],
-            'shipping_method' => $data['shipping_method'],
-            'shipping_feeShip' => $data['order_fee']
-        );
-        try {
-            Mail::send(
-                'user.mail.mail_order',
-                ['data' => $data, 'checkout_code' => $checkout_code, 'cart_array' => $cart_array, 'shipping_array' => $shipping_array, 'coupon' => $coupon, 'now' => $now],
-                function ($message) use ($title_mail, $data) {
-                    $message->to($data['email'])->subject($title_mail);
-                    $message->from($data['email'], $title_mail);
+        // dd($customer);
+        if ($data['shipping_email']) {
+            $data['email'][] = $data['shipping_email'];
+            if (session::get('cart')) {
+                foreach (session::get('cart') as $key => $cart_mail) {
+                    $cart_array[] = array(
+                        'product_image' => $cart_mail['product_image'],
+                        'product_name' => $cart_mail['product_name'],
+                        'product_price' => $cart_mail['product_price'],
+                        'product_qty' => $cart_mail['product_qty']
+                    );
                 }
+            }
+
+            $shipping_array = array(
+                'customer_name' => 'Non',
+                'shipping_name' => $data['shipping_name'],
+                'shipping_email' => $data['shipping_email'],
+                'shipping_phone' => $data['shipping_phone'],
+                'shipping_address' => $data['shipping_address'],
+                'shipping_notes' => $data['shipping_notes'],
+                'shipping_method' => $data['shipping_method'],
+                'shipping_feeShip' => $data['order_fee']
             );
-        } catch (Exception $e) {
-            dd($e);
+            try {
+                Mail::send(
+                    'user.mail.mail_order',
+                    ['data' => $data, 'checkout_code' => $checkout_code, 'cart_array' => $cart_array, 'shipping_array' => $shipping_array, 'coupon' => $coupon, 'now' => $now],
+                    function ($message) use ($title_mail, $data) {
+                        $message->to($data['email'])->subject($title_mail);
+                        $message->from($data['email'], $title_mail);
+                    }
+                );
+            } catch (Exception $e) {
+                dd($e);
+            }
         }
 
         session::forget('cart');

@@ -596,6 +596,7 @@ class ComposerStaticInitedf6131158ce47edc8a2b628f5349352
         'App\\Http\\Controllers\\PayPalController' => __DIR__ . '/../..' . '/app/Http/Controllers/PayPalController.php',
         'App\\Http\\Controllers\\PostController' => __DIR__ . '/../..' . '/app/Http/Controllers/PostController.php',
         'App\\Http\\Controllers\\ProductController' => __DIR__ . '/../..' . '/app/Http/Controllers/ProductController.php',
+        'App\\Http\\Controllers\\RatingController' => __DIR__ . '/../..' . '/app/Http/Controllers/RatingController.php',
         'App\\Http\\Controllers\\SizeController' => __DIR__ . '/../..' . '/app/Http/Controllers/SizeController.php',
         'App\\Http\\Controllers\\UserController' => __DIR__ . '/../..' . '/app/Http/Controllers/UserController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',

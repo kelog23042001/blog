@@ -38,7 +38,7 @@ use Illuminate\Support\Facades\Session;
                         <h3 class="title">thông tin khách hàng</h3>
                     </div>
                     <div class="form-group">
-                        @if(!Session::get('customer_id'))
+                        @if(!Auth::user())
                         <div class="register-req">
                             <p>Bạn chưa đăng nhập. <a style="color:red" href="{{url('/login-checkout')}}">Đăng Nhập</a></p>
                         </div>
@@ -151,7 +151,7 @@ use Illuminate\Support\Facades\Session;
                                 <strong>{{number_format($total_coupon,0,',','.')}} </strong>
                                 <button style="background: none; border: none;" type="submit" class="check_out check_coupon"> <i style="font-size: 20px;" class="fa fa-times text-danger text"></i></button>
                             </form>
-                                <!-- <a class="check_out check_coupon" href="{{url('/unset-coupon/'.$coupon['coupon_code'])}}">
+                            <!-- <a class="check_out check_coupon" href="{{url('/unset-coupon/'.$coupon['coupon_code'])}}">
                                 <i style="font-size: 20px;" class="fa fa-times text-danger text"></i> -->
                             </a>
                         </div>
@@ -291,12 +291,16 @@ use Illuminate\Support\Facades\Session;
         }
 
         function fetchDataOrder(data) {
-            $('.shipping_email').val(data['shipping_email'])
-            $('.shipping_name').val(data['shipping_name'])
-            $('.shipping_phone').val(data['shipping_phone'])
-            $('.shipping_notes').val(data['shipping_notes'])
-            $('.shipping_address').val(data['shipping_address'])
-            window.localStorage.getItem('data-checkout', null);
+            try {
+                $('.shipping_email').val(data['shipping_email'])
+                $('.shipping_name').val(data['shipping_name'])
+                $('.shipping_phone').val(data['shipping_phone'])
+                $('.shipping_notes').val(data['shipping_notes'])
+                $('.shipping_address').val(data['shipping_address'])
+                window.localStorage.getItem('data-checkout', null);
+            } catch (e) {
+                // console.log(e);
+            }
         }
     })
 </script>
