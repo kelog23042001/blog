@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddUserToOrderTable extends Migration
+class RemoveCustumnerFromTblOrderTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,17 @@ class AddUserToOrderTable extends Migration
      */
     public function up()
     {
-        Schema::table('tbl_order', function (Blueprint $table) {
+        Schema::create('tbl_order', function (Blueprint $table) {
             //
+            Schema::dropIfExists('tbl_order');
+            $table->bigIncrements('order_id');
             $table->unsignedBigInteger('user_id')->nullable();
+            $table->integer('shipping_id');
+            $table->integer('total');
+            $table->string('order_date', 50);
+            $table->string('order_code', 50);
+            $table->integer('order_status');
+            $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users');
         });
     }
@@ -27,7 +35,7 @@ class AddUserToOrderTable extends Migration
      */
     public function down()
     {
-        Schema::table('_order', function (Blueprint $table) {
+        Schema::table('tbl_order', function (Blueprint $table) {
             //
         });
     }
