@@ -82,7 +82,7 @@ $user = Auth::user();
                     <div>
                         <div class="product-rating avg-rating-stars rating-stars">
                         </div>
-                        <a class="review-link" href="#">10 Review(s) | Add your review</a>
+                        <a class="review-link" href="#"><span class="ratingLengh"></span> Đánh giá</a>
                     </div>
                     <div>
                         <h3 class="product-price">{{number_format($detail_product->product_price,0,',','.')}} VNĐ<del class="product-old-price">{{number_format($detail_product->product_price,0,',','.')}} VNĐ</del></h3>
@@ -138,7 +138,7 @@ $user = Auth::user();
                     <!-- product tab nav -->
                     <ul class="tab-nav">
                         <li class="active"><a data-toggle="tab" href="#description">Mô tả sản phẩm</a></li>
-                        <li><a data-toggle="tab" href="#rating">Đánh giá & Bình luận ({{count($rates)}})</a></li>
+                        <li><a data-toggle="tab" href="#rating">Đánh giá & Bình luận (<span class="ratingLengh"></span>)</a></li>
                     </ul>
                     <!-- /product tab nav -->
 

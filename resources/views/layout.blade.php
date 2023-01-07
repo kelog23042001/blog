@@ -82,6 +82,7 @@
                     document.getElementById('avgRating').textContent = data.avgRating;
                     let arrayRating = []
                     rateLenght = data.rates.length;
+                    $('.ratingLengh').text(rateLenght);
                     data.rates.forEach(element => {
                         arrayRating.push(element.rating)
                     });
