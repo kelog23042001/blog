@@ -289,10 +289,9 @@ class ProductController extends Controller
         $meta_keyword =  $detail_product->product_slug;
         $url_canonical = $request->url();
 
-        $related_product = DB::table('tbl_product')
-            ->join('tbl_category_product', 'tbl_category_product.category_id', '=', 'tbl_product.category_id')
+        $related_product = Product::join('tbl_category_product', 'tbl_category_product.category_id', '=', 'tbl_product.category_id')
             ->where('tbl_category_product.category_id', $category_id)->whereNotIn('tbl_product.product_id', [$product_id])->get();
-
+        // dd($related_product);
         $product = Product::find($product_id);
         $product->product_views = $product->product_views + 1;
         $product->save();

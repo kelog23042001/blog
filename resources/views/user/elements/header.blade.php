@@ -33,8 +33,9 @@
                         <div class="cart-dropdown " style="width: max-content">
                             <div class="wish-list ">
                                 <a href="{{route('logout')}}" style="color: black; display:block; margin-bottom:15px">Đăng xuất</a>
+                                <a href="{{route('view_his_orders')}}" style="color: black; display:block; margin-bottom:15px">Lịch sử mua hàng</a>
                                 @if (Auth::user()->role_id == 1)
-                                <a href="{{route('dashboard')}}" style="color: black;">Dashboard</a>
+                                <a href="{{route('dashboard')}}" style="color: black; display:block; margin-bottom:15px">Dashboard</a>
                                 @endif
                             </div>
                         </div>

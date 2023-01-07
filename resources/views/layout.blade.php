@@ -39,6 +39,9 @@
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css" />
     <!-- Bootstrap theme -->
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css" />
+
+    <link rel="stylesheet" href="{{asset('/Backend/vendors/simple-datatables/style.css')}}">
+
     <!-- 
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.rtl.min.css" />
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.rtl.min.css" />
@@ -59,6 +62,7 @@
     <script src="{{asset('Frontend/js/sweetalert.min.js')}}"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="{{asset('Backend/vendors/choices.js/choices.min.js')}}"></script>
+    <script src="{{asset('Backend/vendors/simple-datatables/simple-datatables.js')}}"></script>
     <script>
         $.ajaxSetup({
             headers: {
@@ -67,6 +71,8 @@
         });
 
         load_comment();
+        const table_category = document.querySelector('#table-orders');
+        const data_category = new simpleDatatables.DataTable(table_category);
 
         function load_comment() {
             var product_id = $('#product_viewed_id').val();

@@ -117,23 +117,15 @@
     <div class="container">
         <!-- row -->
         <div class="row">
-
             <!-- section title -->
             <div class="col-md-12">
                 <div class="section-title">
                     <h3 class="title">bán nhiều nhất</h3>
                     <div class="section-nav">
-                        <!-- <ul class="section-tab-nav tab-nav">
-                            <li class="active"><a data-toggle="tab" href="#tab2">Laptops</a></li>
-                            <li><a data-toggle="tab" href="#tab1">Accessories</a></li>
-                            <li><a data-toggle="tab" href="#tab2">Smartphones</a></li>
-                            <li><a data-toggle="tab" href="#tab3">Cameras</a></li>
-                        </ul> -->
                     </div>
                 </div>
             </div>
             <!-- /section title -->
-
             <!-- Products tab & slick -->
             <div class="col-md-12">
                 <div class="row">

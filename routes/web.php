@@ -116,7 +116,7 @@ Route::group(['middleware' => 'checklogin'], function () {
 
         Route::get('/unactive-slide/{slider_id}', [BannerController::class, 'unactive_slide']);
         Route::get('/active-slide/{slider_id}', [BannerController::class, 'active_slide']);
-        
+
         //Coupon
         Route::post('/insert-coupon-code', [CouponController::class, 'insert_coupon_code']);
         Route::get('/insert-coupon', [CouponController::class, 'insert_coupon']);
@@ -125,7 +125,7 @@ Route::group(['middleware' => 'checklogin'], function () {
         Route::get('/list-coupon', [CouponController::class, 'list_coupon']);
         Route::get('/delete-coupon/{coupon_id}', [CouponController::class, 'delete_coupon']);
 
-                
+
         //Delivery
         Route::get('/delivery', [DeliveryController::class, 'delivery']);
         Route::post('/select-delivery', [DeliveryController::class, 'select_delivery']);
@@ -296,7 +296,7 @@ Route::get('/send-coupon/{coupon_code}', [MailController::class, 'send_coupon'])
 Route::get('/mail-order', [MailController::class, 'mail_order']);
 
 ///history-order
-Route::get('/history-order', [OrderController::class, 'history_order']);
+Route::get('/history-order', [OrderController::class, 'history_order'])->name('view_his_orders');
 Route::get('/view-history-order/{order_code}', [OrderController::class, 'view_history_order']);
 
 //PayPal

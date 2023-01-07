@@ -19,6 +19,7 @@ use App\Models\Banner;
 use App\Models\CategoryPost;
 use App\Models\CategoryProductModel;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
@@ -313,12 +314,11 @@ class OrderController extends Controller
             $categories = DB::table('tbl_category_product')->where('category_status', '1')->orderBy('category_id', 'desc')->get();
             $brand_product = DB::table('tbl_brand_product')->where('brand_status', '1')->orderBy('brand_id', 'desc')->get();
 
-            $order = Order::where('customer_id', Session::get('customer_id'))->orderby('created_at', 'DESC')->get();
-
+            $order = Order::where('user_id', Auth::user()->id)->orderby('created_at', 'DESC')->get();
+            // dd($order);
             return view('user.pages.history.history')->with('order', $order)->with('categories', $categories)->with('brand', $brand_product)
                 ->with('meta_decs', $meta_decs)->with('meta_title', $meta_title)->with('meta_keyword', $meta_keyword)->with('url_canonical', $url_canonical)
                 ->with('slider', $slider)->with('category_post', $category_post);
-
             //     return view('user.pages.history.history')->with(compact('order'));
         }
     }

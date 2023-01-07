@@ -224,6 +224,88 @@ $user = Auth::user();
                         </div>
                         <!-- /tab1  -->
                     </div>
+                    <div class="section">
+                        <!-- container -->
+                        <div class="container">
+                            <!-- row -->
+                            <div class="row">
+                                <!-- section title -->
+                                <div class="col-md-12">
+                                    <div class="section-title" style="text-align: center;">
+                                        <h4 class="title">Sản phẩm liên quan</h4>
+                                        <div class="section-nav">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /section title -->
+                                <!-- Products tab & slick -->
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="products-tabs">
+                                            <!-- tab -->
+                                            <div id="tab2" class="tab-pane fade in active">
+                                                <div class="products-slick" data-nav="#slick-nav-2">
+                                                    <!-- product -->
+                                                    @foreach ($related_product as $key => $product)
+                                                    <div class="product">
+                                                        <a class="cart_product_url_{{$product->product_id}}" href="{{URL::to('chi-tiet-san-pham/'.$product->product_id)}}">
+                                                            <div class="product-img">
+                                                                <img src="{{$product->product_image}}" alt="">
+                                                                <div class="product-label">
+                                                                    <!-- <span class="sale">-30%</span> -->
+                                                                    <span class="new">TOP</span>
+                                                                </div>
+                                                            </div>
+                                                        </a>
+                                                        <div class="product-body">
+                                                            <p class="product-category">{{$product->category->category_name}}</p>
+                                                            <h3 class="product-name"><a href="#">{{$product->product_name}}</a></h3>
+                                                            <h4 class="product-price">{{number_format($product->product_price,0,',','.')}} <del class="product-old-price">{{number_format($product->product_price,0,',','.')}}</del></h4>
+                                                            <div class="product-rating">
+                                                                <i class="fa fa-star"></i>
+                                                                <i class="fa fa-star"></i>
+                                                                <i class="fa fa-star"></i>
+                                                                <i class="fa fa-star"></i>
+                                                                <i class="fa fa-star"></i>
+                                                            </div>
+                                                            <div class="product-btns">
+                                                                <button class="add-to-wishlist" id="{{$product->product_id}}" onclick="add_wistlist(this.id)">
+                                                                    <i class=" fa fa-heart-o"></i>
+                                                                    <span class="tooltipp">add to wishlist</span>
+                                                                </button>
+                                                                <button class="add-to-compare" id="{{$product->product_id}}" data-toggle="modal" onclick="add_compare(this.id)" data-target="#compareModal">
+                                                                    <i class="fa fa-exchange"></i>
+                                                                    <span class="tooltipp">so sánh</span>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="add-to-cart">
+                                                            <button class="add-to-cart-btn" id="{{$product->product_id}}" onclick="Addtocart(this.id);"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                                                        </div>
+                                                        <input type="hidden" value="{{$product->product_id}}" class="cart_product_id_{{$product->product_id}}">
+                                                        <input type="hidden" id="wishlist_productname{{$product->product_id}}" value="{{$product->product_name}}" class="cart_product_name_{{$product->product_id}}">
+                                                        <input type="hidden" value="{{$product->product_image}}" class="cart_product_image_{{$product->product_id}}">
+                                                        <input type="hidden" id="wishlist_productprice{{$product->product_id}}" value="{{$product->product_price}}" class="cart_product_price_{{$product->product_id}}">
+                                                        <input type="hidden" value="1" class="cart_product_qty_{{$product->product_id}}">
+                                                        <input type="hidden" value="{{$product->product_quantity}}" class="product_qty_{{$product->product_id}}">
+                                                        <input type="hidden" id="wishlist_productdesc{{$product->product_id}}" value="{{$product->product_desc}}" class="cart_product_desc_{{$product->product_id}}">
+                                                    </div>
+                                                    @endforeach
+                                                    <!-- /product -->
+                                                </div>
+                                                <div id="slick-nav-2" class="products-slick-nav"></div>
+                                            </div>
+                                            <!-- /tab -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /Products tab & slick -->
+                            </div>
+                            <!-- /row -->
+                        </div>
+                        <!-- /container -->
+                    </div>
+                    <!-- /SECTION -->
                     <!-- /product tab content  -->
                 </div>
             </div>
