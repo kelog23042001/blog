@@ -6,36 +6,6 @@ use Illuminate\Support\Facades\Auth;
 
 $user = Auth::user();
 
-function showRate($rating)
-{
-    for ($i = 0; $i < 5; $i++) {
-        if ($i < $rating) {
-            echo '<i class="fa fa-star"></i>';
-        } else {
-            echo '<i class="fa fa-star-o"></i>';
-        }
-    }
-}
-function countStarsRating($stars, $rates)
-{
-    $count = 0;
-    foreach ($rates as $key => $rate) {
-        if ($rate->rating == $stars) {
-            $count++;
-        }
-    }
-    return $count;
-}
-
-function percentageStarsRate($stars, $rates)
-{
-    $sum = $rates->count('rating_id');
-    $count = countStarsRating($stars, $rates);
-    if ($count != 0)
-        return ($count / $sum) * 100;
-    return 0;
-}
-
 ?>
 
 <input type="hidden" id="product_viewed_id" value="{{$detail_product->product_id}}">
@@ -110,10 +80,7 @@ function percentageStarsRate($stars, $rates)
                 <div class="product-details">
                     <h2 class="product-name">{{$detail_product->product_name}}</h2>
                     <div>
-                        <div class="product-rating">
-                            @php
-                            showRate(round($rating, 0, PHP_ROUND_HALF_DOWN))
-                            @endphp
+                        <div class="product-rating avg-rating-stars rating-stars">
                         </div>
                         <a class="review-link" href="#">10 Review(s) | Add your review</a>
                     </div>
@@ -121,21 +88,6 @@ function percentageStarsRate($stars, $rates)
                         <h3 class="product-price">{{number_format($detail_product->product_price,0,',','.')}} VNĐ<del class="product-old-price">{{number_format($detail_product->product_price,0,',','.')}} VNĐ</del></h3>
                         <span class="product-available">In Stock</span>
                     </div>
-                    <!-- <div class="product-options">
-                        <label>
-                            Size
-                            <select class="input-select">
-                                <option value="0">X</option>
-                            </select>
-                        </label>
-                        <label>
-                            Color
-                            <select class="input-select">
-                                <option value="0">Red</option>
-                            </select>
-                        </label>
-                    </div> -->
-
                     <div class="add-to-cart">
                         <div class="qty-label">
                             <span>Mua</span>
@@ -199,23 +151,20 @@ function percentageStarsRate($stars, $rates)
                                 <div class="col-md-3">
                                     <div id="rating">
                                         <div class="rating-avg">
-                                            <span>{{$rating}}</span>
-                                            <div class="rating-stars">
-                                                @php
-                                                showRate(round($rating, 0, PHP_ROUND_HALF_DOWN))
-                                                @endphp
+                                            <span id="avgRating"></span>
+                                            <div class="rating-stars avg-rating-stars">
+
                                             </div>
                                         </div>
                                         <ul class="rating">
-                                            @for($i = 5; $i > 0; $i--) <!-- -->
+                                            @for($i = 5; $i > 0; $i--)
                                             <li>
-                                                <div class="rating-stars">
-                                                    <?php echo showRate($i) ?>
+                                                <div class="rating-stars" id="rating-stars_{{$i}}">
                                                 </div>
-                                                <div class="rating-progress">
-                                                    <div style="width: <?php echo percentageStarsRate($i, $rates) ?>%"></div>
+                                                <div class="rating-progress rating-progress_{{$i}}">
+                                                    <div id="progressPercent_{{$i}}"></div>
                                                 </div>
-                                                <span class="sum"><?php echo (countStarsRating($i, $rates)) ?></span>
+                                                <span id="rating_total_{{$i}}"></span>
                                             </li>
                                             @endfor
                                         </ul>
@@ -227,7 +176,6 @@ function percentageStarsRate($stars, $rates)
                                 <div class="col-md-6">
                                     <div id="reviews">
                                         <ul class="reviews rate_content">
-
                                         </ul>
                                     </div>
                                 </div>
@@ -316,5 +264,13 @@ function percentageStarsRate($stars, $rates)
             </div>
         </div>
     </div>
+    @csrf
 </div>
+<script>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+</script>
 @endsection

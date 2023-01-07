@@ -65,7 +65,9 @@ class ProductController extends Controller
     public function load_comment(Request $request)
     {
         $product_id = $request->product_id;
-        $rates = Rate::where('product_id', $product_id)->get();
+        $rates = Rate::where('product_id', $product_id)->orderBy('rating_id', 'desc')->get();
+        $avgRating = $rates->avg('rating');
+        $avgRating = round($avgRating, 1);
         $output = '';
         foreach ($rates as $key => $review) {
             $output .= '<li>
@@ -91,7 +93,11 @@ class ProductController extends Controller
             </div>
         </li>';
         }
-        echo $output;
+        return response()->json([
+            'output' => $output,
+            'rates' => $rates,
+            'avgRating' => $avgRating
+        ]);
     }
     public function add_product()
     {

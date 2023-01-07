@@ -66,7 +66,66 @@
             }
         });
 
+        load_comment();
 
+        function load_comment() {
+            var product_id = $('#product_viewed_id').val();
+
+            $.ajax({
+                url: "{{('/load-comment')}}",
+                method: "POST",
+                data: {
+                    product_id: product_id,
+                },
+                success: function(data) {
+                    $('.rate_content').html(data.output);
+                    document.getElementById('avgRating').textContent = data.avgRating;
+                    let arrayRating = []
+                    rateLenght = data.rates.length;
+                    data.rates.forEach(element => {
+                        arrayRating.push(element.rating)
+                    });
+                    rating1 = [arrayRating.filter(x => x === 1).length, (arrayRating.filter(x => x === 1).length / rateLenght) * 100]
+                    rating2 = [arrayRating.filter(x => x === 2).length, (arrayRating.filter(x => x === 2).length / rateLenght) * 100]
+                    rating3 = [arrayRating.filter(x => x === 3).length, (arrayRating.filter(x => x === 3).length / rateLenght) * 100]
+                    rating4 = [arrayRating.filter(x => x === 4).length, (arrayRating.filter(x => x === 4).length / rateLenght) * 100]
+                    rating5 = [arrayRating.filter(x => x === 5).length, (arrayRating.filter(x => x === 5).length / rateLenght) * 100]
+
+                    $('.rating-stars').html('');
+                    showStars('#rating-stars_' + 1, 1);
+                    document.getElementById('progressPercent_' + 1).style.width = rating1[1] + '%';
+                    document.getElementById('rating_total_' + 1).textContent = rating1[0];
+
+                    showStars('#rating-stars_' + 2, 2);
+                    document.getElementById('progressPercent_' + 2).style.width = rating2[1] + '%';
+                    document.getElementById('rating_total_' + 2).textContent = rating2[0];
+
+                    showStars('#rating-stars_' + 3, 3);
+                    document.getElementById('progressPercent_' + 3).style.width = rating3[1] + '%';
+                    document.getElementById('rating_total_' + 3).textContent = rating3[0];
+
+                    showStars('#rating-stars_' + 4, 4);
+                    document.getElementById('progressPercent_' + 4).style.width = rating4[1] + '%';
+                    document.getElementById('rating_total_' + 4).textContent = rating4[0];
+
+                    showStars('#rating-stars_' + 5, 5);
+                    document.getElementById('progressPercent_' + 5).style.width = rating5[1] + '%';
+                    document.getElementById('rating_total_' + 5).textContent = rating5[0];
+
+                    showStars('.avg-rating-stars', Math.floor(data.avgRating));
+                }
+            });
+        }
+
+        function showStars(clasName, starsNumber) {
+            for (i = 0; i < 5; i++) {
+                if (i < starsNumber) {
+                    $(clasName).append('<i class = "fa fa-star"></i>');
+                } else {
+                    $(clasName).append('<i class="fa fa-star-o"></i>');
+                }
+            }
+        }
         $('#keywords').keyup(function() {
             var query = $(this).val();
             if (query != '') {
@@ -336,21 +395,8 @@
                 alertify.success("Trạng thái đơn hàng đã được cập nhật!")
             );
         });
-        load_comment();
 
-        function load_comment() {
-            var product_id = $('#product_viewed_id').val();
-            $.ajax({
-                url: "{{('/load-comment')}}",
-                method: "POST",
-                data: {
-                    product_id: product_id,
-                },
-                success: function(data) {
-                    $('.rate_content').html(data);
-                }
-            });
-        }
+
         $(document).ready(function() {
             $('.send-comment').click(function() {
                 var product_id = $('#product_viewed_id').val();
