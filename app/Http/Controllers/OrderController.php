@@ -183,40 +183,43 @@ class OrderController extends Controller
 
         $order_date = $order->order_date;
 
-        $title_mail = "Trạng thái đơn hàng của bạn đã thay đổi";
         $shipping = Shipping::where('shipping_id', $order->shipping_id)->first();
-        $details = OrderDetails::where('order_code', $order->order_code)->get();
-        $fee_ship = $details[0]->product_feeship;
-        $coupon_number = 0;
-        if ($details[0]->product_coupon)
-            $coupon_number = $details[0]->product_coupon;
-        // dd($coupon_number);
-        $ordercode_mail = array(
-            'coupon_number' => $coupon_number,
-            'order_code' => $data['order_id'],
-        );
+        if ($shipping->shipping_email) {
+            $title_mail = "Trạng thái đơn hàng của bạn đã thay đổi";
+            $details = OrderDetails::where('order_code', $order->order_code)->get();
+            $fee_ship = $details[0]->product_feeship;
+            $coupon_number = 0;
+            if ($details[0]->product_coupon)
+                $coupon_number = $details[0]->product_coupon;
+            // dd($coupon_number);
+            $ordercode_mail = array(
+                'coupon_number' => $coupon_number,
+                'order_code' => $data['order_id'],
+            );
 
-        $shipping_array = array(
-            'customer_name' => $shipping->customer_name,
-            'shipping_name' => $shipping->shipping_name,
-            'shipping_email' => $shipping->shipping_email,
-            'shipping_phone' => $shipping->shipping_phone,
-            'shipping_address' => $shipping->shipping_address,
-            'shipping_notes' => $shipping->shipping_notes,
-            'shipping_method' => $shipping->shipping_method,
-            'feeShip' => $fee_ship
-        );
+            $shipping_array = array(
+                'customer_name' => $shipping->customer_name,
+                'shipping_name' => $shipping->shipping_name,
+                'shipping_email' => $shipping->shipping_email,
+                'shipping_phone' => $shipping->shipping_phone,
+                'shipping_address' => $shipping->shipping_address,
+                'shipping_notes' => $shipping->shipping_notes,
+                'shipping_method' => $shipping->shipping_method,
+                'feeShip' => $fee_ship
+            );
 
-        $data['email'][] = $shipping->shipping_email;
-        // dd($details);
-        Mail::send(
-            'admin.mail.confirm_order',
-            ['data', $data, 'cart_array' => $details, 'shipping_array' => $shipping_array, 'code' => $ordercode_mail],
-            function ($message) use ($data, $title_mail) {
-                $message->to($data['email'])->subject($title_mail);
-                $message->from($data['email'], "LKShop");
-            }
-        );
+            $data['email'][] = $shipping->shipping_email;
+            // dd($details);
+            Mail::send(
+                'admin.mail.confirm_order',
+                ['data', $data, 'cart_array' => $details, 'shipping_array' => $shipping_array, 'code' => $ordercode_mail],
+                function ($message) use ($data, $title_mail) {
+                    $message->to($data['email'])->subject($title_mail);
+                    $message->from($data['email'], "LKShop");
+                }
+            );
+        }
+
 
         $statistic = Statistic::where('order_date', $order_date)->get();
         if ($statistic) {
@@ -253,7 +256,7 @@ class OrderController extends Controller
 
                         //update doanh thu
                         $quantity += $qty;
-                        $total_order += 1;
+                        // $total_order += 1;
                         $sales += $product_price * $qty;
                         $profit = $sales - ($product_cost * $qty);
                     }
@@ -266,7 +269,8 @@ class OrderController extends Controller
                 $statistic_update->sales = $statistic_update->sales + $sales;
                 $statistic_update->profit = $statistic_update->profit + $profit;
                 $statistic_update->quantity = $statistic_update->quantity + $quantity;
-                $statistic_update->total_order = $statistic_update->total_order + $total_order;
+                $statistic_update->total_order = $statistic_update->total_order + 1;
+                // $statistic_update->total_order = $statistic_update->total_order + $total_order;
                 $statistic_update->save();
             } else {
                 $statistic_new  = new Statistic();
@@ -274,7 +278,8 @@ class OrderController extends Controller
                 $statistic_new->order_date = $now;
                 $statistic_new->profit =  $profit;
                 $statistic_new->quantity =  $quantity;
-                $statistic_new->total_order = $total_order;
+                $statistic_new->total_order = 1;
+                // $statistic_new->total_order = $total_order;
                 $statistic_new->save();
             }
             // elseif($order->order_status != 2 && $order->order_status != 3){

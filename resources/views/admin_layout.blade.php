@@ -249,7 +249,7 @@
                 xkey: 'period',
                 ykeys: ['order', 'sales', 'profit', 'quantity'],
                 behaveLikeLine: true,
-                labels: ['đơn hàng', 'doanh số', 'lợi nhuận', 'số lượng']
+                labels: ['đơn hàng', 'doanh số', 'lợi nhuận', 'số lượng sản phẩm']
             });
 
             function chart30daysorder() {
