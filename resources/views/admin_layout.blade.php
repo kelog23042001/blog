@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="{{asset('/Backend/vendors/toastify/toastify.css')}}">
     <link rel="stylesheet" href="{{asset('/Backend/vendors/choices.js/choices.min.css')}}">
     <link rel="shortcut icon" href="{{asset('/Backend/images/favicon.svg')}}" type="image/x-icon">
+
     <!-- CSS -->
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
     <!-- Default theme -->
@@ -25,7 +26,6 @@
     <!-- Bootstrap theme -->
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css" />
     <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
-
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
 </head>
 
@@ -45,22 +45,22 @@
         </div>
     </div>
 
-
     <script src="{{asset('Backend/vendors/choices.js/choices.min.js')}}"></script>
     <script src="{{asset('Backend/js/bootstrap.bundle.min.js')}}"></script>
     <script src="{{asset('Backend/js/main.js')}}"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="{{asset('Backend/vendors/simple-datatables/simple-datatables.js')}}"></script>
-    <!-- <script src="https://cdn.ckeditor.com/ckeditor5/35.4.0/classic/ckeditor.js"></script> -->
     <script src="{{asset('/backend/ckeditor/ckeditor.js')}}"></script>
     <script>
-        const table_category = document.querySelector('#table-category');
-        const data_category = new simpleDatatables.DataTable(table_category);
+        try {
+            const table_category = document.querySelector('#table-category');
+            const data_category = new simpleDatatables.DataTable(table_category);
+        } catch (e) {}
     </script>
 
 
     <!-- script -->
-    <script src="{{asset('backup/backend/js/bootstrap.js')}}"></script>
+    <script src="{{asset('/Backend/js/bootstrap.js')}}"></script>
     <script src="{{asset('/backend/js/jquery.dcjqaccordion.2.7.js')}}"></script>
     <script src="{{asset('/backend/js/scripts.js')}}"></script>
     <script src="{{asset('/backend/js/jquery.slimscroll.js')}}"></script>
@@ -88,13 +88,18 @@
     <script src="{{asset('/backend/js/jquery2.0.3.min.js')}}"></script>
 
     <script src="{{asset('/backend/js/raphael-min.js')}}"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script> -->
     <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
 
 
 
     <script>
         $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
             fetch_delivery();
 
             function fetch_delivery() {
@@ -186,14 +191,12 @@
             });
         })
     </script>
-    <script type="text/javascript">
-        $.validate({
-
-        });
-    </script>
     <script>
-        CKEDITOR.replace('ckeditor_product');
-        CKEDITOR.replace('ckeditor1');
+        try {
+
+            CKEDITOR.replace('ckeditor_product');
+            CKEDITOR.replace('ckeditor1');
+        } catch (e) {}
     </script>
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
@@ -262,7 +265,9 @@
                         _token: _token
                     },
                     success: function(data) {
-                        chart.setData(data);
+                        try {
+                            chart.setData(data);
+                        } catch (e) {}
                     }
                 });
             }
