@@ -20,13 +20,13 @@
             </li>
             <li class="sidebar-item" id="manage-order">
                 <a href="{{URL::to('/manage-order')}}" class='sidebar-link'>
-                    <i class="bi bi-grid-fill"></i>
+                    <i class="bi bi-basket-fill"></i>
                     <span>Đặt Hàng</span>
                 </a>
             </li>
             <li class="sidebar-item" id="all-category-product">
                 <a href="{{URL::to('/all-category-product')}}" class='sidebar-link'>
-                    <i class="bi bi-grid-fill"></i>
+                    <i class="bi bi-file-earmark-spreadsheet-fill"></i>
                     <span>Danh Mục</span>
                 </a>
             </li>
