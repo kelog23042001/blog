@@ -13,7 +13,8 @@ class Wards extends Model
     ];
     protected $primaryKey = 'xaid';
     protected $table = 'tbl_xaphuongthitran';
-    // public function product(){
-    //     return $this->belongsTo('App\Product','brand_id');
-    // }
+    public function province()
+    {
+        return $this->belongsTo(Province::class, 'maqh');
+    }
 }

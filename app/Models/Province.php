@@ -13,7 +13,12 @@ class Province extends Model
     ];
     protected $primaryKey = 'maqh';
     protected $table = 'tbl_quanhuyen';
-    // public function product(){
-    //     return $this->belongsTo('App\Product','brand_id');
-    // }
+    public function wards()
+    {
+        return $this->hasMany(Wards::class, 'maqh');
+    }
+    public function city()
+    {
+        return $this->belongsTo(City::class, 'matp');
+    }
 }

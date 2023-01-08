@@ -13,7 +13,8 @@ class City extends Model
     ];
     protected $primaryKey = 'matp';
     protected $table = 'tbl_tinhthanhpho';
-    // public function product(){
-    //     return $this->belongsTo('App\Product','brand_id');
-    // }
+    public function provinces()
+    {
+        return $this->hasMany(Province::class, 'matp');
+    }
 }

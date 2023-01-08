@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\Session;
 // session::forget('pay_success');
 ?>
 <!-- BREADCRUMB -->
+<div id="loading" class="d-none">
+    <div class="lds-dual-ring"></div>
+</div>
 <div id="breadcrumb" class="section">
     <!-- container -->
     <div class="container">

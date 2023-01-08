@@ -478,7 +478,11 @@
                     url: "{{url('/confirm-order')}}",
                     method: 'POST',
                     data: data,
+                    beforeSend: function() {
+                        document.getElementById('loading').classList.remove('d-none');
+                    },
                     success: function(response) {
+                        document.getElementById('loading').classList.add('d-none');
                         swal({
                                 title: "Đặt hàng thành công!",
                                 // text: "",
@@ -499,9 +503,6 @@
                                 }
                             });
                     },
-                    // error: function(xhr, status, error) {
-                    //     
-                    // }
                     error: function(xhr) {
                         var err = JSON.parse(xhr.responseText).errors;
                         for (const [key, value] of Object.entries(err)) {

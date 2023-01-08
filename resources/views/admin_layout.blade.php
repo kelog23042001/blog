@@ -164,13 +164,11 @@
                 });
             });
             $('.choose').on('change', function() {
+                // alert('a');
                 var action = $(this).attr('id');
                 var ma_id = $(this).val();
                 var _token = $('input[name="_token"]').val();
                 var result = '';
-                // alert(action);
-                // alert(ma_id);
-                // alert(_token);
                 if (action == 'city') {
                     result = 'province';
                 } else {
@@ -186,6 +184,7 @@
                     },
                     success: function(data) {
                         $('#' + result).html(data);
+                        console.log(data);
                     }
                 });
             });
@@ -283,7 +282,9 @@
                         _token: _token
                     },
                     success: function(data) {
-                        chart.setData(data);
+                        try {
+                            chart.setData(data);
+                        } catch (e) {}
                     }
                 });
             });
@@ -328,7 +329,10 @@
                         _token: _token
                     },
                     success: function(data) {
-                        chart.setData(data);
+                        try {
+
+                            chart.setData(data);
+                        } catch (e) {}
                     }
                 });
             }
@@ -351,7 +355,9 @@
                         _token: _token
                     },
                     success: function(data) {
-                        chart.setData(data);
+                        try {
+                            chart.setData(data);
+                        } catch (e) {}
                     }
                 });
             });

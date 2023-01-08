@@ -186,8 +186,7 @@ $user = Auth::user();
                                     <div id="review-form">
                                         <div class="review-form">
                                             @if (!$user)
-                                            <input class="input user_name" type="text" placeholder="Tên">
-                                            <input class="input user_email" type="email" placeholder="Email">
+                                            <p>Hãy <a href="{{route('login')}}" style="color:red">Đăng Nhập</a> để đánh giá! </p>
                                             @else
                                             <input class="input user_id" type="hidden" value="{{$user->id}}">
                                             <input class="input user_name" type="hidden" value="{{$user->name}}">
@@ -202,10 +201,9 @@ $user = Auth::user();
                                                     <input id="star1" name="rating" value="1" type="radio"><label for="star1"></label>
                                                 </div>
                                             </div>
-                                            @endif
                                             <textarea class="input comment_content" placeholder="Bình luận của bạn"></textarea>
-
                                             <button class="primary-btn send-comment" style="float:right">Gửi đánh giá</button>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>

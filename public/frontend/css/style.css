@@ -993,6 +993,10 @@ textarea.input {
     white-space: nowrap;
 }
 
+.lds-dual-ring {
+    margin-left: 50%;
+}
+
 .product .product-body .product-name>a {
     font-weight: 700;
 }
