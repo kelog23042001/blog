@@ -22,19 +22,27 @@ class DeliveryController extends Controller
     public function select_delivery(Request $request)
     {
         $data = $request->all();
-        // dd($data);
+        // while (strlen($data['ma_id']) < 5) {
+        //     $data['ma_id'] = '0' . $data['ma_id'];
+        // }
         if ($data['action']) {
             $output = '';
             if ($data['action'] == 'city') {
-                $select_province = Province::where('matp', $data['ma_id'])->orderby('maqh', 'ASC')->get();
-                $a = Province::get();
+                if ($data['ma_id'] < 10) {
+                    $id = '0' . $data['ma_id'];
+                }
+                $select_province = Province::where('matp', $id)->orderby('matp', 'ASC')->get();
                 $output .= '<option>---Chọn quận huyện---</option>';
-                dd($a);
                 foreach ($select_province as $key => $province) {
                     $output .= '<option value = "' . $province->maqh . '">' . $province->name_quanhuyen . '</option>';
                 }
             } else {
-                $select_wards = Wards::where('maqh', $data['ma_id'])->orderby('xaid', 'ASC')->get();
+                if ($data['ma_id'] < 100) {
+                    $id = '00' . $data['ma_id'];
+                } elseif ($data['ma_id'] < 10) {
+                    $id = '0' . $data['ma_id'];
+                }
+                $select_wards = Wards::where('maqh', $id)->orderby('xaid', 'ASC')->get();
                 $output .= '<option>---Chọn xã phường---</option>';
                 foreach ($select_wards as $key => $province) {
                     $output .= '<option value = "' . $province->xaid . '">' . $province->name_xaphuong . '</option>';
@@ -47,6 +55,19 @@ class DeliveryController extends Controller
     public function insert_delivery(Request $request)
     {
         $data = $request->all();
+        // dd($data);
+
+        if ($data['city'] < 10) {
+            $data['city'] = '0' . $data['city'];
+        }
+        if ($data['province'] < 100) {
+            $data['province'] = '00' . $data['province'];
+        } elseif ($data['province'] < 10) {
+            $data['province'] = '0' . $data['province'];
+        }
+        while (strlen($data['wards']) < 5) {
+            $data['wards'] = '0' . $data['wards'];
+        }
         $fee_ship = new Feeship();
         $fee_ship->fee_matp = $data['city'];
         $fee_ship->fee_maqh = $data['province'];

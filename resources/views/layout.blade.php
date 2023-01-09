@@ -479,10 +479,12 @@
                     method: 'POST',
                     data: data,
                     beforeSend: function() {
-                        document.getElementById('loading').classList.remove('d-none');
+                        // document.getElementById('loading').classList.remove('d-none');
+                        document.getElementById('loading').style.display = 'block';
                     },
                     success: function(response) {
-                        document.getElementById('loading').classList.add('d-none');
+                        // document.getElementById('loading').classList.add('d-none');
+                        document.getElementById('loading').style.display = 'none';
                         swal({
                                 title: "Đặt hàng thành công!",
                                 // text: "",

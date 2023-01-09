@@ -135,7 +135,9 @@ if ($maxRange == 0) {
                     <!-- /product -->
                 </div>
                 <!-- /STORE -->
-                {!! $products->links() !!}
+                <div style="float: right">
+                    {!! $products->links() !!}
+                </div>
             </div>
             <!-- /row -->
         </div>

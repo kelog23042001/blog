@@ -149,7 +149,7 @@
                 // alert(wards);
                 // alert(fee_ship);
                 $.ajax({
-                    url: "{{url('/inser -delivery')}}",
+                    url: "{{url('/insert-delivery')}}",
                     method: 'POST',
                     data: {
                         city: city,
@@ -184,7 +184,7 @@
                     },
                     success: function(data) {
                         $('#' + result).html(data);
-                        console.log(data);
+                        // console.log(data);
                     }
                 });
             });

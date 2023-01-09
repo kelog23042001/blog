@@ -27,7 +27,7 @@
                 @if(Session::get('cart'))
                 @csrf
                 <thead>
-                    <td colspan="4"></td>
+                    <td colspan="5"></td>
                     <!-- <td><input type="submit" value="Cập nhật giỏ hàng" name="update_qty" class="btn btn-warning check_out"></td> -->
                     <td><a class="btn btn-danger check_out" href="{{url('/delete-all-product')}}">Xoá tất cả</a></td>
                 </thead>
@@ -100,17 +100,12 @@
 <section id="do_action">
     <div class="container">
         <div class="row">
-            <div class="col-sm-6">
-                <div class="total_area">
-                    <ul>
+            <div class="col-sm-12">
+                <div class="total_area" style="float:right">
+                    <ul style="margin-bottom: 15px">
                         <li>Tổng tiền: <span class="total_order">{{number_format($total,0,',','.')}} VND</span></li>
                     </ul>
-                    @if(Session::get('customer_id'))
                     <a class="btn btn-warning check_out" href="{{url('/checkout')}}">Đặt hàng</a>
-                    @else
-                    <a class="btn btn-warning check_out" href="{{url('/checkout')}}">Đặt hàng</a>
-                    <!-- <a class="btn btn-warning check_out" href="{{url('/login-checkout')}}">Đặt hàng</a> -->
-                    @endif
                 </div>
             </div>
         </div>
