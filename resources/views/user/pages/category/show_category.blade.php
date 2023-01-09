@@ -136,7 +136,7 @@ if ($maxRange == 0) {
                 </div>
                 <!-- /STORE -->
                 <div style="float: right">
-                    {!! $products->links() !!}
+                    {!! $products->links('pagination::bootstrap-4') !!}
                 </div>
             </div>
             <!-- /row -->

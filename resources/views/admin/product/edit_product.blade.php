@@ -43,7 +43,7 @@
         </div>
         <div class="form-group">
             <label for="product_image">Hình ảnh sản phẩm</label>
-            <a href="">Bộ Sưu Tập</a>
+            <a href="{{url('/add-gallery/'.$product->product_id)}}">Bộ Sưu Tập</a>
             <br>
             @if(isset($product))
             <img width="100px" src="{{$product->product_image }}" id="image_thumbnail">

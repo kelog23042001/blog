@@ -42,9 +42,12 @@
                             <span id="error_gallery"></span>
                         </div>
                         <div class="col-md-3">
-                            <input type="submit" value="Tải ảnh" class="btn btn-success">
+                            <input type="submit" value="Tải ảnh" class="btn btn-success" id="submit">
                         </div>
                 </form>
+                <div id="loading" style="display:none" class="col-md-6">
+                    <div class="lds-dual-ring" style="float:right"></div>
+                </div>
                 <div class="panel-body">
                     <input type="hidden" value="{{$product_id}}" name="product_id" class="product_id">
                     <form>
@@ -57,9 +60,13 @@
         </div>
     </section>
 </div>
+
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script>
     $(document).ready(function() {
+        $('#submit').click(function() {
+            document.getElementById('loading').style.display = 'block';
+        });
         load_gallery();
 
         function load_gallery() {
@@ -176,4 +183,33 @@
     });
 </script>
 </div>
+<style>
+    .lds-dual-ring {
+        display: inline-block;
+        width: 80px;
+        height: 80px;
+    }
+
+    .lds-dual-ring:after {
+        content: " ";
+        display: block;
+        width: 64px;
+        height: 64px;
+        margin: 8px;
+        border-radius: 50%;
+        border: 6px solid rgb(245, 0, 0);
+        border-color: rgb(251, 0, 0) transparent rgb(248, 0, 0) transparent;
+        animation: lds-dual-ring 1.2s linear infinite;
+    }
+
+    @keyframes lds-dual-ring {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+</style>
 @endsection
