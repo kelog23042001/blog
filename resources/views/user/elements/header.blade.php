@@ -71,8 +71,8 @@
                     <!-- SEARCH BAR -->
                     <div class="col-md-6">
                         <div class="header-search">
-                            <form action="{{URL::to('/tim-kiem')}}" autocomplete="off" method="POST">
-                                @csrf
+                            <form autocomplete="off">
+                                <!-- @csrf -->
                                 <input type="text" name="keywords_submit" id="keywords" class="input" placeholder="Tìm kiếm sản phẩm" style=" border-radius: 25px 0 0 25px;">
                                 <div id="search_ajax" style="display: none; position: absolute; z-index: 9999;"></div>
                                 <button class="search-btn">Search</button>
